@@ -8,12 +8,14 @@
       </div>
     </div>
     <div class="content">
+      <wordItem></wordItem>
       <activityItem v-for="(item,index) in activity" :key="index" :item="item"></activityItem>
     </div>
   </div>
 </template>
 <script>
 import activityItem from '../../page/messagepage/children/activityItem'
+import wordItem from './children/wordItem'
 import {getFoundList} from '../../service/getData'
 export default {
   name: 'discovery',
@@ -41,7 +43,8 @@ export default {
     }
   },
   components:{
-    activityItem
+    activityItem,
+    wordItem,
   }
 }
 </script>
@@ -49,7 +52,7 @@ export default {
 @import '../../assets/css/mixin.scss';
 .discovery{
   @include wh(100%,100%);
-  @include bgColor(#f3f3f3);
+ /* @include bgColor(#f3f3f3);*/
   padding-bottom: 50px;
   .dis-header{
     @include wh(100%,4rem);

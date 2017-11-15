@@ -4,7 +4,7 @@
     <div class="nav-header">
       <nav>
         <hHeader v-if="hideFooterHeader"></hHeader>
-        <headerNav :style="{'padding-top': `${navTop}rem`}"></headerNav>
+        <!-- <headerNav :style="{'padding-top': `${navTop}rem`}"></headerNav> -->
       </nav>
     </div>
     <router-view @showSign="showSignBox"></router-view>
@@ -28,7 +28,7 @@
 <script>
 import Vue from 'vue';
 import hHeader from './children/hHeader';
-import headerNav from './children/headerNav'
+// import headerNav from './children/headerNav'
 import {getHomeSign} from '@/service/getData';
 export default {
   name: 'home',
@@ -84,7 +84,7 @@ export default {
   },
   components: {
     hHeader,
-    headerNav,
+    // headerNav,
   }
 }
 </script>
@@ -95,9 +95,10 @@ export default {
   height: 100%;
   min-width: 16rem;
   max-width: 37.5rem;
-  background-color: #fff;
+  background-color: #f5f5f5;
+  // background-color: #fff;
   .nav-header{
-    height: 8.8rem;
+    height: 4.4rem;
     nav{
       width: 100%;
       position: fixed;

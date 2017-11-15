@@ -28,9 +28,11 @@ let authBaseUrl = '/user'
 const IndexCom = resolve => require.ensure([], () => resolve(require('@/page/index')), 'home')
 const Home = resolve => require.ensure([], () => resolve(require('@/page/homepage/home')), 'home')
 // 首页-推荐
-const Recommend = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/recommend')), 'home')
+// const Recommend = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/recommend')), 'home')
+const Recommend = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/recommend.4.0.1')), 'home')
 // 首页-化妆
-const Makeup = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/makeup')), 'home')
+// const Makeup = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/makeup')), 'home')
+const Makeup = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/makeup.4.0.1')), 'home')
 // 首页-美睫
 const Beauty = resolve => require.ensure([], () => resolve(require('@/page/homepage/children/beauty')), 'home')
 // 首页-纹绣
@@ -187,11 +189,11 @@ const router = new Router({
                   name: 'recommend',
                   component: Recommend
                 },
-                {
-                  path: '/home/makeup',
-                  name: 'makeup',
-                  component: Makeup
-                },
+                // {
+                //   path: '/home/makeup',
+                //   name: 'makeup',
+                //   component: Makeup
+                // },
                 {
                   path: '/home/beauty',
                   name: 'beauty',
@@ -230,6 +232,12 @@ const router = new Router({
               component: Discovery
             }
           ]
+        },
+        // 化妆
+        {
+          path: '/home/makeup',
+          name: 'makeup',
+          component: Makeup
         },
         // 人气最高店铺，新店开张
         {

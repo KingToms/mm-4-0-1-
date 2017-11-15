@@ -150,19 +150,18 @@ export default {
       if (!qm_cookie || isLogin.status == "error") { // 未登录
         // APP站内登录
         if (
-          common.getQueryString("app").indexOf("ios") > -1 ||
-          common.getQueryString("app").indexOf("android") > -1
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
         ) {
           this.app_state = true;
-          window.location.href = "/login?action=login&url=/topic-sendgift?app=" + common.getQueryString("app") + "/datetime";
-          // window.location.href = '/login?action=login&url=/topic-sendgift';
+          window.location.href = `/login?action=login`;
         } else { // APP站外登录(H5登录)
           this.app_state = false;
           this.isShow = true;
         }
       } else { // 已登录
         // 专题是否在APP站内打开
-        if(common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1){
+        if(common.getQueryString("app") == "ios" || common.getQueryString("app") == "android"){
           this.app_state = true;
         }else{
           this.app_state = false;
@@ -191,14 +190,15 @@ export default {
 
     // 客户端是否已登录
     async setStorage() {
-      let datetime = window.location.href.indexOf("datetime");
+      let datetime = common.getQueryString("datetime");
       let app = common.getQueryString("app");
-      if (datetime > -1 && app) {
-        let res = await authToken({ token: "201711" });
-        /*该接口待版本更新后生效*/
-        // res.status === "ok" ? $.cookie(keyConf.qm_cookie, res.data.id) : $.cookie(keyConf.qm_cookie, "");
-        storage_custom.set(keyConf.token, "201711");
-      } else if (datetime <= -1 && app) {
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          : $.cookie(keyConf.qm_cookie, "");
+        storage_custom.set(keyConf.token, datetime);
+      } else if (!datetime && app) {
         storage_custom.set(keyConf.token, "");
         $.cookie(keyConf.qm_cookie, "");
       }
@@ -312,9 +312,6 @@ export default {
         }
       });
     },
-  },
-  components: {
-
   },
 }
 </script>
