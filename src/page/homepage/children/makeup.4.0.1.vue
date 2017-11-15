@@ -22,7 +22,16 @@
     <!-- 销量最高结束 -->
     <!-- 分类开始 -->
     <div class="categary">
-      
+      <ul>
+        <li class="active">日常休闲<i class="icon"></i></li>
+        <li class="active">职场妆<i class="icon"></i></li>
+        <li>结婚出嫁</li>
+        <li>电视电影广告</li>
+        <li>舞蹈表演</li>
+        <li>活动派对</li>
+        <li>个性化定制</li>
+        <li>仿妆</li>
+      </ul>
     </div>
     <!-- 分类结束 -->
     <!-- 价格开始 -->
@@ -102,6 +111,7 @@ export default {
     position: relative;
     .salesVolume{
       position: absolute;
+      // display: none;
       z-index: 2;
       padding-left: 1.5rem;
       width: 100%;
@@ -119,7 +129,39 @@ export default {
           i.icon{
             position: absolute;
             top: 50%;
-            right: 2.2rem;
+            right: 1.2rem;
+            transform: translateY(-50%);
+            @include wh(1.4rem, 1rem);
+            @include bis('../../../assets/image/icon/all/classify_icon_tick.png');
+          }
+        }
+      }
+    }
+    .categary{
+      position: absolute;
+      display: none;
+      z-index: 2;
+      padding-left: 1.5rem;
+      width: 100%;
+      @include bgColor($bgWhite);
+      li{
+        float: left;
+        position: relative;
+        flex: 1;
+        width:45%;
+        height: 4rem;
+        line-height: 4rem;
+        margin-right: 1rem;
+        @include sc(1.4rem, #666);
+        &:not(:last-child){
+          @include average(#999);
+        }
+        &.active {
+          @include sc(1.4rem, $themeRed);
+          i.icon{
+            position: absolute;
+            top: 50%;
+            right: 1.2rem;
             transform: translateY(-50%);
             @include wh(1.4rem, 1rem);
             @include bis('../../../assets/image/icon/all/classify_icon_tick.png');
@@ -128,5 +170,7 @@ export default {
       }
     }
   }
+
+  
 }
 </style>
