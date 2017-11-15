@@ -1,0 +1,139 @@
+$skyBlue: #3190e8; //天蓝色
+$blue: #0000FF; //蓝色
+$lightYellow: #ffe500; //亮黄色
+$bgWhite:#fff; //背景色--白色
+$bodyBg: #f3f3f3; // body背景
+$themeRed: #e70034; // 主题色
+$bgBlack: #000;
+
+// 背景图片地址和大小
+@mixin bis($url) { 
+	background-image: url($url);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+@mixin borderRadius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+//定位全屏
+@mixin allcover{
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+//定位上下左右居中
+@mixin center {  
+	position: absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+//定位上下居中
+@mixin ct {  
+	position: absolute;
+	top: 50%;
+    transform: translateY(-50%);
+}
+
+//定位左右居中
+@mixin cl {  
+	position: absolute;
+	left: 50%;
+    transform: translateX(-50%);
+}
+
+//宽高
+@mixin wh($width, $height){
+	width: $width;
+	height: $height;
+}
+
+//字体大小、行高、字体
+@mixin font($size, $line-height, $family: 'Microsoft YaHei') {  
+	font: #{$size}/#{$line-height} $family;
+}
+
+//字体大小，颜色
+@mixin sc($size, $color){
+	font-size: $size;
+	color: $color;
+}
+
+//flex 布局和 子元素 对其方式
+@mixin fj($type: space-between){
+	display: flex;
+	justify-content: $type;
+
+}
+
+@mixin lineHeight($height) {
+  height: $height;
+  line-height: $height;
+}
+
+// 设置背景色
+@mixin bgColor($bgcolor){
+  background-color: $bgcolor;
+}
+
+// 设置border
+@mixin average($color) {
+  position: relative;
+  &:after{
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid $color;
+    content: ' ';
+		@media (-webkit-min-device-pixel-ratio:2){
+			transform:scaleY(.5);
+			-webkit-transform:scaleY(.5);
+		}
+		@media (-webkit-min-device-pixel-ratio:3){
+			transform:scaleY(.33);
+			-webkit-transform:scaleY(.33);
+		}
+		transform-origin:0 0;
+		-webkit-transform-origin:0 0;
+  }
+}
+// 设置border
+@mixin average_before($color) {
+  position: relative;
+  &::before{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-top: 1px solid $color;
+    content: ' ';
+		@media (-webkit-min-device-pixel-ratio:2){
+			transform:scaleY(.5);
+			-webkit-transform:scaleY(.5);
+		}
+		@media (-webkit-min-device-pixel-ratio:3){
+			transform:scaleY(.33);
+			-webkit-transform:scaleY(.33);
+		}
+		transform-origin:0 0;
+		-webkit-transform-origin:0 0;
+  }
+}
+
+// 背景图
+@mixin bgi_2($url, $sizeX, $sizeY, $positionX:center, $positionY:center, $repeat:no-repeat){
+	background-image: url($url);
+	background-size: $sizeX, $sizeY;
+	background-position:$positionX $positionY;
+	background-repeat: $repeat;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!--<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no, minimal-ui">
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="format-detection" content="telephone=no" />
+    <title>俏猫</title>
+    <style>
+      #cnzz_stat_icon_1265285898{
+        display: none;
+      }
+    </style>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <script src="http://crm.qiaocat.com/js/wechat/config"></script>
+    <script src="/static/jquery.min.js"></script>
+    <script>
+        // 浏览器在监听改变窗口大小时候的变化
+        font_with();
+
+        /* $(window).on('resize', function() {
+          font_with();
+        }); */
+        
+        window.onresize = font_with
+        function font_with(){
+          var clientWidth = document.documentElement ? document.documentElement.clientWidth : document.body;
+          if(clientWidth<751){
+            var font=clientWidth*20/750>20?20:clientWidth*20/750;
+            document.querySelector("html").style.fontSize = font+"px";
+          }else{
+            document.querySelector("html").style.fontSize = "20px";
+          }
+        };
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1265285898'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1265285898%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script>
+      if (window.location.href.indexOf('/topic-halloween') > -1) {
+        document.querySelector('title').textContent = '万圣节你“妆”够了吗';
+      }else if (window.location.href.indexOf('/topic-dressparty') > -1 || window.location.href.indexOf('/topic-makeup001') > -1) {
+        document.querySelector('title').textContent = '万圣节"鬼混夜"化妆狂欢派对';
+      }else if(window.location.href.indexOf('/topic-new-user-888') > -1){
+        document.querySelector('title').textContent = '888元新人美妆大礼包';
+      }else if(window.location.href.indexOf('/topic-new-user-50') > -1){
+        document.querySelector('title').textContent = '50元新人美妆大礼包';
+      }else if(window.location.href.indexOf('/topic-new-user-600') > -1 || window.location.href.indexOf('/topic-newuser-invite-600') > -1){
+        document.querySelector('title').textContent = '俏猫|贴心的上门美业服务平台';
+      }else if(window.location.href.indexOf('/topic-double-eleven') > -1){
+        document.querySelector('title').textContent = '双11美妆狂欢夜';
+      }else if(window.location.href.indexOf('/topic-sendgift') > -1){
+        document.querySelector('title').textContent = '俏猫邀你领好礼';
+      }
+  
+    </script>
+  </body>
+</html>

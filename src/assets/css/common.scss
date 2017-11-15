@@ -1,0 +1,207 @@
+
+html,body{
+    // font-size: 20px;
+    max-width: 750px;
+    margin:0 auto;
+    // overflow: hidden;
+    background-color: #fff;
+}
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-style: normal;
+    text-decoration: none;
+    border: none;
+    color: #333;
+    font-weight: normal;
+    font-family: "Microsoft Yahei",'Avenir', Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-font-smoothing: antialiased;
+    outline: none;
+    letter-spacing: 1px;
+    &:hover{
+        outline: none;
+    }
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar
+{
+    width: 0px;
+    height: 0px;
+    background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+    -webkit-appearance: none;
+}
+
+textarea { -webkit-appearance: none;}
+
+html,body{
+    height: 100%;
+    //width: 100%;
+    // background-color: #F5F5F5;
+}
+
+
+.clear:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.clear{
+    zoom:1;
+}
+
+.back_img{
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.margin{
+    margin: 0 auto;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+
+.ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.paddingTop{
+    padding-top: 1.95rem;
+}
+
+@keyframes backOpacity{
+   0%   { opacity: 1 }
+   25%  { opacity: .5 }
+   50%  { opacity: 1 }
+   75%  { opacity: .5 }
+   100% { opacity: 1 }
+}
+
+.animation_opactiy{
+    animation: backOpacity 2s ease-in-out infinite;
+}
+
+.mint-loadmore-bottom{
+    position: relative;
+    height: 3rem;
+    padding-bottom: 9rem;
+    .mint-loadmore-text{
+      position: absolute;
+      // top: 0;
+      padding-top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem;
+      }
+}
+
+/*mini-ui 子组件样式自定义*/
+    /*message box*/
+.mint-msgbox{
+    border-radius: 1.3rem !important;
+}
+.mint-msgbox-message{
+    height: 7.5rem !important;
+    line-height: 7.5rem !important;
+    font-size: 1.8rem;
+    color: #000 !important;
+}
+.mint-msgbox-btns{
+    height: 4.4rem !important;
+    line-height: 4.4rem !important;
+}
+.tip_button_cancal{
+  color: #999 !important;
+  font-size: 1.6rem;
+}
+.tip_button_confirm{
+  color: #000 !important;
+  font-size: 1.6rem;
+}
+    /*switch*/
+.mint-switch-input:checked + .mint-switch-core{
+  border-color: #e70034 !important;
+  background-color: #e70034 !important;
+}
+    /*Toast*/
+.toast-tip span {
+    color: #fff;
+}
+//店铺详情页面
+.server_list>a>.mint-tab-item-label,.list .product_list>mint-navbar>a>.mint-tab-item-label{
+  font-size: 1.4rem;
+  line-height: 2.7rem;
+}
+.server_list .mint-tab-item.is-selected{
+  color: #000 !important;
+  margin:0 !important;
+  border-bottom: 0 none !important;
+}
+.server_list .mint-tab-item.is-selected{
+  border-bottom: 0.3rem solid #e70034 !important;
+}
+.list .product_list>.mint-navbar>a>.mint-tab-item-label{
+  font-size: 1.4rem;
+  line-height: 2.7rem;
+}
+.product_list .mint-navbar .mint-tab-item.is-selected{
+  color: #333 !important;
+  margin:0 !important;
+  border-bottom: 0 none;
+}
+.product_list .mint-navbar .mint-tab-item.is-selected>div{
+  color: #333 !important;
+  background-color: #ffe500;
+  margin:0 auto !important;
+  border-bottom: 0 none;
+  width: 5rem;
+}
+.shopping  .mint-spinner-fading-circle{
+  margin: 0 auto;
+}
+.product_list>.mint-navbar{
+  display: block !important;
+}
+
+.evaluate_box .mint-navbar .mint-tab-item.is-selected{
+    border-bottom: 0.3rem solid #e70034;
+}
