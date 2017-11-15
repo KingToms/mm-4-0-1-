@@ -76,7 +76,7 @@
           </div>
           <p class="tips">下单满39元，即可包邮到家。24小时内有效。</p>
         </div>
-        <a class="link-to" href="http://mm.qiaocat.com/topic-double-eleven">购美特惠通道</a>
+        <a class="link-to" href="http://mm.qiaocat.com/detail/1000205?from=mfshl">购美特惠通道</a>
         <div class="coupon" v-if="hidden_topic">
           <router-link to="/topic-newuser-invite-600">
             <img src="/static/topic/giftGiving_1111/invite.png" alt="600直减券">
