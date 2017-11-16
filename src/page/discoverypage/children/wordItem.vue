@@ -59,8 +59,19 @@
         <span class="time">4分钟前</span>
         <span class="praise">952</span>
       </div>
-      <div class="comment">
-        
+      <div class="comments">
+          <p class="word">
+            <span class="normal">晴天天</span>:
+            <i class="reply-com normal">很赞耶！哪个化妆师，求推荐~</i>
+          </p>
+          <p class="word">
+            <span class="normal">黄美娜</span><i class="normal"> 回复 <span class="normal">晴天天</span></i>:
+            <i class="reply-com normal">名字叫做周小新，你可以去问问客服。</i>
+          </p>
+      </div>
+      <div class="word_btn">
+        <img src="/static/icon/discovery/find_icon_comment.png" alt="">
+        <span>我有话说</span>
       </div>
     </div>
   </section>
@@ -215,10 +226,10 @@ export default {
     }
     /*时间、点赞数*/
     .comment_info {
-      margin: 0.5rem 0 1.5rem;
+      margin: 0.5rem 0 1.2rem;
       .time {
         float: left;
-        margin-top: 0.2rem;
+        margin-top: 0.3rem;
         @include sc(1rem,#999);
       }
       .praise {
@@ -227,6 +238,40 @@ export default {
         padding-left: 2.1rem;
         @include sc(1.4rem,#999);
         background: url('/static/icon/discovery/found_icon_like_nor.png') 0 0.2rem/1.6rem 1.5rem no-repeat;
+      }
+    }
+    /*客户评论内容*/
+    .comments {
+      font-size: 1.4rem;
+      color: #000;
+      text-align: left;
+      .word {
+        line-height: 1.8rem;
+        margin-bottom: 0.4rem;
+        span {
+          color: #666;
+        }
+        .normal {
+          font-style: normal;
+        }
+      }
+    }
+    /*我有话说*/
+    .word_btn {
+      @include wh(100%,3rem);
+      border: 0.05rem solid #bbb;
+      border-radius: 0.4rem;
+      line-height: 3rem;
+      text-align: left;
+      cursor: pointer;
+      margin: 1rem 0 2rem;
+      img {
+        margin: -0.1rem 0.5rem 0 1rem;
+        width: 1.8rem;
+        vertical-align: middle;
+      }
+      span {
+        color: #999;
       }
     }
   }
