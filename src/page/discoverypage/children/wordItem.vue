@@ -55,6 +55,13 @@
           <p>韩式丽人清新妆</p>
         </a>
       </div>
+      <div class="comment_info clear">
+        <span class="time">4分钟前</span>
+        <span class="praise">952</span>
+      </div>
+      <div class="comment">
+        
+      </div>
     </div>
   </section>
 </template>
@@ -204,6 +211,22 @@ export default {
         float: left;
         @include sc(1.4rem, #000);
         margin-left: 0.5rem;
+      }
+    }
+    /*时间、点赞数*/
+    .comment_info {
+      margin: 0.5rem 0 1.5rem;
+      .time {
+        float: left;
+        margin-top: 0.2rem;
+        @include sc(1rem,#999);
+      }
+      .praise {
+        float: right;
+        display: block;
+        padding-left: 2.1rem;
+        @include sc(1.4rem,#999);
+        background: url('/static/icon/discovery/found_icon_like_nor.png') 0 0.2rem/1.6rem 1.5rem no-repeat;
       }
     }
   }
