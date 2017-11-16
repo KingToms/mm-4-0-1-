@@ -132,6 +132,7 @@ export default {
       receive_state: false, // 领取结果显示(true: 领取结果页面)
       first_state: true, // 第一次领取
       pro_id: '', // 礼品
+      from: '', // 来源
       hidden_topic: false, // 暂时隐藏领取600优惠券的入口
       weixinState: false,
     };
@@ -140,6 +141,7 @@ export default {
     this.is_weixn_qq();
     this.setStorage(); // 客户端是否已登录
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.from = common.getQueryString("from") ? common.getQueryString("from") : "";
 
     this.shareWechat(); // 微信分享
   },
@@ -169,7 +171,7 @@ export default {
           !this.weixinState
         ) {
           this.app_state = true;
-          window.location.href = "/login?action=login&url=/topic-sendgift?app=ios/datetime/plid=" + this.plid;
+          window.location.href = "/login?action=login&url=/topic-sendgift?app=ios/datetime/plid=" + this.plid + "/from=" + this.from;
           // window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)
           this.app_state = false;
