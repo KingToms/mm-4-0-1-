@@ -169,7 +169,7 @@ export default {
           !this.weixinState
         ) {
           this.app_state = true;
-          window.location.href = "/login?action=login&url=/topic-sendgift?app=ios/datetime";
+          window.location.href = "/login?action=login&url=/topic-sendgift?app=ios/datetime/plid=" + this.plid;
           // window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)
           this.app_state = false;
