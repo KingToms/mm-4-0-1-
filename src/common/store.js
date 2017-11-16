@@ -93,6 +93,7 @@ export const storage_custom = {
    * @returns {*}
    */
   get: function(key) {
+    //   debugger
       var isExpire = this.isExpire(key),
           value = null;
       if(!isExpire) {
@@ -103,5 +104,18 @@ export const storage_custom = {
           }
       }
       return value;
-  }
+  },
+    getArray: function (key) {
+        //   debugger
+        var isExpire = this.isExpire(key),
+            value = null;
+        if (!isExpire) {
+            value = localStorage.getItem(key);
+            value = JSON.parse(value);
+            // if (!value._isObject) {
+            //     value = value._value;
+            // }
+        }
+        return value;
+    }
 };
