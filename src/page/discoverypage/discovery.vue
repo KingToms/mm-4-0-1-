@@ -7,9 +7,12 @@
         </div>
       </div>
     </div>
+    <div class="banner">
+      <img src="/static/banner/adver.jpg" alt="">
+    </div>
     <div class="content">
       <wordItem></wordItem>
-      <activityItem v-for="(item,index) in activity" :key="index" :item="item"></activityItem>
+      <!--<activityItem v-for="(item,index) in activity" :key="index" :item="item"></activityItem>-->
     </div>
   </div>
 </template>
@@ -72,6 +75,14 @@ export default {
         color: #000;
         letter-spacing: 1px;
       }
+    }
+  }
+  /*banner*/
+  .banner {
+    font-size: 0;
+    img {
+      font-size: 0;
+      width: 100%;
     }
   }
   .content{
