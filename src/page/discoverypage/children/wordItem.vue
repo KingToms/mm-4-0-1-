@@ -39,7 +39,7 @@
 import Vue from "vue";
 import keyConf from "../../../common/keyConf"
 import common from "../../../common/common"
-import storage_custom from "../../../common/store"
+import { storage_custom } from "../../../common/store"
 import { userIsLogin, authToken, foundDzpl } from '../../../service/getData'
 export default {
   name: "wordItem",
@@ -48,6 +48,7 @@ export default {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
       comments_list: [], // 评论列表
+      user_info: {}, // 登录用户的信息
       comment_info: {
         comment: '', // 评论内容
         comment_id: '', // 评论id,评论了哪一条
@@ -100,7 +101,7 @@ export default {
     /*点赞*/
     async addLike (event, item) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
-      let isLogin = await userIsLogin();
+      let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
       if (!qm_cookie || isLogin.status == "error") {
         if (
           common.getQueryString("app") == "ios" ||
@@ -113,6 +114,8 @@ export default {
           this.$router.push(baseUrl);
         }
       } else { // 已登录
+        this.user_info = isLogin.data;
+        console.log("用户信息");
         let res = await foundDzpl({comment_id: item.id, type: 1, replyed_id: item.user_id});
         if(res.status == "ok"){
           this.praise_state = !this.praise_state;
