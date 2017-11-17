@@ -6,29 +6,6 @@
       </div>
       <div class="name">{{item.user_name}}</div>
       <div class="comment">{{item.comment}}</div>
-      <!--<ul class="clear">
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-        <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
-          <img src="../../../assets/image/icon/detail/service_btn_photo.png">
-        </li>
-      </ul>-->
       <div class="gallery clear" v-if="item.images && item.images.length != 0">
         <a class="imgItem" v-for="(item, index) in comments_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}" href="javascript:void(0);" :data-img="item">
           <img :src="item" alt="">
@@ -42,22 +19,28 @@
       </div>
       <div class="comment_info clear">
         <span class="time">{{item.created_at}}</span>
-        <span class="praise" :class="{'praised': praise_state}" @click="addLike">{{item.dianzan ? item.dianzan : '0'}}</span>
+        <span class="praise" :class="{'praised': praise_state}" @click="addLike($event, item)">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
       <div class="comments">
-        <p class="word" v-for="(item, index) in comments_list" :key="index">
+        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item.reply_name)">
           <span class="normal">{{item.reply_name}}</span><i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复 <span class="normal">{{item.replyed_name}}</span></i>:
           <i class="reply-com normal">{{item.comment}}</i>
         </p>
       </div>
-      <div class="word_btn" @click="showCommentBox">
-        <img src="/static/icon/discovery/find_icon_comment.png" alt="">
-        <span>我有话说</span>
+      <div class="word_btn">
+        <form class="submit-msg" @submit="sendMsg($event)">
+          <input id="comment_t" type="text" v-model="comment_info.comment" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
+        </form>
       </div>
     </div>
   </section>
 </template>
 <script>
+import Vue from "vue";
+import keyConf from "../../../common/keyConf"
+import common from "../../../common/common"
+import { storage_custom } from "../../../common/store"
+import { userIsLogin, authToken, foundDzpl } from '../../../service/getData'
 export default {
   name: "wordItem",
   data () {
@@ -65,12 +48,25 @@ export default {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
       comments_list: [], // 评论列表
+      user_info: {}, // 登录用户的信息
+      comment_info: {
+        comment: '', // 评论内容
+        comment_id: '', // 评论id,评论了哪一条
+        type: '1', // 类型 1:点赞、 2:评论
+        reply_id: '', // 评论人id,谁评论了
+        reply_name: '', // 评论人姓名
+        replyed_id: '', // 被评论人id
+        replyed_name: '', // 被评论人姓名
+      }
     };
   },
-  props: ["item"],
+  props: ["item","like_list"],
   created () {
     this.comments_imgs = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //评价图片列表数组
     this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
+
+    this.setStorage();
+    this.checkLike();
   },
   mounted() {
     /*使评价图片显示正方形*/
@@ -92,19 +88,104 @@ export default {
     bBox.baguetteBox.run('.gallery');
   },
   methods: {
+    /*用户是否已点赞*/
+    checkLike (){
+      let _this = this;
+      _this.like_list.forEach(function (n,i) {
+        if(n.moment_id == _this.item.id){
+          _this.praise_state = true;
+          return;
+        }
+      })
+    },
     /*点赞*/
-    addLike () {
-      this.praise_state = !this.praise_state;
-      if(this.praise_state){
-        this.item.dianzan += 1;
-      }else {
-        (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
+    async addLike (event, item) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
+      if (!qm_cookie || isLogin.status == "error") {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
+          window.location.href = `/login?action=login`;
+        } else {
+          alert("未登录");
+          let baseUrl = '/login?url=/discovery';
+          this.$router.push(baseUrl);
+        }
+      } else { // 已登录
+        this.user_info = isLogin.data;
+        console.log("用户信息");
+        let res = await foundDzpl({comment_id: item.id, type: 1, replyed_id: item.user_id});
+        if(res.status == "ok"){
+          this.praise_state = !this.praise_state;
+          if(this.praise_state){
+            this.item.dianzan += 1;
+          }else {
+            (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
+          }
+        }
+      }
+
+    },
+    /*点击回复评论*/
+    sendReply (event,reply_name) {
+      
+    },
+    /*发表评论*/
+    async sendMsg (event) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin();
+      if (!qm_cookie || isLogin.status == "error") {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
+          window.location.href = `/login?action=login`;
+        } else {
+          alert("未登录");
+          let baseUrl = '/login?url=/discovery';
+          this.$router.push(baseUrl);
+        }
+      } else { // 已登录
+        this.comment_info.comment_id = this.item.id; // 评论id,评论了哪一条
+        this.comment_info.type = '2'; // 类型 1:点赞、 2:评论
+        this.comment_info.reply_id = ''; // 评论人id(后端自动获取)
+        this.comment_info.reply_name = ''; // 评论人姓名(后端自动获取)
+        this.comment_info.replyed_id = this.item.user_id; // 被评论人id
+        this.comment_info.replyed_name = this.item.user_name; // 被评论人姓名
+
+        let resData = await foundDzpl({
+          comment_id: this.comment_info.comment_id,
+          type: this.comment_info.type,
+          reply_id: this.comment_info.reply_id,
+          reply_name: this.comment_info.reply_name,
+          replyed_id: this.comment_info.replyed_id,
+          replyed_name: this.comment_info.replyed_name,
+          comment: this.comment_info.comment,
+        });
+        if(resData.status == "ok"){
+          this.comments_list.push(this.comment_info);
+        }
+      }
+
+    },
+
+    /*判断APP是否登录*/
+    async setStorage() {
+      let datetime = common.getQueryString("datetime");
+      let app = common.getQueryString("app");
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          : $.cookie(keyConf.qm_cookie, "");
+        storage_custom.set(keyConf.token, datetime);
+      } else if (!datetime && app) {
+        storage_custom.set(keyConf.token, "");
+        $.cookie(keyConf.qm_cookie, "");
       }
     },
-    /*显示评论输入框*/
-    showCommentBox () {
-      this.$emit('showSendBox');
-    }
   },
   filters: {
     uesrImg(item) {
@@ -167,31 +248,6 @@ export default {
       padding: 0.5rem 0 1.2rem;
     }
     /*发表图片*/
-    /*ul {
-      li.imgItem {
-        display: block;
-        float: left;
-        width: 29.9%;
-        @include borderRadius(0.4rem);
-        overflow: hidden;
-        margin-left: 1rem;
-        margin-bottom: 1rem;
-        background-position: center;
-        background-size: cover;
-        img {
-          display: block;
-          width: 100%;
-          opacity: 0;
-          @include borderRadius(0.4rem);
-        }
-      }
-      li.imgItem {
-        &:first-child,
-        &:nth-child(3n+1) {
-          margin-left: 0;
-        }
-      }
-    }*/
 
     .imgItem {
       display: block;
@@ -221,6 +277,11 @@ export default {
       height: 5rem;
       margin-top: 0.6rem;
       border-radius: 0.4rem;
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
       img {
         float: left;
         margin: 0.5rem;
@@ -281,13 +342,15 @@ export default {
       text-align: left;
       cursor: pointer;
       margin-top: 1rem;
-      img {
-        margin: -0.1rem 0.5rem 0 1rem;
-        width: 1.8rem;
-        vertical-align: middle;
-      }
-      span {
-        color: #999;
+      padding-left: 3.3rem;
+      background: url('/static/icon/discovery/find_icon_comment.png') 0.8rem 0.5rem/1.8rem no-repeat;
+      .submit-msg {
+        width: 100%;
+        #comment_t {
+          width: 100%;
+          height: 100%;
+          @include sc(1.4rem, #000);
+        }
       }
     }
   }
