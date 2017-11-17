@@ -32,8 +32,8 @@
       </div>
       <div class="word_btn">
         <div class="submit-msg">
-          <input id="comment_t" type="text" v-model="comment_info.comment" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
-          <input id="submit_btn" type="button" value="发送" v-if="comment_info.comment" @click="sendMsg($event)">
+          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
+          <input id="submit_btn" type="button" value="发送" v-if="input_txt" @click="sendMsg($event)">
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@ export default {
       comments_imgs: [], // 评价图片
       comments_list: [], // 评论列表
       commentTXT: '', // 评论栏（被评论人姓名及id）
+      input_txt: '', // 输入框内容
       user_info: {}, // 登录用户的信息
       comment_info: {
         comment: '', // 评论内容
@@ -150,8 +151,8 @@ export default {
       } else { // 已登录
         this.user_info = isLogin.data; // 用户信息
         this.commentTXT = $(event.target).parents(".comments").siblings(".word_btn").find("#comment_t");
-        if (this.user_info.user_name != reply_name) { // 非回复自己，回复别人
-          this.commentTXT.attr("placeholder","回复"+reply_name+":");
+        if (this.user_info.user_name != item.reply_name) { // 非回复自己，回复别人
+          this.commentTXT.attr("placeholder","回复"+item.reply_name+":");
           this.commentTXT.data("replyed_id",item.reply_id);
           this.commentTXT.data("replyed_name",item.reply_name);
         }else {
@@ -179,14 +180,16 @@ export default {
         }
       } else { // 已登录
         this.user_info = isLogin.data; // 用户信息
+
         this.comment_info.comment_id = this.item.id; // 评论id,评论了哪一条
         this.comment_info.type = '2'; // 类型 1:点赞、 2:评论
         this.comment_info.reply_id = ''; // 评论人id(后端自动获取)
-        this.comment_info.reply_name = ''; // 评论人姓名(后端自动获取)
-        this.comment_info.replyed_id = this.item.user_id; // 被评论人id
-        this.comment_info.replyed_name = this.item.user_name; // 被评论人姓名
-
-        /*let resData = await foundDzpl({
+        this.comment_info.reply_name = this.user_info.user_name; // 评论人姓名
+        this.comment_info.comment = this.input_txt; // 输入框内容
+        this.comment_info.replyed_id = this.commentTXT ? this.commentTXT.data("replyed_id") : ''; // 被评论人id
+        this.comment_info.replyed_name = this.commentTXT ? this.commentTXT.data("replyed_name") : ''; // 被评论人姓名
+        
+        let resData = await foundDzpl({
           comment_id: this.comment_info.comment_id,
           type: this.comment_info.type,
           reply_id: this.comment_info.reply_id,
@@ -194,9 +197,15 @@ export default {
           replyed_id: this.comment_info.replyed_id,
           replyed_name: this.comment_info.replyed_name,
           comment: this.comment_info.comment,
-        });*/
-        if (resData.status == "ok") {
+        });
+        if (resData.status == "ok") { // 评论成功
           this.comments_list.push(this.comment_info);
+          this.input_txt = ''; // 清空输入框
+          if(this.commentTXT){ // 回复别人成功后，回复默认值
+            this.commentTXT.attr("placeholder","我有话说");
+            this.commentTXT.data("replyed_id","");
+            this.commentTXT.data("replyed_name","");
+          }
         }
       }
 
