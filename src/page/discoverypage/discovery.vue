@@ -1,14 +1,11 @@
 <template>
   <div class="discovery">
-    <div class="dis-header">
-      <div class="header" v-show="hideFooterHeader">
+    <div class="dis-header" v-if="hideFooterHeader">
+      <div class="header">
         <div class="title">
           <h2>发现</h2>
         </div>
       </div>
-    </div>
-    <div class="banner">
-      <!--<img src="/static/banner/adver.jpg" alt="">-->
     </div>
     <!--顶部轮播-->
     <div class="swipe-wrapper" v-show="topCarousel">
