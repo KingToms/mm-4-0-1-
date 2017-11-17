@@ -51,8 +51,9 @@
         </p>
       </div>
       <div class="word_btn" @click="showCommentBox($event)">
-        <img src="/static/icon/discovery/find_icon_comment.png" alt="">
-        <span>我有话说</span>
+        <form class="submit-msg" @submit="sendMsg">
+          <input id="comment_t" type="text" v-model="comment_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
+        </form>
       </div>
     </div>
   </section>
@@ -170,9 +171,13 @@ export default {
         this.comment_info.replyed_name = this.item.user_name; // 被评论人姓名
         this.comment_info.comment = ''; // 评论内容
         this.comment_info.pageY = event.pageY; // 评论位置距离顶部的距离
-        this.$emit('showSendBox',this.comment_info);
+
       }
 
+    },
+    /*发表消息*/
+    sendMsg (){
+      
     },
     /*判断APP是否登录*/
     async setStorage() {
@@ -370,13 +375,15 @@ export default {
       text-align: left;
       cursor: pointer;
       margin-top: 1rem;
-      img {
-        margin: -0.1rem 0.5rem 0 1rem;
-        width: 1.8rem;
-        vertical-align: middle;
-      }
-      span {
-        color: #999;
+      padding-left: 3.3rem;
+      background: url('/static/icon/discovery/find_icon_comment.png') 0.8rem 0.5rem/1.8rem no-repeat;
+      .submit-msg {
+        width: 100%;
+        #comment_t {
+          width: 100%;
+          height: 100%;
+          @include sc(1.4rem, #000);
+        }
       }
     }
   }
