@@ -45,6 +45,7 @@
         pwd: '',
         code: '',
         plid: '', //推广链接表ID
+        from: '', //推广链接来源（微博、微信、QQ等）
         showAlert: false, //显示提示组件
         alertText: null, //提示的内容
         showText: null,
@@ -80,7 +81,8 @@
           return
         }
         this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid})
+        this.from = common.getQueryString("from") ? common.getQueryString("from") : "";
+        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid, from: this.from})
 
         if(result.status == 'ok'){
           alert('注册成功')

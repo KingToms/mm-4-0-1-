@@ -27,7 +27,7 @@ export default {
       alertText: ''
     }
   },
-  props:['channel'],
+  props:['channel','from'],
   components:{
     alertTip
   },
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async pwdLogin (){
-      let res = await pwdlogin({mobile: String.trim(this.mobile), password: this.pwd, plid: this.channel})
+      let res = await pwdlogin({mobile: String.trim(this.mobile), password: this.pwd, plid: this.channel, from: this.from})
       if(res.status == 'ok'){
         $.cookie(keyConf.qm_cookie, this.mobile,{expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)

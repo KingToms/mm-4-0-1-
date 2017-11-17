@@ -76,7 +76,7 @@
           </div>
           <p class="tips">下单满39元，即可包邮到家。24小时内有效。</p>
         </div>
-        <a class="link-to" href="http://mm.qiaocat.com/topic-double-eleven">购美特惠通道</a>
+        <a class="link-to" href="http://mm.qiaocat.com/detail/1000205?from=mfshl">购美特惠通道</a>
         <div class="coupon" v-if="hidden_topic">
           <router-link to="/topic-newuser-invite-600">
             <img src="/static/topic/giftGiving_1111/invite.png" alt="600直减券">
@@ -132,40 +132,54 @@ export default {
       receive_state: false, // 领取结果显示(true: 领取结果页面)
       first_state: true, // 第一次领取
       pro_id: '', // 礼品
+      from: '', // 来源
       hidden_topic: false, // 暂时隐藏领取600优惠券的入口
+      weixinState: false,
     };
   },
   created() {
-    
+    this.is_weixn_qq();
     this.setStorage(); // 客户端是否已登录
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.from = common.getQueryString("from") ? common.getQueryString("from") : "";
 
     this.shareWechat(); // 微信分享
   },
   methods: {
+    // 判断是否在微信QQ端打开
+    is_weixn_qq(){
+      var ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == "micromessenger") {
+        this.app_state = false;
+        this.weixinState = true;
+        // return "weixin";
+      } else if (ua.match(/QQ/i) == "qq") {
+        this.app_state = false;
+        this.weixinState = true;
+        // return "QQ";
+      }
+      return false;
+    },
     // 免费领
     async receiveGift(giftID){
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == "error") { // 未登录
-        // APP站内登录
+        // APP站内登录(非微信QQ)
         if (
-          common.getQueryString("app") == "ios" ||
-          common.getQueryString("app") == "android"
+          // (common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1) && !this.weixinState
+          !this.weixinState
         ) {
           this.app_state = true;
-          window.location.href = `/login?action=login`;
+          window.location.href = "/login?action=login&url=/topic-sendgift?app=ios/datetime/plid=" + this.plid + "/from=" + this.from;
+          // window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)
           this.app_state = false;
           this.isShow = true;
         }
       } else { // 已登录
-        // 专题是否在APP站内打开
-        if(common.getQueryString("app") == "ios" || common.getQueryString("app") == "android"){
-          this.app_state = true;
-        }else{
-          this.app_state = false;
-        }
+        // 专题是否在APP站外打开
+        this.is_weixn_qq();
         // 领取礼品
         let result = await getFreeGift({gift_id: giftID});
         if(result.status == "ok"){
