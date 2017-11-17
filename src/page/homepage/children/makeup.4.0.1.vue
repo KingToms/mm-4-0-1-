@@ -175,8 +175,8 @@ export default {
         cate_id_2: this.condiction.categaryFilter.cateids,
         sort_by: sortBy,
         sort_rule: sort_rule,
-        price_start: this.condiction.priceFilter.lowPrice,
-        price_end: this.condiction.priceFilter.heigestPrice,
+        price_start: this.condiction.priceFilter.lowPrice ? this.condiction.priceFilter.lowPrice : 0,
+        price_end: this.condiction.priceFilter.heigestPrice ? this.condiction.priceFilter.heigestPrice : 999999,
         city: "",
         page: this.pageNo,
         page_size: this.pageSize
@@ -226,6 +226,7 @@ export default {
       $(`.${tabName}`).slideToggle("fast");
     },
     orderPrice() {
+      this.pageNo = 1;
       let tabName = "priceOrder";
       this.hideOtherTab(tabName);
       this.filterChooseTab(tabName);
@@ -267,6 +268,7 @@ export default {
       $(".filterCondition").hide();
     },
     compreChoose(id, name) {
+      this.pageNo = 1;
       this.condiction.compreOrder.id = id;
       this.condiction.compreOrder.name = name;
       $(`.salesVolume`).slideToggle("fast");
@@ -274,6 +276,7 @@ export default {
       this.ProductList();
     },
     categaryFilterChoose(id, name) {
+      this.pageNo = 1;
       let idIndex = this.condiction.categaryFilter.cateids.indexOf(id);
       let nameIndex = this.condiction.categaryFilter.cateNames.indexOf(name);
       if (idIndex > -1 && nameIndex > -1) {
@@ -295,12 +298,14 @@ export default {
       this.ProductList();
     },
     priceChoose(id) {
+      this.pageNo = 1;
       let price = this.condiction.priceFilter;
       price.priceid = id;
       price.lowPrice = this.priceSection[id].priceStart == 0? '' : this.priceSection[id].priceStart;
       price.heigestPrice = this.priceSection[id].priceEnd == 0? '' : this.priceSection[id].priceEnd;
     },
     reset() {
+      this.pageNo = 1;
       this.chooseTab = "";
       this.condiction = {
         priceOrder: "desc",
@@ -321,6 +326,7 @@ export default {
       };
     },
     confirm() {
+      this.pageNo = 1;
       let priceCon = this.condiction.priceFilter;
       if (
         priceCon.priceid != -1 ||
