@@ -8,14 +8,24 @@
       </div>
     </div>
     <div class="banner">
-      <img src="/static/banner/adver.jpg" alt="">
+      <!--<img src="/static/banner/adver.jpg" alt="">-->
+    </div>
+    <!--顶部轮播-->
+    <div class="swipe-wrapper" v-show="topCarousel">
+      <mt-swipe>
+        <mt-swipe-item v-for="(item,index) in topCarousel" :key="index">
+          <a class="imgshow" target="_blank" :href="item.link">
+            <img :src="item.img_url" alt="">
+          </a>
+        </mt-swipe-item>
+      </mt-swipe>
     </div>
     <div class="content">
-      <wordItem v-for="(item, index) in discovery_list" :key="index" :item="item" @showSendBox="showSendBox"></wordItem>
+      <wordItem v-for="(item, index) in discovery_list" :key="index" :item="item" :like_list="like_list" @showSendBox="showSendBox"></wordItem>
     </div>
 
     <!--评论-->
-    <div class="comment_box" v-show="hide_sendbox" @click.self="hide_sendbox = false">
+    <div class="comment_box" v-show="hide_sendbox" @click.self="hideSendBox">
       <div class="send_box">
         <form class="submit-msg">
           <div class="input">
@@ -31,20 +41,26 @@
   </div>
 </template>
 <script>
-import activityItem from '../../page/messagepage/children/activityItem'
+import Vue from "vue";
 import wordItem from './children/wordItem'
-import { Toast } from 'mint-ui'
+import { Toast, Swipe, SwipeItem } from 'mint-ui'
 import '../../../node_modules/mint-ui/lib/toast/style.css'
+import '../../../node_modules/mint-ui/lib/swipe/style.css'
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
 import { getFoundList } from '../../service/getData'
 export default {
   name: 'discovery',
   data() {
     return {
       hideFooterHeader: true,
-      discovery_list: [],
+      topCarousel: [], // 顶部轮播图
+      discovery_list: [], // 评论列表
+      like_list: [], // 用户点赞列表
       hide_sendbox: false, // 默认隐藏输入框
       icon_show: false, // 隐藏评论时的删除按钮
       comment_txt: '', // 评论的内容
+      comment_top: 0, // 评论距离顶部的距离
       count: '', // 评论总数
       page_size: '10', // 一页显示10条
       page: '1', // 页数
@@ -63,9 +79,10 @@ export default {
         this.page_size = res.page_size;
         this.page = res.page;
 
+        this.topCarousel = res.ad;
         this.discovery_list = res.data;
+        this.like_list = res.user_dz ? res.user_dz : '';
       }
-      console.log(this.discovery_list);
     },
 
 
@@ -81,15 +98,28 @@ export default {
     },
 
     // 显示评论窗口
-    showSendBox() {
+    showSendBox(comment_info) {
+      this.comment_top = comment_info.pageY;
+      console.log("this.comment_top:",this.comment_top);
       this.hide_sendbox = true;
       $("#comment_t").show();
-      console.log($('.comment_box').css('display'))
       setTimeout(() => {
         if ($('.comment_box').css('display') == 'block') {
-          $("#comment_t").focus();
+          $("#comment_t").trigger("click").focus();
+          $("html,body").animate({
+            scrollTop: document.body.scrollHeight
+          },1);
+          // document.body.scrollTop = document.body.scrollHeight;
         }
       },50);
+    },
+
+    // 隐藏评论窗口
+    hideSendBox (){
+      this.hide_sendbox = false;
+      $("html,body").animate({
+        scrollTop: this.comment_top
+      },1);
     },
 
     // 显示删除按钮
@@ -120,7 +150,6 @@ export default {
     }
   },
   components: {
-    activityItem,
     wordItem,
   }
 }
@@ -159,6 +188,19 @@ export default {
       width: 100%;
     }
   }
+  .swipe-wrapper {
+    width: 100%;
+    height: 20rem;
+    a.imgshow {
+      display: block;
+      width: 100%;
+      min-height: 18rem;
+    }
+    img {
+      width: 100%;
+    }
+  }
+
   .content {
     @include wh(100%, 100%);
 

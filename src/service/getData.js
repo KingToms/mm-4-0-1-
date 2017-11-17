@@ -134,7 +134,10 @@ export const getCities = (data) => fetch(`/mon/mon_service_cities`, data, 'POST'
 // 优惠券中心领券
 export const getCenterCoupons = (data) => fetch(`/qiaomao/qm_coupon_fetch`, data, 'POST')
 
+/* 发现页 */
 export const getFoundList = (data) => fetch(`/qiaomao/qm_index_found_list`, data, 'POST')
+// 发现页点赞评论
+export const foundDzpl = (data) => fetch(`/qiaomao/qm_index_found_dzpl`, data, 'POST')
 
 // 支付成功，调用推送消息
 export const orderJPush = (data) => fetch (`/mon/mon_order_jpush`, data, 'POST')

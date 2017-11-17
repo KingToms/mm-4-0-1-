@@ -42,15 +42,15 @@
       </div>
       <div class="comment_info clear">
         <span class="time">{{item.created_at}}</span>
-        <span class="praise" :class="{'praised': praise_state}" @click="addLike">{{item.dianzan ? item.dianzan : '0'}}</span>
+        <span class="praise" :class="{'praised': praise_state}" @click="addLike($event, item)">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
       <div class="comments">
-        <p class="word" v-for="(item, index) in comments_list" :key="index">
+        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="showCommentBox($event)">
           <span class="normal">{{item.reply_name}}</span><i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复 <span class="normal">{{item.replyed_name}}</span></i>:
           <i class="reply-com normal">{{item.comment}}</i>
         </p>
       </div>
-      <div class="word_btn" @click="showCommentBox">
+      <div class="word_btn" @click="showCommentBox($event)">
         <img src="/static/icon/discovery/find_icon_comment.png" alt="">
         <span>我有话说</span>
       </div>
@@ -58,6 +58,10 @@
   </section>
 </template>
 <script>
+import Vue from "vue";
+import keyConf from "../../../common/keyConf"
+import common from "../../../common/common"
+import { userIsLogin, authToken, foundDzpl } from '../../../service/getData'
 export default {
   name: "wordItem",
   data () {
@@ -65,12 +69,25 @@ export default {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
       comments_list: [], // 评论列表
+      comment_info: {
+        comment_id: '', // 评论id,评论了哪一条
+        type: '1', // 类型 1:点赞、 2:评论
+        reply_id: '', // 评论人id,谁评论了
+        reply_name: '', // 评论人姓名
+        replyed_id: '', // 被评论人id
+        replyed_name: '', // 被评论人姓名
+        comment: '', // 评论内容
+        pageY: '', // 点击评论距离顶部的位置
+      }
     };
   },
-  props: ["item"],
+  props: ["item","like_list"],
   created () {
     this.comments_imgs = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //评价图片列表数组
     this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
+
+    this.setStorage();
+    this.checkLike();
   },
   mounted() {
     /*使评价图片显示正方形*/
@@ -92,19 +109,86 @@ export default {
     bBox.baguetteBox.run('.gallery');
   },
   methods: {
+    /*用户是否已点赞*/
+    checkLike (){
+      let _this = this;
+      _this.like_list.forEach(function (n,i) {
+        if(n.moment_id == _this.item.id){
+          _this.praise_state = true;
+          return;
+        }
+      })
+    },
     /*点赞*/
-    addLike () {
-      this.praise_state = !this.praise_state;
-      if(this.praise_state){
-        this.item.dianzan += 1;
-      }else {
-        (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
+    async addLike (event, item) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin();
+      if (!qm_cookie || isLogin.status == "error") {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
+          window.location.href = `/login?action=login`;
+        } else {
+          alert("未登录");
+          let baseUrl = '/login?url=/discovery';
+          this.$router.push(baseUrl);
+        }
+      } else { // 已登录
+        let res = await foundDzpl({comment_id: item.id, type: 1, replyed_id: item.user_id});
+        this.praise_state = !this.praise_state;
+        if(this.praise_state){
+          this.item.dianzan += 1;
+        }else {
+          (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
+        }
       }
+
     },
     /*显示评论输入框*/
-    showCommentBox () {
-      this.$emit('showSendBox');
-    }
+    async showCommentBox (event) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin();
+      if (!qm_cookie || isLogin.status == "error") {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
+          window.location.href = `/login?action=login`;
+        } else {
+          alert("未登录");
+          let baseUrl = '/login?url=/discovery';
+          this.$router.push(baseUrl);
+        }
+      } else { // 已登录
+        console.log("event:",event);
+        this.comment_info.comment_id = this.item.id; // 评论id,评论了哪一条
+        this.comment_info.type = '2'; // 类型 1:点赞、 2:评论
+        this.comment_info.reply_id = ''; // 评论人id(后端自动获取)
+        this.comment_info.reply_name = ''; // 评论人姓名(后端自动获取)
+        this.comment_info.replyed_id = this.item.user_id; // 被评论人id
+        this.comment_info.replyed_name = this.item.user_name; // 被评论人姓名
+        this.comment_info.comment = ''; // 评论内容
+        this.comment_info.pageY = event.pageY; // 评论位置距离顶部的距离
+        this.$emit('showSendBox',this.comment_info);
+      }
+
+    },
+    /*判断APP是否登录*/
+    async setStorage() {
+      let datetime = common.getQueryString("datetime");
+      let app = common.getQueryString("app");
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          : $.cookie(keyConf.qm_cookie, "");
+        storage_custom.set(keyConf.token, datetime);
+      } else if (!datetime && app) {
+        storage_custom.set(keyConf.token, "");
+        $.cookie(keyConf.qm_cookie, "");
+      }
+    },
   },
   filters: {
     uesrImg(item) {
@@ -221,6 +305,11 @@ export default {
       height: 5rem;
       margin-top: 0.6rem;
       border-radius: 0.4rem;
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
       img {
         float: left;
         margin: 0.5rem;
