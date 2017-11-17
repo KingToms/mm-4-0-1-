@@ -1,5 +1,6 @@
 <template>
   <div class="invitation">
+    <a id="differentShare" data="http://mm.qiaocat.com/topic-new-user-600" style="display: none"></a>
     <img src="/static/topic/giftGiving_1111/receive.jpg" alt="邀请好友获得600元现金券">
   </div>
 </template>

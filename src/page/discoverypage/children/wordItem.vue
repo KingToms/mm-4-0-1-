@@ -23,14 +23,18 @@
       </div>
       <div class="comments">
         <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item.reply_name)">
-          <span class="normal">{{item.reply_name}}</span><i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复 <span class="normal">{{item.replyed_name}}</span></i>:
+          <span class="normal">{{item.reply_name}}</span>
+          <i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复
+            <span class="normal">{{item.replyed_name}}</span>
+          </i>:
           <i class="reply-com normal">{{item.comment}}</i>
         </p>
       </div>
       <div class="word_btn">
-        <form class="submit-msg" @submit="sendMsg($event)">
+        <div class="submit-msg" @submit="sendMsg($event)">
           <input id="comment_t" type="text" v-model="comment_info.comment" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
-        </form>
+          <input id="submit_btn" type="button" value="发送" v-if="comment_info.comment">
+        </div>
       </div>
     </div>
   </section>
@@ -43,7 +47,7 @@ import { storage_custom } from "../../../common/store"
 import { userIsLogin, authToken, foundDzpl } from '../../../service/getData'
 export default {
   name: "wordItem",
-  data () {
+  data() {
     return {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
@@ -60,8 +64,8 @@ export default {
       }
     };
   },
-  props: ["item","like_list"],
-  created () {
+  props: ["item", "like_list"],
+  created() {
     this.comments_imgs = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //评价图片列表数组
     this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
 
@@ -89,17 +93,17 @@ export default {
   },
   methods: {
     /*用户是否已点赞*/
-    checkLike (){
+    checkLike() {
       let _this = this;
-      _this.like_list.forEach(function (n,i) {
-        if(n.moment_id == _this.item.id){
+      _this.like_list.forEach(function(n, i) {
+        if (n.moment_id == _this.item.id) {
           _this.praise_state = true;
           return;
         }
       })
     },
     /*点赞*/
-    async addLike (event, item) {
+    async addLike(event, item) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
       if (!qm_cookie || isLogin.status == "error") {
@@ -114,14 +118,13 @@ export default {
           this.$router.push(baseUrl);
         }
       } else { // 已登录
-        this.user_info = isLogin.data;
-        console.log("用户信息");
-        let res = await foundDzpl({comment_id: item.id, type: 1, replyed_id: item.user_id});
-        if(res.status == "ok"){
+        this.user_info = isLogin.data; // 用户信息
+        let res = await foundDzpl({ comment_id: item.id, type: 1, replyed_id: item.user_id });
+        if (res.status == "ok") {
           this.praise_state = !this.praise_state;
-          if(this.praise_state){
+          if (this.praise_state) {
             this.item.dianzan += 1;
-          }else {
+          } else {
             (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
           }
         }
@@ -129,11 +132,34 @@ export default {
 
     },
     /*点击回复评论*/
-    sendReply (event,reply_name) {
-      
+    async sendReply(event, reply_name) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
+      if (!qm_cookie || isLogin.status == "error") {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
+          window.location.href = `/login?action=login`;
+        } else {
+          alert("未登录");
+          let baseUrl = '/login?url=/discovery';
+          this.$router.push(baseUrl);
+        }
+      } else { // 已登录
+        this.user_info = isLogin.data; // 用户信息
+        let commentTXT = $(event.target).parents(".comments").siblings(".word_btn").find("#comment_t");
+        if (this.user_info.user_name != reply_name) { // 非回复自己，回复别人
+          commentTXT.attr("placeholder","回复"+reply_name+":");
+        }else {
+          commentTXT.attr("placeholder","我有话说");
+        }
+        commentTXT.trigger("click").focus();
+      }
     },
     /*发表评论*/
-    async sendMsg (event) {
+    async sendMsg(event) {
+      alert(111);
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == "error") {
@@ -148,6 +174,7 @@ export default {
           this.$router.push(baseUrl);
         }
       } else { // 已登录
+        this.user_info = isLogin.data; // 用户信息
         this.comment_info.comment_id = this.item.id; // 评论id,评论了哪一条
         this.comment_info.type = '2'; // 类型 1:点赞、 2:评论
         this.comment_info.reply_id = ''; // 评论人id(后端自动获取)
@@ -155,7 +182,7 @@ export default {
         this.comment_info.replyed_id = this.item.user_id; // 被评论人id
         this.comment_info.replyed_name = this.item.user_name; // 被评论人姓名
 
-        let resData = await foundDzpl({
+        /*let resData = await foundDzpl({
           comment_id: this.comment_info.comment_id,
           type: this.comment_info.type,
           reply_id: this.comment_info.reply_id,
@@ -163,8 +190,8 @@ export default {
           replyed_id: this.comment_info.replyed_id,
           replyed_name: this.comment_info.replyed_name,
           comment: this.comment_info.comment,
-        });
-        if(resData.status == "ok"){
+        });*/
+        if (resData.status == "ok") {
           this.comments_list.push(this.comment_info);
         }
       }
@@ -199,10 +226,10 @@ export default {
         }
       }
     },
-    productImg(imgUrl){
-      if(!imgUrl)
+    productImg(imgUrl) {
+      if (!imgUrl)
         return require('../../../assets/image/img/detail/square_default_bg.jpg');
-      if(imgUrl.indexOf("http") > -1)
+      if (imgUrl.indexOf("http") > -1)
         return imgUrl;
       return "http://pic.qiaocat.com/upload/" + imgUrl;
     },
@@ -248,7 +275,6 @@ export default {
       padding: 0.5rem 0 1.2rem;
     }
     /*发表图片*/
-
     .imgItem {
       display: block;
       float: left;
@@ -302,13 +328,13 @@ export default {
       .time {
         float: left;
         margin-top: 0.3rem;
-        @include sc(1rem,#999);
+        @include sc(1rem, #999);
       }
       .praise {
         float: right;
         display: block;
         padding-left: 2.1rem;
-        @include sc(1.4rem,#999);
+        @include sc(1.4rem, #999);
         background: url('/static/icon/discovery/found_icon_like_nor.png') 0 0.1rem/1.6rem 1.5rem no-repeat;
         cursor: pointer;
       }
@@ -335,7 +361,8 @@ export default {
     }
     /*我有话说*/
     .word_btn {
-      @include wh(100%,3rem);
+      @include wh(100%,
+      3rem);
       border: 0.05rem solid #bbb;
       border-radius: 0.4rem;
       line-height: 3rem;
@@ -345,11 +372,26 @@ export default {
       padding-left: 3.3rem;
       background: url('/static/icon/discovery/find_icon_comment.png') 0.8rem 0.5rem/1.8rem no-repeat;
       .submit-msg {
+        position: relative;
         width: 100%;
         #comment_t {
           width: 100%;
           height: 100%;
-          @include sc(1.4rem, #000);
+          @include sc(1.4rem,
+          #000);
+        }
+        #submit_btn {
+          position: absolute;
+          top: 0.3rem;
+          right: 0.5rem;
+          padding: 0 0.8rem;
+          height: 2.2rem;
+          line-height: 2.2rem;
+          text-align: center;
+          border-radius: 0.4rem;
+          color: #fff;
+          background-color: #E70034;
+          cursor: pointer;
         }
       }
     }
