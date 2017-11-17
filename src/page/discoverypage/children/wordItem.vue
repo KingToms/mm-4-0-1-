@@ -22,7 +22,7 @@
         <span class="praise" :class="{'praised': praise_state}" @click="addLike($event, item)">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
       <div class="comments">
-        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item.reply_name)">
+        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item)">
           <span class="normal">{{item.reply_name}}</span>
           <i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复
             <span class="normal">{{item.replyed_name}}</span>
@@ -31,9 +31,9 @@
         </p>
       </div>
       <div class="word_btn">
-        <div class="submit-msg" @submit="sendMsg($event)">
+        <div class="submit-msg">
           <input id="comment_t" type="text" v-model="comment_info.comment" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
-          <input id="submit_btn" type="button" value="发送" v-if="comment_info.comment">
+          <input id="submit_btn" type="button" value="发送" v-if="comment_info.comment" @click="sendMsg($event)">
         </div>
       </div>
     </div>
@@ -52,6 +52,7 @@ export default {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
       comments_list: [], // 评论列表
+      commentTXT: '', // 评论栏（被评论人姓名及id）
       user_info: {}, // 登录用户的信息
       comment_info: {
         comment: '', // 评论内容
@@ -132,7 +133,7 @@ export default {
 
     },
     /*点击回复评论*/
-    async sendReply(event, reply_name) {
+    async sendReply(event, item) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
       if (!qm_cookie || isLogin.status == "error") {
@@ -148,18 +149,21 @@ export default {
         }
       } else { // 已登录
         this.user_info = isLogin.data; // 用户信息
-        let commentTXT = $(event.target).parents(".comments").siblings(".word_btn").find("#comment_t");
+        this.commentTXT = $(event.target).parents(".comments").siblings(".word_btn").find("#comment_t");
         if (this.user_info.user_name != reply_name) { // 非回复自己，回复别人
-          commentTXT.attr("placeholder","回复"+reply_name+":");
+          this.commentTXT.attr("placeholder","回复"+reply_name+":");
+          this.commentTXT.data("replyed_id",item.reply_id);
+          this.commentTXT.data("replyed_name",item.reply_name);
         }else {
-          commentTXT.attr("placeholder","我有话说");
+          this.commentTXT.attr("placeholder","我有话说");
+          this.commentTXT.data("replyed_id","");
+          this.commentTXT.data("replyed_name","");
         }
-        commentTXT.trigger("click").focus();
+        this.commentTXT.trigger("click").focus();
       }
     },
     /*发表评论*/
     async sendMsg(event) {
-      alert(111);
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == "error") {
