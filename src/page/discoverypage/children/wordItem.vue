@@ -2,10 +2,10 @@
   <section class="word_box">
     <div class="main">
       <div class="head_img">
-        <img :src="'' | uesrImg">
+        <img :src="item.user_img | uesrImg">
       </div>
-      <div class="name">黄美娜</div>
-      <div class="comment">化妆师很专业很有耐心，在人生最重要的一天化得美美哒~</div>
+      <div class="name">{{item.user_name}}</div>
+      <div class="comment">{{item.comment}}</div>
       <!--<ul class="clear">
         <li class="imgItem" style="backgroundImage : url('http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg')">
           <img src="../../../assets/image/icon/detail/service_btn_photo.png">
@@ -29,38 +29,30 @@
           <img src="../../../assets/image/icon/detail/service_btn_photo.png">
         </li>
       </ul>-->
-      <div class="gallery clear">
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
-        </a>
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
-        </a>
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
-        </a>
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
-        </a>
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
-        </a>
-        <a class="imgItem" style="backgroundImage : url(http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg)" href="javascript:void(0);" data-img="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg">
-          <img src="http://pic.qiaocat.com/upload/user/cdaa995186d4bb3a9ca68f1d01e0df75.jpg" alt="">
+      <div class="gallery clear" v-if="item.images && item.images.length != 0">
+        <a class="imgItem" v-for="(item, index) in comments_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}" href="javascript:void(0);" :data-img="item">
+          <img :src="item" alt="">
         </a>
       </div>
       <div class="shopping clear">
-        <a href="/detail/1000360">
-          <img src="http://qiaocat.oss-cn-shenzhen.aliyuncs.com/7965471701504077100.jpeg" />
-          <p>韩式丽人清新妆</p>
+        <a :href="`/detail/${item.product_id}`">
+          <img :src="item.product_img | productImg" />
+          <p>{{item.product_name}}</p>
         </a>
       </div>
       <div class="comment_info clear">
-        <span class="time">4分钟前</span>
-        <span class="praise">952</span>
+        <span class="time">{{item.created_at}}</span>
+        <span class="praise" :class="{'praised': praise_state}" @click="addLike">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
-      <div class="comment">
-        
+      <div class="comments">
+        <p class="word" v-for="(item, index) in comments_list" :key="index">
+          <span class="normal">{{item.reply_name}}</span><i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复 <span class="normal">{{item.replyed_name}}</span></i>:
+          <i class="reply-com normal">{{item.comment}}</i>
+        </p>
+      </div>
+      <div class="word_btn" @click="showCommentBox">
+        <img src="/static/icon/discovery/find_icon_comment.png" alt="">
+        <span>我有话说</span>
       </div>
     </div>
   </section>
@@ -70,7 +62,15 @@ export default {
   name: "wordItem",
   data () {
     return {
+      praise_state: false, // 是否已点赞
+      comments_imgs: [], // 评价图片
+      comments_list: [], // 评论列表
     };
+  },
+  props: ["item"],
+  created () {
+    this.comments_imgs = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //评价图片列表数组
+    this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
   },
   mounted() {
     /*使评价图片显示正方形*/
@@ -92,6 +92,19 @@ export default {
     bBox.baguetteBox.run('.gallery');
   },
   methods: {
+    /*点赞*/
+    addLike () {
+      this.praise_state = !this.praise_state;
+      if(this.praise_state){
+        this.item.dianzan += 1;
+      }else {
+        (this.item.dianzan != 0) ? (this.item.dianzan -= 1) : this.item.dianzan;
+      }
+    },
+    /*显示评论输入框*/
+    showCommentBox () {
+      this.$emit('showSendBox');
+    }
   },
   filters: {
     uesrImg(item) {
@@ -105,6 +118,13 @@ export default {
         }
       }
     },
+    productImg(imgUrl){
+      if(!imgUrl)
+        return require('../../../assets/image/img/detail/square_default_bg.jpg');
+      if(imgUrl.indexOf("http") > -1)
+        return imgUrl;
+      return "http://pic.qiaocat.com/upload/" + imgUrl;
+    },
   },
 }
 </script>
@@ -113,12 +133,12 @@ export default {
 @import '../../../assets/css/mixin.scss';
 .word_box {
   width: 100%;
-  padding-top: 2rem;
+  padding: 2rem 1.5rem 2rem 0;
+  border-bottom: 0.05rem solid #ddd;
   .main {
     position: relative;
     padding-left: 4rem;
     width: 100%;
-    // background-color: #ccc;
     @include sc(1.4rem, #000);
     /*用户头像*/
     .head_img {
@@ -129,6 +149,8 @@ export default {
       margin-right: 1rem;
       img {
         width: 100%;
+        height: 100%;
+        border-radius: 50%;
         vertical-align: middle;
       }
     }
@@ -215,10 +237,10 @@ export default {
     }
     /*时间、点赞数*/
     .comment_info {
-      margin: 0.5rem 0 1.5rem;
+      margin: 0.6rem 0 1.2rem;
       .time {
         float: left;
-        margin-top: 0.2rem;
+        margin-top: 0.3rem;
         @include sc(1rem,#999);
       }
       .praise {
@@ -226,7 +248,46 @@ export default {
         display: block;
         padding-left: 2.1rem;
         @include sc(1.4rem,#999);
-        background: url('/static/icon/discovery/found_icon_like_nor.png') 0 0.2rem/1.6rem 1.5rem no-repeat;
+        background: url('/static/icon/discovery/found_icon_like_nor.png') 0 0.1rem/1.6rem 1.5rem no-repeat;
+        cursor: pointer;
+      }
+      .praised {
+        color: $themeRed;
+        background-image: url('/static/icon/discovery/found_icon_like_sel.png');
+      }
+    }
+    /*客户评论内容*/
+    .comments {
+      font-size: 1.4rem;
+      color: #000;
+      text-align: left;
+      .word {
+        line-height: 1.8rem;
+        margin-bottom: 0.4rem;
+        span {
+          color: #666;
+        }
+        .normal {
+          font-style: normal;
+        }
+      }
+    }
+    /*我有话说*/
+    .word_btn {
+      @include wh(100%,3rem);
+      border: 0.05rem solid #bbb;
+      border-radius: 0.4rem;
+      line-height: 3rem;
+      text-align: left;
+      cursor: pointer;
+      margin-top: 1rem;
+      img {
+        margin: -0.1rem 0.5rem 0 1rem;
+        width: 1.8rem;
+        vertical-align: middle;
+      }
+      span {
+        color: #999;
       }
     }
   }
