@@ -15,15 +15,15 @@
     <!--选项-->
     <div class="option_box">
       <div class="option">
-        <router-link class="option_item" to="/home/makeup">
+        <router-link class="option_item" to="/home/makeup/1">
             <img id="sign" src="../../../assets/image/icon/all/home_icon_classify01.png">
             <p class="option_label">化妆</p>
         </router-link>
-        <a href="/home/beauty" class="option_item">
+        <a href="/home/makeup/64" class="option_item">
             <img id="discount" src="../../../assets/image/icon/all/home_icon_classify02.png">
             <p class="option_label">美睫</p>
         </a>
-        <a href="/home/tattoo" class="option_item">
+        <a href="/home/makeup/128" class="option_item">
             <img id="invitation" src="../../../assets/image/icon/all/home_icon_classify03.png">
             <p class="option_label">半永久</p>
         </a>
@@ -101,9 +101,9 @@
         </div>
       </div>
     </div>
-    <more-tab :title="`推荐化妆`" :list="resData.type_1" :to="`/home/makeup`"></more-tab>
-    <more-tab :title="`推荐美睫`" :list="resData.type_64" :to="`/home/beauty`"></more-tab>
-    <more-tab :title="`推荐半永久`" :list="resData.type_128" :to="`/home/tattoo`"></more-tab>
+    <more-tab :title="`推荐化妆`" :list="resData.type_1" :to="`/home/makeup/1`"></more-tab>
+    <more-tab :title="`推荐美睫`" :list="resData.type_64" :to="`/home/makeup/64`"></more-tab>
+    <more-tab :title="`推荐半永久`" :list="resData.type_128" :to="`/home/makeup/128`"></more-tab>
     <!-- 底部提示 -->
     <div class="footer-tip">
       <p>——&nbsp;&nbsp; 人家是有底线的 &nbsp;&nbsp; ——</p>

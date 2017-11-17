@@ -1,66 +1,68 @@
 <template>
 <div class="makeup">
-  <lheader :title="`化妆`"></lheader>
+  <div class="fixed">
+    <lheader :title="titles[cate_id]"></lheader>
   
-  <div class="makeup-filter">
-    <ul class="filter-tab">
-      <li :class="{active: chooseTab.indexOf('salesVolume') > -1}" @click="orderCompre">{{condiction.compreOrder.name}}</li>
-      <li :class="{active: chooseTab.indexOf('categary') > -1}" @click="filterCategery">{{condiction.categaryFilter.cateNames.length > 3 ? condiction.categaryFilter.cateNames.substr(0,3)+'...' : (condiction.categaryFilter.cateNames.length == 0 ? '分类' : condiction.categaryFilter.cateNames)}}</li>
-      <li v-if="condiction.priceOrder == 'desc'" :class="{active: chooseTab.indexOf('price') > -1}" @click="orderPrice">价格降序</li>
-      <li v-else :class="{active: chooseTab.indexOf('price') > -1}" @click="orderPrice">价格升序</li>
-      <li :class="{active: chooseTab.indexOf('filterCondition') > -1}" @click="filterPrice">筛选</li>
-    </ul>
-  </div>
-  <!-- 销量最高开始 -->
-  <div class="salesVolume">
-    <div class="salesVolume-sub">
-      <ul>
-        <li :class="{active: condiction.compreOrder.id == 'com'}" @click="compreChoose('com', '综合排序')">综合排序<i class="icon"></i></li>
-        <li :class="{active: condiction.compreOrder.id == 'sv'}" @click="compreChoose('sv', '销量最高')">销量最高<i class="icon"></i></li>
-        <li :class="{active: condiction.compreOrder.id == 'pr'}" @click="compreChoose('pr', '好评最高')">好评最高<i class="icon"></i></li>
-        <li :class="{active: condiction.compreOrder.id == 'new'}" @click="compreChoose('new', '最新发布')">最新发布<i class="icon"></i></li>
+    <div class="makeup-filter">
+      <ul class="filter-tab">
+        <li :class="{active: chooseTab.indexOf('salesVolume') > -1}" @click="orderCompre">{{condiction.compreOrder.name}}</li>
+        <li :class="{active: chooseTab.indexOf('categary') > -1}" @click="filterCategery">{{condiction.categaryFilter.cateNames.length > 3 ? condiction.categaryFilter.cateNames.substr(0,3)+'...' : (condiction.categaryFilter.cateNames.length == 0 ? '分类' : condiction.categaryFilter.cateNames)}}</li>
+        <li v-if="condiction.priceOrder == 'desc'" :class="{active: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格降序</li>
+        <li v-else :class="{active: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格升序</li>
+        <li :class="{active: chooseTab.indexOf('filterCondition') > -1}" @click="filterPrice">筛选</li>
       </ul>
     </div>
   </div>
-  <!-- 销量最高结束 -->
-  <!-- 分类开始 -->
-  <div class="categary">
-    <div class="categary-sub">
-      <ul class="clear">
-        <li v-for="(item, index) in categaryItems" :key="index" :class="{active: condiction.categaryFilter.cateids.indexOf(item.id) > -1 }" @click="categaryFilterChoose(item.id,item.name)">{{item.name}}<i class="icon"></i></li>
-      </ul>
-    </div>
-  </div>
-  <!-- 分类结束 -->
-  <!-- 筛选开始 -->
-  <div class="filterCondition">
-    <div class="filterCondition-sub">
-      <div class="title">
-        筛选
-        <span class="icon" @click="closeFilterPrice"></span>
-      </div>
-      <div class="price-section">
+   <!-- 销量最高开始 -->
+    <div class="salesVolume">
+      <div class="salesVolume-sub">
         <ul>
-          <li>价格区间</li>
-          <li :class="{active: condiction.priceFilter.priceid == 0}" @click="priceChoose(0)">￥200以下<i class="icon"></i></li>
-          <li :class="{active: condiction.priceFilter.priceid == 1}" @click="priceChoose(1)">￥201-300<i class="icon"></i></li>
-          <li :class="{active: condiction.priceFilter.priceid == 2}" @click="priceChoose(2)">￥301-400<i class="icon"></i></li>
-          <li :class="{active: condiction.priceFilter.priceid == 3}" @click="priceChoose(3)">￥401-500<i class="icon"></i></li>
-          <li :class="{active: condiction.priceFilter.priceid == 4}" @click="priceChoose(4)">￥500以上<i class="icon"></i></li>
-          <li>
-            <input type="number" name="lowPrice" placeholder="最低价格">
-            <span>—</span>
-            <input type="number" name="highestPrice" placeholder="最高价格">
-          </li>
+          <li :class="{active: condiction.compreOrder.id == 'com'}" @click="compreChoose('com', '综合排序')">综合排序<i class="icon"></i></li>
+          <li :class="{active: condiction.compreOrder.id == 'sell_count'}" @click="compreChoose('sell_count', '销量最高')">销量最高<i class="icon"></i></li>
+          <li :class="{active: condiction.compreOrder.id == 'score'}" @click="compreChoose('score', '好评最高')">好评最高<i class="icon"></i></li>
+          <li :class="{active: condiction.compreOrder.id == 'created_at'}" @click="compreChoose('created_at', '最新发布')">最新发布<i class="icon"></i></li>
         </ul>
       </div>
-      <div class="footer">
-        <div class="reset" @click="reset()">重置</div>
-        <div class="confirm" @click="confirm">确定</div>
+    </div>
+    <!-- 销量最高结束 -->
+    <!-- 分类开始 -->
+    <div class="categary">
+      <div class="categary-sub">
+        <ul class="clear">
+          <li v-for="(item, index) in categaryItems" :key="index" :class="{active: condiction.categaryFilter.cateids.indexOf(item.id) > -1 }" @click="categaryFilterChoose(item.id,item.name)">{{item.name}}<i class="icon"></i></li>
+        </ul>
       </div>
     </div>
-  </div>
-  <!-- 筛选结束 -->
+    <!-- 分类结束 -->
+    <!-- 筛选开始 -->
+    <div class="filterCondition">
+      <div class="filterCondition-sub">
+        <div class="title">
+          筛选
+          <span class="icon" @click="closeFilterPrice"></span>
+        </div>
+        <div class="price-section">
+          <ul>
+            <li>价格区间</li>
+            <li :class="{active: condiction.priceFilter.priceid == 0}" @click="priceChoose(0)">￥200以下<i class="icon"></i></li>
+            <li :class="{active: condiction.priceFilter.priceid == 1}" @click="priceChoose(1)">￥201-300<i class="icon"></i></li>
+            <li :class="{active: condiction.priceFilter.priceid == 2}" @click="priceChoose(2)">￥301-400<i class="icon"></i></li>
+            <li :class="{active: condiction.priceFilter.priceid == 3}" @click="priceChoose(3)">￥401-500<i class="icon"></i></li>
+            <li :class="{active: condiction.priceFilter.priceid == 4}" @click="priceChoose(4)">￥500以上<i class="icon"></i></li>
+            <li>
+              <input type="number" name="lowPrice" v-model="condiction.priceFilter.lowPrice" placeholder="最低价格" @focus="condiction.priceFilter.priceid = -1">
+              <span>—</span>
+              <input type="number" name="highestPrice" v-model="condiction.priceFilter.heigestPrice" placeholder="最高价格" @focus="condiction.priceFilter.priceid = -1">
+            </li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="reset" @click="reset()">重置</div>
+          <div class="confirm" @click="confirm">确定</div>
+        </div>
+      </div>
+    </div>
+    <!-- 筛选结束 -->
   <!-- 产品列表开始 -->
   <div class="people_look clear">
     <!--产品项-->
@@ -71,20 +73,32 @@
 </template>
 <script>
 import lheader from "../../../components/common/lHeader";
-import { categoryList, getProductList } from '../../../service/getData';
-import {storage_custom} from '../../../common/store';
-import keyConf from '../../../common/keyConf';
-import common from '../../../common/common.js';
-import RecommendItem from './children/recommendItem';
+import { categoryList, getProductList } from "../../../service/getData";
+import { storage_custom } from "../../../common/store";
+import keyConf from "../../../common/keyConf";
+import common from "../../../common/common.js";
+import RecommendItem from "./children/recommendItem";
 export default {
   name: "makeup",
   data() {
     return {
-      cate_name:['makeup', 'beaty', 'tatoo'],
-      cate_id: this.$route.params['cate_id'],
+      cate_name: ["makeup", "beaty", "tatoo"],
+      titles: {
+        1: '化妆',
+        64: '美睫',
+        128: '半永久'
+      },
+      cate_id: this.$route.params["cate_id"],
+      priceSection: [
+        {priceStart: 0, priceEnd: 200},
+        {priceStart: 201, priceEnd: 300},
+        {priceStart: 301, priceEnd: 400},
+        {priceStart: 401, priceEnd: 500},
+        {priceStart: 500, priceEnd: 0},
+      ],
       chooseTab: "",
       currentTab: "",
-      tabNames: [".salesVolume", ".categary", ".price", ".filterCondition"],
+      tabNames: [".salesVolume", ".categary", ".priceOrder", ".filterCondition"],
       condiction: {
         priceOrder: "desc",
         compreOrder: {
@@ -105,63 +119,102 @@ export default {
       categaryItems: [],
       makpupList: [],
       flag: true,
+      filed:
+        "id,name,price,market_price,promotion_price,click_count,sell_count",
       pageNo: 1,
       pageSize: 10, //记录数
-      count_page: '', // 数据总页数
+      count_page: "" // 数据总页数
     };
   },
-  created(){
+  created() {
+    this.cate_id = this.$route.params["cate_id"] ? this.$route.params["cate_id"] : 1;
     this.setCategaryData();
     this.ProductList();
     this.scroll();
+    $(window).scrollTop(0);
   },
   components: {
     lheader,
     RecommendItem
   },
   methods: {
-    setCategaryData(){
-      this.categaryItems = storage_custom.getArray(keyConf.categaryStore[this.cate_id]);
-      if(!this.categaryItems){
+    setCategaryData() {
+      this.categaryItems = storage_custom.getArray(
+        keyConf.categaryStore[this.cate_id]
+      );
+      if (!this.categaryItems) {
         this.getCategaryList();
       }
     },
-    async getCategaryList(){
+    async getCategaryList() {
       let res = await categoryList();
-      let makeUp =[], beaty = [], tatoo = [];
-      res.forEach(function (item) {
-        if(item.parent_id == 1) makeUp.push(item);
-        if(item.parent_id == 64) beaty.push(item);
-        if(item.parent_id == 128) tatoo.push(item);
+      let makeUp = [],
+        beaty = [],
+        tatoo = [];
+      res.forEach(function(item) {
+        if (item.parent_id == 1) makeUp.push(item);
+        if (item.parent_id == 64) beaty.push(item);
+        if (item.parent_id == 128) tatoo.push(item);
       });
       storage_custom.set(keyConf.categaryStore[1], makeUp);
       storage_custom.set(keyConf.categaryStore[64], beaty);
       storage_custom.set(keyConf.categaryStore[128], tatoo);
 
-      this.categaryItems = storage_custom.getArray(keyConf.categaryStore[this.cate_id]);
+      this.categaryItems = storage_custom.getArray(
+        keyConf.categaryStore[this.cate_id]
+      );
     },
     async ProductList() {
       this.flag = false;
-      let res = await getProductList({ type: 1, cate_id_2: '', page: 1, page_size: 10 });
-      if(res.status == "ok"){
+      this.condiction.compreOrder.id = this.condiction.compreOrder.id == 'com' ? '' : this.condiction.compreOrder.id;
+      let sortBy = this.chooseTab.indexOf('priceOrder') > -1 ? (this.condiction.compreOrder.id ? `${this.condiction.compreOrder.id},price` : 'price') : `${this.condiction.compreOrder.id}`;
+      let sort_rule = this.chooseTab.indexOf('priceOrder') > -1 ? this.condiction.priceOrder : 'asc';
+      this.setPriceFilter();
+      let obj = {
+        cate_id: this.cate_id,
+        cate_id_2: this.condiction.categaryFilter.cateids,
+        sort_by: sortBy,
+        sort_rule: sort_rule,
+        price_start: this.condiction.priceFilter.lowPrice,
+        price_end: this.condiction.priceFilter.heigestPrice,
+        city: "",
+        page: this.pageNo,
+        page_size: this.pageSize
+      };
+      let res = await getProductList(obj);
+      if (res.status == "ok") {
         this.flag = true;
         // this.cate_oldId = this.cate_id; // 点击第二级type，请求数据成功后，记录当前typeID
-        this.count_page = (res.count % this.pageSize) == 0 ? parseInt(res.count / this.pageSize) : parseInt(res.count / this.pageSize + 1);
+        this.count_page =
+          res.count % this.pageSize == 0
+            ? parseInt(res.count / this.pageSize)
+            : parseInt(res.count / this.pageSize + 1);
         this.makpupList = this.makpupList.concat(res.data);
-      }else{
+      } else {
         this.flag = false;
       }
     },
-    scroll (){
+    setPriceFilter(){
+      let price = this.condiction.priceFilter;
+      if(price.priceid != -1 ){
+        price.lowPrice = this.priceSection[price.priceid].priceStart == 0? '' : this.priceSection[price.priceid].priceStart;
+        price.heigestPrice = this.priceSection[price.priceid].priceEnd == 0? '' : this.priceSection[price.priceid].priceEnd;
+      }else{
+        price.lowPrice = price.lowPrice == 0 ?'' : price.lowPrice;
+        price.heigestPrice = price.heigestPrice === 0 ? '' : price.heigestPrice;
+      }
+    },
+    scroll() {
       let _this = this;
-      if(this.$route.path.indexOf('/home/makeup') > -1){
-        common.scroll(()=>{
-          if(_this.flag){
-            if(_this.pageNo > _this.count_page){
-              return
+      if (this.$route.path.indexOf("/home/makeup") > -1) {
+        common.scroll(() => {
+          if (_this.flag) {
+            if (_this.pageNo >= _this.count_page) {
+              return;
+            }else{
+              _this.pageNo++;
+              _this.ProductList();
             }
-            _this.pageNo++;
-            _this.ProductList();
           }
         });
       }
@@ -173,11 +226,13 @@ export default {
       $(`.${tabName}`).slideToggle("fast");
     },
     orderPrice() {
-      let tabName = "price";
+      let tabName = "priceOrder";
       this.hideOtherTab(tabName);
       this.filterChooseTab(tabName);
       this.condiction.priceOrder =
         this.condiction.priceOrder == "desc" ? "asc" : "desc";
+      this.makpupList = [];
+      this.ProductList();
     },
     filterCategery() {
       let tabName = "categary";
@@ -215,6 +270,8 @@ export default {
       this.condiction.compreOrder.id = id;
       this.condiction.compreOrder.name = name;
       $(`.salesVolume`).slideToggle("fast");
+      this.makpupList = [];
+      this.ProductList();
     },
     categaryFilterChoose(id, name) {
       let idIndex = this.condiction.categaryFilter.cateids.indexOf(id);
@@ -234,13 +291,17 @@ export default {
         this.condiction.categaryFilter.cateNames = `${name},${this.condiction
           .categaryFilter.cateNames}`;
       }
+      this.makpupList = [];
+      this.ProductList();
     },
     priceChoose(id) {
-      this.condiction.priceFilter.priceid =
-        this.condiction.priceFilter.priceid == id ? -1 : id;
+      let price = this.condiction.priceFilter;
+      price.priceid = id;
+      price.lowPrice = this.priceSection[id].priceStart == 0? '' : this.priceSection[id].priceStart;
+      price.heigestPrice = this.priceSection[id].priceEnd == 0? '' : this.priceSection[id].priceEnd;
     },
     reset() {
-      this.chooseTab = '';
+      this.chooseTab = "";
       this.condiction = {
         priceOrder: "desc",
         compreOrder: {
@@ -261,9 +322,15 @@ export default {
     },
     confirm() {
       let priceCon = this.condiction.priceFilter;
-      if(priceCon.priceid != -1 || priceCon.lowPrice != 0 || priceCon.heigestPrice != 0)
-        this.chooseTab = 'filterCondition';
+      if (
+        priceCon.priceid != -1 ||
+        priceCon.lowPrice != 0 ||
+        priceCon.heigestPrice != 0
+      )
+        this.filterTab("filterCondition");
       this.closeFilterPrice();
+      this.makpupList = [];
+      this.ProductList();
     }
   }
 };
@@ -282,6 +349,11 @@ export default {
   }
 }
 .makeup {
+  .fixed{
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+  }
   .filter-tab {
     display: flex;
     @include average(#999);
@@ -308,10 +380,11 @@ export default {
 
   .makeup-filter {
     position: relative;
+    @include bgColor($bgWhite);
   }
   .salesVolume,
   .categary {
-    position: absolute;
+    position: fixed !important;
     display: none;
     z-index: 2;
     top: 8.4rem;
@@ -382,7 +455,7 @@ export default {
   }
   // 筛选
   .filterCondition {
-    position: absolute;
+    position: fixed;
     display: none;
     top: 0;
     left: 0;
@@ -475,6 +548,7 @@ export default {
     position: relative;
     margin-bottom: 5.8rem;
     padding-left: 1rem;
+    padding-top: 8.8rem;
     .title_box {
       position: absolute;
       top: -1.2rem;
