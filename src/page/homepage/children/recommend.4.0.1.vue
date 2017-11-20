@@ -102,9 +102,9 @@
         </div>
       </div>
     </div>
-    <more-tab :title="`推荐化妆`" :list="resData.type_1" :to="`/home/makeup/1`"></more-tab>
-    <more-tab :title="`推荐美睫`" :list="resData.type_64" :to="`/home/makeup/64`"></more-tab>
-    <more-tab :title="`推荐半永久`" :list="resData.type_128" :to="`/home/makeup/128`"></more-tab>
+    <more-tab :title="`推荐化妆`" :list="resData.type_1" :to="`/home/makeup/1/化妆`"></more-tab>
+    <more-tab :title="`推荐美睫`" :list="resData.type_64" :to="`/home/makeup/64/美睫`"></more-tab>
+    <more-tab :title="`推荐半永久`" :list="resData.type_128" :to="`/home/makeup/128/半永久`"></more-tab>
     <!-- 底部提示 -->
     <div class="footer-tip">
       <p>——&nbsp;&nbsp; 人家是有底线的 &nbsp;&nbsp; ——</p>
