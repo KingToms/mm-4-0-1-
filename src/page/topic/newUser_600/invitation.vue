@@ -11,10 +11,7 @@ export default {
     return {
       isWeiXin: false, // 是否在微信端打开
       shareData: { // APP分享
-        title: '俏猫|领取￥600现金券',
-        desc: '【俏猫】预约化妆、美睫、半永久服务，最低98！',
-        link: 'http://mm.qiaocat.com/topic-new-user-600',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/giftGiving_1111/receive_share.jpg',
+        title:'俏猫|领取￥600现金券',desc:'【俏猫】预约化妆、美睫、半永久服务，最低98！',link:'http://mm.qiaocat.com/topic-new-user-600',imgUrl:'http://mm.qiaocat.com/static/topic/giftGiving_1111/receive_share.jpg',
       },
     };
   },
@@ -23,7 +20,7 @@ export default {
     this.shareWechat(); // 微信分享
   },
   mounted() {
-    // console.log("分享内容:",document.getElementById("differentShare").getAttribute("data"));
+    // console.log(JSON.parse(document.getElementById("differentShare").getAttribute("data")).link);
   },
   methods: {
     // 判断是否在微信QQ端打开
