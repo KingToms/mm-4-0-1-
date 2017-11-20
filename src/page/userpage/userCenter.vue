@@ -135,7 +135,11 @@ export default {
       hasMessage: true,
       uinfo: {},
       commend: [], //推荐
-      sign_state: false // 默认不显示签到窗口
+      sign_state: false, // 默认不显示签到窗口
+      signed_in: false, // 签到状态(是否已签到)
+      sign_number: '2', // 签到猫粮增加数
+      signed_day: '', // 累计签到天数
+      catfood_total: '', // 累计猫粮总数
     };
   },
   created() {

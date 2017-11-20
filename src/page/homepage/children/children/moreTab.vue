@@ -6,8 +6,8 @@
   </div>
   <div class="items">
     <div class="item" v-for="(item,index) in list" :key="index" @click="$router.push(`/detail/${item.product.id}`)">
-      <div class="item-img">
-        <img :src="item.product && item.product.thumb" alt="">
+      <div class="item-img" :style="{backgroundImage:`url(${item.product && item.product.thumb})`}">
+        <!-- <img :src="item.product && item.product.thumb" alt=""> -->
         <div class="collect">
           <span class="icon">{{item.product && item.product.follow_count}}</span>
         </div>
@@ -73,6 +73,8 @@ export default {
       .item-img {
         position: relative;
         @include wh(10.8rem, 10.8rem);
+        background-size: cover;
+        background-repeat: no-repeat;
         img {
           width: 100%;
         }

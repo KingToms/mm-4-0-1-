@@ -15,11 +15,12 @@
     <!--选项-->
     <div class="option_box">
       <div class="option">
-        <router-link class="option_item" to="/home/makeup/1">
-            <img id="sign" src="../../../assets/image/icon/all/home_icon_classify01.png">
-            <p class="option_label">化妆</p>
+        <router-link class="option_item"  v-for="(item, index) in resData.type_conf" :key="index" :to="`/home/makeup/${item.link}/${item.title}`">
+            <img id="sign" :src="item.image">
+            <!-- <img id="sign" src="../../../assets/image/icon/all/home_icon_classify01.png"> -->
+            <p class="option_label">{{item.title}}</p>
         </router-link>
-        <a href="/home/makeup/64" class="option_item">
+        <!-- <a href="/home/makeup/64" class="option_item">
             <img id="discount" src="../../../assets/image/icon/all/home_icon_classify02.png">
             <p class="option_label">美睫</p>
         </a>
@@ -34,15 +35,15 @@
         <a href="/home/train" target="_blank" class="option_item">
             <img id="trial" src="../../../assets/image/icon/all/home_icon_classify05.png">
             <p class="option_label">培训</p>
-        </a>
+        </a> -->
       </div>
     </div>
     </div>
     <!-- 广告图 -->
     <div class="adver" v-if="resData.Advert && resData.Advert.length > 0">
-      <router-link :to="resData.Advert[0].link">
+      <a :href="resData.Advert[0].link">
         <img :src="resData.Advert[0].image" alt="">
-      </router-link>
+      </a>
     </div>
     <!-- 热卖排行 -->
     <div class="hot">
@@ -64,8 +65,8 @@
         <div class="item-scroll">
           <span :style="{width:`${wStyle}px`}" v-for="(item,index) in resData.Hotlist" :key="index" @click="$router.push(`/detail/${item.product.id}`)">
             <div class="item" :style="{width:`${wStyle}px`}">
-              <div class="img">
-                <img :src="item.image" alt="">
+              <div class="img" :style="{backgroundImage:`url(${item.image})`}">
+                <!-- <img :src="item.image" alt=""> -->
                 <div class="collect">
                   <span class="icon">{{item.product && item.product.follow_count}}</span>
                 </div>
@@ -131,7 +132,8 @@ export default {
         Hot_sty: [], // 人气美业师
         type_1: [],  // 推荐化妆
         type_64: [], // 推荐美睫
-        type_128: [] // 推荐半永久
+        type_128: [], // 推荐半永久
+        type_conf: [] // 分类
       },
       topCarousel: [], // 顶部轮播图
 
@@ -157,6 +159,7 @@ export default {
       this.resData.type_1 = res.type_1.data;
       this.resData.type_64 = res.type_64.data;
       this.resData.type_128 = res.type_128.data;
+      this.resData.type_conf = res.type_conf.data;
     }
   },
   components: {moreTab},
@@ -283,7 +286,9 @@ export default {
             padding: 0 0.5rem 1rem 0.5rem;
             .img {
               position: relative;
+              background-size: cover;
               @include wh(10.8rem,10.8rem);
+              background-repeat: no-repeat;
               img {
                 width: 100%;
               }

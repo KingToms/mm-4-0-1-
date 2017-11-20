@@ -235,7 +235,7 @@ const router = new Router({
         },
         // 化妆
         {
-          path: '/home/makeup/:cate_id?',
+          path: '/home/makeup/:cate_id?/:cate_title?',
           name: 'makeup',
           component: Makeup
         },

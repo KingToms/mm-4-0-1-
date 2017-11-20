@@ -1,7 +1,7 @@
 <template>
 <div class="makeup">
   <div class="fixed">
-    <lheader :title="titles[cate_id]"></lheader>
+    <lheader :title="title"></lheader>
   
     <div class="makeup-filter">
       <ul class="filter-tab">
@@ -74,7 +74,7 @@
 <script>
 import lheader from "../../../components/common/lHeader";
 import { categoryList, getProductList } from "../../../service/getData";
-import { storage_custom } from "../../../common/store";
+import { storage_custom, getStore } from "../../../common/store";
 import keyConf from "../../../common/keyConf";
 import common from "../../../common/common.js";
 import RecommendItem from "./children/recommendItem";
@@ -88,6 +88,7 @@ export default {
         64: '美睫',
         128: '半永久'
       },
+      title: '',
       cate_id: this.$route.params["cate_id"],
       priceSection: [
         {priceStart: 0, priceEnd: 200},
@@ -123,11 +124,16 @@ export default {
         "id,name,price,market_price,promotion_price,click_count,sell_count",
       pageNo: 1,
       pageSize: 10, //记录数
-      count_page: "" // 数据总页数
+      count_page: "", // 数据总页数
+      cityID: ''
     };
   },
   created() {
     this.cate_id = this.$route.params["cate_id"] ? this.$route.params["cate_id"] : 1;
+    this.title = this.$route.params['cate_title'] ? this.$route.params['cate_title'] : '化妆';
+    let cityStr = getStore('current_city');
+    let cityObj = cityStr && JSON.parse(cityStr) || null ;
+    this.cityID = cityObj ? cityObj.city_id : '';
     this.setCategaryData();
     this.ProductList();
     this.scroll();
@@ -139,30 +145,28 @@ export default {
   },
   methods: {
     setCategaryData() {
-      this.categaryItems = storage_custom.getArray(
-        keyConf.categaryStore[this.cate_id]
-      );
+      let _this = this;
+      this.categaryItems = storage_custom.getArray(_this.cate_id);
       if (!this.categaryItems) {
         this.getCategaryList();
       }
     },
     async getCategaryList() {
+      let _this = this;
       let res = await categoryList();
       let makeUp = [],
         beaty = [],
         tatoo = [];
       res.forEach(function(item) {
-        if (item.parent_id == 1) makeUp.push(item);
-        if (item.parent_id == 64) beaty.push(item);
-        if (item.parent_id == 128) tatoo.push(item);
+        if (item.parent_id == _this.cate_id) makeUp.push(item);
+        // if (item.parent_id == 64) beaty.push(item);
+        // if (item.parent_id == 128) tatoo.push(item);
       });
-      storage_custom.set(keyConf.categaryStore[1], makeUp);
-      storage_custom.set(keyConf.categaryStore[64], beaty);
-      storage_custom.set(keyConf.categaryStore[128], tatoo);
+      storage_custom.set(_this.cate_id, makeUp);
+      // storage_custom.set(keyConf.categaryStore[64], beaty);
+      // storage_custom.set(keyConf.categaryStore[128], tatoo);
 
-      this.categaryItems = storage_custom.getArray(
-        keyConf.categaryStore[this.cate_id]
-      );
+      this.categaryItems = storage_custom.getArray(_this.cate_id);
     },
     async ProductList() {
       this.flag = false;
@@ -171,13 +175,14 @@ export default {
       let sort_rule = this.chooseTab.indexOf('priceOrder') > -1 ? this.condiction.priceOrder : 'asc';
       this.setPriceFilter();
       let obj = {
+        fileds: this.filed,
         cate_id: this.cate_id,
         cate_id_2: this.condiction.categaryFilter.cateids,
         sort_by: sortBy,
         sort_rule: sort_rule,
         price_start: this.condiction.priceFilter.lowPrice ? this.condiction.priceFilter.lowPrice : 0,
         price_end: this.condiction.priceFilter.heigestPrice ? this.condiction.priceFilter.heigestPrice : 999999,
-        city: "",
+        city: this.cityID,
         page: this.pageNo,
         page_size: this.pageSize
       };
