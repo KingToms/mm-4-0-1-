@@ -32,7 +32,7 @@
       </div>
       <div class="word_btn">
         <div class="submit-msg">
-          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说" autocomplete="on">
+          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说">
           <input id="submit_btn" type="button" value="发送" v-if="input_txt" @click="sendMsg($event)">
         </div>
       </div>
@@ -166,7 +166,7 @@ export default {
     /*发表评论*/
     async sendMsg(event) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
-      let isLogin = await userIsLogin();
+      let isLogin = await userIsLogin(); // 验证是否登录，并获取用户信息
       if (!qm_cookie || isLogin.status == "error") {
         if (
           common.getQueryString("app") == "ios" ||
