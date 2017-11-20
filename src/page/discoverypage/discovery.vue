@@ -9,10 +9,10 @@
     </div>
     <!--顶部轮播-->
     <div class="swipe-wrapper" v-show="topCarousel">
-      <mt-swipe>
+      <mt-swipe :show-indicators="false">
         <mt-swipe-item v-for="(item,index) in topCarousel" :key="index">
-          <a class="imgshow" target="_blank" :href="item.link">
-            <img :src="item.img_url" alt="">
+          <a class="imgshow" :href="item.link">
+            <img :src="item.img_url" alt="大家有话说">
           </a>
         </mt-swipe-item>
       </mt-swipe>
@@ -136,11 +136,11 @@ export default {
   }
   .swipe-wrapper {
     width: 100%;
-    height: 20rem;
+    height: 10rem;
     a.imgshow {
       display: block;
       width: 100%;
-      min-height: 18rem;
+      height: 10rem;
     }
     img {
       width: 100%;
