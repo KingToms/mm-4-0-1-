@@ -32,7 +32,7 @@
       </div>
       <div class="word_btn">
         <div class="submit-msg">
-          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说">
+          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" autocomplete="off" placeholder="我有话说">
           <input id="submit_btn" type="button" value="发送" v-if="input_txt" @click="sendMsg($event)">
         </div>
       </div>
@@ -377,6 +377,7 @@ export default {
     }
     /*我有话说*/
     .word_btn {
+      position: relative;
       @include wh(100%,
       3rem);
       border: 0.05rem solid #bbb;
@@ -386,10 +387,9 @@ export default {
       text-align: left;
       cursor: pointer;
       margin-top: 1rem;
-      padding-left: 3.3rem;
+      padding: 0 4.8rem 0 3.3rem;
       background: url('/static/icon/discovery/find_icon_comment.png') 0.8rem 0.5rem/1.8rem no-repeat;
       .submit-msg {
-        position: relative;
         width: 100%;
         #comment_t {
           width: 100%;
