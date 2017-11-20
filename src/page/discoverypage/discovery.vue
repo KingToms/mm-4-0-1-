@@ -32,6 +32,7 @@ import '../../../node_modules/mint-ui/lib/swipe/style.css'
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 import { getFoundList } from '../../service/getData'
+import common from '../../common/common'
 export default {
   name: 'discovery',
   data() {
@@ -44,28 +45,32 @@ export default {
       icon_show: false, // 隐藏评论时的删除按钮
       comment_txt: '', // 评论的内容
       comment_top: 0, // 评论距离顶部的距离
-      count: '', // 评论总数
-      page_size: '10', // 一页显示10条
+      count: '0', // 评论总数
       page: '1', // 页数
+      page_size: '4', // 一页显示10条
+      flag: true,
     }
   },
   created() {
     this.showHeaderFooter();
     this.getFoundList();
-    $("#comment_tt").trigger("click").focus();
+    this.scroll();
   },
   methods: {
     /*获取发现页数据*/
     async getFoundList() {
-      let res = await getFoundList({})
+      this.flag = false;
+      let res = await getFoundList({page: this.page, page_size: this.page_size})
       if (res.status == "ok") {
+        this.discovery_list = this.discovery_list.concat(res.data);
         this.count = res.count;
-        this.page_size = res.page_size;
-        this.page = res.page;
-
         this.topCarousel = res.ad;
-        this.discovery_list = res.data;
         this.like_list = res.user_dz ? res.user_dz : '';
+
+        this.flag = true;
+        if(this.count === this.discovery_list.length){
+          this.flag = false;
+        }
       }
     },
 
@@ -76,7 +81,19 @@ export default {
       if (query.app == 'ios' || query.app == 'android') {
         this.hideFooterHeader = false;
       }
-    }
+    },
+    scroll(){
+      let _this = this
+      if(this.$route.path === '/discovery'){
+        common.scroll(()=>{
+          if(_this.flag){
+              _this.page++
+              _this.getFoundList();
+            }
+        })
+      }
+    },
+
   },
   components: {
     wordItem,
