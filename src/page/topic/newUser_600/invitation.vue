@@ -13,7 +13,7 @@ export default {
     };
   },
   created() {
-    this.is_weixn_qq();
+    // this.is_weixn_qq();
     this.shareWechat(); // 微信分享
   },
   methods: {
