@@ -22,6 +22,9 @@ export default {
   created () {
     this.showHeaderFooter()
   },
+  mounted(){
+    this.getCRMQuery();
+  },
   methods:{
     showHeaderFooter(){
       let query = this.$route.query
