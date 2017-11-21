@@ -32,8 +32,11 @@
       </div>
       <div class="word_btn">
         <div class="submit-msg">
-          <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说">
-          <input id="submit_btn" type="button" value="发送" v-if="input_txt" @click="sendMsg($event)">
+          <!-- <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说"> -->
+          <textarea id="comment_t" type="text" v-text="input_txt" v-model="input_txt" @focus="setIconShow" placeholder="我有话说"></textarea>
+          <!-- <div id="comment_t" contenteditable="true" v-text="input_txt" @focus="setIconShow" @blur="input_txt = $event.target.innerText"></div> -->
+          <!-- <v-edit-div id="comment_t" v-model="input_txt" :value="input_txt" @input="setIconShow"></v-edit-div> -->
+          <input id="submit_btn" type="button" value="发送" v-show="btnShow" @click="sendMsg($event)">
         </div>
       </div>
     </div>
@@ -44,7 +47,8 @@ import Vue from "vue";
 import keyConf from "../../../common/keyConf"
 import common from "../../../common/common"
 import { storage_custom } from "../../../common/store"
-import { userIsLogin, authToken, foundDzpl } from '../../../service/getData'
+import { userIsLogin, authToken, foundDzpl } from '../../../service/getData';
+// import vEditDiv from '../../../components/common/editDiv';
 export default {
   name: "wordItem",
   data() {
@@ -54,6 +58,7 @@ export default {
       comments_list: [], // 评论列表
       commentTXT: '', // 评论栏（被评论人姓名及id）
       input_txt: '', // 输入框内容
+      btnShow: false,
       user_info: {}, // 登录用户的信息
       comment_info: {
         comment: '', // 评论内容
@@ -73,6 +78,9 @@ export default {
 
     this.setStorage();
     this.checkLike();
+  },
+  components:{
+    // vEditDiv
   },
   mounted() {
     /*使评价图片显示正方形*/
@@ -210,7 +218,6 @@ export default {
       }
 
     },
-
     /*判断APP是否登录*/
     async setStorage() {
       let datetime = common.getQueryString("datetime");
@@ -226,6 +233,10 @@ export default {
         $.cookie(keyConf.qm_cookie, "");
       }
     },
+    setIconShow($event){
+      this.input_txt = $event.target.innerText;
+      this.btnShow = true;
+    }
   },
   filters: {
     uesrImg(item) {
@@ -246,7 +257,7 @@ export default {
         return imgUrl;
       return "http://pic.qiaocat.com/upload/" + imgUrl;
     },
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -374,28 +385,33 @@ export default {
     }
     /*我有话说*/
     .word_btn {
-      @include wh(100%,
-      3rem);
+      // @include wh(100%,3rem);
+      width: 100%;
       border: 0.05rem solid #bbb;
       border-radius: 0.4rem;
-      line-height: 3rem;
+      // line-height: 3rem;
       text-align: left;
       cursor: pointer;
       margin-top: 1rem;
       padding-left: 3.3rem;
+      padding-top: .3rem;
       background: url('/static/icon/discovery/find_icon_comment.png') 0.8rem 0.5rem/1.8rem no-repeat;
       .submit-msg {
-        position: relative;
+        // position: relative;
         width: 100%;
         #comment_t {
-          width: 100%;
-          height: 100%;
+          resize:none;
+          word-break:break-all;
+          overflow: auto;
+          width: 80%;
+          max-height:8rem;
+          min-height: 100%;
           @include sc(1.4rem,
           #000);
         }
         #submit_btn {
           position: absolute;
-          top: 0.3rem;
+          bottom: 0.1rem;
           right: 0.5rem;
           padding: 0 0.8rem;
           height: 2.2rem;

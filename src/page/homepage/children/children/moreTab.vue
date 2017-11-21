@@ -2,6 +2,7 @@
 <div class="more-tab">
   <div class="title">
     {{title}}
+    <div class="subTitle">{{subTitle}}</div>
     <router-link :to="to" class="more-img"></router-link>
   </div>
   <div class="items">
@@ -32,6 +33,10 @@ export default {
       type: String,
       default: "推荐化妆"
     },
+    subTitle:{
+      type: String,
+      default: ''
+    },
     list: {
       type: Array,
       default: []
@@ -48,19 +53,22 @@ export default {
 .more-tab {
   background-color: #fff;
   margin-top: 1rem;
-  padding: 2rem 0 0 1.5rem;
+  padding: 1.6rem 0 0 1.5rem;
   .title {
     position: relative;
     font-size: 1.7rem;
-    line-height: 1.4rem;
-    padding-bottom: 1.5rem;
+    .subTitle{
+      font-size: 1rem;
+      padding:0 .5rem 1rem;
+      color: #666;
+    }
     .more-img {
       position: absolute;
       background-image: url("../../../../assets/image/icon/all/home_icon_more.png");
       background-size: contain;
       background-repeat: no-repeat;
       right: 1.5rem;
-      top: 32%;
+      top:46%;
       transform: translateY(-50%);
       @include wh(4.2rem, 1.15rem);
       padding: 1rem;

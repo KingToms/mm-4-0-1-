@@ -102,9 +102,9 @@
         </div>
       </div>
     </div>
-    <more-tab :title="`推荐化妆`" :list="resData.type_1" :to="`/home/makeup/1/化妆`"></more-tab>
-    <more-tab :title="`推荐美睫`" :list="resData.type_64" :to="`/home/makeup/64/美睫`"></more-tab>
-    <more-tab :title="`推荐半永久`" :list="resData.type_128" :to="`/home/makeup/128/半永久`"></more-tab>
+    <more-tab :title="`化妆`" :subTitle="`看脸时代，颜值UP`" :list="resData.type_1" :to="`/home/makeup/1/化妆`"></more-tab>
+    <more-tab :title="`美睫`" :subTitle="`C喱C喱，看我翘睫毛`" :list="resData.type_64" :to="`/home/makeup/64/美睫`"></more-tab>
+    <more-tab :title="`半永久`" :subTitle="`手残星人 GET`" :list="resData.type_128" :to="`/home/makeup/128/半永久`"></more-tab>
     <!-- 底部提示 -->
     <div class="footer-tip">
       <p>——&nbsp;&nbsp; 人家是有底线的 &nbsp;&nbsp; ——</p>
@@ -369,7 +369,7 @@ export default {
           }
           .mys-level{
             position: absolute;
-            bottom: .8rem;
+            bottom: .3rem;
             left: 50%;
             transform: translateX(-50%);
             line-height: 1.3rem;
