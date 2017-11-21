@@ -38,6 +38,7 @@ export default {
     },
     // crm登录验证
     async getCRMQuery(){
+      console.log('test');
       let uid = common.getQueryString("uid");
       let code = common.getQueryString("code");
       if(uid && code){
