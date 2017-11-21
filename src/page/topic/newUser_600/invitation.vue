@@ -2,11 +2,15 @@
   <div class="invitation">
     <span id="differentShare" :data="JSON.stringify(shareData)" style="display: none"></span>
 
-    <a class="sendgift" href="http://mmtest.qiaocat.com/topic-sendgift">免费领好礼</a>
+    <a class="sendgift" href="/topic-sendgift">免费领好礼</a>
     <img src="/static/topic/giftGiving_1111/receive.jpg" alt="邀请好友获得600元现金券">
   </div>
 </template>
 <script>
+import keyConf from "../../../common/keyConf";
+import { userIsLogin, authToken } from "@/service/getData";
+import { setStore, getStore, storage_custom } from "../../../common/store";
+import common from "../../../common/common";
 export default {
   name: "invitation",
   data() {
@@ -22,12 +26,27 @@ export default {
   },
   created() {
     // this.is_weixn_qq();
+    this.setStorage();
     this.shareWechat(); // 微信分享
   },
   mounted() {
     // console.log(JSON.parse(document.getElementById("differentShare").getAttribute("data")).link);
   },
   methods: {
+    async setStorage() {
+      let datetime = common.getQueryString("datetime");
+      let app = common.getQueryString("app");
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          : $.cookie(keyConf.qm_cookie, "");
+        storage_custom.set(keyConf.token, datetime);
+      } else if (!datetime && app) {
+        storage_custom.set(keyConf.token, "");
+        $.cookie(keyConf.qm_cookie, "");
+      }
+    },
     // 判断是否在微信QQ端打开
     is_weixn_qq() {
       var ua = navigator.userAgent.toLowerCase();
