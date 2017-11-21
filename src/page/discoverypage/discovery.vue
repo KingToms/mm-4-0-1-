@@ -106,6 +106,8 @@ export default {
   @include wh(100%, 100%);
   /* @include bgColor(#f3f3f3);*/
   padding-bottom: 50px;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
   .dis-header {
     @include wh(100%, 4rem);
   }

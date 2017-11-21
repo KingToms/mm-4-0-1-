@@ -283,7 +283,8 @@ export default {
       img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        // border-radius: 50%;
+        @include borderRadius(50%);
         vertical-align: middle;
       }
     }
@@ -317,8 +318,9 @@ export default {
       img {
         display: block;
         width: 100%;
-        opacity: 0; // @include borderRadius(0.4rem);
-        border-radius: 0.4rem;
+        opacity: 0;
+        // border-radius: 0.4rem;
+        @include borderRadius(0.4rem);
       }
     }
 
@@ -327,7 +329,8 @@ export default {
       background-color: #EEEEEE;
       height: 5rem;
       margin-top: 0.6rem;
-      border-radius: 0.4rem;
+      // border-radius: 0.4rem;
+      @include borderRadius(0.4rem);
       a {
         display: block;
         width: 100%;
@@ -418,7 +421,8 @@ export default {
           height: 2.2rem;
           line-height: 2.2rem;
           text-align: center;
-          border-radius: 0.4rem;
+          // border-radius: 0.4rem;
+          @include borderRadius(0.4rem);
           color: #fff;
           background-color: #E70034;
           cursor: pointer;
