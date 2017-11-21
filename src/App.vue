@@ -43,7 +43,8 @@ export default {
       let code = common.getQueryString("code");
       if(uid && code){
         let res = await authCRMToken({uid: uid, code: code});
-        res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
+        if(res.status == 'ok') $.cookie(keyConf.qm_cookie, uid);
+        // res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
       }
     }
   }
