@@ -33,7 +33,7 @@
       <div class="word_btn">
         <div class="submit-msg">
           <!-- <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说"> -->
-          <textarea id="comment_t" type="text" v-text="input_txt" v-model="input_txt" @focus="setIconShow" placeholder="我有话说"></textarea>
+          <textarea id="comment_t" type="text" v-text="input_txt" v-model="input_txt" @focus="setIconShow" placeholder="我有话说" @blur="setFooterShow"></textarea>
           <!-- <div id="comment_t" contenteditable="true" v-text="input_txt" @focus="setIconShow" @blur="input_txt = $event.target.innerText"></div> -->
           <!-- <v-edit-div id="comment_t" v-model="input_txt" :value="input_txt" @input="setIconShow"></v-edit-div> -->
           <input id="submit_btn" type="button" value="发送" v-show="input_txt" @click="sendMsg($event)">
@@ -237,6 +237,13 @@ export default {
       // this.input_txt = this.history_txt && this.history_txt.length > 0 ? this.history_txt : $event.target.innerText;
       this.input_txt = $event.target.innerText;
       this.btnShow = true;
+      this.showHeaderFooter();
+    },
+    showHeaderFooter(){
+      $('.footer').hide();
+    },
+    setFooterShow(){
+      $('.footer').show();
     }
   },
   filters: {

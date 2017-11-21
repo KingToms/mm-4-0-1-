@@ -10,23 +10,37 @@
 import keyConf from './common/keyConf.js';
 import { storage_custom } from './common/store.js';
 import common from './common/common.js';
+import { authToken, authCRMToken } from './service/getData';
 export default {
   name: 'app',
   data () {
     return {}
   },
   created(){
-    // this.setStorage(); 
+    this.setStorage(); 
   },
   methods: {
-    setStorage(){
-      let datetime = common.getQueryString('datetime');
-      let app = common.getQueryString('app');
-      if(datetime && app){
+    // app登录验证
+    async setStorage() {
+      let datetime = common.getQueryString("datetime");
+      let app = common.getQueryString("app");
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          : $.cookie(keyConf.qm_cookie, "");
         storage_custom.set(keyConf.token, datetime);
-      }else if(!datetime && app){
-        storage_custom.set(keyConf.token, '');
-        $.cookie(keyConf.qm_cookie, '');
+      } else if (!datetime && app) {
+        storage_custom.set(keyConf.token, "");
+        $.cookie(keyConf.qm_cookie, "");
+      }
+    },
+    // crm登录验证
+    async getCRMQuery(){
+      let uid = common.getQueryString("uid");
+      let code = common.getQueryString("code");
+      if(uid && code){
+        let res = await authCRMToken({uid: uid, code: code});
       }
     }
   }

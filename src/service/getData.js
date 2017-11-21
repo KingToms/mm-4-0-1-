@@ -154,3 +154,5 @@ export const getConfigData = (data) => fetch(`/mon/mon_config_order_status`, dat
 export const getjson = () => fetch(`/mon/mon_config_product`, {}, 'POST')
 
 export const authToken = (data) => fetch(`/mon/mon_token_login`, data, 'POST')
+
+export const authCRMToken = (data) => fetch(`/mon/mon_crm_token`, data, 'POST')
