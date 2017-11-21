@@ -17,7 +17,7 @@ export default {
     return {}
   },
   created(){
-    this.getCRMQuery();
+    // this.getCRMQuery();
     this.setStorage(); 
   },
   methods: {
