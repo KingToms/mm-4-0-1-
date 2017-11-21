@@ -29,15 +29,6 @@ export default {
         storage_custom.set(keyConf.token, '');
         $.cookie(keyConf.qm_cookie, '');
       }
-    },
-    // crm登录验证
-    async getCRMQuery(){
-      let uid = common.getQueryString("uid");
-      let code = common.getQueryString("code");
-      if(uid && code){
-        let res = await authCRMToken({uid: uid, code: code});
-        res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
-      }
     }
   }
 }

@@ -7,7 +7,11 @@
 </div>
 </template>
 <script>
-import VFooter from '../components/common/footer'
+import VFooter from '../components/common/footer';
+import keyConf from '../common/keyConf';
+import { storage_custom } from '../common/store.js';
+import common from '../common/common.js';
+import { authCRMToken } from '../service/getData';
 export default {
   name: 'index',
   data () {
@@ -24,6 +28,16 @@ export default {
       query = query ? query : {}
       if(query.app == 'ios' || query.app == 'android'){
         this.hideFooterHeader = false
+      }
+    },
+    // crm登录验证
+    async getCRMQuery(){
+      let uid = common.getQueryString("uid");
+      let code = common.getQueryString("code");
+      if(uid && code){
+        let res = await authCRMToken({uid: uid, code: code});
+        if(res.status == 'ok') $.cookie(keyConf.qm_cookie, uid);
+        // res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
       }
     }
   },
