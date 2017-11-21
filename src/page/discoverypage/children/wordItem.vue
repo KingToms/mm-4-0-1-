@@ -36,7 +36,7 @@
           <textarea id="comment_t" type="text" v-text="input_txt" v-model="input_txt" @focus="setIconShow" placeholder="我有话说"></textarea>
           <!-- <div id="comment_t" contenteditable="true" v-text="input_txt" @focus="setIconShow" @blur="input_txt = $event.target.innerText"></div> -->
           <!-- <v-edit-div id="comment_t" v-model="input_txt" :value="input_txt" @input="setIconShow"></v-edit-div> -->
-          <input id="submit_btn" type="button" value="发送" v-show="btnShow" @click="sendMsg($event)">
+          <input id="submit_btn" type="button" value="发送" v-show="input_txt" @click="sendMsg($event)">
         </div>
       </div>
     </div>
@@ -58,7 +58,6 @@ export default {
       comments_list: [], // 评论列表
       commentTXT: '', // 评论栏（被评论人姓名及id）
       input_txt: '', // 输入框内容
-      btnShow: false,
       user_info: {}, // 登录用户的信息
       comment_info: {
         comment: '', // 评论内容
@@ -209,6 +208,7 @@ export default {
         if (resData.status == "ok") { // 评论成功
           this.comments_list.push(this.comment_info);
           this.input_txt = ''; // 清空输入框
+          this.history_txt = '';
           if(this.commentTXT){ // 回复别人成功后，回复默认值
             this.commentTXT.attr("placeholder","我有话说");
             this.commentTXT.data("replyed_id","");
@@ -234,6 +234,7 @@ export default {
       }
     },
     setIconShow($event){
+      // this.input_txt = this.history_txt && this.history_txt.length > 0 ? this.history_txt : $event.target.innerText;
       this.input_txt = $event.target.innerText;
       this.btnShow = true;
     }
