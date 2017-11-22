@@ -33,7 +33,7 @@
       <div class="word_btn">
         <div class="submit-msg">
           <!-- <input id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" @blur="setIconHide" placeholder="我有话说"> -->
-          <textarea id="comment_t" type="text" v-text="input_txt" v-model="input_txt" @focus="setIconShow" placeholder="我有话说" @blur="setFooterShow"></textarea>
+          <textarea id="comment_t" type="text" v-model="input_txt" @focus="setIconShow" placeholder="我有话说" @blur="setFooterShow"></textarea>
           <!-- <div id="comment_t" contenteditable="true" v-text="input_txt" @focus="setIconShow" @blur="input_txt = $event.target.innerText"></div> -->
           <!-- <v-edit-div id="comment_t" v-model="input_txt" :value="input_txt" @input="setIconShow"></v-edit-div> -->
           <input id="submit_btn" type="button" value="发送" v-show="input_txt" @click="sendMsg($event)">
@@ -48,6 +48,8 @@ import keyConf from "../../../common/keyConf"
 import common from "../../../common/common"
 import { storage_custom } from "../../../common/store"
 import { userIsLogin, authToken, foundDzpl } from '../../../service/getData';
+import { Toast } from 'mint-ui';
+import '../../../../node_modules/mint-ui/lib/toast/style.css';
 // import vEditDiv from '../../../components/common/editDiv';
 export default {
   name: "wordItem",
@@ -192,29 +194,39 @@ export default {
         this.comment_info.type = '2'; // 类型 1:点赞、 2:评论
         this.comment_info.reply_id = ''; // 评论人id(后端自动获取)
         this.comment_info.reply_name = this.user_info.user_name; // 评论人姓名
-        this.comment_info.comment = this.input_txt; // 输入框内容
+        this.comment_info.comment = $.trim(this.input_txt); // 输入框内容(去除前后空格)
         this.comment_info.replyed_id = this.commentTXT ? this.commentTXT.data("replyed_id") : ''; // 被评论人id
         this.comment_info.replyed_name = this.commentTXT ? this.commentTXT.data("replyed_name") : ''; // 被评论人姓名
         
-        let resData = await foundDzpl({
-          comment_id: this.comment_info.comment_id,
-          type: this.comment_info.type,
-          reply_id: this.comment_info.reply_id,
-          reply_name: this.comment_info.reply_name,
-          replyed_id: this.comment_info.replyed_id,
-          replyed_name: this.comment_info.replyed_name,
-          comment: this.comment_info.comment,
-        });
-        if (resData.status == "ok") { // 评论成功
-          this.comments_list.push(this.comment_info);
-          this.input_txt = ''; // 清空输入框
-          this.history_txt = '';
-          if(this.commentTXT){ // 回复别人成功后，回复默认值
-            this.commentTXT.attr("placeholder","我有话说");
-            this.commentTXT.data("replyed_id","");
-            this.commentTXT.data("replyed_name","");
+        if(this.comment_info.comment && this.comment_info.comment.length > 0){ // 发送内容不为空
+          let resData = await foundDzpl({
+            comment_id: this.comment_info.comment_id,
+            type: this.comment_info.type,
+            reply_id: this.comment_info.reply_id,
+            reply_name: this.comment_info.reply_name,
+            replyed_id: this.comment_info.replyed_id,
+            replyed_name: this.comment_info.replyed_name,
+            comment: this.comment_info.comment,
+          });
+          if (resData.status == "ok") { // 评论成功
+            this.comments_list.push(this.comment_info);
+            this.input_txt = ''; // 清空输入框
+            this.history_txt = '';
+            if(this.commentTXT){ // 回复别人成功后，回复默认值
+              this.commentTXT.attr("placeholder","我有话说");
+              this.commentTXT.data("replyed_id","");
+              this.commentTXT.data("replyed_name","");
+            }
+            this.comment_info = {}; // 发送成功后,回复默认
           }
-          this.comment_info = {}; // 发送成功后,回复默认
+
+        }else { // 发送内容为空
+          Toast({
+            message: '评论内容不能为空',
+            duration: 1000,
+            className: 'toast-tip'
+          });
+          this.input_txt = '';
         }
       }
 
@@ -423,7 +435,7 @@ export default {
         }
         #submit_btn {
           position: absolute;
-          bottom: 0.1rem;
+          bottom: 0.4rem;
           right: 0.5rem;
           padding: 0 0.8rem;
           height: 2.2rem;
