@@ -49,7 +49,7 @@
     </section>
     <!--购物车列表-->
     <section>
-      <shopping-cart class="bottom-cart" v-show="isbg" :topicCart="topicCart" :fromAd="from_ad" :discount="discount" :isDiscount="isDiscount" :count="count" :totalPrice="totalPrice" :products="carts" @hiddenCart="hiddenCart" @delProducts="delProducts"></shopping-cart>
+      <shopping-cart class="bottom-cart" v-show="isbg" :topicCart="topicCart" :fromAd="from_ad" :discount="discount" :isDiscount="isDiscount" :isReduce="isReduce" :count="count" :totalPrice="totalPrice" :products="carts" @hiddenCart="hiddenCart" @delProducts="delProducts"></shopping-cart>
     </section>
 
     <!--分享信息-->
@@ -78,14 +78,15 @@ export default {
       discount: 10, //折扣
       totalPrice: 0, //总价格
       topicCart: "thanksgivingCart", //购物车列表
-      isDiscount: false, //是否进行折扣
+      isDiscount: false, //不进行折扣
+      isReduce: true, // 满减优惠（感恩节专题：满2件减50元）
       learn_more: true, //美丽知多点--查看更多
 
       shareData: { // APP分享
-        title: '【感恩节】 有礼',
-        desc: '除了感谢别人，别忘了感谢自己。忙了一年，记得给自己奖励~',
+        title: '感谢努力变美的自己',
+        desc: '爱自己要实在一些，俏猫美睫感恩节特惠专场在等你！',
         link: 'http://mm.qiaocat.com/topic-thanksgiving-2017',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/thanksgiving_2017/share.jpg'
+        imgUrl: 'http://mm.qiaocat.com/static/topic/thanksgiving_2017/1.jpg'
       },
     };
   },
@@ -108,7 +109,11 @@ export default {
         ) {
           window.location.href = `/login?action=login`;
         } else {
-          alert("未登录");
+          Toast({
+            message: '未登录',
+            duration: 1500,
+            className: 'toast-tip'
+          });
           let baseUrl = this.plid
             ? `/login?url=/topic-thanksgiving-2017?plid=${this.plid}`
             : `/login?url=/topic-thanksgiving-2017`;
@@ -118,7 +123,7 @@ export default {
         this.carts = this.carts ? this.carts : [];
         this.addProducts(proid);
         setStore(this.topicCart, this.carts);
-        this.filterDiscount();
+        // this.filterDiscount();
         console.log(this.discount);
         Toast({
           message: '加入购物车成功',
@@ -184,7 +189,7 @@ export default {
         this.count += item.num * 1;
       });
     },
-    /*两款立减50元*/
+    /*打折*/
     filterDiscount() {
       if (this.count >= 2) {
 
@@ -215,10 +220,10 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "【感恩节】 有礼",
-          "除了感谢别人，别忘了感谢自己。忙了一年，记得给自己奖励~",
+          "感谢努力变美的自己",
+          "爱自己要实在一些，俏猫美睫感恩节特惠专场在等你！",
           "http://mm.qiaocat.com/topic-thanksgiving-2017",
-          "http://mm.qiaocat.com/static/topic/thanksgiving_2017/share.jpg"
+          "http://mm.qiaocat.com/static/topic/thanksgiving_2017/1.jpg"
         );
       });
     },
@@ -328,7 +333,7 @@ export default {
     .cart {
       width: 100%;
       height: 100%;
-      background-image: url("/static/topic/doubleEleven_1111/shop_cart/shopping_car.png");
+      background-image: url("/static/topic/thanksgiving_2017/shopping_car.png");
       background-size: contain;
     }
     .num {

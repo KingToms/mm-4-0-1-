@@ -27,10 +27,13 @@
     <div class="bottom-total">
       <div class="tip" v-if="count <= 10 && isDiscount">{{count}}人团购享受{{discount}}折</div>
       <div class="tip" v-if="count > 10 && isDiscount">10人以上团单请致电客服电话: <a href="tel:4008335138">400-8335-138</a></div>
+      <div class="tip_reduce" v-if="isReduce">任意两款一起下单立减50元</div>
       <div class="total">
         <span class="f18">合计:</span>
-        <span class="f18">￥{{ isDiscount ? this.totalPrice * discount / 10 : this.totalPrice}}</span>
+        <span class="f18" v-if="!isReduce">￥{{ isDiscount ? totalPrice * discount / 10 : totalPrice}}</span>
+        <span class="f18" v-if="isReduce">￥{{ count >=2 ? (totalPrice - 50) : totalPrice}}</span>
         <del v-if="isDiscount">￥{{totalPrice}}</del>
+        <span class="f_reduce" v-if="isReduce && count >=2">(已减50元)</span>
         <span class="btn-order" @click="order">马上下单</span>
       </div>
     </div>
@@ -84,6 +87,10 @@ export default {
     fromAd: {
       default: '',
       type: String
+    },
+    isReduce: {
+      default: false,
+      type: Boolean
     }
   },
   methods: {
@@ -117,6 +124,7 @@ export default {
       this.count--;
       this.$emit("delProducts", this.products);
       if(this.isDiscount) this.filterDiscount();
+      console.log("this.count:",this.count,";isReduce:",this.isReduce);
       // setStore(this.topicCart, this.products);
     },
     addProductByOne(proid) {
@@ -184,7 +192,7 @@ export default {
       }else{
         this.discount = 10;
       }
-    }
+    },
   }
 };
 </script>
@@ -228,6 +236,15 @@ export default {
         color: #999;
       }
     }
+    // 满减优惠
+    .tip_reduce {
+      padding-left: 1.5rem;
+      height: 3rem;
+      font-size: 1.3rem;
+      color: #333;
+      line-height: 3rem;
+      background-color: #e2e2e2;
+    }
     .total {
       position: relative;
       border-top: 0.05rem solid #ccc;
@@ -238,17 +255,23 @@ export default {
         #be0407);
       }
       span:nth-of-type(2) {
-        padding-left: 1rem;
+        padding-left: 0.5rem;
       }
       del:nth-of-type(1) {
         padding-left: 1rem;
         @include sc(1.5rem,
         #999);
       }
+      // 满减优惠：已减50元
+      span.f_reduce {
+        font-size: 1.4rem;
+        color: #999;
+      }
       span.btn-order {
         position: absolute;
         right: 0;
-        width: 13.5rem;
+        // width: 13.5rem;
+        width: 40%;
         height: 5.1rem;
         background-color: #be0407;
         @include sc(2rem,

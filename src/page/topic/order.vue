@@ -438,8 +438,10 @@ export default {
       });
       this.totalPrice = this.total;
 
-      if(this.$route.query.from_ad !="topic_doubleEleven2017"){ // 双十一美妆狂欢节专题不打折
+      if(this.$route.query.from_ad =="topic_halloween2017"){ // 双十一美妆狂欢节专题不打折
         this.filterDiscount();
+      }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
+        this.total = this.proids.length >=2 ? (this.total - 50) : this.total;
       }
 
     },
@@ -1023,6 +1025,15 @@ export default {
             center,
             center,
             no-repeat);
+          }
+        }
+      }
+      li.last-child {
+        .right {
+          .select {
+            position: relative;
+            top: 1.1rem;
+            right: 1.5rem;
           }
         }
       }

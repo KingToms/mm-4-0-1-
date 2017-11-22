@@ -42,8 +42,8 @@ export const halloweenData = {
   /**
   *美睫感恩节专题
   */
-  1000508: {id: '1000508', name: '持久迷人，省时必备', price: '388', img: '/static/topic/thanksgiving_2017/img-1.jpg'},
-  1000107: {id: '1000107', name: '大眼含笑，无辜动人', price: '388', img: '/static/topic/thanksgiving_2017/img-7.jpg'},
-  1000373: {id: '1000373', name: '双眼灵气，仙气满满', price: '388', img: '/static/topic/thanksgiving_2017/img-4.jpg'},
-  1000205: {id: '1000205', name: '无需化妆，清纯魅惑', price: '388', img: '/static/topic/thanksgiving_2017/img-10.jpg'},
+  1000508: {id: '1000508', name: '持久迷人，省时必备', price: '388', img: '/static/topic/thanksgiving_2017/3_1.jpg'},
+  1000107: {id: '1000107', name: '大眼含笑，无辜动人', price: '388', img: '/static/topic/thanksgiving_2017/4_1.jpg'},
+  1000373: {id: '1000373', name: '双眼灵气，仙气满满', price: '388', img: '/static/topic/thanksgiving_2017/5_1.jpg'},
+  1000205: {id: '1000205', name: '无需化妆，清纯魅惑', price: '388', img: '/static/topic/thanksgiving_2017/6_1.jpg'},
 };
