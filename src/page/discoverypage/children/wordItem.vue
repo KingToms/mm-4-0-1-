@@ -22,7 +22,7 @@
         <span class="praise" :class="{'praised': praise_state}" @click="addLike($event, item)">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
       <div class="comments">
-        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item)" v-show="item.comment">
+        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item)">
           <span class="normal">{{item.reply_name}}</span>
           <i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复
             <span class="normal">{{item.replyed_name}}</span>
