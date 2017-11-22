@@ -86,7 +86,7 @@ export default {
         title: '感谢努力变美的自己',
         desc: '爱自己要实在一些，俏猫美睫感恩节特惠专场在等你！',
         link: 'http://mm.qiaocat.com/topic-thanksgiving-2017',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/thanksgiving_2017/1.jpg'
+        imgUrl: 'http://mm.qiaocat.com/static/topic/thanksgiving_2017/share.jpg'
       },
     };
   },
@@ -223,7 +223,7 @@ export default {
           "感谢努力变美的自己",
           "爱自己要实在一些，俏猫美睫感恩节特惠专场在等你！",
           "http://mm.qiaocat.com/topic-thanksgiving-2017",
-          "http://mm.qiaocat.com/static/topic/thanksgiving_2017/1.jpg"
+          "http://mm.qiaocat.com/static/topic/thanksgiving_2017/share.jpg"
         );
       });
     },
