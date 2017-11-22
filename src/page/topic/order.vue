@@ -357,12 +357,13 @@ export default {
         return
       this.page = page;
       this.title = title;
+
       if (this.isBalance && this.confirmOrder.amount) {
-        this.total = this.totalPrice - this.confirmOrder.amount - this.user_info.balance;
+        this.total = this.total - this.confirmOrder.amount - this.user_info.balance;
         this.total = this.total < 0 ? 0 : this.total;
       } else {
-        if (this.confirmOrder.amount);
-        this.total = this.totalPrice - this.confirmOrder.amount;
+        if (this.confirmOrder.amount)
+        this.total = this.total - this.confirmOrder.amount;
       }
     },
     back() {
@@ -441,7 +442,7 @@ export default {
       if(this.$route.query.from_ad =="topic_halloween2017"){ // 双十一美妆狂欢节专题不打折
         this.filterDiscount();
       }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
-        this.total = this.proids.length >=2 ? (this.total - 50) : this.total;
+        this.total = this.proids.length >=2 ? (this.totalPrice - 50) : this.totalPrice;
       }
 
     },
