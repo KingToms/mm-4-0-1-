@@ -7,8 +7,8 @@
 </div>
 </template>
 <script>
-import VFooter from '../components/common/footer'
-import keyConf from '../common/keyConf.js';
+import VFooter from '../components/common/footer';
+import keyConf from '../common/keyConf';
 import { storage_custom } from '../common/store.js';
 import common from '../common/common.js';
 import { authCRMToken } from '../service/getData';
@@ -26,6 +26,9 @@ export default {
   mounted(){
     this.getCRMQuery();
   },
+  mounted(){
+    this.getCRMQuery();
+  },
   methods:{
     showHeaderFooter(){
       let query = this.$route.query
@@ -33,7 +36,8 @@ export default {
       if(query.app == 'ios' || query.app == 'android'){
         this.hideFooterHeader = false
       }
-    },// crm登录验证
+    },
+    // crm登录验证
     async getCRMQuery(){
       let uid = common.getQueryString("uid");
       let code = common.getQueryString("code");
