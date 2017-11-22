@@ -22,7 +22,7 @@
         <span class="praise" :class="{'praised': praise_state}" @click="addLike($event, item)">{{item.dianzan ? item.dianzan : '0'}}</span>
       </div>
       <div class="comments">
-        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item)">
+        <p class="word" v-for="(item, index) in comments_list" :key="index" @click="sendReply($event,item)" v-show="item.comment">
           <span class="normal">{{item.reply_name}}</span>
           <i class="normal" v-if="item.replyed_name && item.replyed_name.length >0"> 回复
             <span class="normal">{{item.replyed_name}}</span>
@@ -214,6 +214,7 @@ export default {
             this.commentTXT.data("replyed_id","");
             this.commentTXT.data("replyed_name","");
           }
+          this.comment_info = {}; // 发送成功后,回复默认
         }
       }
 
@@ -235,7 +236,7 @@ export default {
     },
     setIconShow($event){
       // this.input_txt = this.history_txt && this.history_txt.length > 0 ? this.history_txt : $event.target.innerText;
-      this.input_txt = $event.target.innerText;
+      // this.input_txt = $event.target.innerText;
       this.btnShow = true;
       this.showHeaderFooter();
     },
