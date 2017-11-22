@@ -665,6 +665,7 @@ export default {
     bottom: 0;
     @include wh(100%,5rem);
     @include bgColor(#fff);
+    z-index: 2;
     // line-height: 5rem;
     a{
       margin-right: 1.5rem;
