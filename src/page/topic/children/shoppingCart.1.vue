@@ -41,6 +41,8 @@ import { userIsLogin } from "@/service/getData";
 import { setStore, getStore, storage_custom } from "../../../common/store";
 import common from '../../../common/common';
 import keyConf from "../../../common/keyConf";
+import { Toast } from 'mint-ui';
+import '../../../../node_modules/mint-ui/lib/toast/style.css';
 export default {
   name: "shoopingCart",
   data() {
@@ -137,7 +139,12 @@ export default {
     },
     order() {
       if (this.count < 1) {
-        alert("先去添加商品吧~");
+        // alert("先去添加商品吧~");
+        Toast({
+          message: '先去添加商品吧~',
+          duration: 1000,
+          className: 'toast-tip'
+        });
         return;
       }
       // 判断是否登录才能下单

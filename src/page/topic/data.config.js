@@ -38,4 +38,12 @@ export const halloweenData = {
   1000197: {id: '1000197', type: '3', name: '深邃明眸自然隐形美瞳线', price: '1580', img: '/static/topic/doubleEleven_1111/semi_permanent/semi_permanent-2.jpg'},
   1000201: {id: '1000201', type: '3', name: '立体丰盈性感美唇', price: '3580', img: '/static/topic/doubleEleven_1111/semi_permanent/semi_permanent-3.jpg'},
   1000268: {id: '1000268', type: '3', name: '私人订制自然水雾落尾眉', price: '3580', img: '/static/topic/doubleEleven_1111/semi_permanent/semi_permanent-4.jpg'},
+
+  /**
+  *美睫感恩节专题
+  */
+  1000508: {id: '1000508', name: '持久迷人，省时必备', price: '388', img: '/static/topic/thanksgiving_2017/img-1.jpg'},
+  1000107: {id: '1000107', name: '大眼含笑，无辜动人', price: '388', img: '/static/topic/thanksgiving_2017/img-7.jpg'},
+  1000373: {id: '1000373', name: '双眼灵气，仙气满满', price: '388', img: '/static/topic/thanksgiving_2017/img-4.jpg'},
+  1000205: {id: '1000205', name: '无需化妆，清纯魅惑', price: '388', img: '/static/topic/thanksgiving_2017/img-10.jpg'},
 };
