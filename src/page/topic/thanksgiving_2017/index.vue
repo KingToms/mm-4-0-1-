@@ -103,10 +103,9 @@ export default {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == "error") {
-        if (
-          common.getQueryString("app") == "ios" ||
-          common.getQueryString("app") == "android"
-        ) {
+        if (common.getQueryString("app") == "ios") {
+          window.location.href = `/login/login?action=login`;
+        }else if(common.getQueryString("app") == "android"){
           window.location.href = `/login?action=login`;
         } else {
           Toast({
