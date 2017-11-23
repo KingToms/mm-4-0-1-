@@ -1,8 +1,8 @@
 <template>
 	<div class="login">
     <l-Header :title="title"></l-Header>
-    <VAuthLogin ref="authLogin" v-show="method" :channel="channel" :from="from"></VAuthLogin>
-    <VPwdLogin v-show="!method" ref="pwdLogin" :channel="channel" :from="from"></VPwdLogin>
+    <VAuthLogin ref="authLogin" v-show="method" :channel="channel"></VAuthLogin>
+    <VPwdLogin v-show="!method" ref="pwdLogin" :channel="channel"></VPwdLogin>
     <div class="login-container">
       <input type="button" value="登录" @click="login">
     </div>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="register">
-      <router-link :to="`/register?plid=${channel}&from=${from}`">一 注册 一</router-link>
+      <router-link :to="`/register?plid=${channel}&url=${this.$route.query.url}`">一 注册 一</router-link>
     </div>
     <div class="footer">
       <span class="out-text">登录/注册即表示您同意<router-link to="/statement" class="text">《俏猫用户协议》</router-link></span>
@@ -45,7 +45,6 @@ export default {
       loginWay: false,
       showText: '',
       channel: '',
-      from: '', // 专题新增
     }
   },
   methods: {
@@ -76,7 +75,6 @@ export default {
     if(this.$route.query.url){
       parames = this.getUrlParam(this.$route.query.url);
       this.channel = parames['plid'];
-      this.from = parames['from'];
     }
   },
   components: {

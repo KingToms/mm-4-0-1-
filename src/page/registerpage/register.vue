@@ -45,7 +45,6 @@
         pwd: '',
         code: '',
         plid: '', //推广链接表ID
-        from: '', //推广链接来源（微博、微信、QQ等）
         showAlert: false, //显示提示组件
         alertText: null, //提示的内容
         showText: null,
@@ -81,12 +80,15 @@
           return
         }
         this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-        this.from = common.getQueryString("from") ? common.getQueryString("from") : "";
-        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid, from: this.from})
+        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid})
 
         if(result.status == 'ok'){
           alert('注册成功')
-          this.$router.push('/login')
+          if(this.$route.query.url){ // 一般从专题进来，返回原来的入口页面
+            this.$router.push(this.$route.query.url)
+          }else{
+            this.$router.push('/login')
+          }
         }
         else
           alert(result.msg)
