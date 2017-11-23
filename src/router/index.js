@@ -151,6 +151,8 @@ const lineUp_001 = r => require.ensure([], () => r(require('@/page/topic/makeup0
 const doubleEleven = r => require.ensure([], () => r(require('@/page/topic/doubleEleven_1111/index')), 'double-eleven');
 // 双11俏猫邀你领好礼
 const sendGift = r => require.ensure([], () => r(require('@/page/topic/giftGiving_1111/index')), 'send_gift');
+// 2017感恩节专题
+const Thanksgiving_2017 = r => require.ensure([], () => r(require('@/page/topic/thanksgiving_2017/index')), 'thanksgiving_2017');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -535,6 +537,10 @@ const router = new Router({
         {
           path: '/topic-new-user-600',
           component: NewUser_600
+        },
+        {
+          path: '/topic-thanksgiving-2017',
+          component: Thanksgiving_2017
         },
         {
           // 错误页

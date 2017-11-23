@@ -17,7 +17,7 @@
       
     </div>
     <ul class="bottom">
-      <li><i class="icon">1</i><span>频幕截图</span></li>
+      <li><i class="icon">1</i><span>屏幕截图</span></li>
       <li></li>
       <li><i class="icon">2</i><span>关注“俏猫商城”公众号</span></li>
       <li></li>
@@ -92,8 +92,8 @@ export default {
         p{
           position: absolute;
           top: 42%;
-          left: 44%;
-          @include sc(3.7rem, $themeRed);
+          left: 42%;
+          @include sc(3.5rem, $themeRed);
           small{
             @include sc(1.8rem, $themeRed);
           }
