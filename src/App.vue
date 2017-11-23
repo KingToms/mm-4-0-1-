@@ -18,7 +18,11 @@ export default {
   },
   created(){
     // this.getCRMQuery();
-    this.setStorage(); 
+    let datetime = common.getQueryString("datetime");
+    let app = common.getQueryString("app");
+    if(datetime && app){
+      this.setStorage(); 
+    }
   },
   methods: {
     // app登录验证

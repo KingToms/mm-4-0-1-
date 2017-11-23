@@ -24,7 +24,11 @@ export default {
     this.showHeaderFooter();
   },
   mounted(){
-    this.getCRMQuery();
+    let uid = common.getQueryString("uid");
+    let code = common.getQueryString("code");
+    if(uid && code){
+      this.getCRMQuery();
+    }
   },
   mounted(){
     this.getCRMQuery();
