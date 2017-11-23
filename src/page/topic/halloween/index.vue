@@ -225,7 +225,7 @@ export default {
       if (token) {
         let res = await authToken({ token: token });
         res.status === "ok"
-          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
           : $.cookie(keyConf.qm_cookie, "");
       }
     },
@@ -235,7 +235,7 @@ export default {
       if (datetime && app) {
         let res = await authToken({ token: datetime });
         res.status === "ok"
-          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
           : $.cookie(keyConf.qm_cookie, "");
         storage_custom.set(keyConf.token, datetime);
       } else if (!datetime && app) {

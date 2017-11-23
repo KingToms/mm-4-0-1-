@@ -28,7 +28,7 @@ export default {
       if (datetime && app) {
         let res = await authToken({ token: datetime });
         res.status === "ok"
-          ? $.cookie(keyConf.qm_cookie, res.data.id)
+          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
           : $.cookie(keyConf.qm_cookie, "");
         storage_custom.set(keyConf.token, datetime);
       } else if (!datetime && app) {
@@ -43,7 +43,7 @@ export default {
       let code = common.getQueryString("code");
       if(uid && code){
         let res = await authCRMToken({uid: uid, code: code});
-        if(res.status == 'ok') $.cookie(keyConf.qm_cookie, uid);
+        if(res.status == 'ok') $.cookie(keyConf.qm_cookie, uid, {expires:1, path: '/'});
         // res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
       }
     }
