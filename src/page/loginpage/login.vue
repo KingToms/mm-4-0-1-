@@ -15,7 +15,8 @@
       </div>
     </div>
     <div class="register">
-      <router-link :to="`/register?plid=${channel}&url=${this.$route.query.url}`">一 注册 一</router-link>
+      <router-link :to="`/register?plid=${channel}&url=${this.$route.query.url}`" v-if="this.$route.query.url">一 注册 一</router-link>
+      <router-link :to="`/register?plid=${channel}`" v-else>一 注册 一</router-link>
     </div>
     <div class="footer">
       <span class="out-text">登录/注册即表示您同意<router-link to="/statement" class="text">《俏猫用户协议》</router-link></span>
