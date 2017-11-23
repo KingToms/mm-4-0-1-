@@ -26,7 +26,7 @@ export default {
   },
   created() {
     // this.is_weixn_qq();
-    this.setStorage();
+    // this.setStorage();
     this.shareWechat(); // 微信分享
   },
   mounted() {

@@ -17,7 +17,6 @@ export default {
     return {}
   },
   created(){
-    // this.getCRMQuery();
     let datetime = common.getQueryString("datetime");
     let app = common.getQueryString("app");
     if(datetime && app){
@@ -38,17 +37,6 @@ export default {
       } else if (!datetime && app) {
         storage_custom.set(keyConf.token, "");
         $.cookie(keyConf.qm_cookie, "");
-      }
-    },
-    // crm登录验证
-    async getCRMQuery(){
-      console.log('test');
-      let uid = common.getQueryString("uid");
-      let code = common.getQueryString("code");
-      if(uid && code){
-        let res = await authCRMToken({uid: uid, code: code});
-        if(res.status == 'ok') $.cookie(keyConf.qm_cookie, uid, {expires:1, path: '/'});
-        // res.status == 'ok' ? $.cookie(keyConf.qm_cookie, uid) : $.cookie(keyConf.qm_cookie, "");
       }
     }
   }

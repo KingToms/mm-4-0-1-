@@ -30,9 +30,6 @@ export default {
       this.getCRMQuery();
     }
   },
-  mounted(){
-    this.getCRMQuery();
-  },
   methods:{
     showHeaderFooter(){
       let query = this.$route.query
