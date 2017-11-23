@@ -249,7 +249,8 @@ export default {
         makeup_state: false, // 购物车含化妆类
         eyelash_state: false, // 购物车含美睫类
         semi_state: false, // 购物车含半永久类
-      }
+      },
+      orderTotal: 0,// 订单的初始价格(专题所有)
     }
   },
   created() {
@@ -305,7 +306,7 @@ export default {
       // this.total = this.isBalance ? this.product_info.price - (this.confirmOrder.amount ? this.confirmOrder.amount : 0) - this.userInfo.balance : this.product_info.price - (this.confirmOrder.amount ? this.confirmOrder.amount : 0)
 
       // 选择余额支付
-      this.total = this.isBalance ? this.total - (this.user_info.balance - 0) : this.total + (this.user_info.balance - 0);
+      this.total = this.isBalance ? this.total - (this.user_info.balance - 0) : this.orderTotal;
       this.total = this.total < 0 ? 0 : this.total
     },
     /*专题打折优惠*/
@@ -443,6 +444,7 @@ export default {
         this.filterDiscount();
       }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
         this.total = this.proids.length >=2 ? (this.totalPrice - 50) : this.totalPrice;
+        this.orderTotal = this.total; // 订单的初始价格
       }
 
     },
