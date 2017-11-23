@@ -50,19 +50,21 @@
       <listItem v-for="(item,index) in commend" :key="index" :list="item"></listItem>
     </div>
   </div>
+  <first-order-tip @closeFirstOrder="closeFirstOrder" v-show="isShowFirstOrder" :jfk="jfk"></first-order-tip>
 </div>
 </template>
 <script>
-import Vue from 'vue'
-import { Loadmore, Spinner } from 'mint-ui'
-Vue.component(Loadmore.name, Loadmore)
-Vue.component(Spinner.name, Spinner)
-import {mapState,mapMutations} from 'vuex'
-import orderItem from './children/orderItem'
-import noOrder from './children/noOrder'
-import listItem from '../../page/detailpage/children/listItem'
-import {getOrderList,cancelOrder,startService,endService,Reccommend,delOrder} from '../../service/getData'
-import common from '../../common/common'
+import Vue from 'vue';
+import { Loadmore, Spinner } from 'mint-ui';
+Vue.component(Loadmore.name, Loadmore);
+Vue.component(Spinner.name, Spinner);
+import firstOrderTip from './children/firstOrderTip';
+import {mapState,mapMutations} from 'vuex';
+import orderItem from './children/orderItem';
+import noOrder from './children/noOrder';
+import listItem from '../../page/detailpage/children/listItem';
+import {getOrderList,cancelOrder,startService,endService,Reccommend,delOrder} from '../../service/getData';
+import common from '../../common/common';
 export default {
   name: 'orderManage',
   data () {
@@ -104,7 +106,9 @@ export default {
       //   11000:{type:'11000',msg:'退款成功'},
       //   11000:{type:'11000',msg:'服务关闭'},
       // },
-      isScroll: true
+      isScroll: true,
+      isShowFirstOrder: false,
+      jfk: {}
     }
   },
   computed:{
@@ -113,7 +117,8 @@ export default {
   components: {
     orderItem,
     noOrder,
-    listItem
+    listItem,
+    firstOrderTip
   },
   created(){
     this.getOrderList()
@@ -137,12 +142,14 @@ export default {
       $(window).scrollTop(0)
     },
     async getOrderList (data){
+      // && data.status
+      
       this.isScroll = false
       // this.flag = false
       this.pageNo = data ? data.page : ++this.pageNo;
       this.orders = data ? data.orders : this.orders
-      let res = await getOrderList({status:this.status,page:this.pageNo,page_size:this.page_size})
-       if(res.status === 'ok'){
+      let res = await getOrderList({status:this.status,page:this.pageNo,page_size:this.page_size});
+      if(res.status === 'ok'){
         this.totalCount = res.data.count
         let tempArr = res.data.result
         if(this.status === '1000,1200') tempArr = this.judgeOrdersType(tempArr)
@@ -155,7 +162,7 @@ export default {
         if (this.orders.length === this.totalCount || res.data.result.length<this.page_size)
           this.isScroll = false
           // this.setLoadMore()
-      } 
+      }
     },
     async getReccommend(){
       let res = await Reccommend({})
@@ -179,12 +186,15 @@ export default {
     async serviceStart(){
       let res = await startService({order_sn: this.ordermanage.ordersn})
       if(res.status === 'ok'){
+        this.isShowFirstOrder = res.data.jfk && res.data.jfk.amount > 0 ? true : false;
+        this.jfk = res.data.jfk;
         // this.$emit('getOrderList',{page: 1, orders: []})
         this.pageNo = 0
         this.orders = []
         this.getOrderList()
         alert('请尽情享受服务')
-        this.cancelBg()
+        this.cancelBg();
+        
       }else{
         alert(res.msg)
       }
@@ -227,6 +237,13 @@ export default {
           alert(res.msg)
         }
       }
+    },
+    getOrderListAndShowFirst(data){
+      console.log('getOrderListAndShowFirst===>data',data);
+      this.getOrderList(data);
+    },
+    closeFirstOrder(){
+      this.isShowFirstOrder = false;
     }
   }
 }

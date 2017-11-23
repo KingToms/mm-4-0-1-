@@ -133,14 +133,16 @@
       <a v-if="(order.order_status===1200 || order.order_status===1000) && order.comments_num == 1" class="right cancel normal" href="javascript:void(0)" @click.stop="$router.push({name:'evaluate',params:{sn: order.sn}})">追加评价</a>  
 
     </div>
+    <first-order-tip @closeFirstOrder="closeFirstOrder" v-show="isShowFirstOrder" :jfk = "jfk"></first-order-tip>
   </div>
 </template>
 <script>
-import {getOrder,cancelOrder,startService,endService,delOrder} from '../../service/getData'
-import common from '../../common/common'
-import Vue from 'vue'
-const VueClipboards = require('vue2-clipboards')
-Vue.use(VueClipboards)
+import {getOrder,cancelOrder,startService,endService,delOrder} from '../../service/getData';
+import common from '../../common/common';
+import Vue from 'vue';
+const VueClipboards = require('vue2-clipboards');
+Vue.use(VueClipboards);
+import firstOrderTip from './children/firstOrderTip';
 export default {
   name: 'orderDetail',
   data () {
@@ -176,8 +178,13 @@ export default {
         10000: {title: '退款中', desc: '退款将于3个工作日返回原账户'},
         11000: {title: '订单已取消', desc: '用户取消订单成功'},
         // 12000: {title: '交易关闭', desc: '未付款，订单已取消'}
-      }
+      },
+      isShowFirstOrder: false,
+      jfk: {}
     }
+  },
+  components:{
+    firstOrderTip
   },
   created () {
     this.ordersn = this.$route.params.ordersn
@@ -210,12 +217,15 @@ export default {
     },
     // 开始服务
     async serviceStart(){
-      let res = new startService({order_sn:this.order.sn})
-      if(res.status = 'ok'){
-        this.showTip = false
-        this.order.order_status = 301
+      let res = await startService({order_sn:this.order.sn});
+      if(res.status == 'ok'){
+        this.showTip = false;
+        this.order.order_status = 301;
+        this.isShowFirstOrder = res.data.jfk && res.data.jfk.amount > 0 ? true : false;
+        this.jfk = res.data.jfk;
       }else{
-        alert(res.msg)
+        this.showTip = false;
+        alert(res.msg);
       }
     },
     async orderEnd(){
@@ -320,6 +330,9 @@ export default {
     },
     cancelBg () {
       this.showTip = false
+    },
+    closeFirstOrder(){
+      this.isShowFirstOrder = false;
     }
   },
   filters: {
@@ -652,6 +665,7 @@ export default {
     bottom: 0;
     @include wh(100%,5rem);
     @include bgColor(#fff);
+    z-index: 2;
     // line-height: 5rem;
     a{
       margin-right: 1.5rem;
