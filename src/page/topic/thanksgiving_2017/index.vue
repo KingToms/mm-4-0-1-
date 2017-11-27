@@ -107,7 +107,8 @@ export default {
           common.getQueryString("app") == "ios" ||
           common.getQueryString("app") == "android"
         ) {
-          window.location.href = `/login?action=login`;
+          // window.location.href = `/login?action=login`;
+          window.location.href = this.plid ? `/login?action=login&url=/topic-thanksgiving-2017?plid=${this.plid}` : `/login?action=login&url=/topic-thanksgiving-2017`;
         } else {
           Toast({
             message: '未登录',

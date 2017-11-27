@@ -44,7 +44,7 @@ axios.interceptors.request.use((config) => {
 
 export default async (url = '', params = {}, type = 'GET') => {
   // 版本控制
-  url = url + '?API_VERSION=V4.0.1';
+  url = url + '?API_VERSION=V4.0.0';
   return new Promise((resolve, reject) => {
     /*axios({
         method: type,
