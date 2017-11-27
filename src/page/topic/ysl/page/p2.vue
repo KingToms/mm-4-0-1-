@@ -6,7 +6,7 @@
             <p class="desc">快号令你的人马,帮你抢YSL!</p>
         </div>
         <div class="btn-wrap">
-            <router-link class="ysl-btn" to="/topic-ysl/p3">生成召集令</router-link>
+            <router-link class="ysl-btn" to="/topic-ysl/p4">生成召集令</router-link>
             <router-link class="ysl-btn" to="/topic-ysl/p3">查看我排名</router-link>
         </div>
         <div class="ranking">

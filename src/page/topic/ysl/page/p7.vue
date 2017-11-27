@@ -2,17 +2,13 @@
     <div class="double-eleven">
         <div class="banner">
             <div class="text">
-                <p>你的好友 小新</p>
-                <p>正在参加YSL争夺赛</p>
-                <p>需要你的支持</p>
+                <p>支持成功!</p>
+                <p>好友获得武力值 30</p>
             </div>
             <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
-        <div class="btn-wrap">
-            <router-link class="ysl-btn" to="/topic-ysl/p6">支持他</router-link>
-            <router-link class="ysl-btn" to="/topic-ysl">我要参与</router-link>
-        </div>
         <div class="form">
+            <router-link class="participate" to="/topic-ysl">我也参与</router-link>
             <img class="full rule" src="/static/topic/ysl/rule.png" alt="">
         </div>
     </div>
@@ -67,23 +63,39 @@
         }
     }
 
-    .btn-wrap {
-        margin: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        .ysl-btn {
-            width: 45%;
-            height: 44px;
-            color: #fee9a8;
-            line-height: 44px;
-            font-size: 18px;
-            text-align: center;
-            background: #000;
-        }
-    }
-
     .form {
         margin: 20px;
+
+        .mobile {
+            width: 100%;
+        }
+        .get-code-wrap {
+            padding-top: 10px;
+            .code {
+                width: 60%;
+                float: left;
+            }
+            .get-code {
+                width: 35%;
+                float: right;
+                background: #000;
+                height: 44px;
+                line-height: 44px;
+                font-size: 16px;
+                color: #ccc;
+                text-align: center;
+            }
+        }
+        .participate {
+            display: block;
+            margin-top: 10px;
+            height: 44px;
+            text-align: center;
+            line-height: 44px;
+            color: #fee9a8;
+            font-size: 18px;
+            background: #000;
+        }
         img.rule {
             margin: 30px 0 45px 0;
         }

@@ -156,6 +156,10 @@ const yslP2 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p2'
 const yslP3 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p3')), 'ysl');
 const yslP4 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p4')), 'ysl');
 const yslP5 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p5')), 'ysl');
+const yslP6 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p6')), 'ysl');
+const yslP7 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p7')), 'ysl');
+// 2017感恩节专题
+const Thanksgiving_2017 = r => require.ensure([], () => r(require('@/page/topic/thanksgiving_2017/index')), 'thanksgiving_2017');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -523,6 +527,8 @@ const router = new Router({
                 {path:'p3',component:yslP3},
                 {path:'p4',component:yslP4},
                 {path:'p5',component:yslP5},
+                {path:'p6',component:yslP6},
+                {path:'p7',component:yslP7}
             ]
          },
         {
@@ -545,6 +551,10 @@ const router = new Router({
         {
           path: '/topic-new-user-600',
           component: NewUser_600
+        },
+        {
+          path: '/topic-thanksgiving-2017',
+          component: Thanksgiving_2017
         },
         {
           // 错误页

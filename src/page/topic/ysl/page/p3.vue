@@ -1,16 +1,16 @@
 <template>
     <div class="double-eleven">
         <div class="banner">
-            <p class="Congratulate">亲爱的周小新</p>
+            <p class="Congratulate">亲爱的{{name}}</p>
             <p class="desc">
                 你当前的排名为
-                <span>25</span>
+                <span>{{level}}</span>
             </p>
             <p class="desc">
                 你与第
-                <span>24</span>
+                <span>{{compare}}</span>
                 还差
-                <span>200</span>
+                <span>{{Need}}</span>
                 武力值,
             </p>
             <p class="desc">快去号令你的人马!</p>
@@ -19,7 +19,7 @@
         <div class="ranking">
             <img class="title" src="/static/topic/ysl/ranking.png" alt="">
             <div class="list-wrap">
-                <div class="list" v-for="(item,i) in 50" :key="i">
+                <div class="list" v-for="(item,i) in 50" :key="i" v-if="i>=level-1">
                     <img class="icon_NO" :src="'/static/topic/ysl/icon_NO.'+i+'.png'" alt="" v-if="i<3">
                     <span class="number style" v-else-if="i<20">{{i + 1}}</span>
                     <span class="number" v-else>{{i + 1}}</span>
@@ -36,11 +36,15 @@
     export default {
         name: "ysl",
         data () {
-            return {};
+            return {
+                name: '周小新', // 名字
+                level: 20, // 等级
+                Need: 2010, // 还差多少武力值
+                compare: 24, // 你与第几名
+            };
         },
         created () {},
         methods: {},
-        components: {}
     }
 </script>
 <style lang="scss" scoped>

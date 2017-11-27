@@ -1,21 +1,20 @@
 <template>
     <div class="double-eleven">
-        <div class="alter-wrap" v-if="overdue">
-            <div class="alter">
-                <p class="title">活动已结束</p>
-                <p class="msg">感谢关注,更多请关注</p>
-                <div class="follow">美丽通道</div>
+        <div class="banner">
+            <div class="text">
+                <p>你的好友 小新</p>
+                <p>正在参加YSL争夺赛</p>
+                <p>需要你的支持</p>
             </div>
-            <div class="alert-mask"></div>
+            <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
-        <img class="full" src="/static/topic/ysl/bg_poster1.jpg" alt="">
         <div class="form">
             <input type="text" class="border mobile" placeholder="请输入手机号码" v-model="params.mobile">
             <div class="clear get-code-wrap">
                 <input type="text" class="border code" placeholder="验证码" v-model="params.code">
                 <input id="sendCode" class="btn get-code" type="button" value="获取验证码" @click="funGetCode">
             </div>
-            <div class="participate" @click="funAuthLogin">参与</div>
+            <div class="participate" @click="funParticipate">帮好友增加武力值</div>
             <img class="full rule" src="/static/topic/ysl/rule.png" alt="">
         </div>
     </div>
@@ -30,7 +29,6 @@
         name: "ysl",
         data () {
             return {
-                overdue: false,
                 params: {
                     mobile: '18589245630',
                     code: '',
@@ -58,8 +56,7 @@
                     this.$mint.Toast(res.msg);
                 }
             },
-            async funAuthLogin () {
-                // 登录
+            async funParticipate () {
                 if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
                     alert("请输入正确的电话号码");
                     return false;
@@ -73,7 +70,7 @@
                     $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
                     setStore(keyConf.userMoile, this.mobile);
                     // to do
-                    this.$router.push('/topic-ysl/p2');
+                    this.$router.push('/topic-ysl/p7');
                 } else {
                     alert(result.msg);
                 }
@@ -115,38 +112,17 @@
         color: #999;
     }
 
-    .alter-wrap {
-        .alter {
-            position: fixed;
-            padding: 20px;
-            width: 80%;
-            left: 10%;
-            top: 35%;
-            z-index: 1;
-            text-align: center;
-            background: #fff;
-            .title {
-                font-size: 1.7rem;
-            }
-            .msg {
-                font-size: 2rem;
-            }
-            .follow {
-                margin-top: .8rem;
-                display: inline-block;
-                padding: .7rem 2rem;
-                color: #fee9a8;
-                font-size: 1.7rem;
-                background: #000;
-            }
+    .banner {
+        position: relative;
+        p {
+            color: #fff;
+            font-size: 1.7rem;
         }
-        .alert-mask {
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            position: fixed;
-            background: rgba(0, 0, 0, 0.5);
+        .text {
+            text-align: center;
+            position: absolute;
+            bottom: 2.9rem;
+            left: 1.9rem;
         }
     }
 
