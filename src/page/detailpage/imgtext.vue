@@ -1,5 +1,5 @@
 <template>
-  <div class="details">
+  <div class="details" id="img_txt">
     <h4>图文详情</h4>
     <i></i>
     <p>
@@ -29,6 +29,9 @@ export default {
   },
   created() {
     this.getProduct(); //通过产品详情，获取对应图文详情
+  },
+  mounted() {
+    // console.log("图文详情实际高度:",document.getElementById("img_txt").offsetHeight);
   },
   methods: {
     /* 获取产品详情 */
