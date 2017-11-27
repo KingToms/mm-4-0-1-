@@ -84,7 +84,8 @@ export default {
     changeType(tab){
       $(window).scrollTop(0)
       this.tab = tab
-      this.id = this.tab == this.sourceTab ? this.$route.params.id : ''
+      // this.id = this.tab == this.sourceTab ? this.$route.params.id : 0
+      this.id = 0
       this.pageNo = 1
       this.searchSty = ''
       this.stylist = []
