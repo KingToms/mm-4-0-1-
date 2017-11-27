@@ -12,7 +12,7 @@ export default {
   // baseUrl: 'http://porttest.qiaocat.com', // 测试
   // baseUrl: 'http://api-mm-test.qiaocat.com', // 测试 V4.0.0
   baseUrl:{
-    test: 'http://api-mm-test.qiaocat.com',
+    test: 'http://topic-api-mm.qiaocat.com',
     tmp: 'http://tmp-api-mm.qiaocat.com',
     master: 'http://api-mm.qiaocat.com'
   },
