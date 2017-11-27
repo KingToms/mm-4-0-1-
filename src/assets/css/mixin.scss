@@ -137,3 +137,9 @@ $bgBlack: #000;
 	background-position:$positionX $positionY;
 	background-repeat: $repeat;
 }
+
+// 旋转
+@mixin xz($deg:360){
+    -webkit-transform:rotate($deg+deg);
+    transform:rotate($deg+deg);
+}

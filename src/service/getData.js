@@ -144,6 +144,11 @@ export const orderJPush = (data) => fetch (`/mon/mon_order_jpush`, data, 'POST')
 export const getTopicNum = (data) => fetch (`/qiaomao/qm_topic_dressparty_count`, data, 'POST')
 // 双十一邀好友专题---领取免费礼品
 export const getFreeGift = (data) => fetch (`/qiaomao/qm_topic_get_gift`, data, 'POST')
+// 20171129俏猫大转盘抽奖
+  // 转盘礼品列表
+export const getListPrize = (data) => fetch (`/plate/list_prize?API_VERSION=topic`, data, 'POST')
+  // 转盘抽奖
+export const setPlate = (data) => fetch (`/plate/set_plate?API_VERSION=topic`, data, 'POST')
 
 // 获取订单状态数据
 export const getConfigData = (data) => fetch(`/mon/mon_config_order_status`, data, 'POST')

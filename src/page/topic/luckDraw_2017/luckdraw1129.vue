@@ -8,15 +8,14 @@
           <div class="receive-box" v-if="first_state">
             <div class="result">
               <p class="p1">恭喜你，获得</p>
-              <p class="p2">“{{gift_txt[gift_num - 1]}}”</p>
+              <p class="p2">“{{gift_content}}”</p>
             </div>
             <p class="tips">PS:请截图向工作人员确认并领取礼品。</p>
           </div>
           <!--你已经领取过-->
           <div class="received-box" v-else>
             <div class="result">
-              <p class="p1">你已经</p>
-              <p class="p1">已经参加过抽奖啦~</p>
+              <p class="p1">{{gift_msg}}</p>
             </div>
           </div>
         </div>
@@ -24,7 +23,11 @@
       <img class="bg-img" src="/static/topic/luckDraw_2017/luckDraw_1129/bg.jpg" alt="">
       <!--大转盘-->
       <div class="wheel-box">
-        <img id="rotary-table" class="wheel" src="/static/topic/luckDraw_2017/luckDraw_1129/29gif.png" alt="俏猫大转盘">
+        <div id="rotary-table" class="wheel">
+          <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
+            <span>{{item.prize ? item.prize : ''}}</span>
+          </div>
+        </div>
         <img class="start" src="/static/topic/luckDraw_2017/luckDraw_1129/start.png" alt="点击开始" @click="luckyDraw">
       </div>
     </div>
@@ -35,7 +38,7 @@
 </template>
 <script>
 import keyConf from "../../../common/keyConf";
-import { userIsLogin } from "@/service/getData";
+import { userIsLogin, getListPrize, setPlate } from "@/service/getData";
 import common from "../../../common/common"
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css'
@@ -47,10 +50,12 @@ export default {
       from_ad: 'topic_luckdraw1129', //专题来源,20171129俏猫大转盘
       isbg: false, //虚化背景
       first_state: true, // 第一次领取
-      gift_txt: ['BC温润无痕洁妆棉', '小甘菊旅行随手组', '神秘礼品', '美肤宝爽肤水', '仙人掌眼膜', '卡通可爱指甲钳', '俏猫￥888现金', '咪咪零食'],
+      // gift_txt: ['BC温润无痕洁妆棉', '小甘菊旅行随手组', '神秘礼品', '美肤宝爽肤水', '仙人掌眼膜', '卡通可爱指甲钳', '俏猫￥888现金', '咪咪零食'],
+      gift_txt: [],
       gift_con: ['7', '5', '4', '1'], // BC温润无痕洁妆棉、美肤宝爽肤水、神秘礼品、咪咪零食，对应的位置
       gift_id: 4, // 后端返回抽中的奖品(1:BC温润无痕洁妆棉、2:美肤宝爽肤水、3:神秘礼品、4:咪咪零食)
-      gift_num: 1,
+      gift_content: '', // 奖品内容
+      gift_msg: '', // 抽奖提示
       offOn: true, // 是否转动
       num: 0,
       n: 0,
@@ -66,11 +71,38 @@ export default {
     };
   },
   created() {
+    this.getGiftList();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
 
     this.shareWechat();
   },
+  mounted() {
+    /*使大转盘盒子显示为正方形*/
+    setTimeout(function() {
+      var cw = $('#rotary-table').width();
+      $('#rotary-table').css({
+        'height': cw + 'px'
+      });
+    }, 0);
+    $(window).resize(function() {
+      var cw = $('#rotary-table').width();
+      $('#rotary-table').css({
+        'height': cw + 'px'
+      });
+    });
+
+  },
   methods: {
+    /*获取抽奖礼品列表*/
+    async getGiftList() {
+      let res = await getListPrize();
+      let resData = eval(res.data);
+      for (var i in resData) {
+        this.gift_txt.push(resData[i]);
+      }
+      console.log("gift_txt:", this.gift_txt);
+    },
+
     /*抽奖*/
     async luckyDraw() {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
@@ -94,21 +126,37 @@ export default {
           this.$router.push(baseUrl);
         }
       } else { // 已登录
-        // 转动抽奖
-        if (this.offOn) {
-          this.num++;
-          this.offOn = !this.offOn;
-          this.ratating();
-
+        let setPlateData = await setPlate();
+        if(setPlateData.status == 'ok'){
+          // 转动抽奖
+          if (this.offOn) {
+            this.num++;
+            this.offOn = !this.offOn;
+            this.ratating(setPlateData.data);
+          }
+        }else {
+          this.gift_msg = setPlateData.msg;
+          this.first_state = false; // 已领取过奖品
+          this.isbg = true;
         }
+        
 
       }
 
     },
     /*转动抽奖*/
-    ratating() {
+    ratating(data) {
       let _this = this;
       // let cat = Math.floor(Math.random()*8)*45; // 前端随机
+      if(data.code == '1'){
+        _this.gift_id = 1; // 1:BC温润无痕洁妆棉
+      }else if(data.code == '4') {
+        _this.gift_id = 2; // 2:美肤宝爽肤水
+      }else if(data.code == '3'){
+        _this.gift_id = 3; // 3:神秘礼品
+      }else if(data.code == '8'){
+        _this.gift_id = 4; // 4:咪咪零食
+      }
       let cat = _this.gift_con[(_this.gift_id - 1) >= 0 ? (_this.gift_id - 1) : 3] * 45; // 后端抽奖
       let rotaryTable = document.getElementById("rotary-table");
       clearInterval(_this.timer);
@@ -119,45 +167,46 @@ export default {
         setTimeout(function() {
           _this.offOn = !_this.offOn;
           _this.n = _this.rdm % 360;
+
           switch (_this.n) { // 转动幅度
             case 0:
               // 俏猫￥888现金券
-              _this.gift_num = 7;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 45:
               // 咪咪零食
-              _this.gift_num = 8;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 90:
               // 卡通可爱指甲钳
-              _this.gift_num = 6;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 135:
               // 仙人掌眼膜
-              _this.gift_num = 5;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 180:
               // 神秘礼品
-              _this.gift_num = 3;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 225:
               // 美肤宝爽肤水
-              _this.gift_num = 4;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 270:
               // 小甘菊旅行随手组
-              _this.gift_num = 2;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
             case 315:
               // BC温润无痕洁妆棉
-              _this.gift_num = 1;
+              _this.gift_content = data.name;
               _this.isbg = true;
               break;
           };
@@ -212,6 +261,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../../../assets/css/mixin.scss';
 .luckdraw-box {
   position: relative;
   .big-wheel {
@@ -224,7 +274,7 @@ export default {
       height: 100%;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
+      z-index: 99;
       .result-box {
         position: relative;
         width: 86%;
@@ -277,9 +327,12 @@ export default {
       width: 100%;
       font-size: 0;
       .wheel {
-        width: 90%;
+        position: relative;
+        width: 92%;
         display: block;
         margin: 0 auto;
+        background: url("/static/topic/luckDraw_2017/luckDraw_1129/empty.png") center no-repeat;
+        background-size: contain;
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -290,6 +343,62 @@ export default {
         -ms-transition: all 4s;
         -o-transition: all 4s;
         transition: all 4s;
+        /*礼品*/
+        .gift {
+          position: absolute;
+          top: 10%;
+          width: 18%;
+          color: #000;
+          text-align: center;
+          span {
+            display: block;
+            margin-top: 20%;
+            font-size: 1.4rem;
+          }
+
+          @for $i from 0 through 7 {
+            &.gift_#{$i} {
+              @include xz(45 * $i+45);
+            }
+          }
+
+          &.gift_0 {
+            top: 15%;
+            left: 64%;
+          }
+          &.gift_1 {
+            top: 42%;
+            left: 77%;
+          }
+          &.gift_2 {
+            top: 78%;
+            left: 40%;
+            transform: rotate(180deg);
+          }
+          &.gift_3 {
+            top: 68%;
+            left: 66%;
+            transform: rotate(135deg);
+          }
+          &.gift_4 {
+            top: 65%;
+            left: 16%;
+          }
+          &.gift_5 {
+            top: 41%;
+            left: 6%;
+          }
+          &.gift_6 {
+            top: 3%;
+            left: 41%;
+            transform: rotate(0deg);
+          }
+          &.gift_7 {
+            top: 19%;
+            left: 17%;
+            transform: rotate(-45deg);
+          }
+        }
       }
       .start {
         display: block;
@@ -298,6 +407,7 @@ export default {
         left: 40%;
         top: 36%;
         cursor: pointer;
+        z-index: 3;
       }
     }
   }
