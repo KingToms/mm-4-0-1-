@@ -191,15 +191,32 @@ export default {
           ? this.busyTime[0].business_end
           : "22:00"; // 没有设置结束营业时间默认为22:00
       // this.busy_time = this.busyTime && this.busyTime.length > 0 && this.busyTime[0].busy_time && this.busyTime[0].busy_time ? this.busyTime[0].busy_time : {} // 获取忙时
+      // startHours 开始营业时间小时 
+      // startMinutes 开始营业时间分钟
+      // endHours 结束营业时间小时
+      // endMinutes 结束营业时间分钟
       let startHours = Number(this.business_start.substr(0, 2));
+      let startMinutes = Number(this.business_start.substr(3,2));
       let endHours = Number(this.business_end.substr(0, 2));
+      let endMinutes = Number(this.business_end.substr(3,2));
+      let i = startHours;
+      if(startMinutes > 30){
+        i++;
+      }else if(startMinutes == 30){
+        let tmpHour = startHours >= 10 ? startHours : `0${startHours}`;
+        this.timeShowSolt.push({ type: 0, time: `${tmpHour}:30` });
+        i++;
+      }
       // 根据营业开始时间结束时间生成可预约时间点
-      for (let i = startHours; i < endHours; i++) {
+      for (i; i < endHours; i++) {
         let h = i >= 10 ? i : `0${i}`;
         this.timeShowSolt.push({ type: 0, time: `${h}:00` });
         this.timeShowSolt.push({ type: 0, time: `${h}:30` });
       }
       this.timeShowSolt.push({ type: 0, time: `${endHours}:00` });
+      if(endMinutes > 30){
+        this.timeShowSolt.push({ type: 0, time: `${endHours}:30` });
+      }
     },
     showCalendar() {
       $(".date-panel").slideDown();
@@ -316,6 +333,7 @@ export default {
           let timeTemp = [];
           // 遍历所有的营业时间   设置忙时与不可选
           this.timeSolt.forEach(item => {
+            
             item.type = this.busyTimeO.includes(item.time) ? 2 : item.type;
             timeTemp.push(item);
           });

@@ -71,6 +71,7 @@ export default {
     this.sourceTab = this.tab
     // this.id = this.$route.params.id
     this.getStylist()
+    $(window).scrollTop(0);
     this.scroll(this.$route.query)
   },
   methods: {
