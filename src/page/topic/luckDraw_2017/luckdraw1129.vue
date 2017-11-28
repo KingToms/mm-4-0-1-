@@ -127,9 +127,9 @@ export default {
         }
       } else { // 已登录
         if (this.offOn) { // 防止连续点击抽奖
-          let setPlateData = await setPlate();
           this.num++;
           this.offOn = !this.offOn;
+          let setPlateData = await setPlate();
           if(setPlateData.status == 'ok'){
             this.ratating(setPlateData.data);
           }else{
@@ -180,8 +180,8 @@ export default {
         rotaryTable.style.transform = "rotate(" + _this.rdm + "deg)";
         clearInterval(_this.timer);
         setTimeout(function() {
-          _this.offOn = !_this.offOn;
           _this.n = _this.rdm % 360;
+          _this.offOn = !_this.offOn;
 
           switch (_this.n) { // 转动幅度
             case 0:
