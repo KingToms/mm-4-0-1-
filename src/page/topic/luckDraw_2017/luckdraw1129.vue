@@ -66,7 +66,7 @@ export default {
         title: '俏猫幸运大转盘',
         desc: '漂亮的人都转起来~',
         link: 'http://mm.qiaocat.com/topic-luckdraw-1129',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_1129/share.jpg'
+        imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg'
       },
     };
   },
@@ -244,7 +244,7 @@ export default {
           "俏猫幸运大转盘",
           "漂亮的人都转起来~",
           "http://mm.qiaocat.com/topic-luckdraw-1129",
-          "http://mm.qiaocat.com/static/topic/luckDraw_1129/share.jpg"
+          "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg"
         );
       });
     },
