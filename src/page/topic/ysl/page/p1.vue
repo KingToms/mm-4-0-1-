@@ -34,7 +34,7 @@
                 params: {
                     mobile: '',
                     code: '',
-                    from: 'YSL',
+                    from: this.$route.query.from || '',
                     plid: ''
                 },
                 wxLoginParams: {
@@ -43,8 +43,8 @@
             };
         },
         created () {
-            this.wxLoginParams.code = common.getQueryString("code") || '';
-            this.params.plid = common.getQueryString("plid") || '';
+            this.wxLoginParams.code = this.$route.query.code || '';
+            this.params.plid = this.$route.query.plid || '';
             this.funInit();
         },
         methods: {

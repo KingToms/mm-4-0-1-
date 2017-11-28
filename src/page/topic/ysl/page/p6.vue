@@ -33,7 +33,7 @@
                     mobile: '',
                     code: '',
                     inviter_id: '',
-                    from: 'YSL',
+                    from: this.$route.query.from || '',
                     plid: ''
                 },
                 zlParams: {
@@ -44,7 +44,7 @@
             };
         },
         created () {
-            this.params.plid = this.$route.query.code || '';
+            this.params.plid = this.$route.query.plid || '';
             this.zlParams.id = this.$route.query.id || '';
             this.zlParams.code = this.$route.query.code || '';
             this.params.inviter_id = this.zlParams.id;
