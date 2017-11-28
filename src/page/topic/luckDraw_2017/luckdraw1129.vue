@@ -126,9 +126,23 @@ export default {
           this.$router.push(baseUrl);
         }
       } else { // 已登录
-        let setPlateData = await setPlate();
+        if (this.offOn) { // 防止连续点击抽奖
+          let setPlateData = await setPlate();
+          this.num++;
+          this.offOn = !this.offOn;
+          if(setPlateData.status == 'ok'){
+            this.ratating(setPlateData.data);
+          }else{
+            this.offOn = !this.offOn;
+            this.gift_msg = setPlateData.msg;
+            this.first_state = false; // 已领取过奖品
+            this.isbg = true;
+          }
+        }
+
+
+        /*let setPlateData = await setPlate();
         if(setPlateData.status == 'ok'){
-          // 转动抽奖
           if (this.offOn) {
             this.num++;
             this.offOn = !this.offOn;
@@ -140,8 +154,7 @@ export default {
             this.first_state = false; // 已领取过奖品
             this.isbg = true;
           }
-        }
-        
+        }*/
 
       }
 
