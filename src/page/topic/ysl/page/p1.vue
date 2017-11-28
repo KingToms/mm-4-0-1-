@@ -96,7 +96,7 @@
             },
             funInit () {
                 let appId = 'wxa408e026b5511183',
-                    redirectURI = 'http://mm.qiaocat.com/topic-ysl',
+                    redirectURI = 'http://tmp-mm.qiaocat.com/topic-ysl',
                     wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
                 let code = this.$route.query.code || '';
                 if (!code)
