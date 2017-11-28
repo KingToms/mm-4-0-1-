@@ -9,10 +9,12 @@
             <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
         <div class="form">
-            <input type="text" class="border mobile" placeholder="请输入手机号码" v-model="params.mobile">
-            <div class="clear get-code-wrap">
-                <input type="text" class="border code" placeholder="验证码" v-model="params.code">
-                <input id="sendCode" class="btn get-code" type="button" value="获取验证码" @click="funGetCode">
+            <div v-if="showDom">
+                <input type="text" class="border mobile" placeholder="请输入手机号码" v-model="params.mobile">
+                <div class="clear get-code-wrap">
+                    <input type="text" class="border code" placeholder="验证码" v-model="params.code">
+                    <input id="sendCode" class="btn get-code" type="button" value="获取验证码" @click="funGetCode">
+                </div>
             </div>
             <div class="participate" @click="funParticipate">帮好友增加武力值</div>
             <img class="full rule" src="/static/topic/ysl/rule.png" alt="">
@@ -20,7 +22,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin, yslSupport, yslGetNick} from "@/service/getData";
+    import {getCode, authLogin, yslSupport, yslGetNick, yslUserInfo} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -42,7 +44,8 @@
                     code: '',
                     id: ''
                 },
-                name: ''
+                name: '',
+                showDom: true
             };
         },
         created () {
@@ -52,10 +55,19 @@
             this.zlParams.id = info.id;
             this.zlParams.code = this.$route.query.code || '';
             this.params.inviter_id = this.zlParams.id;
+            this.funYslUserInfo();
             this.funInit();
             this.funYslGetNick();
         },
         methods: {
+            async funYslUserInfo () {
+                // 用户信息
+                let res = await yslUserInfo();
+                console.log(res);
+                if (res.code == 100 || res.code == 200) {
+                    this.showDom = false;
+                }
+            },
             async funGetCode () {
                 // 发送验证码
                 if (this.params.mobile.length != 11) {
