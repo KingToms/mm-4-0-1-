@@ -63,9 +63,9 @@ export default {
       timer: null, // 定时器
 
       shareData: { // APP分享
-        title: '俏猫幸运大转盘',
-        desc: '漂亮的人都转起来~',
-        link: 'http://mm.qiaocat.com/topic-luckdraw-1129',
+        title: '俏猫&华工妇委抽奖转盘',
+        desc: '女生形象大赛，女神们都给我“转”起来~',
+        link: 'http://mm.qiaocat.com/topic-luckdraw-1129?plid=' + this.plid,
         imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg'
       },
     };
@@ -74,6 +74,7 @@ export default {
     this.getGiftList();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
 
+    console.log("this.plid:",this.plid);
     this.shareWechat();
   },
   mounted() {
@@ -241,10 +242,10 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "俏猫幸运大转盘",
-          "漂亮的人都转起来~",
-          "http://mm.qiaocat.com/topic-luckdraw-1129",
-          "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg"
+          "俏猫&华工妇委抽奖转盘",
+          "女生形象大赛，女神们都给我“转”起来~",
+          "http://mm.qiaocat.com/topic-luckdraw-1129?plid=" + this.plid,
+          "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg",
         );
       });
     },
