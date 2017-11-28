@@ -2,7 +2,7 @@
     <div class="double-eleven">
         <div class="banner">
             <div class="text">
-                <p>你的好友 小新</p>
+                <p>你的好友 {{name}}</p>
                 <p>正在参加YSL争夺赛</p>
                 <p>需要你的支持</p>
             </div>
@@ -18,19 +18,32 @@
     </div>
 </template>
 <script>
-    import {userIsLogin, authToken, getCenterCoupons} from "@/service/getData";
+    import {userIsLogin, authToken, getCenterCoupons, yslGetNick} from "@/service/getData";
 
     export default {
         name: "ysl",
         data () {
             return {
                 id: '',
+                name: ''
             };
         },
         created () {
             this.id = this.$route.query.id || '';
+            this.funYslGetNick();
         },
         methods: {
+            async funYslGetNick () {
+                if (this.id) {
+                    let res = await yslGetNick({id: this.id});
+                    console.log(res);
+                    if (res.status === 'ok') {
+                        this.name = res.data
+                    } else {
+                        alert(res.msg);
+                    }
+                }
+            },
             funParticipate () {
                 this.$router.push('/topic-ysl/p2');
             }
