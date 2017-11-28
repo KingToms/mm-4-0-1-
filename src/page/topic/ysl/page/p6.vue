@@ -35,7 +35,7 @@
                     mobile: '',
                     code: '',
                     inviter_id: '',
-                    from: this.$route.query.from || '',
+                    from: '',
                     plid: ''
                 },
                 zlParams: {
@@ -46,8 +46,10 @@
             };
         },
         created () {
+            let info = JSON.parse(localStorage.getItem('QRInfo'));
             this.params.plid = this.$route.query.plid || '';
-            this.zlParams.id = this.$route.query.id || '';
+            this.params.from = info.from;
+            this.zlParams.id = info.id;
             this.zlParams.code = this.$route.query.code || '';
             this.params.inviter_id = this.zlParams.id;
             this.funInit();

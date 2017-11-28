@@ -9,7 +9,7 @@
             <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
         <div class="btn-wrap">
-            <router-link class="ysl-btn" :to="`/topic-ysl/p6?id=${id}&from=YSL`">支持他</router-link>
+            <router-link class="ysl-btn" to="/topic-ysl/p6">支持他</router-link>
             <router-link class="ysl-btn" to="/topic-ysl">我要参与</router-link>
         </div>
         <div class="form">
@@ -32,6 +32,11 @@
         },
         created () {
             this.id = this.$route.query.id || '';
+            let info = {
+                id: this.id,
+                from: this.$route.query.from || ''
+            };
+            localStorage.setItem('QRInfo', JSON.stringify(info));
             this.funYslGetNick();
         },
         methods: {
