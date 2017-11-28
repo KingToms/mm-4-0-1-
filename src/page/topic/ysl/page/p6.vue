@@ -24,6 +24,8 @@
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
+    import {MessageBox} from 'mint-ui';
+    import '../../../../../node_modules/mint-ui/lib/style.css';
 
     export default {
         name: "ysl",
@@ -96,7 +98,14 @@
                     localStorage.setItem('forceValue', res.data.force_value);
                     this.$router.push('/topic-ysl/p7');
                 } else {
-                    alert(res.msg);
+                    MessageBox.alert(res.msg).then(action => {
+                        if (res.code === 100) {
+                            // 跳到自己排行榜
+                            this.$router.push('/topic-ysl/p3');
+                        } else {
+                            this.$router.push('/topic-ysl');
+                        }
+                    });
                 }
             },
             async funYslGetNick () {

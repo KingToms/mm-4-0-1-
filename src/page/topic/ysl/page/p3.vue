@@ -37,7 +37,6 @@
 
     import Vue from 'vue'
     import {MessageBox} from 'mint-ui';
-
     import '../../../../../node_modules/mint-ui/lib/style.css';
 
     export default {
@@ -64,7 +63,12 @@
                     this.items = res.data;
                     this.info = res.info;
                 } else {
-                    MessageBox('提示', res.msg);
+                    MessageBox.alert(res.msg).then(action => {
+                        if (res.code === 300) {
+                            // 跳到参与活动页面
+                            this.$router.push('/topic-ysl');
+                        }
+                    });
                 }
             },
         },

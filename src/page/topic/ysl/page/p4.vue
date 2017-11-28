@@ -30,7 +30,15 @@
                 if (res.status === 'ok') {
                     this.qr = res.url;
                 } else {
-                    MessageBox('提示', res.msg);
+                    MessageBox.alert(res.msg).then(action => {
+                        if (res.code === 100) {
+                            // 跳到自己排行榜
+                            this.$router.push('/topic-ysl/p3');
+                        } else if (res.code === 300) {
+                            // 跳到参与活动页面
+                            this.$router.push('/topic-ysl');
+                        }
+                    });
                 }
             },
         },

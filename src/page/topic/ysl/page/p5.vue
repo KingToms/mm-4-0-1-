@@ -19,6 +19,8 @@
 </template>
 <script>
     import {userIsLogin, authToken, getCenterCoupons, yslGetNick} from "@/service/getData";
+    import {Indicator, MessageBox} from 'mint-ui';
+    import '../../../../../node_modules/mint-ui/lib/style.css';
 
     export default {
         name: "ysl",
@@ -40,7 +42,15 @@
                     if (res.status === 'ok') {
                         this.name = res.data
                     } else {
-                        alert(res.msg);
+                        MessageBox.alert(res.msg).then(action => {
+                            if (res.code === 100) {
+                                // 跳到自己排行榜
+                                this.$router.push('/topic-ysl/p3');
+                            } else if (res.code === 300) {
+                                // 跳到参与活动页面
+                                this.$router.push('/topic-ysl');
+                            }
+                        });
                     }
                 }
             },

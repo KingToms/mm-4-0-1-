@@ -65,6 +65,8 @@
                 }
             },
             async funAuthLogin () {
+                this.funYslUserTake();
+                return;
                 // 登录
                 if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
                     alert("请输入正确的电话号码");
@@ -92,6 +94,10 @@
                     this.$router.push('/topic-ysl/p2');
                 } else {
                     alert(res.msg);
+                    if (res.code === 100) {
+                        // 跳到自己排行榜
+                        this.$router.push('/topic-ysl/p3');
+                    }
                 }
             },
             funInit () {
