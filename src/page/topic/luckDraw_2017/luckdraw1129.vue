@@ -133,8 +133,8 @@ export default {
           if(setPlateData.status == 'ok'){
             this.ratating(setPlateData.data);
           }else{
+            this.offOn = !this.offOn;
             if(!this.isbg){ // 没显示结果的时候，显示
-              this.offOn = !this.offOn;
               this.gift_msg = setPlateData.msg;
               this.first_state = false; // 已领取过奖品
               this.isbg = true;
