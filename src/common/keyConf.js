@@ -15,7 +15,6 @@ export default {
     master: 'http://api-mm.qiaocat.com',
     test: 'http://api-mm-test.qiaocat.com',
     tmp: 'http://tmp-api-mm.qiaocat.com',
-    topic: 'http://topic-api-mm.qiaocat.com',
   },
   payUrl:{
     test: 'http://crm2test.qiaocat.com',
