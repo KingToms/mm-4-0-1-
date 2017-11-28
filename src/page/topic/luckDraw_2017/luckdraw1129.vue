@@ -135,9 +135,11 @@ export default {
             this.ratating(setPlateData.data);
           }
         }else {
-          this.gift_msg = setPlateData.msg;
-          this.first_state = false; // 已领取过奖品
-          this.isbg = true;
+          if (this.offOn) {
+            this.gift_msg = setPlateData.msg;
+            this.first_state = false; // 已领取过奖品
+            this.isbg = true;
+          }
         }
         
 
@@ -285,7 +287,7 @@ export default {
         .close {
           position: absolute;
           right: -1rem;
-          top: -28%;
+          top: -30%;
           display: block;
           padding: 1rem;
           width: 10%;
