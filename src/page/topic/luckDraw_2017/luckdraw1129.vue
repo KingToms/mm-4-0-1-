@@ -181,8 +181,6 @@ export default {
         clearInterval(_this.timer);
         setTimeout(function() {
           _this.n = _this.rdm % 360;
-          _this.offOn = !_this.offOn;
-
           switch (_this.n) { // 转动幅度
             case 0:
               // 俏猫￥888现金券
@@ -225,6 +223,8 @@ export default {
               _this.isbg = true;
               break;
           };
+
+          _this.offOn = !_this.offOn;
         }, 4000);
       }, 30);
     },
