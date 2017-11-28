@@ -127,16 +127,18 @@ export default {
         }
       } else { // 已登录
         if (this.offOn) { // 防止连续点击抽奖
-          let setPlateData = await setPlate();
           this.num++;
           this.offOn = !this.offOn;
+          let setPlateData = await setPlate();
           if(setPlateData.status == 'ok'){
             this.ratating(setPlateData.data);
           }else{
             this.offOn = !this.offOn;
-            this.gift_msg = setPlateData.msg;
-            this.first_state = false; // 已领取过奖品
-            this.isbg = true;
+            if(!this.isbg){ // 没显示结果的时候，显示
+              this.gift_msg = setPlateData.msg;
+              this.first_state = false; // 已领取过奖品
+              this.isbg = true;
+            }
           }
         }
 
@@ -180,9 +182,7 @@ export default {
         rotaryTable.style.transform = "rotate(" + _this.rdm + "deg)";
         clearInterval(_this.timer);
         setTimeout(function() {
-          _this.offOn = !_this.offOn;
           _this.n = _this.rdm % 360;
-
           switch (_this.n) { // 转动幅度
             case 0:
               // 俏猫￥888现金券
@@ -225,6 +225,8 @@ export default {
               _this.isbg = true;
               break;
           };
+
+          _this.offOn = !_this.offOn;
         }, 4000);
       }, 30);
     },
