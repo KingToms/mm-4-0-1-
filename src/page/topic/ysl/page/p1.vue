@@ -10,10 +10,12 @@
         </div>
         <img class="full" src="/static/topic/ysl/bg_poster1.jpg" alt="">
         <div class="form">
-            <input type="text" class="border mobile" placeholder="请输入手机号码" v-model="params.mobile">
-            <div class="clear get-code-wrap">
-                <input type="text" class="border code" placeholder="验证码" v-model="params.code">
-                <input id="sendCode" class="btn get-code" type="button" value="获取验证码" @click="funGetCode">
+            <div v-if="showDom">
+                <input type="text" class="border mobile" placeholder="请输入手机号码" v-model="params.mobile">
+                <div class="clear get-code-wrap">
+                    <input type="text" class="border code" placeholder="验证码" v-model="params.code">
+                    <input id="sendCode" class="btn get-code" type="button" value="获取验证码" @click="funGetCode">
+                </div>
             </div>
             <div class="participate" @click="funAuthLogin">参与</div>
             <img class="full rule" src="/static/topic/ysl/rule.png" alt="">
@@ -39,7 +41,8 @@
                 },
                 wxLoginParams: {
                     code: ''
-                }
+                },
+                showDom: true
             };
         },
         created () {
@@ -55,6 +58,8 @@
                 console.log(res);
                 if (res.code == 100) {
                     this.$router.push('/topic-ysl/p3');
+                } else if (res.code == 200) {
+                    this.showDom = false;
                 }
             },
             async funGetCode () {
@@ -74,23 +79,27 @@
                 }
             },
             async funAuthLogin () {
-                // 登录
-                if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
-                    alert("请输入正确的电话号码");
-                    return false;
-                } else if (!/^\d{6}$/.test(this.params.code)) {
-                    alert("请输入正确的验证码");
-                    return false;
-                }
+                if (this.showDom) {
+                    // 登录
+                    if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
+                        alert("请输入正确的电话号码");
+                        return false;
+                    } else if (!/^\d{6}$/.test(this.params.code)) {
+                        alert("请输入正确的验证码");
+                        return false;
+                    }
 
-                let result = await authLogin(this.params);
-                if (result.status == "ok") {
-                    $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
-                    setStore(keyConf.userMoile, this.mobile);
-                    // TODO
-                    this.funYslUserTake();
+                    let result = await authLogin(this.params);
+                    if (result.status == "ok") {
+                        $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
+                        setStore(keyConf.userMoile, this.mobile);
+                        // TODO
+                        this.funYslUserTake();
+                    } else {
+                        alert(result.msg);
+                    }
                 } else {
-                    alert(result.msg);
+                    this.funYslUserTake();
                 }
             },
             async funYslUserTake () {
