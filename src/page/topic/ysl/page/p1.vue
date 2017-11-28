@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin, yslUserTake} from "@/service/getData";
+    import {getCode, authLogin, yslUserTake, yslUserInfo} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -43,11 +43,20 @@
             };
         },
         created () {
+            this.funYslUserInfo();
             this.wxLoginParams.code = this.$route.query.code || '';
             this.params.plid = this.$route.query.plid || '';
             this.funInit();
         },
         methods: {
+            async funYslUserInfo () {
+                // 用户信息
+                let res = await yslUserInfo();
+                console.log(res);
+                if (res.code == 100) {
+                    this.$router.push('/topic-ysl/p3');
+                }
+            },
             async funGetCode () {
                 // 发送验证码
                 if (this.params.mobile.length != 11) {

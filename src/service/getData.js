@@ -146,6 +146,8 @@ export const getTopicNum = (data) => fetch (`/qiaomao/qm_topic_dressparty_count`
 export const getFreeGift = (data) => fetch (`/qiaomao/qm_topic_get_gift`, data, 'POST')
 // YSL微信登陆
 export const yslUserTake = (data) => fetch (`/Ysl/ysl_user_take?API_VERSION=topic`, data, 'POST')
+// 用户信息
+export const yslUserInfo = (data) => fetch (`/Ysl/ysl_user_info?API_VERSION=topic`, data, 'POST')
 // 列表
 export const yslIndex = () => fetch (`/Ysl/ysl_index?API_VERSION=topic`, {}, 'POST')
 // 我的排名
