@@ -3,7 +3,7 @@
         <div class="banner">
             <div class="text">
                 <p>支持成功!</p>
-                <p>好友获得武力值 30</p>
+                <p>好友获得武力值 {{force}}</p>
             </div>
             <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
@@ -19,9 +19,13 @@
     export default {
         name: "ysl",
         data () {
-            return {};
+            return {
+                force: 0
+            };
         },
-        created () {},
+        created () {
+            this.force = localStorage.getItem('forceValue') || this.force;
+        },
         methods: {
             funParticipate () {
                 this.$router.push('/topic-ysl/p2');

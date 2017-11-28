@@ -2,7 +2,7 @@
     <div class="double-eleven">
         <div class="banner">
             <div class="text">
-                <p>你的好友 小新</p>
+                <p>你的好友 {{name}}</p>
                 <p>正在参加YSL争夺赛</p>
                 <p>需要你的支持</p>
             </div>
@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin} from "@/service/getData";
+    import {getCode, authLogin, yslSupport, yslGetNick} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -30,14 +30,26 @@
         data () {
             return {
                 params: {
-                    mobile: '18589245630',
+                    mobile: '',
                     code: '',
+                    inviter_id: '',
+                    from: 'YSL',
                     plid: ''
-                }
+                },
+                zlParams: {
+                    code: '',
+                    id: ''
+                },
+                name: ''
             };
         },
         created () {
-            this.params.plid = common.getQueryString("plid") || '';
+            this.params.plid = this.$route.query.code || '';
+            this.zlParams.id = this.$route.query.id || '';
+            this.zlParams.code = this.$route.query.code || '';
+            this.params.inviter_id = this.zlParams.id;
+            this.funInit();
+            this.funYslGetNick();
         },
         methods: {
             async funGetCode () {
@@ -53,7 +65,7 @@
                 if (res.status === 'ok') {
 
                 } else {
-                    this.$mint.Toast(res.msg);
+                    alert(res.msg);
                 }
             },
             async funParticipate () {
@@ -70,10 +82,41 @@
                     $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
                     setStore(keyConf.userMoile, this.mobile);
                     // to do
-                    this.$router.push('/topic-ysl/p7');
+                    this.funYslSupport();
                 } else {
                     alert(result.msg);
                 }
+            },
+            async funYslSupport () {
+                // 助力
+                console.log(this.zlParams);
+                let res = await yslSupport(this.zlParams);
+                console.log(res);
+                if (res.status === 'ok') {
+                    localStorage.setItem('forceValue', res.data.force_value);
+                    this.$router.push('/topic-ysl/p7');
+                } else {
+                    alert(res.msg);
+                }
+            },
+            async funYslGetNick () {
+                if (this.zlParams.id) {
+                    let res = await yslGetNick({id: this.zlParams.id});
+                    console.log(res);
+                    if (res.status === 'ok') {
+                        this.name = res.data
+                    } else {
+                        alert(res.msg);
+                    }
+                }
+            },
+            funInit () {
+                let appId = 'wxa408e026b5511183',
+                    redirectURI = 'http%3a%2f%2fmm.qiaocat.com%2fhome%2frecommend',
+                    wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+                let code = this.$route.query.code || '';
+                if (!code)
+                    location.href = wxLogin;
             },
             settime ($el, countdown) {
                 let _this = this;
@@ -89,8 +132,7 @@
                     }, 1000);
                 }
             }
-        },
-        components: {}
+        }
     }
 </script>
 <style lang="scss" scoped>

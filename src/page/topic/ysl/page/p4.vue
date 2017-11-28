@@ -1,6 +1,6 @@
 <template>
     <div class="double-eleven">
-        <img class="full" src="/static/topic/ysl/bg_share.jpg" alt="">
+        <img class="full" :src="qr" alt="">
         <div class="tips">
             <div>
                 <p>长按保存图片,分享至朋友圈</p>
@@ -10,13 +10,30 @@
     </div>
 </template>
 <script>
+    import {yslSetQrcode} from "@/service/getData";
+    import {Indicator, MessageBox} from 'mint-ui';
+    import '../../../../../node_modules/mint-ui/lib/style.css';
+
     export default {
         name: "ysl",
         data () {
-            return {};
+            return {
+                qr: '/static/topic/ysl/bg_share.jpg'
+            }
         },
-        created () {},
-        methods: {},
+        created () {
+            this.funYslSetQrcode();
+        },
+        methods: {
+            async funYslSetQrcode () {
+                let res = await yslSetQrcode();
+                if (res.status === 'ok') {
+                    this.qr = res.url;
+                } else {
+                    MessageBox('提示', res.msg);
+                }
+            },
+        },
         components: {}
     }
 </script>

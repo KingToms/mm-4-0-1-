@@ -1,16 +1,3 @@
 <template>
     <router-view></router-view>
 </template>
-<script>
-    export default {
-        created () {
-            let appId = 'wxa408e026b5511183',
-                redirectURI = 'http://mm.qioacat.com/topic-ysl',
-                wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-            let code = this.$route.query.code || '';
-            console.log(code);
-            if (!code)
-                location.href = wxLogin;
-        }
-    }
-</script>

@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin} from "@/service/getData";
+    import {getCode, authLogin, yslUserTake} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -32,14 +32,26 @@
             return {
                 overdue: false,
                 params: {
-                    mobile: '18589245630',
+                    mobile: '',
                     code: '',
+                    from: 'YSL',
                     plid: ''
+                },
+                wxLoginParams: {
+                    code: ''
                 }
             };
         },
         created () {
+            this.wxLoginParams.code = common.getQueryString("code") || '';
             this.params.plid = common.getQueryString("plid") || '';
+
+            let appId = 'wxa408e026b5511183',
+                redirectURI = 'http%3a%2f%2fmm.qiaocat.com%2fhome%2frecommend',
+                wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+            let code = this.$route.query.code || '';
+            if (!code)
+                location.href = wxLogin;
         },
         methods: {
             async funGetCode () {
@@ -55,7 +67,7 @@
                 if (res.status === 'ok') {
 
                 } else {
-                    this.$mint.Toast(res.msg);
+                    alert(res.msg);
                 }
             },
             async funAuthLogin () {
@@ -72,10 +84,20 @@
                 if (result.status == "ok") {
                     $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
                     setStore(keyConf.userMoile, this.mobile);
-                    // to do
-                    this.$router.push('/topic-ysl/p2');
+                    // TODO
+                    this.funYslUserTake();
                 } else {
                     alert(result.msg);
+                }
+            },
+            async funYslUserTake () {
+                // 参与
+                let res = await yslUserTake(this.wxLoginParams);
+                console.log(res);
+                if (res.status === 'ok') {
+                    this.$router.push('/topic-ysl/p2');
+                } else {
+                    alert(res.msg);
                 }
             },
             settime ($el, countdown) {

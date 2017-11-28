@@ -12,9 +12,10 @@ export default {
   // baseUrl: 'http://porttest.qiaocat.com', // 测试
   // baseUrl: 'http://api-mm-test.qiaocat.com', // 测试 V4.0.0
   baseUrl:{
-    test: 'http://topic-api-mm.qiaocat.com',
+    master: 'http://api-mm.qiaocat.com',
+    test: 'http://api-mm-test.qiaocat.com',
     tmp: 'http://tmp-api-mm.qiaocat.com',
-    master: 'http://api-mm.qiaocat.com'
+    topic: 'http://topic-api-mm.qiaocat.com',
   },
   payUrl:{
     test: 'http://crm2test.qiaocat.com',

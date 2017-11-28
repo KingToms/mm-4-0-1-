@@ -12,27 +12,42 @@
         <div class="ranking">
             <img class="title" src="/static/topic/ysl/ranking.png" alt="">
             <div class="list-wrap">
-                <div class="list" v-for="(item,i) in 30" :key="i">
+                <div class="list" v-for="(item,i) in items" :key="i">
                     <img class="icon_NO" :src="'/static/topic/ysl/icon_NO.'+i+'.png'" alt="" v-if="i<3">
                     <span class="number style" v-else-if="i<20">{{i + 1}}</span>
                     <span class="number" v-else>{{i + 1}}</span>
-                    <span class="portrait"></span>
-                    <span class="name">喵喵喵</span>
-                    <span class="force">10000</span>
+                    <span class="portrait" :style="{'background-image': 'url('+item.avatar+')'}"></span>
+                    <span class="name">{{item.nickname}}</span>
+                    <span class="force">{{item.force_value}}</span>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import {yslIndex} from "@/service/getData";
+
     export default {
         name: "ysl",
         data () {
-            return {};
+            return {
+                items: {}
+            };
         },
-        created () {},
-        methods: {},
-        components: {}
+        created () {
+            this.funYslIndex();
+        },
+        methods: {
+            async funYslIndex () {
+                let res = await yslIndex();
+                console.log(res);
+                if (res.status === 'ok') {
+                    this.items = res.data;
+                } else {
+                    this.$mint.Toast(res.msg);
+                }
+            },
+        }
     }
 </script>
 <style lang="scss" scoped>
@@ -135,7 +150,6 @@
             background: #ddd;
             border-radius: 50%;
             background-size: cover;
-            background-image: url("http://pic.qiaocat.com/upload/product/714aa40cd4aa3660af4ec26477b80d68.jpg");
         }
         .force {
             position: absolute;

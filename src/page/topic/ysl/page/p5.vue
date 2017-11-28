@@ -9,7 +9,7 @@
             <img class="full" src="/static/topic/ysl/bg_poster2.jpg" alt="">
         </div>
         <div class="btn-wrap">
-            <router-link class="ysl-btn" to="/topic-ysl/p6">支持他</router-link>
+            <router-link class="ysl-btn" :to="`/topic-ysl/p6?id=${id}&from=YSL`">支持他</router-link>
             <router-link class="ysl-btn" to="/topic-ysl">我要参与</router-link>
         </div>
         <div class="form">
@@ -23,9 +23,13 @@
     export default {
         name: "ysl",
         data () {
-            return {};
+            return {
+                id: '',
+            };
         },
-        created () {},
+        created () {
+            this.id = this.$route.query.id || '';
+        },
         methods: {
             funParticipate () {
                 this.$router.push('/topic-ysl/p2');

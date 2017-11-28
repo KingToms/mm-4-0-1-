@@ -1,16 +1,16 @@
 <template>
     <div class="double-eleven">
         <div class="banner">
-            <p class="Congratulate">亲爱的{{name}}</p>
+            <p class="Congratulate">亲爱的{{info.nickname}}</p>
             <p class="desc">
                 你当前的排名为
-                <span>{{level}}</span>
+                <span>{{info.my_rank || 0}}</span>
             </p>
             <p class="desc">
                 你与第
-                <span>{{compare}}</span>
+                <span>{{info.up_rank || 0}}</span>
                 还差
-                <span>{{Need}}</span>
+                <span>{{info.cha || 0}}</span>
                 武力值,
             </p>
             <p class="desc">快去号令你的人马!</p>
@@ -19,13 +19,13 @@
         <div class="ranking">
             <img class="title" src="/static/topic/ysl/ranking.png" alt="">
             <div class="list-wrap">
-                <div class="list" v-for="(item,i) in 50" :key="i" v-if="i>=level-1">
+                <div class="list" v-for="(item,i) in items" :key="i">
                     <img class="icon_NO" :src="'/static/topic/ysl/icon_NO.'+i+'.png'" alt="" v-if="i<3">
                     <span class="number style" v-else-if="i<20">{{i + 1}}</span>
                     <span class="number" v-else>{{i + 1}}</span>
-                    <span class="portrait"></span>
-                    <span class="name">喵喵喵</span>
-                    <span class="force">10000</span>
+                    <span class="portrait" :style="{'background-image': 'url('+item.avatar+')'}"></span>
+                    <span class="name">{{item.nickname}}</span>
+                    <span class="force">{{item.force_value}}</span>
                 </div>
             </div>
         </div>
@@ -33,18 +33,41 @@
     </div>
 </template>
 <script>
+    import {yslMyRank} from "@/service/getData";
+
+    import Vue from 'vue'
+    import {MessageBox} from 'mint-ui';
+
+    import '../../../../../node_modules/mint-ui/lib/style.css';
+
     export default {
         name: "ysl",
         data () {
             return {
-                name: '周小新', // 名字
-                level: 20, // 等级
-                Need: 2010, // 还差多少武力值
-                compare: 24, // 你与第几名
+                items: {},
+                info: {
+                    cha: 0,
+                    my_rank: 0,
+                    up_rank: 0,
+                },
+                level: 2
             };
         },
-        created () {},
-        methods: {},
+        created () {
+            this.funYslMyRank();
+        },
+        methods: {
+            async funYslMyRank () {
+                let res = await yslMyRank();
+                console.log(res);
+                if (res.status === 'ok') {
+                    this.items = res.data;
+                    this.info = res.info;
+                } else {
+                    MessageBox('提示', res.msg);
+                }
+            },
+        },
     }
 </script>
 <style lang="scss" scoped>
@@ -137,7 +160,6 @@
             background: #ddd;
             border-radius: 50%;
             background-size: cover;
-            background-image: url("http://pic.qiaocat.com/upload/product/714aa40cd4aa3660af4ec26477b80d68.jpg");
         }
         .name {
             font-size: 13px;

@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="register">
-      <router-link :to="`/register?plid=${channel}&url=${this.$route.query.url}`" v-if="this.$route.query.url">一 注册 一</router-link>
+      <router-link :to="`/register?plid=${channel}&url=${$route.query.url}`" v-if="$route.query.url">一 注册 一</router-link>
       <router-link :to="`/register?plid=${channel}`" v-else>一 注册 一</router-link>
     </div>
     <div class="footer">

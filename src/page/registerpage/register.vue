@@ -23,7 +23,8 @@
        </li>
      </ul>
      <button class="submit" @click="register">注册</button>
-     <router-link to="/login" class="login">马上登录</router-link>
+     <router-link :to="`/login?plid=${$route.query.plid}&url=${$route.query.url}`" class="login" v-if="$route.query.url">马上登录</router-link>
+     <router-link to="/login" class="login" v-else>马上登录</router-link>
      <p class="agree">"登录/注册"即表示您同意 <router-link to="/statement">《俏猫用户协议》</router-link></p>
    </div>
     <!-- <toast ref="toast"  :showText="showText"></toast> -->
