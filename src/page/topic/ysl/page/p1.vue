@@ -65,8 +65,6 @@
                 }
             },
             async funAuthLogin () {
-                this.funYslUserTake();
-                return;
                 // 登录
                 if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
                     alert("请输入正确的电话号码");
