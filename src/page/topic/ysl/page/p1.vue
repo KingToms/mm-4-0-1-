@@ -45,13 +45,7 @@
         created () {
             this.wxLoginParams.code = common.getQueryString("code") || '';
             this.params.plid = common.getQueryString("plid") || '';
-
-            let appId = 'wxa408e026b5511183',
-                redirectURI = 'http%3a%2f%2fmm.qiaocat.com%2fhome%2frecommend',
-                wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-            let code = this.$route.query.code || '';
-            if (!code)
-                location.href = wxLogin;
+            this.funInit();
         },
         methods: {
             async funGetCode () {
@@ -99,6 +93,14 @@
                 } else {
                     alert(res.msg);
                 }
+            },
+            funInit () {
+                let appId = 'wxa408e026b5511183',
+                    redirectURI = 'http://mm.qiaocat.com/topic-ysl',
+                    wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+                let code = this.$route.query.code || '';
+                if (!code)
+                    location.href = wxLogin;
             },
             settime ($el, countdown) {
                 let _this = this;
