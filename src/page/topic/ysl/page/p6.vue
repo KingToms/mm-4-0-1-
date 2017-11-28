@@ -85,23 +85,28 @@
                 }
             },
             async funParticipate () {
-                if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
-                    alert("请输入正确的电话号码");
-                    return false;
-                } else if (!/^\d{6}$/.test(this.params.code)) {
-                    alert("请输入正确的验证码");
-                    return false;
+                if (this.showDom) {
+                    if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
+                        alert("请输入正确的电话号码");
+                        return false;
+                    } else if (!/^\d{6}$/.test(this.params.code)) {
+                        alert("请输入正确的验证码");
+                        return false;
+                    }
+
+                    let result = await authLogin(this.params);
+                    if (result.status == "ok") {
+                        $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
+                        setStore(keyConf.userMoile, this.mobile);
+                        // to do
+                        this.funYslSupport();
+                    } else {
+                        alert(result.msg);
+                    }
+                } else {
+                    this.funYslSupport();
                 }
 
-                let result = await authLogin(this.params);
-                if (result.status == "ok") {
-                    $.cookie(keyConf.qm_cookie, this.mobile, {expires: 1, path: "/"});
-                    setStore(keyConf.userMoile, this.mobile);
-                    // to do
-                    this.funYslSupport();
-                } else {
-                    alert(result.msg);
-                }
             },
             async funYslSupport () {
                 // 助力
