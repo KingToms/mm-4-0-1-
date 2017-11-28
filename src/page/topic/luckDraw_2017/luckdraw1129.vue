@@ -100,7 +100,7 @@ export default {
       for (var i in resData) {
         this.gift_txt.push(resData[i]);
       }
-      console.log("gift_txt:", this.gift_txt);
+      // console.log("gift_txt:", this.gift_txt);
     },
 
     /*抽奖*/

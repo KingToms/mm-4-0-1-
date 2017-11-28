@@ -6,7 +6,9 @@ var Promise = require('es6-promise').Promise
 
 let hostname = window.location.origin
 let baseUrl
-if(hostname.indexOf('tmp-mm.qiaocat.com') > -1){
+if(hostname.indexOf('tmp-mm.qiaocat.com') > -1 && hostname.indexOf('topic-') > -1){
+  baseUrl = keyConf.baseUrl.test
+}else if(hostname.indexOf('tmp-mm.qiaocat.com') > -1){
   baseUrl = keyConf.baseUrl.tmp
 }else if(hostname.indexOf('mm.qiaocat.com') > -1){
   baseUrl = keyConf.baseUrl.master
