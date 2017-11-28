@@ -65,7 +65,7 @@ export default {
       shareData: { // APP分享
         title: '俏猫&华工妇委抽奖转盘',
         desc: '女生形象大赛，女神们都给我“转”起来~',
-        link: 'http://mm.qiaocat.com/topic-luckdraw-1129?plid=' + this.plid,
+        link: 'http://mm.qiaocat.com/topic-luckdraw-1129?plid=92',
         imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg'
       },
     };
@@ -244,7 +244,7 @@ export default {
         _this.share_setup(
           "俏猫&华工妇委抽奖转盘",
           "女生形象大赛，女神们都给我“转”起来~",
-          "http://mm.qiaocat.com/topic-luckdraw-1129?plid=" + this.plid,
+          "http://mm.qiaocat.com/topic-luckdraw-1129?plid=92",
           "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1129/share.jpg",
         );
       });
