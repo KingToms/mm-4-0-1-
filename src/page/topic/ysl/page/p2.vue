@@ -114,6 +114,7 @@
     }
 
     .list-wrap {
+        position: relative;
         .list {
             display: flex;
             align-items: center;
@@ -124,7 +125,8 @@
                 display: block;
                 content: '';
                 height: 1px;
-                width: 100%;
+                left: 0;
+                right: 0;
                 bottom: 0;
                 background: #ddd;
             }

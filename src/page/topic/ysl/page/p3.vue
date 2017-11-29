@@ -112,7 +112,8 @@
 
     .ranking {
         border: 1px solid #000;
-        margin: 30px 20px 80px 20px;
+        margin: 30px 20px 0 20px;
+        padding-bottom: 80px;
         .title {
             width: 220px;
             display: block;
@@ -121,6 +122,7 @@
     }
 
     .list-wrap {
+        position: relative;
         .list {
             display: flex;
             align-items: center;
@@ -131,7 +133,8 @@
                 display: block;
                 content: '';
                 height: 1px;
-                width: 100%;
+                left: 0;
+                right: 0;
                 bottom: 0;
                 background: #ddd;
             }
