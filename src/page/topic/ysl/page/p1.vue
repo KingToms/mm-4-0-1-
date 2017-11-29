@@ -36,6 +36,7 @@
                 params: {
                     mobile: '',
                     code: '',
+                    inviter_id: '',
                     from: this.$route.query.from || '',
                     plid: '93'
                 },
@@ -46,6 +47,12 @@
             };
         },
         created () {
+            let info = JSON.parse(localStorage.getItem('QRInfo'));
+            if (info) {
+                this.params.inviter_id = info.id;
+                this.params.from = info.from;
+            }
+
             this.funYslUserInfo();
             this.wxLoginParams.code = this.$route.query.code || '';
             this.funInit();
