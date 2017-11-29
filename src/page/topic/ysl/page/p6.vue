@@ -38,7 +38,7 @@
                     code: '',
                     inviter_id: '',
                     from: '',
-                    plid: ''
+                    plid: '93'
                 },
                 zlParams: {
                     code: '',
@@ -50,7 +50,6 @@
         },
         created () {
             let info = JSON.parse(localStorage.getItem('QRInfo'));
-            this.params.plid = this.$route.query.plid || '';
             this.params.from = info.from;
             this.zlParams.id = info.id;
             this.zlParams.code = this.$route.query.code || '';

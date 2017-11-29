@@ -37,7 +37,7 @@
                     mobile: '',
                     code: '',
                     from: this.$route.query.from || '',
-                    plid: ''
+                    plid: '93'
                 },
                 wxLoginParams: {
                     code: ''
@@ -48,7 +48,6 @@
         created () {
             this.funYslUserInfo();
             this.wxLoginParams.code = this.$route.query.code || '';
-            this.params.plid = this.$route.query.plid || '';
             this.funInit();
         },
         methods: {
