@@ -21,7 +21,7 @@
             <div class="list-wrap">
                 <div class="list" v-for="(item,i) in items" :key="i">
                     <img class="icon_NO" :src="'/static/topic/ysl/icon_NO.'+i+'.png'" alt="" v-if="i<3">
-                    <span class="number style" v-else-if="i<20">{{i + 1}}</span>
+                    <span class="number style" v-else-if="i<20">{{item.rank}}</span>
                     <span class="number" v-else>{{i + 1}}</span>
                     <span class="portrait" :style="{'background-image': 'url('+item.avatar+')'}"></span>
                     <span class="name">{{item.nickname}}</span>
