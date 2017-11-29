@@ -22,6 +22,7 @@
                 </div>
             </div>
         </div>
+        <div style="height: 30px;"></div>
     </div>
 </template>
 <script>
@@ -105,7 +106,7 @@
 
     .ranking {
         border: 1px solid #000;
-        margin: 0 20px 30px 20px;
+        margin: 0 20px 0 20px;
         .title {
             width: 220px;
             display: block;

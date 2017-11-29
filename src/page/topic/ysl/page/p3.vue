@@ -29,6 +29,7 @@
                 </div>
             </div>
         </div>
+        <div style="height: 80px;"></div>
         <router-link class="generate" to="/topic-ysl/p4">生成召集令</router-link>
     </div>
 </template>
@@ -113,7 +114,6 @@
     .ranking {
         border: 1px solid #000;
         margin: 30px 20px 0 20px;
-        padding-bottom: 80px;
         .title {
             width: 220px;
             display: block;
