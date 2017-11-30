@@ -129,7 +129,7 @@
                     <!-- <img v-lazy="list.images ? list.images : '../../../assets/image/img/detail/square_default_bg.jpg'" > -->
                     <!-- :style="{backgroundImage : 'url('+myimgs+')'}" -->
                     <div class="img_box" >
-                      <a class="imgItem" :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}` : `/detail/${item.id}`">
+                      <a class="product_img" :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}` : `/detail/${item.id}`">
                         <!-- <img src="../../../assets/image/icon/detail/square_default_bg.jpg"> -->
                         <img :src="imgFilter(item.images)">
                       </a>
@@ -424,12 +424,13 @@
       squareImg(){
         let cw;
         setTimeout(function() {
-          cw = $('.imgItem').width();
-          $('.imgItem').css({
+          cw = $('.product_img').width();
+          console.log("cw:",cw);
+          $('.product_img').css({
             'height': cw + 'px'
           });
 
-          $('.imgItem img').each(function(index,item){
+          $('.product_img img').each(function(index,item){
             let imgDom = new Image();
             imgDom.src = item.src;
             imgDom.onload = function (){
@@ -722,7 +723,8 @@
               background-color: #f3f3f3;
               background-position: center;
               background-size: cover;
-              .imgItem {
+              .product_img {
+                width: 100%;
                 display: block;
                 overflow: hidden;
                 border-radius: 0.4rem;

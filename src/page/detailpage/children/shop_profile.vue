@@ -14,7 +14,7 @@
         <p>{{detail.intro}}</p>
       </li>
     </ul>
-    <div class="product">
+    <div class="product clearfix">
       <p>作品</p>
       <span>WORKS</span>
       <!-- <ul class="gallery">
@@ -151,7 +151,7 @@ export default {
   }
   .product {
     text-align: center;
-    margin-top: 7rem;
+    margin: 7rem 0;
     P {
       @include sc(1.6rem, #000);
     }
@@ -189,6 +189,13 @@ export default {
         }
       }
     }
+  }
+  .clearfix::before, .clearfix::after {
+      display: block;
+      content: '';
+      visibility: hidden;
+      height: 100%;
+      clear: both;
   }
 }
 </style>
