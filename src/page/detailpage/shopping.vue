@@ -156,7 +156,7 @@
         <mt-tab-container-item id="customer_evaluation">
           <customer_pingjia v-for="(item,index) in evaluation" :key="index" :list="item"></customer_pingjia>
           <mt-spinner type="fading-circle" v-if="more_show" color="#26a2ff" :size="40" style="margin: 0 auto"></mt-spinner>
-          <p id="more" style="text-align: center">{{message}}</p>
+          <p id="more">{{message}}</p>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
@@ -863,6 +863,11 @@
       .product_list{
         /*height: 4.4rem;*/
       }
+    }
+
+    #more {
+      text-align: center;
+      margin: 4rem auto;
     }
   }
 </style>
