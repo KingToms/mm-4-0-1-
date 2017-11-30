@@ -67,7 +67,7 @@ export default {
     }
   },
   props: ["list"],
-    mounted() {
+  mounted() {
     /*使评价图片显示正方形*/
     setTimeout(function() {
       var cw = $('.imgItem').width();
@@ -169,10 +169,14 @@ export default {
       top: 0.4rem;
       left: 0;
       @include wh(3rem, 3rem);
+      border-radius: 50%;
+      border: 0.05rem solid #ddd;
       margin-right: 1rem;
       img {
         width: 100%;
+        height: 100%;
         vertical-align: middle;
+        border-radius: 50%;
       }
     }
     .info {

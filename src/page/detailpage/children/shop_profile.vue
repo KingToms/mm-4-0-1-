@@ -3,11 +3,11 @@
     <ul class="name">
       <li>
         <i>从业</i>
-        <span>【{{detail.year?detail.year:0}}年】</span>
+        <span>【{{detail.year ? detail.year : 0}}年】</span>
       </li>
-      <li v-if=detail.user_good>
+      <li v-if="detail.user_good">
         <i>擅长</i>
-        <span>【{{detail.user_good?detail.user_good:""}}】</span>
+        <span>【{{detail.user_good ? detail.user_good : ""}}】</span>
       </li>
       <li>
         <i>简介</i>
