@@ -254,11 +254,9 @@
     mounted (){
       
       /*确保产品图片显示正方形*/
+      let _this = this;
       $(window).resize(function() {
-        let cw = $('.imgItem img').width();
-        $('.imgItem img').css({
-          'height': cw + 'px'
-        });
+        _this.squareImg();
       });
 
     },
@@ -403,12 +401,13 @@
           this.severlist = this.allSeverList;
           this.squareImg();
           return;
+        }else {
+          this.selecteItem = param;
+          this.severlist = this.allSeverList.filter(function(item){
+            return param === item.cate_id
+          });
+          this.squareImg();
         }
-        this.selecteItem = param;
-        this.severlist = this.allSeverList.filter(function(item){
-          return param === item.cate_id
-        });
-        this.squareImg();
       },
       imgFilter(image){
         if (!image) {
@@ -423,11 +422,40 @@
       },
       // 确保产品图片显示正方形
       squareImg(){
+        let cw;
         setTimeout(function() {
-          let cw = $('.imgItem img').width();
-          $('.imgItem img').css({
+          cw = $('.imgItem').width();
+          $('.imgItem').css({
             'height': cw + 'px'
           });
+
+          $('.imgItem img').each(function(index,item){
+            let imgDom = new Image();
+            imgDom.src = item.src;
+            imgDom.onload = function (){
+              let imgW = imgDom.width;
+              let imgH = imgDom.height;
+              if(imgW > imgH){ // 图：宽大于高
+                $(item).css({
+                  'width': 'auto',
+                  'height': cw + 'px',
+                  'margin-left': '-'+ (imgW*cw/(imgH*2) - cw/2) +'px',
+                });
+              }else if(imgW < imgH){
+                $(item).css({ // 图：宽小于高
+                  'height': 'auto',
+                  'width': cw + 'px',
+                  'margin-top': '-'+ (imgH*cw/(imgW*2) - cw/2) +'px',
+                });
+              }else{ // 图：宽等于高
+                $(item).css({
+                  'height': '100%',
+                  'width': '100%',
+                  'margin': '0',
+                });
+              }
+            }
+          })
         }, 0);
       },
 
@@ -694,11 +722,16 @@
               background-color: #f3f3f3;
               background-position: center;
               background-size: cover;
-              img {
+              .imgItem {
                 display: block;
-                width: 100%;
-                // opacity: 0;
-                @include borderRadius(0.4rem);
+                overflow: hidden;
+                border-radius: 0.4rem;
+                img {
+                  display: block;
+                  width: 100%;
+                  // opacity: 0;
+                  @include borderRadius(0.4rem);
+                }
               }
             }
           }

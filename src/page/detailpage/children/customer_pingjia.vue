@@ -166,7 +166,7 @@ export default {
     position: relative;
     .head_img {
       position: absolute;
-      top: 0.4rem;
+      top: 0.1rem;
       left: 0;
       @include wh(3rem, 3rem);
       border-radius: 50%;

@@ -57,7 +57,9 @@ export default {
           } else {
             _this.pictures.push("http://pic.qiaocat.com/upload/" + n);
           }
-        })
+        });
+
+        this.squareImg();
       }
 
     }
@@ -66,9 +68,55 @@ export default {
     bBox.baguetteBox.run('.gallery');
   },
   mounted(){
-    
+    /*确保产品图片显示正方形*/
+    let _this = this;
+    $(window).resize(function(){
+      _this.squareImg();
+    });
   },
-  methods: {},
+  methods: {
+    // 确保产品图片显示正方形
+    squareImg(){
+      let cw;
+      setTimeout(function() {
+        cw = $('.gallery a').width();
+        $('.gallery a').css({
+          'height': cw + 'px'
+        });
+
+        $('.gallery a img').each(function(index,item){
+          let imgDom = new Image();
+          imgDom.src = item.src;
+          imgDom.onload = function (){
+            let imgW = imgDom.width;
+            let imgH = imgDom.height;
+            if(imgW > imgH){ // 图：宽大于高
+              $(item).css({
+                'width': 'auto',
+                'height': cw + 'px',
+                'margin-left': '-'+ (imgW*cw/(imgH*2) - cw/2) +'px',
+              });
+            }else if(imgW < imgH){ // 图：宽小于高
+              $(item).css({
+                'height': 'auto',
+                'width': cw + 'px',
+                'margin-top': '-'+ (imgH*cw/(imgW*2) - cw/2) +'px',
+              });
+            }else{ // 图：宽等于高
+              $(item).css({
+                'height': '100%',
+                'width': '100%',
+                'margin': '0',
+              });
+            }
+          }
+
+        })
+      }, 0);
+
+
+    },
+  },
 }
 </script>
 
@@ -134,6 +182,8 @@ export default {
         margin-bottom: 2%;
         float: left;
         width: 29%;
+        display: block;
+        overflow: hidden;
         img {
           width: 100%;
         }
