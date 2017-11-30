@@ -437,23 +437,12 @@
               let imgW = imgDom.width;
               let imgH = imgDom.height;
               if(imgW > imgH){ // 图：宽大于高
-                $(item).css({
-                  'width': 'auto',
-                  'height': cw + 'px',
-                  'margin-left': '-'+ (imgW*cw/(imgH*2) - cw/2) +'px',
-                });
-              }else if(imgW < imgH){
-                $(item).css({ // 图：宽小于高
-                  'height': 'auto',
-                  'width': cw + 'px',
-                  'margin-top': '-'+ (imgH*cw/(imgW*2) - cw/2) +'px',
-                });
+                $(item).addClass("horizontal");
+              }else if(imgW < imgH){ // 图：宽小于高
+                $(item).addClass("vertical");
               }else{ // 图：宽等于高
-                $(item).css({
-                  'height': '100%',
-                  'width': '100%',
-                  'margin': '0',
-                });
+                $(item).removeClass("horizontal");
+                $(item).removeClass("vertical");
               }
             }
           })
@@ -725,14 +714,29 @@
               background-size: cover;
               .product_img {
                 width: 100%;
+                position: relative;
                 display: block;
                 overflow: hidden;
                 border-radius: 0.4rem;
                 img {
                   display: block;
                   width: 100%;
-                  // opacity: 0;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
                   @include borderRadius(0.4rem);
+                  &.horizontal {
+                    height: 100%;
+                    width: auto;
+                    left: 50%;
+                    transform: translateX(-50%);
+                  }
+                  &.vertical {
+                    width: 100%;
+                    height: auto;
+                    top: 50%;
+                    transform: translateY(-50%);
+                  }
                 }
               }
             }
