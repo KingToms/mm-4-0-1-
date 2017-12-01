@@ -22,7 +22,7 @@
           <img v-lazy="n" alt="">
         </li>
       </ul> -->
-      <div class="gallery">
+      <div class="gallery clearfix">
         <!-- <a href="/static/image/search/search_pic02.png"><img src="/static/image/search/search_pic02.png" alt=""></a> -->
         <a v-for="(n,index) in pictures" :key="index" href="javascript:void(0);" :data-img="n"><img :src="n" alt=""></a>
       </div>

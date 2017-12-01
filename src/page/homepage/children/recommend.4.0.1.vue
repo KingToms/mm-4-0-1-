@@ -272,15 +272,17 @@ export default {
     }
     .scroll {
       overflow-x: auto;
+      padding-left: 1rem;
       .item-scroll {
         white-space: nowrap;
         overflow-x: scroll;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         span {
           position: relative;
           display: inline-block;
-          &:nth-of-type(1) {
-            padding-left: 0.5rem;
+          &:nth-last-of-type(1) {
+            margin-right: 1rem;
           }
           .item {
             padding: 0 0.5rem 1rem 0.5rem;
@@ -289,6 +291,7 @@ export default {
               background-size: cover;
               @include wh(10.8rem,10.8rem);
               background-repeat: no-repeat;
+              border-radius: 0.4rem;
               img {
                 width: 100%;
               }

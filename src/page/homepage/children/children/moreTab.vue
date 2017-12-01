@@ -83,6 +83,7 @@ export default {
         @include wh(10.8rem, 10.8rem);
         background-size: cover;
         background-repeat: no-repeat;
+        border-radius: 0.4rem;
         img {
           width: 100%;
         }
