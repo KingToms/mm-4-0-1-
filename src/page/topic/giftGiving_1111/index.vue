@@ -163,8 +163,9 @@ export default {
     // 免费领
     async receiveGift(giftID){
       let qm_cookie = $.cookie(keyConf.qm_cookie);
-      let isLogin = await userIsLogin();
-      if (!qm_cookie || isLogin.status == "error") { // 未登录
+      
+      // if (!qm_cookie || isLogin.status == "error") { // 未登录
+      if (!qm_cookie) { // 未登录
         // APP站内登录(非微信QQ)
         if (
           // (common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1) && !this.weixinState
@@ -178,26 +179,29 @@ export default {
           this.isShow = true;
         }
       } else { // 已登录
+        let isLogin = await userIsLogin();
         // 专题是否在APP站外打开
-        this.is_weixn_qq();
-        // 领取礼品
-        let result = await getFreeGift({gift_id: giftID});
-        if(result.status == "ok"){
-          this.pro_id = giftID;
-          this.receive_state = true; // 领取结果
-          this.first_state = true; // 第一次领取
-        }else if(result.status == "error" && result.code == "1"){
-          this.pro_id = giftID;
-          this.receive_state = true; // 领取结果
-          this.first_state = false; // 你已领取过(非第一次领取)
-        }else{
-          // 提示：礼品不存在
-          Toast({
-            message: result.msg,
-            duration: 1000,
-            className: 'toast-tip'
-          });
-          // alert(result.msg);
+        if(isLogin.status != "error"){
+          this.is_weixn_qq();
+          // 领取礼品
+          let result = await getFreeGift({gift_id: giftID});
+          if(result.status == "ok"){
+            this.pro_id = giftID;
+            this.receive_state = true; // 领取结果
+            this.first_state = true; // 第一次领取
+          }else if(result.status == "error" && result.code == "1"){
+            this.pro_id = giftID;
+            this.receive_state = true; // 领取结果
+            this.first_state = false; // 你已领取过(非第一次领取)
+          }else{
+            // 提示：礼品不存在
+            Toast({
+              message: result.msg,
+              duration: 1000,
+              className: 'toast-tip'
+            });
+            // alert(result.msg);
+          }
         }
       }
     },
