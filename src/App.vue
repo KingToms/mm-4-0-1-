@@ -17,9 +17,8 @@ export default {
     return {}
   },
   created(){
-    let datetime = common.getQueryString("datetime");
-    let app = common.getQueryString("app");
-    if(datetime && app){
+    let url = this.$route.fullPath;
+    if(url.indexOf('datetime') > -1 && url.indexOf('app') > -1){
       this.setStorage(); 
     }
   },
@@ -32,11 +31,11 @@ export default {
         let res = await authToken({ token: datetime });
         res.status === "ok"
           ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
-          : $.cookie(keyConf.qm_cookie, "");
+          : $.cookie(keyConf.qm_cookie, "",{expires:1, path: '/'});
         storage_custom.set(keyConf.token, datetime);
-      } else if (!datetime && app) {
+      } else {
         storage_custom.set(keyConf.token, "");
-        $.cookie(keyConf.qm_cookie, "");
+        $.cookie(keyConf.qm_cookie, "",{expires:1, path: '/'});
       }
     }
   }
