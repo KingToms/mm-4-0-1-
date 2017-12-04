@@ -25,6 +25,7 @@ export default {
   methods: {
     // app登录验证
     async setStorage() {
+      console.log('正式的。。。。执行否？');
       let datetime = common.getQueryString("datetime");
       let app = common.getQueryString("app");
       if (datetime && app) {
