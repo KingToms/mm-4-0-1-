@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin, yslUserTake, yslUserInfo} from "@/service/getData";
+    import {getCode, authLogin, yslUserTake, yslUserInfo, getWechatCode} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -122,13 +122,20 @@
                     }
                 }
             },
+            async funGetWechatCode () {
+                // 获取微信code
+                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-ysl'});
+                console.log(res);
+                let result = '';
+                if (res.status === 'ok') {
+                    result = res.url;
+                }
+                return result;
+            },
             funInit () {
-                let appId = 'wxa408e026b5511183',
-                    redirectURI = 'http://mm.qiaocat.com/topic-ysl',
-                    wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
                 let code = this.$route.query.code || '';
                 if (!code)
-                    location.href = wxLogin;
+                    location.href = this.funGetWechatCode();
             },
             settime ($el, countdown) {
                 let _this = this;
