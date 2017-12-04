@@ -19,25 +19,35 @@
       </div>
     </div>
     <p class="des">{{list.user_info.comment}}</p>
-    <ul class="clear" v-if="list.user_info && list.user_info.images && list.user_info.images[0]">
+    <!--<ul class="clear" v-if="list.user_info && list.user_info.images && list.user_info.images[0]">
       <li class="imgItem" v-for="(item,index) in comments_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}">
         <img src="../../../assets/image/icon/detail/service_btn_photo.png">
       </li>
-    </ul>
+    </ul>-->
+    <div class="gallery clear" v-if="list.user_info && list.user_info.images && list.user_info.images[0]">
+      <a class="imgItem" v-for="(item,index) in comments_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}" href="javascript:void(0);" :data-img="item">
+        <img :src="item" alt="">
+      </a>
+    </div>
     <p class="zjdes" v-if="list.zhuijia">
       <span>【追加评价】</span>{{list.zhuijia.comment}}</p>
-    <ul class="clear" v-if="list.zhuijia && list.zhuijia.images && list.zhuijia.images[0]">
+    <!--<ul class="clear" v-if="list.zhuijia && list.zhuijia.images && list.zhuijia.images[0]">
       <li class="imgItem" v-for="(item,index) in add_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}">
         <img src="../../../assets/image/icon/detail/service_btn_photo.png">
       </li>
-    </ul>
+    </ul>-->
+    <div class="gallery clear" v-if="list.zhuijia && list.zhuijia.images && list.zhuijia.images[0]">
+      <a class="imgItem" v-for="(item,index) in add_imgs" :key="index" :style="{backgroundImage : 'url('+item+')'}" href="javascript:void(0);" :data-img="item">
+        <img :src="item" alt="">
+      </a>
+    </div>
     <div class="reply-panel" v-if="list.huifu && list.huifu.length != 0">
       <div class="reply">
         商家回复：{{list.huifu.comment ? list.huifu.comment : ''}}
       </div>
     </div>
     <!-- <div class="reply" v-if="list.huifu">商家回复：{{list.huifu.comment}}</div> -->
-    <div class="shopping clear">
+    <div class="shopping clear" v-if="list.goods">
       <a :href="`/detail/${list.user_info.product_id}`">
         <img :src=" list.goods.thumb | productImg" />
         <p>{{list.goods.name}}</p>
@@ -57,6 +67,25 @@ export default {
     }
   },
   props: ["list"],
+  mounted() {
+    /*使评价图片显示正方形*/
+    setTimeout(function() {
+      var cw = $('.imgItem').width();
+      $('.imgItem').css({
+        'height': cw + 'px'
+      });
+    }, 0);
+    $(window).resize(function() {
+      var cw = $('.imgItem').width();
+      $('.imgItem').css({
+        'height': cw + 'px'
+      });
+    });
+
+    /*评论图片查看器*/
+    let bBox = require('../../../assets/js/baguetteBox.js');
+    bBox.baguetteBox.run('.gallery');
+  },
   methods: {
     pingjiaImg() { //判断评价图片是否是相对路径还是绝对路径
       let _this = this;
@@ -128,6 +157,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/css/baguetteBox.min.css';
 @import '../../../../src/assets/css/mixin.scss';
 .curstom {
   border-bottom: 1px solid #ddd;
@@ -136,13 +166,17 @@ export default {
     position: relative;
     .head_img {
       position: absolute;
-      top: 0.4rem;
+      top: 0.1rem;
       left: 0;
       @include wh(3rem, 3rem);
+      border-radius: 50%;
+      border: 0.05rem solid #ddd;
       margin-right: 1rem;
       img {
         width: 100%;
+        height: 100%;
         vertical-align: middle;
+        border-radius: 50%;
       }
     }
     .info {
@@ -194,11 +228,11 @@ export default {
       @include sc(1.3rem, #666);
     }
   }
-  ul {
+  /*ul {
     li.imgItem {
       display: block;
       float: left;
-      width: 30.5%;
+      width: 30.2%;
       @include borderRadius(0.4rem);
       overflow: hidden;
       margin-left: 1rem;
@@ -218,7 +252,30 @@ export default {
         margin-left: 0;
       }
     }
+  }*/
+
+  .imgItem {
+    display: block;
+    float: left;
+    width: 30.2%;
+    @include borderRadius(0.4rem);
+    overflow: hidden;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    background-position: center;
+    background-size: cover;
+    &:first-child,
+    &:nth-child(3n+1) {
+      margin-left: 0;
+    }
+    img {
+      display: block;
+      width: 100%;
+      opacity: 0; // @include borderRadius(0.4rem);
+      border-radius: 0.4rem;
+    }
   }
+
   /* .reply {
     position: relative;
     @include sc(1.3rem, #000);

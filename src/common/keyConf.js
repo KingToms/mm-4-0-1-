@@ -29,5 +29,10 @@ export default {
   orderCreate: 'orderCreate', //订单创建时间
   orderStatus: 'orderStatus',  // 订单状态
   orderDesc: 'orderDesc' , // 购物须知及赔付规则
-  token: 'authApp'
+  token: 'authApp',
+  categaryStore: {
+    1: '1',
+    64: '64',
+    128: '128'
+  }
 }

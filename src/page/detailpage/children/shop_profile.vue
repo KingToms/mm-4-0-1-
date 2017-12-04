@@ -3,18 +3,18 @@
     <ul class="name">
       <li>
         <i>从业</i>
-        <span>【{{detail.year?detail.year:0}}年】</span>
+        <span>【{{detail.year ? detail.year : 0}}年】</span>
       </li>
-      <li v-if=detail.user_good>
+      <li v-if="detail.user_good">
         <i>擅长</i>
-        <span>【{{detail.user_good?detail.user_good:""}}】</span>
+        <span>【{{detail.user_good ? detail.user_good : ""}}】</span>
       </li>
       <li>
         <i>简介</i>
         <p>{{detail.intro}}</p>
       </li>
     </ul>
-    <div class="product">
+    <div class="product clearfix">
       <p>作品</p>
       <span>WORKS</span>
       <!-- <ul class="gallery">
@@ -22,7 +22,7 @@
           <img v-lazy="n" alt="">
         </li>
       </ul> -->
-      <div class="gallery">
+      <div class="gallery clearfix">
         <!-- <a href="/static/image/search/search_pic02.png"><img src="/static/image/search/search_pic02.png" alt=""></a> -->
         <a v-for="(n,index) in pictures" :key="index" href="javascript:void(0);" :data-img="n"><img :src="n" alt=""></a>
       </div>
@@ -57,7 +57,9 @@ export default {
           } else {
             _this.pictures.push("http://pic.qiaocat.com/upload/" + n);
           }
-        })
+        });
+
+        this.squareImg();
       }
 
     }
@@ -66,9 +68,44 @@ export default {
     bBox.baguetteBox.run('.gallery');
   },
   mounted(){
-    
+    /*确保产品图片显示正方形*/
+    let _this = this;
+    $(window).resize(function(){
+      _this.squareImg();
+    });
   },
-  methods: {},
+  methods: {
+    // 确保产品图片显示正方形
+    squareImg(){
+      let cw;
+      setTimeout(function() {
+        cw = $('.gallery a').width();
+        $('.gallery a').css({
+          'height': cw + 'px'
+        });
+
+        $('.gallery a img').each(function(index,item){
+          let imgDom = new Image();
+          imgDom.src = item.src;
+          imgDom.onload = function (){
+            let imgW = imgDom.width;
+            let imgH = imgDom.height;
+            if(imgW > imgH){ // 图：宽大于高
+              $(item).addClass("horizontal");
+            }else if(imgW < imgH){ // 图：宽小于高
+              $(item).addClass("vertical");
+            }else{ // 图：宽等于高
+              $(item).removeClass("horizontal");
+              $(item).removeClass("vertical");
+            }
+          }
+
+        })
+      }, 0);
+
+
+    },
+  },
 }
 </script>
 
@@ -103,7 +140,7 @@ export default {
   }
   .product {
     text-align: center;
-    margin-top: 7rem;
+    margin: 7rem 0;
     P {
       @include sc(1.6rem, #000);
     }
@@ -130,15 +167,40 @@ export default {
       width: 100%;
       margin: 1rem auto;
       a {
+        position: relative;
         margin-left: 3%;
         margin-bottom: 2%;
         float: left;
         width: 29%;
+        display: block;
+        overflow: hidden;
         img {
           width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          &.horizontal {
+            height: 100%;
+            width: auto;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+          &.vertical {
+            width: 100%;
+            height: auto;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
       }
     }
+  }
+  .clearfix::before, .clearfix::after {
+      display: block;
+      content: '';
+      visibility: hidden;
+      height: 100%;
+      clear: both;
   }
 }
 </style>

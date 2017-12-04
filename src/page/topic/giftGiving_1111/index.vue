@@ -76,7 +76,7 @@
           </div>
           <p class="tips">下单满39元，即可包邮到家。24小时内有效。</p>
         </div>
-        <a class="link-to" href="http://mm.qiaocat.com/detail/1000205?from=mfshl">购美特惠通道</a>
+        <a class="link-to" href="/detail/1000205?from=mfshl">购美特惠通道</a>
         <div class="coupon" v-if="hidden_topic">
           <router-link to="/topic-newuser-invite-600">
             <img src="/static/topic/giftGiving_1111/invite.png" alt="600直减券">
@@ -180,7 +180,6 @@ export default {
       } else { // 已登录
         // 专题是否在APP站外打开
         this.is_weixn_qq();
-
         // 领取礼品
         let result = await getFreeGift({gift_id: giftID});
         if(result.status == "ok"){
@@ -205,14 +204,15 @@ export default {
 
     // 客户端是否已登录
     async setStorage() {
-      let datetime = window.location.href.indexOf("datetime");
+      let datetime = common.getQueryString("datetime");
       let app = common.getQueryString("app");
-      if (datetime > -1 && app) {
-        let res = await authToken({ token: "201711" });
-        /*该接口待版本更新后生效*/
-        // res.status === "ok" ? $.cookie(keyConf.qm_cookie, res.data.id) : $.cookie(keyConf.qm_cookie, "");
-        storage_custom.set(keyConf.token, "201711");
-      } else if (datetime <= -1 && app) {
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
+          : $.cookie(keyConf.qm_cookie, "");
+        storage_custom.set(keyConf.token, datetime);
+      } else if (!datetime && app) {
         storage_custom.set(keyConf.token, "");
         $.cookie(keyConf.qm_cookie, "");
       }
@@ -326,9 +326,6 @@ export default {
         }
       });
     },
-  },
-  components: {
-
   },
 }
 </script>

@@ -69,8 +69,9 @@ export default {
     this.city = JSON.parse(getStore('current_city'))
     this.tab = this.$route.params.tabName
     this.sourceTab = this.tab
-    this.id = this.$route.params.id
+    // this.id = this.$route.params.id
     this.getStylist()
+    $(window).scrollTop(0);
     this.scroll(this.$route.query)
   },
   methods: {
@@ -84,7 +85,8 @@ export default {
     changeType(tab){
       $(window).scrollTop(0)
       this.tab = tab
-      this.id = this.tab == this.sourceTab ? this.$route.params.id : ''
+      // this.id = this.tab == this.sourceTab ? this.$route.params.id : 0
+      this.id = 0
       this.pageNo = 1
       this.searchSty = ''
       this.stylist = []

@@ -129,7 +129,7 @@
                     <!-- <img v-lazy="list.images ? list.images : '../../../assets/image/img/detail/square_default_bg.jpg'" > -->
                     <!-- :style="{backgroundImage : 'url('+myimgs+')'}" -->
                     <div class="img_box" >
-                      <a :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}` : `/detail/${item.id}`">
+                      <a class="product_img" :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}` : `/detail/${item.id}`">
                         <!-- <img src="../../../assets/image/icon/detail/square_default_bg.jpg"> -->
                         <img :src="imgFilter(item.images)">
                       </a>
@@ -156,7 +156,7 @@
         <mt-tab-container-item id="customer_evaluation">
           <customer_pingjia v-for="(item,index) in evaluation" :key="index" :list="item"></customer_pingjia>
           <mt-spinner type="fading-circle" v-if="more_show" color="#26a2ff" :size="40" style="margin: 0 auto"></mt-spinner>
-          <p id="more" style="text-align: center">{{message}}</p>
+          <p id="more">{{message}}</p>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
@@ -252,6 +252,12 @@
       this.shopAddre();//服务商圈地址
     },
     mounted (){
+      
+      /*确保产品图片显示正方形*/
+      let _this = this;
+      $(window).resize(function() {
+        _this.squareImg();
+      });
 
     },
     methods: {
@@ -393,12 +399,15 @@
         if(!param){
           this.selecteItem = '全部';
           this.severlist = this.allSeverList;
+          this.squareImg();
           return;
+        }else {
+          this.selecteItem = param;
+          this.severlist = this.allSeverList.filter(function(item){
+            return param === item.cate_id
+          });
+          this.squareImg();
         }
-        this.selecteItem = param;
-        this.severlist = this.allSeverList.filter(function(item){
-          return param === item.cate_id
-        });
       },
       imgFilter(image){
         if (!image) {
@@ -411,12 +420,41 @@
           }
         }
       },
+      // 确保产品图片显示正方形
+      squareImg(){
+        let cw;
+        setTimeout(function() {
+          cw = $('.product_img').width();
+          console.log("cw:",cw);
+          $('.product_img').css({
+            'height': cw + 'px'
+          });
+
+          $('.product_img img').each(function(index,item){
+            let imgDom = new Image();
+            imgDom.src = item.src;
+            imgDom.onload = function (){
+              let imgW = imgDom.width;
+              let imgH = imgDom.height;
+              if(imgW > imgH){ // 图：宽大于高
+                $(item).addClass("horizontal");
+              }else if(imgW < imgH){ // 图：宽小于高
+                $(item).addClass("vertical");
+              }else{ // 图：宽等于高
+                $(item).removeClass("horizontal");
+                $(item).removeClass("vertical");
+              }
+            }
+          })
+        }, 0);
+      },
+
       //加载更多数据
       loadmore() {
         let _this=this;
         //当前页面监听滚动事件
         $(document).scroll(function () {//滚动条滚动的时候
-//          if(_this.$route.path == (`/detail/shopping/${_this.$route.params.shopid}`) && _this.selected=="customer_evaluation"){
+            //if(_this.$route.path == (`/detail/shopping/${_this.$route.params.shopid}`) && _this.selected=="customer_evaluation"){
             //获取当前加载更多按钮距离顶部的距离
             let bottomsubmit = $('#more').offset().top;
             //获取当前页面底部距离顶部的高度距离
@@ -439,7 +477,7 @@
             }
           }
         });
-      }
+      },
     },
     components:{
       shop_profile,
@@ -674,11 +712,32 @@
               background-color: #f3f3f3;
               background-position: center;
               background-size: cover;
-              img {
-                display: block;
+              .product_img {
                 width: 100%;
-                // opacity: 0;
-                @include borderRadius(0.4rem);
+                position: relative;
+                display: block;
+                overflow: hidden;
+                border-radius: 0.4rem;
+                img {
+                  display: block;
+                  width: 100%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  @include borderRadius(0.4rem);
+                  &.horizontal {
+                    height: 100%;
+                    width: auto;
+                    left: 50%;
+                    transform: translateX(-50%);
+                  }
+                  &.vertical {
+                    width: 100%;
+                    height: auto;
+                    top: 50%;
+                    transform: translateY(-50%);
+                  }
+                }
               }
             }
           }
@@ -781,7 +840,7 @@
     /*服务项目、店铺简介、个人评价*/
     .bgcfff{
       background-color: #fff;
-      padding: 0 1rem;
+      padding-left: 1rem;
       .categary ul{
         display: flex;
         height: 4.5rem;
@@ -808,6 +867,11 @@
       .product_list{
         /*height: 4.4rem;*/
       }
+    }
+
+    #more {
+      text-align: center;
+      margin: 4rem auto;
     }
   }
 </style>

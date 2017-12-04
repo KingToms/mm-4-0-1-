@@ -10,24 +10,33 @@
 import keyConf from './common/keyConf.js';
 import { storage_custom } from './common/store.js';
 import common from './common/common.js';
-import { authCRMToken } from './service/getData';
+import { authToken, authCRMToken } from './service/getData';
 export default {
   name: 'app',
   data () {
     return {}
   },
   created(){
-    // this.setStorage(); 
+    let datetime = common.getQueryString("datetime");
+    let app = common.getQueryString("app");
+    if(datetime && app){
+      this.setStorage(); 
+    }
   },
   methods: {
-    setStorage(){
-      let datetime = common.getQueryString('datetime');
-      let app = common.getQueryString('app');
-      if(datetime && app){
+    // app登录验证
+    async setStorage() {
+      let datetime = common.getQueryString("datetime");
+      let app = common.getQueryString("app");
+      if (datetime && app) {
+        let res = await authToken({ token: datetime });
+        res.status === "ok"
+          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
+          : $.cookie(keyConf.qm_cookie, "");
         storage_custom.set(keyConf.token, datetime);
-      }else if(!datetime && app){
-        storage_custom.set(keyConf.token, '');
-        $.cookie(keyConf.qm_cookie, '');
+      } else if (!datetime && app) {
+        storage_custom.set(keyConf.token, "");
+        $.cookie(keyConf.qm_cookie, "");
       }
     }
   }
