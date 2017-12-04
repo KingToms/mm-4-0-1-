@@ -22,7 +22,7 @@
     </div>
 </template>
 <script>
-    import {getCode, authLogin, yslSupport, yslGetNick, yslUserInfo} from "@/service/getData";
+    import {getCode, authLogin, yslSupport, yslGetNick, yslUserInfo, getWechatCode} from "@/service/getData";
     import common from "../../../../common/common";
     import {setStore} from "../../../../common/store.js";
     import keyConf from "../../../../common/keyConf.js";
@@ -55,7 +55,7 @@
             this.zlParams.code = this.$route.query.code || '';
             this.params.inviter_id = this.zlParams.id;
             this.funYslUserInfo();
-            this.funInit();
+            this.funGetWechatCode();
             this.funYslGetNick();
         },
         methods: {
@@ -137,13 +137,15 @@
                     }
                 }
             },
-            funInit () {
-                let appId = 'wxa408e026b5511183',
-                    redirectURI = 'http://mm.qiaocat.com/topic-ysl/p6',
-                    wxLogin = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectURI + '&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-                let code = this.$route.query.code || '';
-                if (!code)
-                    location.href = wxLogin;
+            async funGetWechatCode () {
+                // 获取微信code
+                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-ysl/p6'});
+                console.log(res);
+                if (res.status === 'ok') {
+                    let code = this.$route.query.code || '';
+                    if (!code)
+                        location.href = res.url;
+                }
             },
             settime ($el, countdown) {
                 let _this = this;
