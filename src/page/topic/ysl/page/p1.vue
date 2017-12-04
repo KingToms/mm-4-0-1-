@@ -52,10 +52,9 @@
                 this.params.inviter_id = info.id;
                 this.params.from = info.from;
             }
-
             this.funYslUserInfo();
             this.wxLoginParams.code = this.$route.query.code || '';
-            this.funInit();
+            this.funGetWechatCode();
         },
         methods: {
             async funYslUserInfo () {
@@ -126,16 +125,11 @@
                 // 获取微信code
                 let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-ysl'});
                 console.log(res);
-                let result = '';
                 if (res.status === 'ok') {
-                    result = res.url;
+                    let code = this.$route.query.code || '';
+                    if (!code)
+                        location.href = res.url;
                 }
-                return result;
-            },
-            funInit () {
-                let code = this.$route.query.code || '';
-                if (!code)
-                    location.href = this.funGetWechatCode();
             },
             settime ($el, countdown) {
                 let _this = this;
