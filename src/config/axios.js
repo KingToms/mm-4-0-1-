@@ -5,7 +5,7 @@ import { Indicator } from 'mint-ui';
 var Promise = require('es6-promise').Promise
 
 let hostname = window.location.origin
-let baseUrl = 'http://www.qcat_mm_api.com'
+let baseUrl
 if(hostname.indexOf('tmp-mm.qiaocat.com') > -1){
   baseUrl = keyConf.baseUrl.tmp
 }else if(hostname.indexOf('mm.qiaocat.com') > -1){
@@ -44,8 +44,9 @@ axios.interceptors.request.use((config) => {
 
 export default async (url = '', params = {}, type = 'GET') => {
   // 版本控制
-  // url = url + '?API_VERSION=V4.0.0';
-  url = url + '?API_VERSION=V4.0.1';
+  if(url.indexOf('API_VERSION')<-1)
+    url = url + '?API_VERSION=V4.0.0';
+
   return new Promise((resolve, reject) => {
     /*axios({
         method: type,
