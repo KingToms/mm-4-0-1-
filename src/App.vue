@@ -21,9 +21,6 @@ export default {
     let app = common.getQueryString("app");
     if(datetime && app){
       this.setStorage(); 
-    }else{
-      storage_custom.set(keyConf.token, "");
-      $.cookie(keyConf.qm_cookie, "");
     }
   },
   methods: {
