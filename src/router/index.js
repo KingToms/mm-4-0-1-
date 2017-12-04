@@ -151,15 +151,26 @@ const lineUp_001 = r => require.ensure([], () => r(require('@/page/topic/makeup0
 const doubleEleven = r => require.ensure([], () => r(require('@/page/topic/doubleEleven_1111/index')), 'double-eleven');
 // 双11俏猫邀你领好礼
 const sendGift = r => require.ensure([], () => r(require('@/page/topic/giftGiving_1111/index')), 'send_gift');
+// Y.S.L圣罗兰专题
+const ysl = r => require.ensure([], () => r(require('@/page/topic/ysl/index')), 'ysl');
+const yslP1 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p1')), 'ysl');
+const yslP2 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p2')), 'ysl');
+const yslP3 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p3')), 'ysl');
+const yslP4 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p4')), 'ysl');
+const yslP5 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p5')), 'ysl');
+const yslP6 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p6')), 'ysl');
+const yslP7 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p7')), 'ysl');
 // 2017感恩节专题
 const Thanksgiving_2017 = r => require.ensure([], () => r(require('@/page/topic/thanksgiving_2017/index')), 'thanksgiving_2017');
+// 2017大转盘抽奖
+const luckDraw_1129 = r => require.ensure([], () => r(require('@/page/topic/luckDraw_2017/luckdraw1129')), 'luckDraw_2017');
 /*专题模块结束 */
 
 // 路由导向错误
 const ErrorPage = resolve => require.ensure([], () => resolve(require('@/page/errorpage/error')), 'errorPage')
 
 const router = new Router({
-  mode: 'history', 
+  mode: 'history',
   routes: [
     {
       path: '/', // 顶级目录
@@ -518,6 +529,19 @@ const router = new Router({
         component: sendGift
         },
         {
+          path: '/topic-ysl',
+          component: ysl,
+            children:[
+                {path:'',component:yslP1},
+                {path:'p2',component:yslP2},
+                {path:'p3',component:yslP3},
+                {path:'p4',component:yslP4},
+                {path:'p5',component:yslP5},
+                {path:'p6',component:yslP6},
+                {path:'p7',component:yslP7}
+            ]
+         },
+        {
           path: '/topic-order/:id',
           name: 'topicOrder',
           component: topicOrder
@@ -541,6 +565,10 @@ const router = new Router({
         {
           path: '/topic-thanksgiving-2017',
           component: Thanksgiving_2017
+        },
+        {
+          path: '/topic-luckdraw-1129',
+          component: luckDraw_1129
         },
         {
           // 错误页

@@ -40,7 +40,7 @@ export default {
       alertText: ''
     }
   },
-  props:['channel','from'],
+  props:['channel'],
   components: {
     alertTip
   },
@@ -61,7 +61,7 @@ export default {
     },
     async codeLogin () {
       // this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-      let result = await authLogin({mobile: this.mobile,code: this.code, plid: this.channel, from: this.from})
+      let result = await authLogin({mobile: this.mobile,code: this.code, plid: this.channel})
       if(result.status == 'ok'){
         $.cookie(keyConf.qm_cookie, this.mobile, {expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)
