@@ -164,6 +164,8 @@ const yslP7 = r => require.ensure([], () => r(require('@/page/topic/ysl/page/p7'
 const Thanksgiving_2017 = r => require.ensure([], () => r(require('@/page/topic/thanksgiving_2017/index')), 'thanksgiving_2017');
 // 2017大转盘抽奖
 const luckDraw_1129 = r => require.ensure([], () => r(require('@/page/topic/luckDraw_2017/luckdraw1129')), 'luckDraw_2017');
+// 2017年会妆专题
+const annualMakeup = r => require.ensure([], () => r(require('@/page/topic/annualMakeup/index')), 'annualMakeup');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -569,6 +571,10 @@ const router = new Router({
         {
           path: '/topic-luckdraw-1129',
           component: luckDraw_1129
+        },
+        {
+          path: '/topic-annual-makeup',
+          component: annualMakeup
         },
         {
           // 错误页
