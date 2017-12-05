@@ -57,10 +57,12 @@ export default {
     return {
       praise_state: false, // 是否已点赞
       comments_imgs: [], // 评价图片
+      pingjia_img: [], // 新评价图片列表
       comments_list: [], // 评论列表
       commentTXT: '', // 评论栏（被评论人姓名及id）
       input_txt: '', // 输入框内容
       user_info: {}, // 登录用户的信息
+      flag: true,
       comment_info: {
         comment: '', // 评论内容
         comment_id: '', // 评论id,评论了哪一条
@@ -74,9 +76,10 @@ export default {
   },
   props: ["item", "like_list"],
   created() {
-    this.comments_imgs = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //评价图片列表数组
+    this.pingjia_img = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //新评价图片列表数组
     this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
 
+    this.pingjiaImg();
     this.setStorage();
     this.checkLike();
   },
@@ -257,7 +260,25 @@ export default {
     },
     setFooterShow(){
       $('.footer').show();
-    }
+    },
+
+    /*判断评价图片是否是相对路径还是绝对路径*/
+    pingjiaImg() {
+      let _this = this;
+      let reg = /\.(jpg|gif|png|bmp|jpeg)$/;
+      if (this.flag) {
+        this.flag = false;
+        if (this.pingjia_img.length == 0) {
+          this.comments_imgs = [];
+        } else {
+          this.pingjia_img.forEach(function(n, i) {
+            if (n != 0 && reg.test(n)) { // 排除后端返回的图片路径为：“|0”、“|1”,而且为图片类型
+              _this.comments_imgs.push(n);
+            }
+          })
+        }
+      }
+    },
   },
   filters: {
     uesrImg(item) {
