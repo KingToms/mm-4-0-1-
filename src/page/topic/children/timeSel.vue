@@ -530,22 +530,23 @@ export default {
       border-top: .05rem solid #ccc;
       background-color: #fff;
       div.left{
-        padding-left: 1.5rem;
+        padding-left: 1rem;
         line-height: 5rem;
         span:first-child{
           @include sc(1.4rem,#666);
         }
         span:last-child{
-          padding-left: 1.4rem;
+          padding-left: 1rem;
           @include sc(1.4rem,#000);
         }
       }
       div.right{
         position: relative;
-        @include wh(12rem,5rem);
+        @include wh(40%,5rem);
         a{
           position: absolute;
-          @include wh(12rem,5rem);
+          display: block;
+          @include wh(100%,100%);
           @include bgColor(#e70034);
           @include sc(1.8rem,#fff);
           text-align: center;

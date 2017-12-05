@@ -440,8 +440,9 @@ export default {
       });
       this.totalPrice = this.total;
 
-      if(this.$route.query.from_ad =="topic_halloween2017"){ // 双十一美妆狂欢节专题不打折
+      if(this.$route.query.from_ad =="topic_halloween2017" || this.$route.query.from_ad =="topic_annualmakeup2017"){ // 专题打折
         this.filterDiscount();
+        this.orderTotal = this.totalPrice;
       }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
         this.total = this.proids.length >=2 ? (this.totalPrice - 50) : this.totalPrice;
         this.orderTotal = this.total; // 订单的初始价格
@@ -863,7 +864,7 @@ export default {
       }
       .info {
         padding: 2.1rem 0 0 1.6rem;
-        width: 70%;
+        width: 68%;
         p {
           @include sc(1.4rem,
           #000);
@@ -875,7 +876,7 @@ export default {
               #e65058)
             }
             .oldPrice {
-              padding-left: 10rem;
+              padding-left: 50%;
               @include sc(1.6rem,
               #000);
               /* small{
@@ -1047,7 +1048,7 @@ export default {
       position: fixed;
       bottom: 0;
     }
-    padding-left: 1.5rem;
+    padding-left: 1rem;
     @include wh(100%,
     5rem);
     border-top: .05rem solid #ccc;
@@ -1061,8 +1062,7 @@ export default {
       }
     }
     .btn {
-      @include wh(13rem,
-      5rem);
+      @include wh(45%,5rem);
       @include bgColor(#e70034);
       @include sc(1.8rem,
       $bgWhite);
