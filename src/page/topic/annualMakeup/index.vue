@@ -9,15 +9,15 @@
       <div class="product pro_01">
         <img src="/static/topic/annualMakeup/annual_topic_03.jpg" alt="年会清新仙女装">
         <img src="/static/topic/annualMakeup/annual_topic_04.jpg" alt="年会清新仙女装">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000893)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000636)"></a>
       </div>
       <div class="product pro_02">
         <img src="/static/topic/annualMakeup/annual_topic_05.jpg" alt="年会御姐气场妆">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000894)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000637)"></a>
       </div>
       <div class="product pro_03">
         <img src="/static/topic/annualMakeup/annual_topic_06.jpg" alt="年会俊朗绅士妆">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000895)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000638)"></a>
       </div>
       <div class="tips">
         <img src="/static/topic/annualMakeup/annual_topic_07.jpg" alt="一起来更优惠">
