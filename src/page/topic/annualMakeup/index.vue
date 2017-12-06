@@ -9,15 +9,15 @@
       <div class="product pro_01">
         <img src="/static/topic/annualMakeup/annual_topic_03.jpg" alt="年会清新仙女装">
         <img src="/static/topic/annualMakeup/annual_topic_04.jpg" alt="年会清新仙女装">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000636)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000893)"></a>
       </div>
       <div class="product pro_02">
         <img src="/static/topic/annualMakeup/annual_topic_05.jpg" alt="年会御姐气场妆">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000637)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000894)"></a>
       </div>
       <div class="product pro_03">
         <img src="/static/topic/annualMakeup/annual_topic_06.jpg" alt="年会俊朗绅士妆">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000638)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000895)"></a>
       </div>
       <div class="tips">
         <img src="/static/topic/annualMakeup/annual_topic_07.jpg" alt="一起来更优惠">
@@ -74,8 +74,8 @@ export default {
       shareData: { // APP分享
         title: '年会美丽大对决，做最亮眼的主角！',
         desc: '【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~',
-        link: 'http://tmp-mm.qiaocat.com/topic-annual-makeup?plid=94',
-        imgUrl: 'http://tmp-mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
+        link: 'http://mm.qiaocat.com/topic-annual-makeup?plid=94',
+        imgUrl: 'http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
       },
     };
   },
@@ -202,8 +202,8 @@ export default {
         _this.share_setup(
           "年会美丽大对决，做最亮眼的主角！",
           "【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~",
-          "http://tmp-mm.qiaocat.com/topic-annual-makeup?plid=94",
-          "http://tmp-mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
+          "http://mm.qiaocat.com/topic-annual-makeup?plid=94",
+          "http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
         );
       });
     },

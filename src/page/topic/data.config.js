@@ -53,8 +53,4 @@ export const halloweenData = {
   1000893: {id: '1000893', name: '年会清新仙女妆', price: '288', img: '/static/topic/annualMakeup/product_01.jpg'},
   1000894: {id: '1000894', name: '年会御姐气场妆', price: '288', img: '/static/topic/annualMakeup/product_02.jpg'},
   1000895: {id: '1000895', name: '年会俊朗绅士妆', price: '288', img: '/static/topic/annualMakeup/product_03.jpg'},
-  // 测试（待删除）
-  1000636: {id: '1000636', name: '年会清新仙女妆', price: '288', img: '/static/topic/annualMakeup/product_01.jpg'},
-  1000637: {id: '1000637', name: '年会御姐气场妆', price: '288', img: '/static/topic/annualMakeup/product_02.jpg'},
-  1000638: {id: '1000638', name: '年会俊朗绅士妆', price: '288', img: '/static/topic/annualMakeup/product_03.jpg'},
 };
