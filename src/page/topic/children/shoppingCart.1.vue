@@ -88,6 +88,10 @@ export default {
       default: '',
       type: String
     },
+    plid: {
+      default: '',
+      type: String
+    },
     isReduce: {
       default: false,
       type: Boolean
@@ -175,7 +179,7 @@ export default {
       this.$router.push({
         name: "topicOrder",
         params: { id: proids.substr(0, proids.length - 1) },
-        query: { from_ad: this.fromAd }
+        query: { from_ad: this.fromAd, plid: this.plid }
       });
     },
     filterDiscount() {

@@ -44,7 +44,7 @@
     </section>
     <!--购物车列表-->
     <section>
-      <shopping-cart :topicCart="topicCart" :fromAd="from_ad" :discount="discount" :isDiscount="isDiscount" :count="count" :totalPrice="totalPrice" :products="carts" @hiddenCart="hiddenCart" @delProducts="delProducts" class="bottom-cart" v-show="isbg"></shopping-cart>
+      <shopping-cart :topicCart="topicCart" :plid="plid" :fromAd="from_ad" :discount="discount" :isDiscount="isDiscount" :count="count" :totalPrice="totalPrice" :products="carts" @hiddenCart="hiddenCart" @delProducts="delProducts" class="bottom-cart" v-show="isbg"></shopping-cart>
     </section>
   </div>
 </template>
@@ -109,7 +109,6 @@ export default {
         this.addProducts(proid);
         setStore(this.topicCart, this.carts);
         this.filterDiscount();
-        console.log(this.discount);
         this.toast();
       }
     },

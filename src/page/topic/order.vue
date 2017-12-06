@@ -439,10 +439,10 @@ export default {
         this.addProducts(id);
       });
       this.totalPrice = this.total;
+      this.orderTotal = this.totalPrice;
 
       if(this.$route.query.from_ad =="topic_halloween2017" || this.$route.query.from_ad =="topic_annualmakeup2017"){ // 专题打折
         this.filterDiscount();
-        this.orderTotal = this.totalPrice;
       }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
         this.total = this.proids.length >=2 ? (this.totalPrice - 50) : this.totalPrice;
         this.orderTotal = this.total; // 订单的初始价格

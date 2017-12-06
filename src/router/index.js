@@ -626,7 +626,7 @@ const router = new Router({
   }
 
   if ((to.fullPath.indexOf('order') > -1 || to.fullPath.indexOf('topic-order') > -1) && !$.cookie(keyConf.qm_cookie)) {
-    next({path: '/login', query: {url: to.path}})
+    next({path: '/login', query: {url: to.fullPath}})
     return
   }
 
