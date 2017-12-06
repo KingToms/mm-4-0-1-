@@ -72,10 +72,10 @@ export default {
       from_ad: "topic_annualmakeup2017", //专题来源
 
       shareData: { // APP分享
-        title: '【年会】 你“妆”够了吗',
-        desc: '上【俏猫】预约化妆服务，将美进行到底,搞怪也要美美哒~',
-        link: 'http://mm.qiaocat.com/topic-annual-makeup?plid=94',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
+        title: '年会美丽大对决，做最亮眼的主角！',
+        desc: '【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~',
+        link: 'http://tmp-mm.qiaocat.com/topic-annual-makeup?plid=94',
+        imgUrl: 'http://tmp-mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
       },
     };
   },
@@ -200,10 +200,10 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "【年会】 你“妆”够了吗",
-          "上【俏猫】预约化妆服务，将美进行到底,搞怪也要美美哒~",
-          "http://mm.qiaocat.com/topic-annual-makeup?plid=94",
-          "http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
+          "年会美丽大对决，做最亮眼的主角！",
+          "【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~",
+          "http://tmp-mm.qiaocat.com/topic-annual-makeup?plid=94",
+          "http://tmp-mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
         );
       });
     },
