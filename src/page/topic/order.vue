@@ -531,6 +531,10 @@ export default {
       let res = await createOrder({ data: data })
       if (res.status == 'ok') {
         setStore('halloweenCart',[]);
+        if(this.from_ad == 'topic_annualmakeup2017'){ // 专题年会妆，若下单成功则清空购物车
+          setStore('annualMakeupCart',[]);
+        }
+
         if (res.data.pay_status == 2) {
           this.$router.push({name: 'paySuccess', params:{ordersn: res.data.sn}});
           return;

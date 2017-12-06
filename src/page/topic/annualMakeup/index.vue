@@ -74,7 +74,7 @@ export default {
       shareData: { // APP分享
         title: '【年会】 你“妆”够了吗',
         desc: '上【俏猫】预约化妆服务，将美进行到底,搞怪也要美美哒~',
-        link: 'http://mm.qiaocat.com/topic-annual-makeup?plid=95',
+        link: 'http://mm.qiaocat.com/topic-annual-makeup?plid=94',
         imgUrl: 'http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
       },
     };
@@ -202,7 +202,7 @@ export default {
         _this.share_setup(
           "【年会】 你“妆”够了吗",
           "上【俏猫】预约化妆服务，将美进行到底,搞怪也要美美哒~",
-          "http://mm.qiaocat.com/topic-annual-makeup?plid=95",
+          "http://mm.qiaocat.com/topic-annual-makeup?plid=94",
           "http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
         );
       });
