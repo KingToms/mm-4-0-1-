@@ -30,7 +30,7 @@
        <router-link :to="`/login?plid=${$route.query.plid}&url=${$route.query.url}`" class="login" v-if="$route.query.url">马上登录</router-link>
        <router-link to="/login" class="login" v-else>马上登录</router-link>
      </div>
-     <div class="login-WeChat">
+     <div class="login-WeChat" @click="loginWeChat">
        <img src="../../assets/image/icon/login/login_icon_WeChat.png" alt="微信登录">
        微信登录
      </div>
@@ -134,7 +134,11 @@
         setTimeout(function() {
           self.iconShow = ''
         }, 300)
-      }
+      },
+      // 微信登录
+      loginWeChat() {
+        alert("该功能暂未开放~");
+      },
     },
     components: {
       alertTip,

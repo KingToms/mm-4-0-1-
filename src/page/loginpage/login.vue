@@ -15,7 +15,7 @@
         <router-link class="text" to="/findpwd">{{findText}}</router-link>
       </div>
     </div>
-    <div class="login-WeChat">
+    <div class="login-WeChat" @click="loginWeChat">
       <!--<router-link :to="`/register?plid=${channel}&url=${$route.query.url}`" v-if="$route.query.url">一 注册 一</router-link>
       <router-link :to="`/register?plid=${channel}`" v-else>一 注册 一</router-link>-->
       <img src="../../assets/image/icon/login/login_icon_WeChat.png" alt="微信登录">
@@ -66,6 +66,10 @@ export default {
       } else {
         this.$refs.pwdLogin.$emit('pwdLogin')
       }
+    },
+    // 微信登录
+    loginWeChat() {
+      alert("该功能暂未开放~");
     },
     //通过正则匹配获取当前页面的url中的参数
     getUrlParam(url) {

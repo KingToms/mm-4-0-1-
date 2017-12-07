@@ -87,6 +87,11 @@ export default {
   },
   methods: {
     async sendCode (){
+      if(this.mobile.length < 11){
+        alert('手机格式不正确');
+        return
+      }
+
       this.countdown=60
       common.settime($(this.$el.querySelector("#sendCode")),this.countdown)
       let res
