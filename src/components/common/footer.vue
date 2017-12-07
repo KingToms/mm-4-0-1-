@@ -28,7 +28,7 @@
            <!--:class="{'weui-bar__item_on':active('/userCenter')}"-->
           <router-link to="/usercenter" class="weui-tabbar__item" @click.native="changeStatus('#usercenter','/static/icon/footer/5_sel.png')">
               <img id="usercenter" v-bind:src="path.toLowerCase().indexOf('usercenter')<0 ? '/static/icon/footer/5_nor.png' : '/static/icon/footer/5_sel.png'" alt="" class="weui-tabbar__icon">
-              <p class="weui-tabbar__label">我的俏猫</p>
+              <p class="weui-tabbar__label">我的</p>
           </router-link>
       </div>
     </div>
