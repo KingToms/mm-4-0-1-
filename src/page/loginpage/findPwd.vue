@@ -30,7 +30,7 @@
       <div class="password">
         <div class="pwd">
           <input type="password" name="pwd" class="newpwd" v-model="pwd" placeholder="输入新密码" @focus="setIconShow('newpwd')" @blur="setIconHide">
-          <i class="icon-delete" v-show="iconShow=='newpwd'" @click="resetText('input.pwd')"></i>
+          <i class="icon-delete" v-show="iconShow=='newpwd'" @click="resetText('input.newpwd')"></i>
         </div>
         <div class="pwd">
           <input type="password" name="pwd" class="repwd" v-model="repwd" placeholder="确认新密码" @focus="setIconShow('repwd')" @blur="confirmPwd">
@@ -127,14 +127,13 @@ export default {
     },
     resetText (_self) {
       let $input = $(this.$el.querySelector(_self))
-      console.log($input)
-      console.log($input.hasClass('pwd'))
+      console.log($input.hasClass('newpwd'))
       $input.val('')
        if($input.prop('type')==='tel'){
          this.mobile = ''
        }else if($input.prop('type')==='number'){
          this.code = ''
-       }else if($input.prop('type')==='password' && $input.hasClass('pwd')){
+       }else if($input.prop('type')==='password' && $input.hasClass('newpwd')){
          this.pwd = ''
        }else{
          this.repwd = ''
