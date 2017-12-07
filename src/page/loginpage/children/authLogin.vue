@@ -2,7 +2,7 @@
   <div class="authLogin">
     <div class="mobile">
       <div class="input-mobile">
-        <input type="tel" name="mobile" class="tel" v-model="mobile" placeholder="请输入手机号码" autocomplete="off" @focus="setIconShow('tel')" @blur="setIconHide">
+        <input type="tel" name="mobile" class="tel" v-model="mobile" placeholder="请输入手机号" autocomplete="off" @focus="setIconShow('tel')" @blur="setIconHide">
         <i class="icon-delete" v-show="iconShow=='tel'" @click="resetText('tel')"></i>
          <!--@focus="isDelete=!isDelete" @blur="isDelete=!isDelete" :class="{'delete':isDelete}"-->
       </div>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="code">
-      <input type="number" v-model="code" class="number" name="code" placeholder="请输入短信验证码" autocomplete="off" @focus="setIconShow('number')"  @blur="setIconHide">
+      <input type="number" v-model="code" class="number" name="code" placeholder="请输入验证码" autocomplete="off" @focus="setIconShow('number')"  @blur="setIconHide">
       <i class="icon-delete" v-show="iconShow=='number'" @click="resetText('number')"></i> 
     </div>
     <!-- <alert-tip :alertText="alertText" v-if="alertShow"  @closeTip="closeTip"></alert-tip> -->
@@ -114,46 +114,49 @@ export default {
   margin-top: 3rem;
   .mobile{
     position: relative;
-    padding: 0px 1.5625rem 0px 1.5625rem;
+    padding: 0 2.5rem;
     .help.is-danger{
       font-size:.75rem;
       color: #f00;
     }
     .input-mobile{
-      padding-right: 12.375rem;
+      // padding-right: 40%;
+      input.tel {
+        padding-right: 40%;
+      }
       .icon-delete{
         top: 1.5rem;
-        right: 12.3rem;
+        right: 40%;
       }
     }
     
     input[type=tel],input[type=tel]:-webkit-autofill{
       @include wh(100%,4.4rem);
-      background-image: url('../../../assets/image/icon/login/icon_user.png');
+      // background-image: url('../../../assets/image/icon/login/icon_user.png');
     }
     input[type=button]{
       position: absolute;
       top: 0;
-      right:1.25rem;
-      @include wh(12rem,4.4rem);
-      background-color: $themeRed;
+      right: 2.5rem;
+      @include wh(30%, 4.4rem);
+      background-color: transparent;
       text-align: center;
       font-size: 1.5rem;
       font-weight: 300;
       letter-spacing: 1px;
-      border-radius: .4rem;
-      color: $bgWhite;
+      border-radius: 0.4rem;
+      color: #666;
     }
   }
   .code{
-    padding: 0px 1.5625rem;
+    padding: 0 2.5rem;
     input[type=number]{
       @include wh(100%,4.4rem);
-      background-image: url('../../../assets/image/icon/login/icon_code.png');
+      // background-image: url('../../../assets/image/icon/login/icon_code.png');
     }
     .icon-delete{
-      top: 1.5rem;
-      right: 1.5rem;
+      top: 1.2rem;
+      right: 2.5rem;
     }
     
   }
@@ -163,14 +166,11 @@ export default {
     margin-bottom:2.5rem;
     input[type=tel],input[type=number]{
       box-sizing: border-box;
-      padding-left:3.75rem;
-      // padding-right: 2rem;
+      // padding-left: 3.75rem;
       font-size: 1.5rem;
       letter-spacing: 1px;
       color: #000;
-      // background-color: #F5F5F5;
       border-bottom: 1px solid #999;
-      // @include border_2(#999);
       background-size: 1.7rem 1.9rem;
       background-position:1.2rem 1.25rem;
       background-repeat: no-repeat;
@@ -181,9 +181,10 @@ export default {
     box-sizing: border-box;
     .icon-delete{
       position: absolute;
-      @include wh(1.4rem,1.4rem);
+      @include wh(0.8rem,0.8rem);
+      margin: 0.7rem;
       background-image: url('../../../assets/image/icon/login/icon_delete.png');
-      background-size: 1.4rem 1.4rem;
+      background-size: 0.8rem 0.8rem;
     }
   }
 }
