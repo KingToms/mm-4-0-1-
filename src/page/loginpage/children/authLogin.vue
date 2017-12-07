@@ -1,8 +1,12 @@
 <template>
   <div class="authLogin">
+    <div class="title-box">
+      <p class="title">手机快捷登录</p>
+      <p class="tips">未注册的手机号码将自动注册俏猫账号</p>
+    </div>
     <div class="mobile">
       <div class="input-mobile">
-        <input type="tel" name="mobile" class="tel" v-model="mobile" placeholder="请输入手机号" autocomplete="off" @focus="setIconShow('tel')" @blur="setIconHide">
+        <input type="tel" name="mobile" class="tel" maxlength="11" v-model="mobile" placeholder="请输入手机号" autocomplete="off" @focus="setIconShow('tel')" @blur="setIconHide">
         <i class="icon-delete" v-show="iconShow=='tel'" @click="resetText('tel')"></i>
          <!--@focus="isDelete=!isDelete" @blur="isDelete=!isDelete" :class="{'delete':isDelete}"-->
       </div>
@@ -10,7 +14,7 @@
       <!-- v-validate="'required|mobile'" :class="{'input': true, 'is-danger': errors.has('mobile') }" 
       <span v-show="errors.has('mobile')" class="help is-danger">{{ errors.first('mobile') }}</span>-->
       <div class="btn">
-        <input type="button" value="发送验证码" @click="sendCode" id="sendCode">
+        <input type="button" value="获取验证码" @click="sendCode" id="sendCode">
       </div>
     </div>
     <div class="code">
@@ -111,7 +115,22 @@ export default {
 .authLogin{
   width: 100%;
   overflow: hidden;
-  margin-top: 3rem;
+  // margin-top: 3rem;
+  .title-box {
+    margin-top: 2rem;
+    padding: 0 2.5rem;
+    .title {
+      line-height: 2.4rem;
+      font-size: 2.4rem;
+      color: #000;
+      padding-bottom: 1.5rem;
+    }
+    .tips {
+      line-height: 1.5rem;
+      font-size: 1.5rem;
+      color: #999;
+    }
+  }
   .mobile{
     position: relative;
     padding: 0 2.5rem;
@@ -125,20 +144,20 @@ export default {
         padding-right: 40%;
       }
       .icon-delete{
-        top: 1.5rem;
+        top: 1.2rem;
         right: 40%;
       }
     }
     
     input[type=tel],input[type=tel]:-webkit-autofill{
-      @include wh(100%,4.4rem);
+      @include wh(100%, 5rem);
       // background-image: url('../../../assets/image/icon/login/icon_user.png');
     }
     input[type=button]{
       position: absolute;
       top: 0;
       right: 2.5rem;
-      @include wh(30%, 4.4rem);
+      @include wh(30%, 5rem);
       background-color: transparent;
       text-align: center;
       font-size: 1.5rem;
@@ -151,7 +170,7 @@ export default {
   .code{
     padding: 0 2.5rem;
     input[type=number]{
-      @include wh(100%,4.4rem);
+      @include wh(100%, 5rem);
       // background-image: url('../../../assets/image/icon/login/icon_code.png');
     }
     .icon-delete{
@@ -163,7 +182,7 @@ export default {
   .mobile,.code{
     width: 100%;
     box-sizing: border-box;
-    margin-bottom:2.5rem;
+    margin-top: 1.2rem;
     input[type=tel],input[type=number]{
       box-sizing: border-box;
       // padding-left: 3.75rem;

@@ -1,6 +1,6 @@
 <template>
   <div class="reset-pwd">
-    <l-Header :title="title"></l-Header>
+    <l-Header></l-Header>
     <div class="password">
       <div class="pwd">
         <input type="password" name="pwd" v-model="pwd" placeholder="输入新密码" @blur="authPwd">
@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import lHeader from '../../components/common/lHeader'
+import lHeader from './children/loginHeader'
 import alertTip from '../../components/common/alertTip'
 import toast from '../../components/common/toast'
 import {getStore} from '../../common/store.js'

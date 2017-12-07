@@ -38,7 +38,7 @@ export default {
     top: .7rem;
     left: .7rem;
     @include wh(2.4rem,2.4rem);
-    background-image: url('../../assets/image/icon/login/nav_btn_return.png');
+    background-image: url('../../assets/image/icon/login/nav_btn_return_old.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 2.2rem 2.2rem;

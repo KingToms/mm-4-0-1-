@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <l-Header :title="title"></l-Header>
+    <l-Header :channel="channel"></l-Header>
     <VAuthLogin ref="authLogin" v-show="method" :channel="channel"></VAuthLogin>
     <VPwdLogin v-show="!method" ref="pwdLogin" :channel="channel"></VPwdLogin>
     <div class="login-container">
@@ -102,6 +102,7 @@ export default {
     @include wh(100%, 4.4rem);
     // padding: 0 1.5625rem;
     padding: 0 2.5rem;
+    margin-top: 3rem;
     margin-bottom: 2rem;
     input[type=button] {
       @include wh(100%, 100%);
@@ -121,6 +122,7 @@ export default {
     .changeLogin {
       display: inline-block;
       text-align: center;
+      cursor: pointer;
     }
     /*短竖线*/
     .vertical-line {
@@ -145,11 +147,12 @@ export default {
   .login-WeChat {
     // position: absolute;
     // bottom: 15.3rem;
-    padding: 40% 0 4%;
+    padding: 28% 0 4%;
     width: 100%;
     text-align: center;
     line-height: 3rem;
     color: #999;
+    cursor: pointer;
     img {
       width: 3rem;
       margin-right: 0.6rem;

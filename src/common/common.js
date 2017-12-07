@@ -1,10 +1,12 @@
 function settime ($el,countdown) {
   if(countdown === 0){
     $el.removeAttr('disabled')
-    $el.val('发送验证码').css('backgroundColor','#e70034')
+    // $el.val('发送验证码').css('backgroundColor','#e70034')
+    $el.val('获取验证码').css('backgroundColor','transparent')
   }else{
-    $el.attr('disabled', 'true').css('backgroundColor','#bfbfbf')
-    $el.val(`重新发送${countdown}`)
+    // $el.attr('disabled', 'true').css('backgroundColor','#bfbfbf')
+    $el.attr('disabled', 'true').css('backgroundColor','transparent')
+    $el.val(`重新发送(${countdown}s)`)
     countdown--
     setTimeout(function() {
       settime($el,countdown)
