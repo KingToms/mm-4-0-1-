@@ -6,7 +6,7 @@
       <mt-swipe>
         <mt-swipe-item v-for="(item,index) in resData.Shuffling" :key="index">
           <!-- :class="{imgshow: item.image.length > 0}" -->
-          <a class="imgshow" target="_blank" :href="item.link">
+          <a class="imgshow" target="_blank" @click="linkType(item)">
             <img :src="item.image" alt="">
           </a>
         </mt-swipe-item>
@@ -41,7 +41,7 @@
     </div>
     <!-- 广告图 -->
     <div class="adver" v-if="resData.Advert && resData.Advert.length > 0">
-      <a :href="resData.Advert[0].link">
+      <a @click="linkType(resData.Advert[0])">
         <img :src="resData.Advert[0].image" alt="">
       </a>
     </div>
@@ -136,7 +136,7 @@ export default {
         type_conf: [] // 分类
       },
       topCarousel: [], // 顶部轮播图
-
+      link_address: '', // 链接地址(轮播图/广告图)
     };
   },
   created() {
@@ -160,7 +160,20 @@ export default {
       this.resData.type_64 = res.type_64.data;
       this.resData.type_128 = res.type_128.data;
       this.resData.type_conf = res.type_conf.data;
-    }
+    },
+    
+    // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
+    linkType(item,tab) {
+      if(item.ad_type == '1'){ // 专题链接
+        this.link_address = item.link;
+      }else if(item.ad_type == '2'){ // 店铺链接
+        // this.link_address = `/stylist/${tab}/${item.link}`
+        this.link_address = "/detail/shopping/" + item.link;
+      }else if(item.ad_type == '3'){ // 产品链接
+        this.link_address = "/detail/" + item.link;
+      }
+      location.href = this.link_address;
+    },
   },
   components: {moreTab},
   filters: {}
