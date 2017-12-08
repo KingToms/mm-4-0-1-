@@ -186,7 +186,6 @@ import appoint from './children/appoint'
 import vAddress from './children/address'
 import vDate from './children/timeSel'
 import vCoupon from './children/coupon'
-import { setStore } from '../../common/store'
 import keyConf from '../../common/keyConf'
 
 import { productList, createOrder } from '../../service/getData'
@@ -232,7 +231,9 @@ export default {
       server_street: '', // 美业师服务商圈
       stylists: [], // 商家信息
       busyTime: {}, // 忙时设置
-      postscript: '' // 留言
+      postscript: '', // 留言
+
+      appOpen: false, // 下单前页面(产品详情)是否是在app打开
     }
   },
   created() {
@@ -241,6 +242,7 @@ export default {
     // this.setServiceForm()
     this.product_info.product_id = this.$route.params.id;
     this.stylist_id = this.$route.query.stylist_id;
+    this.appOpen = this.$route.query.appOpen;
     this.getData();
   },
   computed: {
@@ -437,13 +439,26 @@ export default {
       let data = JSON.stringify(obj)
       let res = await createOrder({ data: data })
       if (res.status == 'ok') {
-        setStore('halloweenCart', []);
+        // 已支付
         if (res.data.pay_status == 2) {
-          // this.$router.push('/orderlist')
-          this.$router.push({name: 'paySuccess', params:{ordersn: res.data.sn}});
+          if(this.appOpen){
+            // this.$router.push({name: 'paySuccess', params:{ordersn: res.data.sn}, query:{action: `pay_${res.data.sn}`}});
+            let baseUrl = `/payresult/success/${res.data.sn}?action=pay_${res.data.sn}`;
+            window.location.href = baseUrl;
+          }else {
+            this.$router.push({name: 'paySuccess', params:{ordersn: res.data.sn}});
+          }
           return
         }
-        this.$router.push({ name: 'payment', params: { orderid: res.data.sn } })
+
+        // 未支付
+        if(this.appOpen){
+          // this.$router.push({ name: 'payment', params: { orderid: res.data.sn }, query:{action: `pay_${res.data.sn}`} });
+          let baseUrl = `/pay/${res.data.sn}?action=pay_${res.data.sn}`;
+          window.location.href = baseUrl;
+        }else{
+          this.$router.push({ name: 'payment', params: { orderid: res.data.sn } })
+        }
       } else {
         alert(res.msg)
       }
