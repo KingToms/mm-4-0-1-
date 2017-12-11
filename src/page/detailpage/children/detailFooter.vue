@@ -22,18 +22,26 @@
 import Vue from 'vue';
 import keyConf from '../../../common/keyConf'
 import {followProduct,productFollow,productUnfollow,userIsLogin} from '@/service/getData';
+import common from "../../../common/common";
 export default {
   name: "detailFooter",
   data () {
     return {
       isActive: false,
       tipMsg: '', // 关注提示
+      appOpen: false, // 产品详情页面是否在APP中打开(便于拦截，采用app原生支付)
     };
   },
   props: ['productId','typeUser','ZIndex','InfoList'],
   created (){
+    /*已登录则判断是否已关注*/
     if($.cookie(keyConf.qm_cookie)){
       this.getFollowList();
+    }
+
+    /*判断是否在APP打开*/
+    if (common.getQueryString("app") == "ios" || common.getQueryString("app") == "android") {
+        this.appOpen = true; // 页面是在APP中打开
     }
   },
   methods: {
@@ -61,11 +69,15 @@ export default {
     //关注产品
     async getAttention(){
       if(!$.cookie(keyConf.qm_cookie)){
-        // this.$router.push({name: "login", query: {url:"/detail/" + this.productId}});
-        alert('请您先登录')
-        let stylist_id = this.$route.query.stylist_id;
-        let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
-        this.$router.push(baseUrl)
+        if (this.appOpen) { // APP中打开页面
+          window.location.href = `/login?action=login`;
+        }else {
+          // this.$router.push({name: "login", query: {url:"/detail/" + this.productId}});
+          alert('请您先登录')
+          let stylist_id = this.$route.query.stylist_id;
+          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
+          this.$router.push(baseUrl)
+        }
       }else{
         let res = await productFollow({productId: this.productId});
         if(res.status == "ok"){
@@ -99,12 +111,20 @@ export default {
       let isLogin = await userIsLogin();
       let stylist_id = this.$route.query.stylist_id;
       if(!qm_cookie || isLogin.status == 'error'){
-        alert('未登录');
-        let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
-        this.$router.push(baseUrl)
+        if (this.appOpen) { // APP中打开页面
+          window.location.href = `/login?action=login`;
+        }else {
+          alert('未登录');
+          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
+          this.$router.push(baseUrl)
+        }
       }else{
-        // let stylist_id = this.$route.query.stylist_id;
-        let baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}` : `/order/${this.productId}`;
+        let baseUrl;
+        if (this.appOpen) { // APP中打开页面
+          baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/order/${this.productId}?appOpen=true`;
+        }else {
+          baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}` : `/order/${this.productId}`;
+        }
         this.$router.push(baseUrl);
       }
     }

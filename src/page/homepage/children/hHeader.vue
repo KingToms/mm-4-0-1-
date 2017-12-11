@@ -117,7 +117,8 @@ export default {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 0 4.8rem 0 9rem;
+    // padding: 0 4.8rem 0 9rem;
+    padding: 0 1.5rem 0 9rem;
     img{
       position: absolute;
       top: 1.4rem;
