@@ -6,7 +6,7 @@
           <h2>{{title}}</h2>
         </div>
         <a class="back" href="javascript:void(0);" @click="$router.go(-1)" ></a>
-        <router-link class="complaint" to="/complaint">投诉举报</router-link>
+        <!--<router-link class="complaint" to="/complaint">投诉举报</router-link>-->
       </div>
       <content>
         <textarea name="" id="content" rows="20" v-model="description" maxlength="250" placeholder="请输入您的反馈意见或建议(至多250个字)"></textarea>
@@ -25,7 +25,7 @@ export default {
   name: 'feedback',
   data () {
     return {
-      title: '投诉反馈',
+      title: '意见反馈',
       uinfo: JSON.parse(getStore(keyConf.uInfo)),
       description:'',
       isRule: 1
@@ -36,11 +36,11 @@ export default {
   },
   methods: {
     async feedback (){
-      /* if(this.description.length<10)
+       if(this.description.length<10)
       {
-        alert('请填写需要反馈的内容')
+        alert('请填写需要反馈的内容（不少于10字）')
         return
-      } */
+      }
       let res = await feedback({
         description: this.description,
         user_name: this.uinfo.user_name,

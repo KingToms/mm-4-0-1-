@@ -66,10 +66,14 @@ const Wallet = resolve => require.ensure([], () => resolve(require('@/page/userp
 const Setting = resolve => require.ensure([], () => resolve(require('@/page/userpage/setting')),'setting')
 // 免责声明
 const Statement = resolve => require.ensure([], () => resolve(require('@/page/userpage/statement')), 'setting')
+// 帮助与反馈
+const HelpFeedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback.4.1.0')),'setting')
 // 意见反馈
 const Feedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback')),'setting')
 // 投诉举报
 const Complaint = resolve => require.ensure([], () => resolve(require('@/page/userpage/complaint')), 'setting')
+// 常见问题
+const Fag = resolve => require.ensure([], () => resolve(require('@/page/userpage/fag')), 'setting')
 // 用户优惠券中心
 const MyCoupon = resolve => require.ensure([], () => resolve(require('@/page/userpage/coupon')), 'usmodule')
 // 我的足迹
@@ -471,6 +475,11 @@ const router = new Router({
           path: '/statement',
           component: Statement
         },
+        // 帮助与反馈
+        {
+          path: '/help',
+          component: HelpFeedback
+        },
         // 反馈
         {
           path: '/feedback',
@@ -480,6 +489,11 @@ const router = new Router({
         {
           path: '/complaint',
           component: Complaint
+        },
+        // 常见问题
+        {
+          path: '/fag',
+          component: Fag
         },
         // 个人中心--优惠券
         {
