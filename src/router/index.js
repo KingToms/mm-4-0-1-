@@ -84,6 +84,7 @@ const Login = resolve => require.ensure([], () => resolve(require('@/page/loginp
 const FindPwd = resolve => require.ensure([], () => resolve(require('@/page/loginpage/findPwd')), 'resetPwd')
 const ResetPwd = resolve => require.ensure([], () => resolve(require('@/page/userpage/resetPwd.vue')), 'resetPwd')
 const Register = resolve => require.ensure([], () => resolve(require('@/page/registerpage/register')), 'loginPage')
+const Binding = resolve => require.ensure([], () => resolve(require('@/page/loginpage/binding')), 'loginPage')
 
 // 城市选择
 const City = resolve => require.ensure([], () => resolve(require('@/page/citypage/city')), 'city')
@@ -274,6 +275,12 @@ const router = new Router({
           path: '/register',
           name: 'rigister',
           component: Register
+        },
+        {
+          // 绑定手机号（微信登录）
+          path: '/binding',
+          name: 'binding',
+          component: Binding
         },
         {
           // 密码找回

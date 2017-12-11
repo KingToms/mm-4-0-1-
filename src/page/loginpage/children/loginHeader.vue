@@ -15,10 +15,14 @@ export default {
   name: 'loginHeader',
   data () {
     return {
-      title: '',
+
     }
   },
   props:{
+    title:{
+      default: '',
+      type: String
+    },
     channel:{
       default: '',
       type: String

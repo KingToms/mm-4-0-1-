@@ -141,8 +141,12 @@ export const foundDzpl = (data) => fetch(`/qiaomao/qm_index_found_dzpl`, data, '
 
 // 支付成功，调用推送消息
 export const orderJPush = (data) => fetch (`/mon/mon_order_jpush`, data, 'POST')
-// 获取微信code
+// 获取微信code(专题)
 export const getWechatCode = (data) => fetch (`/wechat/code_url?API_VERSION=topic`, data, 'POST')
+// 获取微信code
+export const WechatCode = (data) => fetch (`/mon/mon_wechat_code_url`, data, 'POST')
+// 微信code绑定
+export const WechatLogin = (data) => fetch (`/mon/mon_user_wechat_login`, data, 'POST')
 
 /*专题接口*/
 // 万圣节‘鬼混夜’专题---获取下单成功排队序号

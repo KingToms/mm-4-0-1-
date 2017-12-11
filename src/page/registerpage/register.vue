@@ -30,9 +30,11 @@
        <router-link :to="`/login?plid=${$route.query.plid}&url=${$route.query.url}`" class="login" v-if="$route.query.url">马上登录</router-link>
        <router-link to="/login" class="login" v-else>马上登录</router-link>
      </div>
-     <div class="login-WeChat" @click="loginWeChat">
-       <img src="../../assets/image/icon/login/login_icon_WeChat.png" alt="微信登录">
-       微信登录
+     <div class="login-WeChat">
+       <span @click="funGetWechatCode">
+        <img src="../../assets/image/icon/login/login_icon_WeChat.png" alt="微信登录">
+        微信登录
+       </span>
      </div>
      <div class="footer">
        <span class="out-text">“登录/注册”即代表同意
@@ -49,7 +51,9 @@
   import toast from '@/components/common/toast'
   import lHeader from '../loginpage/children/loginHeader.vue'
   import common from '../../common/common'
-  import {getCode, authMobile, register} from '@/service/getData.js'
+  import keyConf from '../../common/keyConf'
+  import { setStore } from '../../common/store'
+  import {getCode, authMobile, register, WechatCode, WechatLogin} from '@/service/getData.js'
   export default {
     name: 'register',
     data () {
@@ -66,8 +70,10 @@
         regShow: false, // 顶部标题栏不显示“注册”按钮
         isDelete: '',
         iconShow: '',
-        _self: this
+        _self: this,
       }
+    },
+    created() {
     },
     methods: {
       async sendCode () {
@@ -135,10 +141,44 @@
           self.iconShow = ''
         }, 300)
       },
-      // 微信登录
-      loginWeChat() {
-        alert("该功能暂未开放~");
+
+      // 获取微信客户端code
+      async funGetWechatCode () {
+        // 获取微信code
+        let res = await WechatCode({redirectURI: this.$route.fullPath});
+        console.log(res);
+        if (res.status === 'ok') {
+          let code = this.$route.query.code || '';
+          if (code){ // 微信授权成功
+            this.WechatLogin(code);
+          }else {
+            location.href = res.url;
+          }
+          
+        }
       },
+      // 微信客户端code登录
+      async WechatLogin (code) {
+        let res = await WechatLogin({code: code});
+        if(res.status == 'ok'){ // 微信登录成功
+          $.cookie(keyConf.qm_cookie, res.data.mobile,{expires:1, path: '/'})
+          setStore(keyConf.userMoile, res.data.mobile)
+          console.log('微信登录成功:',res);
+          if(this.$route.query.url){
+            this.$router.push(this.$route.query.url)
+          }else{
+            this.$router.push('/usercenter')
+          }
+        }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
+          console.log('未绑定手机号：',res);
+          setStore('WeChatNickname', res.data.nickname);
+          let targetUrl = this.$route.query.url ? `/binding?plid=${this.$route.query.plid}&url=${this.$route.query.url}` : `/binding?plid=${this.$route.query.plid}`;
+          this.$router.push(targetUrl);
+        }else {
+          alert(res.msg);
+        }
+      },
+
     },
     components: {
       alertTip,
@@ -260,6 +300,7 @@
       padding: 0 2.5rem;
       text-align: center;
       font-size: 0;
+      padding-bottom: 28%;
       .login {
         color: #666;
         font-size: 1.2rem;
@@ -267,26 +308,29 @@
       }
     }
     .login-WeChat {
-      padding: 28% 0 4%;
       width: 100%;
       text-align: center;
       line-height: 3rem;
       color: #999;
-      cursor: pointer;
       img {
         width: 3rem;
         margin-right: 0.6rem;
         vertical-align: top;
       }
-      a {
-        font-size: 1.5rem;
-        color: $themeRed;
+      a,span {
+        display: inline-block;
+        font-size: 1.2rem;
+        color: #999;
+        line-height: 2.5rem;
+        cursor: pointer;
       }
     }
     .footer {
       // position: absolute;
-      width: 100%; // bottom: 4rem;
+      // bottom: 4rem;
+      width: 100%;
       text-align: center;
+      padding-top: 4%;
       .out-text {
         font-size: 1.2rem;
         color: #999;
