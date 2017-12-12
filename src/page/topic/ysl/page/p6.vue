@@ -3,7 +3,7 @@
         <div class="alter-wrap" v-if="overdue">
             <div class="alter">
                 <p class="title">提示</p>
-                <p class="msg">活动尚未开始</p>
+                <p class="msg">活动尚未开始,敬请期待</p>
             </div>
             <div class="alert-mask"></div>
         </div>
