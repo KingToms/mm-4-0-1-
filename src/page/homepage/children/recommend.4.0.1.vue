@@ -129,6 +129,7 @@ export default {
         Shuffling: [],  // banner轮播图
         Advert: [],  // 广告图
         Hotlist: [], // 热卖
+        home_tc: [], // 首页弹窗
         Hot_sty: [], // 人气美业师
         type_1: [],  // 推荐化妆
         type_64: [], // 推荐美睫
@@ -153,6 +154,7 @@ export default {
     async getData(){
       let res = await getHomeRecommend();
       this.resData.Shuffling = res.Shuffling.data;
+      this.resData.home_tc = res.home_tc.data;
       this.resData.Advert = res.Advert.data;
       this.resData.Hotlist = res.Hotlist.data;
       this.resData.Hot_sty = res.Hot_sty.data;
@@ -173,6 +175,10 @@ export default {
         this.link_address = "/detail/" + item.link;
       }
       location.href = this.link_address;
+    },
+    // 定时弹出广告窗口
+    showAdvertBox() {
+      this.$emit('showAdvert', this.resData.home_tc);
     },
   },
   components: {moreTab},
