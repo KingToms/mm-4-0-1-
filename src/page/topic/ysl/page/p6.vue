@@ -1,5 +1,12 @@
 <template>
     <div class="double-eleven">
+        <div class="alter-wrap" v-if="overdue">
+            <div class="alter">
+                <p class="title">提示</p>
+                <p class="msg">活动尚未开始</p>
+            </div>
+            <div class="alert-mask"></div>
+        </div>
         <div class="banner">
             <div class="text">
                 <p>你的好友 {{name}}</p>
@@ -33,6 +40,7 @@
         name: "ysl",
         data () {
             return {
+                overdue: true,
                 params: {
                     mobile: '',
                     code: '',
@@ -49,14 +57,14 @@
             };
         },
         created () {
-            let info = JSON.parse(localStorage.getItem('QRInfo'));
-            this.params.from = info.from;
-            this.zlParams.id = info.id;
-            this.zlParams.code = this.$route.query.code || '';
-            this.params.inviter_id = this.zlParams.id;
-            this.funYslUserInfo();
-            this.funGetWechatCode();
-            this.funYslGetNick();
+            /*let info = JSON.parse(localStorage.getItem('QRInfo'));
+             this.params.from = info.from;
+             this.zlParams.id = info.id;
+             this.zlParams.code = this.$route.query.code || '';
+             this.params.inviter_id = this.zlParams.id;
+             this.funYslUserInfo();
+             this.funGetWechatCode();
+             this.funYslGetNick();*/
         },
         methods: {
             async funYslUserInfo () {
@@ -69,6 +77,7 @@
             },
             async funGetCode () {
                 // 发送验证码
+                return false;
                 if (this.params.mobile.length != 11) {
                     alert("手机格式不正确");
                     return;
@@ -84,6 +93,7 @@
                 }
             },
             async funParticipate () {
+                return false;
                 if (this.showDom) {
                     if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
                         alert("请输入正确的电话号码");
@@ -169,6 +179,33 @@
         content: '';
         display: block;
         clear: both;
+    }
+
+    .alter-wrap {
+        .alter {
+            position: fixed;
+            padding: 20px;
+            width: 80%;
+            left: 10%;
+            top: 35%;
+            z-index: 1;
+            text-align: center;
+            background: #fff;
+            .title {
+                font-size: 1.7rem;
+            }
+            .msg {
+                font-size: 2rem;
+            }
+        }
+        .alert-mask {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            background: rgba(0, 0, 0, 0.5);
+        }
     }
 
     img.full {
