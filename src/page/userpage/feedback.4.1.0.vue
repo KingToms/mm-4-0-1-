@@ -15,7 +15,7 @@
             <i class="icon"></i>
           </li>
           <li class="li_item">
-            <router-link to="#">新手指引</router-link>
+            <router-link to="/guide">新手指引</router-link>
             <i class="icon"></i>
           </li>
         </ul>
@@ -54,8 +54,9 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import lHeader from '../../components/common/lHeader'
+import Vue from 'vue';
+import lHeader from '../../components/common/lHeader';
+import { getFaqProblem } from '../../service/getData';
 export default {
   name: 'feedback',
   data () {
@@ -64,12 +65,22 @@ export default {
 
     }
   },
+  created() {
+    this.getFaqProblemList();
+  },
+  methods: {
+    // 获取用户常见问题
+    async getFaqProblemList() {
+      let res = await getFaqProblem();
+      console.log(res);
+      /*if(){
+
+      }*/
+    }
+  },
   components: {
     lHeader,
   },
-  methods: {
-
-  }
 }
 </script>
 <style lang="scss" scoped>

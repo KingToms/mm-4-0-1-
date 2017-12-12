@@ -47,6 +47,8 @@ export const complaint = (data) => fetch(`/qiaomao/qm_user_complaint_submit`, da
 export const getStylist = (data) => fetch(`/qiaomao/qm_user_complaint_stylist`, data, 'POST')
 // 用户足迹
 export const getFootList = (data) => fetch(`/qiaomao/qm_user_footprint_list`, data, 'POST')
+// 帮助反馈--用户常见问题
+export const getFaqProblem = (data) => fetch(`/mon/mon_config_faq_problem`, data, 'POST')
 
 
 export const getInfo = () => fetch(`/dresser/dr_add_data`,{},'POST')

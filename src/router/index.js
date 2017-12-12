@@ -68,6 +68,8 @@ const Setting = resolve => require.ensure([], () => resolve(require('@/page/user
 const Statement = resolve => require.ensure([], () => resolve(require('@/page/userpage/statement')), 'setting')
 // 帮助与反馈
 const HelpFeedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback.4.1.0')),'setting')
+// 新手指导
+const Guide = resolve => require.ensure([], () => resolve(require('@/page/userpage/guide')),'setting')
 // 意见反馈
 const Feedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback')),'setting')
 // 投诉举报
@@ -486,6 +488,11 @@ const router = new Router({
         {
           path: '/help',
           component: HelpFeedback
+        },
+        // 新手指引
+        {
+          path: '/guide',
+          component: Guide
         },
         // 反馈
         {
