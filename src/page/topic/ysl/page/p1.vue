@@ -4,7 +4,7 @@
             <div class="alter">
                 <p class="title">活动已结束</p>
                 <p class="msg">感谢关注,更多请关注</p>
-                <div class="follow">美丽通道</div>
+                <img class="full" src="/static/topic/ysl/qr.jpg" alt="">
             </div>
             <div class="alert-mask"></div>
         </div>
@@ -174,7 +174,7 @@
             padding: 20px;
             width: 80%;
             left: 10%;
-            top: 35%;
+            top: 25%;
             z-index: 1;
             text-align: center;
             background: #fff;
@@ -183,14 +183,6 @@
             }
             .msg {
                 font-size: 2rem;
-            }
-            .follow {
-                margin-top: .8rem;
-                display: inline-block;
-                padding: .7rem 2rem;
-                color: #fee9a8;
-                font-size: 1.7rem;
-                background: #000;
             }
         }
         .alert-mask {
