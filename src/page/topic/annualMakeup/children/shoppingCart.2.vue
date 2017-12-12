@@ -26,7 +26,9 @@
     </div>
     <div class="bottom-total">
       <div class="tip" v-if="count <= 10 && isDiscount">{{count}}人团购享受{{discount}}折</div>
-      <div class="tip" v-if="count > 10 && isDiscount">10人以上团单请致电美丽小助理: <a href="tel:13632246144">136-3224-6144</a></div>
+      <div class="tip" :style="{ lineHeight: '1.8rem' }" v-if="count > 10 && isDiscount">10人以上团购享受4折，<br>
+        有特殊需求请致电小助理： <a href="tel:13632246144">136-3224-6144</a>
+      </div>
       <div class="tip_reduce" v-if="isReduce">任意两款一起下单立减50元</div>
       <div class="total">
         <span class="f18">合计:</span>
@@ -183,7 +185,7 @@ export default {
       });
     },
     filterDiscount01() {
-      if (this.count === 10) {
+      if (this.count >= 10) {
         this.discount = this.discountConst01[10];
       } else if (this.count < 10 && this.count >= 4) {
         this.discount = this.discountConst01[4];
@@ -230,7 +232,7 @@ export default {
     .tip {
       // @include average(#ccc);
       padding-left: 1.5rem;
-      height: 2.4rem;
+      min-height: 2.4rem;
       font-size: 1.2rem;
       color: #999;
       line-height: 2.4rem;

@@ -326,7 +326,7 @@ export default {
     },
     /*专题打折优惠01*/
     filterDiscount01() {
-      if (this.proids.length === 10) {
+      if (this.proids.length >= 10) {
         this.discount = this.discountConst01[10];
       } else if (this.proids.length < 10 && this.proids.length >= 4) {
         this.discount = this.discountConst01[4];

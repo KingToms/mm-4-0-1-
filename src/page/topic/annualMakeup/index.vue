@@ -160,7 +160,7 @@ export default {
     },
     /*专题打折*/
     filterDiscount() {
-      if (this.count === 10) {
+      if (this.count >= 10) {
         this.discount = this.discountConst[10];
       } else if (this.count < 10 && this.count >= 4) {
         this.discount = this.discountConst[4];
