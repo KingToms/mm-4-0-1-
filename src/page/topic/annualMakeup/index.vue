@@ -20,7 +20,7 @@
         <a class="now-buy" href="javascript:void(0)" @click="addCart(1000895)"></a>
       </div>
       <div class="tips">
-        <img src="/static/topic/annualMakeup/annual_topic_07.jpg" alt="一起来更优惠">
+        <img src="/static/topic/annualMakeup/annual_topic_07_new.jpg" alt="一起来更优惠">
         <img src="/static/topic/annualMakeup/annual_topic_08.jpg" alt="更多惊喜">
         <img src="/static/topic/annualMakeup/annual_topic_09.jpg" alt="为什么要化年会妆">
         <img src="/static/topic/annualMakeup/annual_topic_10.jpg" alt="专业保障">
@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import shoppingCart from "../children/shoppingCart.1";
+import shoppingCart from "./children/shoppingCart.2";
 import keyConf from "../../../common/keyConf";
 import { userIsLogin, authToken } from "@/service/getData";
 import { halloweenData } from "../data.config";
@@ -61,7 +61,7 @@ export default {
     return {
       products: [],
       carts: [], // 购物车商品
-      discountConst: { 1: 10, 2: 9, 3: 8, 4: 7, 10: 6 },
+      discountConst: { 1: 10, 2: 9, 3: 8, 4: 7, 10: 4 },
       discount: 10, // 折扣
       totalPrice: 0, // 总价格
       topicCart: "annualMakeupCart", // 购物车列表

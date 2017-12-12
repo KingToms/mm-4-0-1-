@@ -238,6 +238,7 @@ export default {
       user_info: {}, // 当前登录人信息(专题所有)
       coupon_lists: {}, // 用户优惠券列表(专题所有)
       discountConst: { 1: 10, 2: 9, 3: 8, 4: 7, 10: 6 }, // 折扣规则(专题所有)
+      discountConst01: { 1: 10, 2: 9, 3: 8, 4: 7, 10: 4 }, // 折扣规则(专题所有)
       discount: 10, // 折扣(专题所有)
       totalPrice: 0,
       count: 0,
@@ -321,6 +322,20 @@ export default {
         this.discount = this.discountConst[2];
       }else if(this.proids.length === 1){
         this.discount = this.discountConst[1];
+      }
+    },
+    /*专题打折优惠01*/
+    filterDiscount01() {
+      if (this.proids.length === 10) {
+        this.discount = this.discountConst01[10];
+      } else if (this.proids.length < 10 && this.proids.length >= 4) {
+        this.discount = this.discountConst01[4];
+      } else if (this.proids.length < 4 && this.proids.length >= 3) {
+        this.discount = this.discountConst01[3];
+      } else if (this.proids.length === 2) {
+        this.discount = this.discountConst01[2];
+      }else if(this.proids.length === 1){
+        this.discount = this.discountConst01[1];
       }
     },
     // 选择服务方式
@@ -441,8 +456,10 @@ export default {
       this.totalPrice = this.total;
       this.orderTotal = this.totalPrice;
 
-      if(this.$route.query.from_ad =="topic_halloween2017" || this.$route.query.from_ad =="topic_annualmakeup2017"){ // 专题打折
+      if(this.$route.query.from_ad =="topic_halloween2017"){ // 专题打折
         this.filterDiscount();
+      }else if(this.$route.query.from_ad =="topic_annualmakeup2017"){
+        this.filterDiscount01();
       }else if(this.$route.query.from_ad =="topic_thanksgiving2017"){ // 美睫感恩节专题满2件立减50
         this.total = this.proids.length >=2 ? (this.totalPrice - 50) : this.totalPrice;
         this.orderTotal = this.total; // 订单的初始价格
