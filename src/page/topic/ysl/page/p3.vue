@@ -170,10 +170,10 @@
         }
         .name {
             font-size: 13px;
+            flex: 1;
         }
         .force {
-            position: absolute;
-            right: 15px;
+            margin-right: 15px;
             color: #d52121;
             font-size: 16px;
             font-weight: bold;

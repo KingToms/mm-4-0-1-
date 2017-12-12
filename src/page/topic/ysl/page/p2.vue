@@ -132,6 +132,9 @@
                 background: #ddd;
             }
         }
+        .name {
+            flex: 1;
+        }
         .number {
             margin: 0 15px;
             font-size: 13px;
@@ -162,8 +165,7 @@
             background-size: cover;
         }
         .force {
-            position: absolute;
-            right: 15px;
+            margin-right: 15px;
             color: #d52121;
             font-size: 16px;
             font-weight: bold;
