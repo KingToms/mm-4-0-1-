@@ -75,6 +75,7 @@
     },
     created() {
       if (this.$route.query.code) { // 已微信授权
+        alert("有code");
         this.WechatLogin(this.$route.query.code); // 微信登录
       }
     },
@@ -173,7 +174,7 @@
             this.WechatLogin(code);
           }else {
             // 微信登录，获取微信code
-            alert(222);
+            alert(res.url);
             location.href = res.url;
           }
           
@@ -189,7 +190,7 @@
           if(this.$route.query.url){
             this.$router.push(this.$route.query.url)
           }else{
-            this.$router.push('/usercenter')
+            //this.$router.push('/usercenter')
           }
         }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
           console.log('未绑定手机号：',res);
