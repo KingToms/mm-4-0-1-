@@ -163,15 +163,17 @@
       async funGetWechatCode () {
         // 获取微信codeURL
         let res = await WechatCode({redirectURI: location.href});
-        console.log(res);
+        alert(location.href);
         if (res.status === 'ok') {
           // 判断url是否有code
           let code = this.$route.query.code || '';
           if (code){
             // 微信尝试授权
+            alert(111);
             this.WechatLogin(code);
           }else {
             // 微信登录，获取微信code
+            alert(222);
             location.href = res.url;
           }
           
