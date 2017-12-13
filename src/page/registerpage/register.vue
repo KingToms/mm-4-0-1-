@@ -27,7 +27,7 @@
      </ul>
      <button class="submit" @click="register">注册</button>
      <div class="login-box">
-       <router-link :to="`/login?plid=${$route.query.plid}&url=${$route.query.url}`" class="login" v-if="$route.query.url">马上登录</router-link>
+       <router-link :to="`/login?url=${$route.query.url}`" class="login" v-if="$route.query.url">马上登录</router-link>
        <router-link to="/login" class="login" v-else>马上登录</router-link>
      </div>
      <div class="login-WeChat">
@@ -198,7 +198,7 @@
         }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
           console.log('未绑定手机号：',res);
           setStore('WeChatNickname', res.data.nickname);
-          let targetUrl = this.$route.query.url ? `/binding?plid=${this.plid}&url=${this.$route.query.url}` : `/binding?plid=${this.plid}`;
+          let targetUrl = this.$route.query.url ? `/binding?url=${this.$route.query.url}` : `/binding`;
           this.$router.push(targetUrl);
         }else {
           alert(res.msg);

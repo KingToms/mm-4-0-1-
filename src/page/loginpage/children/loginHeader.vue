@@ -4,8 +4,8 @@
       <h2>{{title}}</h2>
     </div>
     <div class="reg-box" v-show="regShow">
-      <router-link class="reg-btn" :to="`/register?plid=${channel}&url=${$route.query.url}`" v-if="$route.query.url">注册</router-link>
-      <router-link class="reg-btn" :to="`/register?plid=${channel}`" v-else>注册</router-link>
+      <router-link class="reg-btn" :to="`/register?url=${$route.query.url}`" v-if="$route.query.url">注册</router-link>
+      <router-link class="reg-btn" :to="`/register`" v-else>注册</router-link>
     </div>
     <a class="back" href="javascript:void(0);" @click="$router.go(-1)" ></a>
   </div>

@@ -107,7 +107,7 @@ export default {
       }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
         console.log('未绑定手机号：',res);
         setStore('WeChatNickname', res.data.nickname);
-        let targetUrl = this.$route.query.url ? `/binding?plid=${this.channel}&url=${this.$route.query.url}` : `/binding?plid=${this.channel}`;
+        let targetUrl = this.$route.query.url ? `/binding?url=${this.$route.query.url}` : `/binding`;
         this.$router.push(targetUrl);
       }else {
         alert(res.msg);
