@@ -122,6 +122,10 @@ export default {
       parames = this.getUrlParam(this.$route.query.url);
       this.channel = parames['plid'];
     }
+
+    if (this.$route.query.code) { // 已微信授权
+      this.WechatLogin(this.$route.query.code); // 微信登录
+    }
   },
   components: {
     lHeader,
