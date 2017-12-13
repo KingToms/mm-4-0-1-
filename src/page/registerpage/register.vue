@@ -161,14 +161,17 @@
 
       // 获取微信客户端code
       async funGetWechatCode () {
-        // 获取微信code
+        // 获取微信codeURL
         let res = await WechatCode({redirectURI: location.href});
         console.log(res);
         if (res.status === 'ok') {
+          // 判断url是否有code
           let code = this.$route.query.code || '';
-          if (code){ // 微信授权成功
+          if (code){
+            // 微信尝试授权
             this.WechatLogin(code);
           }else {
+            // 微信登录，获取微信code
             location.href = res.url;
           }
           
@@ -180,7 +183,7 @@
         if(res.status == 'ok'){ // 微信登录成功
           $.cookie(keyConf.qm_cookie, res.data.mobile,{expires:1, path: '/'})
           setStore(keyConf.userMoile, res.data.mobile)
-          console.log('微信登录成功:',res);
+          alert(this.$route.query.url);
           if(this.$route.query.url){
             this.$router.push(this.$route.query.url)
           }else{
@@ -189,7 +192,7 @@
         }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
           console.log('未绑定手机号：',res);
           setStore('WeChatNickname', res.data.nickname);
-          let targetUrl = this.$route.query.url ? `/binding?plid=${(this.$route.query.plid ? this.$route.query.plid :'')}&url=${this.$route.query.url}` : `/binding?plid=${(this.$route.query.plid ? this.$route.query.plid :'')}`;
+          let targetUrl = this.$route.query.url ? `/binding?plid=${this.plid}&url=${this.$route.query.url}` : `/binding?plid=${this.plid}`;
           this.$router.push(targetUrl);
         }else {
           alert(res.msg);

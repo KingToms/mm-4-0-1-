@@ -107,15 +107,16 @@ export default {
 
     // 获取微信客户端code
     async funGetWechatCode () {
-      // 获取微信code
+      // 获取微信codeURL
       let res = await WechatCode({redirectURI: location.href});
       if (res.status === 'ok') {
+        // 判断url是否有code
         let code = this.$route.query.code || '';
-        if (code){ // 微信授权成功
-          alert(code);
+        if (code){
+          // 微信尝试授权
           this.WechatLogin(code);
         }else {
-          alert(res.url);
+          // 微信登录，获取微信code
           location.href = res.url;
         }
         
