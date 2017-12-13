@@ -79,11 +79,13 @@ export default {
         let code = this.$route.query.code || '';
         if (code){
           // 微信尝试授权
-          alert("授权成功：",res.url);
+          alert("授权成功：");
+          alert(res.url);
           this.WechatLogin(code);
         }else {
           // 微信登录，获取微信code
-          alert("未授权：",res.url);
+          alert("未授权：");
+          alert(res.url);
           location.href = res.url;
         }
         
@@ -95,11 +97,12 @@ export default {
       if(res.status == 'ok'){
         $.cookie(keyConf.qm_cookie, res.data.mobile,{expires:1, path: '/'})
         setStore(keyConf.userMoile, res.data.mobile)
-        alert('微信登录成功:',this.$route.query.url);
+        alert(location.href);
+        alert(this.$route.query.url);
         if(this.$route.query.url){
           this.$router.push(this.$route.query.url)
         }else{
-          //this.$router.push('/usercenter')
+          this.$router.push('/usercenter')
         }
       }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
         console.log('未绑定手机号：',res);

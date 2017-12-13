@@ -170,11 +170,13 @@
           let code = this.$route.query.code || '';
           if (code){
             // 微信尝试授权
-            alert("授权成功：",res.url);
+            alert("授权成功：");
+            alert(res.url);
             this.WechatLogin(code);
           }else {
             // 微信登录，获取微信code
-            alert("未授权：",res.url);
+            alert("未授权：");
+            alert(res.url);
             location.href = res.url;
           }
           
@@ -186,6 +188,7 @@
         if(res.status == 'ok'){ // 微信登录成功
           $.cookie(keyConf.qm_cookie, res.data.mobile,{expires:1, path: '/'})
           setStore(keyConf.userMoile, res.data.mobile)
+          alert(location.href);
           alert(this.$route.query.url);
           if(this.$route.query.url){
             this.$router.push(this.$route.query.url)
