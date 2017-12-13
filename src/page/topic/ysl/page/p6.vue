@@ -2,8 +2,9 @@
     <div class="double-eleven">
         <div class="alter-wrap" v-if="overdue">
             <div class="alter">
-                <p class="title">提示</p>
-                <p class="msg">活动尚未开始,敬请期待</p>
+                <p class="title">{{title}}</p>
+                <p class="msg">感谢关注,更多请关注</p>
+                <img class="full" src="/static/topic/ysl/qr.jpg" alt="">
             </div>
             <div class="alert-mask"></div>
         </div>
@@ -40,7 +41,8 @@
         name: "ysl",
         data () {
             return {
-                overdue: true,
+                title: '',
+                overdue: false,
                 params: {
                     mobile: '',
                     code: '',
@@ -57,14 +59,14 @@
             };
         },
         created () {
-            /*let info = JSON.parse(localStorage.getItem('QRInfo'));
-             this.params.from = info.from;
-             this.zlParams.id = info.id;
-             this.zlParams.code = this.$route.query.code || '';
-             this.params.inviter_id = this.zlParams.id;
-             this.funYslUserInfo();
-             this.funGetWechatCode();
-             this.funYslGetNick();*/
+            let info = JSON.parse(localStorage.getItem('QRInfo'));
+            this.params.from = info.from;
+            this.zlParams.id = info.id;
+            this.zlParams.code = this.$route.query.code || '';
+            this.params.inviter_id = this.zlParams.id;
+            this.funYslUserInfo();
+            this.funGetWechatCode();
+            this.funYslGetNick();
         },
         methods: {
             async funYslUserInfo () {
@@ -73,11 +75,13 @@
                 console.log(res);
                 if (res.code == 100 || res.code == 200) {
                     this.showDom = false;
+                } else if (res.msg == '活动尚未开始') {
+                    this.title = res.msg;
+                    this.overdue = true;
                 }
             },
             async funGetCode () {
                 // 发送验证码
-                return false;
                 if (this.params.mobile.length != 11) {
                     alert("手机格式不正确");
                     return;
@@ -93,7 +97,6 @@
                 }
             },
             async funParticipate () {
-                return false;
                 if (this.showDom) {
                     if (!/^((1[0-9]{1})+\d{9})$/.test(this.params.mobile)) {
                         alert("请输入正确的电话号码");
@@ -187,7 +190,7 @@
             padding: 20px;
             width: 80%;
             left: 10%;
-            top: 35%;
+            top: 25%;
             z-index: 1;
             text-align: center;
             background: #fff;

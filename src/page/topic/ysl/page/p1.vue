@@ -2,19 +2,12 @@
     <div class="double-eleven">
         <div class="alter-wrap" v-if="overdue">
             <div class="alter">
-                <p class="title">提示</p>
-                <p class="msg">活动尚未开始,敬请期待</p>
-            </div>
-            <div class="alert-mask"></div>
-        </div>
-        <!--<div class="alter-wrap" v-if="overdue">
-            <div class="alter">
-                <p class="title">活动已结束</p>
+                <p class="title">{{title}}</p>
                 <p class="msg">感谢关注,更多请关注</p>
                 <img class="full" src="/static/topic/ysl/qr.jpg" alt="">
             </div>
             <div class="alert-mask"></div>
-        </div>-->
+        </div>
         <img class="full" src="/static/topic/ysl/bg_poster1.jpg" alt="">
         <div class="form">
             <div v-if="showDom">
@@ -39,7 +32,8 @@
         name: "ysl",
         data () {
             return {
-                overdue: true,
+                title: '',
+                overdue: false,
                 params: {
                     mobile: '',
                     code: '',
@@ -54,14 +48,14 @@
             };
         },
         created () {
-            /*let info = JSON.parse(localStorage.getItem('QRInfo'));
-             if (info) {
-             this.params.inviter_id = info.id;
-             this.params.from = info.from;
-             }
-             this.funYslUserInfo();
-             this.wxLoginParams.code = this.$route.query.code || '';
-             this.funGetWechatCode();*/
+            let info = JSON.parse(localStorage.getItem('QRInfo'));
+            if (info) {
+                this.params.inviter_id = info.id;
+                this.params.from = info.from;
+            }
+            this.funYslUserInfo();
+            this.wxLoginParams.code = this.$route.query.code || '';
+            this.funGetWechatCode();
         },
         methods: {
             async funYslUserInfo () {
@@ -72,11 +66,13 @@
                     this.$router.push('/topic-ysl/p3');
                 } else if (res.code == 200) {
                     this.showDom = false;
+                } else if (res.msg == '活动尚未开始') {
+                    this.title = res.msg;
+                    this.overdue = true;
                 }
             },
             async funGetCode () {
                 // 发送验证码
-                return false;
                 if (this.params.mobile.length != 11) {
                     alert("手机格式不正确");
                     return;
@@ -117,7 +113,6 @@
             },
             async funYslUserTake () {
                 // 参与
-                return false;
                 let res = await yslUserTake(this.wxLoginParams);
                 console.log(res);
                 if (res.status === 'ok') {
@@ -183,7 +178,7 @@
             padding: 20px;
             width: 80%;
             left: 10%;
-            top: 35%;
+            top: 25%;
             z-index: 1;
             text-align: center;
             background: #fff;
