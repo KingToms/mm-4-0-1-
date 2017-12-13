@@ -3,7 +3,7 @@
         <div class="alter-wrap" v-if="overdue">
             <div class="alter">
                 <p class="title">{{title}}</p>
-                <p class="msg">更多请关注俏猫</p>
+                <p class="msg">{{msg}}</p>
                 <img class="full" src="/static/topic/ysl/qr.jpg" alt="">
             </div>
             <div class="alert-mask"></div>
@@ -33,6 +33,7 @@
         data () {
             return {
                 title: '',
+                msg: '',
                 overdue: false,
                 params: {
                     mobile: '',
@@ -66,9 +67,16 @@
                     this.$router.push('/topic-ysl/p3');
                 } else if (res.code == 200) {
                     this.showDom = false;
-                } else if (res.msg == '活动尚未开始') {
-                    this.title = res.msg;
-                    this.overdue = true;
+                } else {
+                    if (res.msg == '活动尚未开始') {
+                        this.title = res.msg;
+                        this.msg = '更多请关注俏猫';
+                        this.overdue = true;
+                    } else if (res.msg == '活动已经结束') {
+                        this.title = res.msg;
+                        this.msg = '长按二维码，输入关键字【ysl】，可查看获奖名单';
+                        this.overdue = true;
+                    }
                 }
             },
             async funGetCode () {
