@@ -189,7 +189,7 @@
         }else if(res.status == 'error' && res.code == '1'){ // 跳到绑定手机号
           console.log('未绑定手机号：',res);
           setStore('WeChatNickname', res.data.nickname);
-          let targetUrl = this.$route.query.url ? `/binding?plid=${this.$route.query.plid}&url=${this.$route.query.url}` : `/binding?plid=${this.$route.query.plid}`;
+          let targetUrl = this.$route.query.url ? `/binding?plid=${(this.$route.query.plid ? this.$route.query.plid :'')}&url=${this.$route.query.url}` : `/binding?plid=${(this.$route.query.plid ? this.$route.query.plid :'')}`;
           this.$router.push(targetUrl);
         }else {
           alert(res.msg);
