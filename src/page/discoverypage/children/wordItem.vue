@@ -77,7 +77,7 @@ export default {
   props: ["item", "like_list"],
   created() {
     this.pingjia_img = (this.item && this.item.images && this.item.images.length > 0) ? this.item.images.split(/[,|\\|]/) : ''; //新评价图片列表数组
-    this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : ''; //评价列表数组
+    this.comments_list = (this.item && this.item.pinglun && this.item.pinglun.length > 0) ? this.item.pinglun : []; //评价列表数组
 
     this.pingjiaImg();
     this.setStorage();
