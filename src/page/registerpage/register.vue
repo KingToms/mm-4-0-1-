@@ -21,7 +21,7 @@
        </li>
        <li>
          <i></i>
-         <input type="password" placeholder="请设置密码（最少6位，数字+字母）" class="password" v-model="pwd" @focus="setIconShow('password')" @blur="setIconHide">
+         <input type="password" placeholder="请设置6位密码" class="password" v-model="pwd" @focus="setIconShow('password')" @blur="setIconHide">
          <b class="icon-delete" v-show="iconShow=='password'" @click="resetText('password')"></b>
        </li>
      </ul>
@@ -100,6 +100,20 @@
           alert('手机号码不正确');
           return
         }
+        if(this.code.length == 0){
+          alert('验证码不能为空');
+          return
+        }
+
+        if(this.pwd.length<6){
+          alert('密码长度不能小于6位');
+          return
+        }
+        /*if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,15}$/.test(this.pwd)){
+          alert('请设置正确密码（最少6位，数字+字母）');
+          return
+        }*/
+
         this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
         let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid})
 

@@ -74,8 +74,6 @@ const Guide = resolve => require.ensure([], () => resolve(require('@/page/userpa
 const Feedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback')),'setting')
 // 投诉举报
 const Complaint = resolve => require.ensure([], () => resolve(require('@/page/userpage/complaint')), 'setting')
-// 常见问题
-const Fag = resolve => require.ensure([], () => resolve(require('@/page/userpage/fag')), 'setting')
 // 用户优惠券中心
 const MyCoupon = resolve => require.ensure([], () => resolve(require('@/page/userpage/coupon')), 'usmodule')
 // 我的足迹
@@ -503,11 +501,6 @@ const router = new Router({
         {
           path: '/complaint',
           component: Complaint
-        },
-        // 常见问题
-        {
-          path: '/fag',
-          component: Fag
         },
         // 个人中心--优惠券
         {

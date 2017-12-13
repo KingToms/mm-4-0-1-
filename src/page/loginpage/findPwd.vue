@@ -35,7 +35,7 @@
       </div>
       <div class="password">
         <div class="pwd">
-          <input type="password" name="pwd" class="newpwd" v-model="pwd" placeholder="请设置新密码（最少6位,数字+字母）" @focus="setIconShow('newpwd')" @blur="setIconHide">
+          <input type="password" name="pwd" class="newpwd" v-model="pwd" placeholder="请设置6位密码" @focus="setIconShow('newpwd')" @blur="setIconHide">
           <i class="icon-delete" v-show="iconShow=='newpwd'" @click="resetText('input.newpwd')"></i>
         </div>
         <div class="pwd">
@@ -113,6 +113,12 @@ export default {
       }
     },
     async resetPwd () {
+      if(this.pwd.length < 6){
+        this.alertText='密码长度不能小于6位';
+        this.alertShow = true;
+        return
+      }
+
       let res = await resetPwd({mobile: this.mobile, pass_1: this.pwd, pass_2: this.repwd})
       if(res.status === 'ok'){
         alert(res.msg)

@@ -1,10 +1,13 @@
 <template>
   <div class="feedback">
     <div class="header">
-      <lHeader :title="title"></lHeader>
+      <div class="title">
+        <h2>{{title}}</h2>
+      </div>
+      <a class="back" href="javascript:void(0);" @click="goBack"></a>
     </div>
     <div class="content">
-      <div class="main">
+      <div class="main" v-if="this.page == 'help'">
         <ul>
           <li class="li_item">
             <router-link to="/feedback">意见反馈</router-link>
@@ -20,34 +23,22 @@
           </li>
         </ul>
         <!--常见问题-->
-        <div class="common-problem">
+        <div class="common-problem" v-if="fagProblem">
           <p class="common">常见问题</p>
           <ul>
-            <li class="li_item">
-              <router-link to="/fag">我的优惠券不见了</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">优惠券是否可以叠加使用</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">我所在城市能否下单</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">选不了服务时间</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">紧急单如何预约</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">美业师是否有等级区分</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">美业师使用的产品品牌</router-link>
-            </li>
-            <li class="li_item">
-              <router-link to="/fag">订单服务能否提供发票</router-link>
+            <li class="li_item" v-for="(item, index) in fagProblem" :key="index" @click="chooseFaq('faq','常见问题',item)">
+              {{item.title}}
             </li>
           </ul>
+        </div>
+      </div>
+      <div class="faq_detail" v-if="this.page == 'faq' && problem">
+        <p class="title">{{problem.title}}</p>
+        <div class="faq_item" v-show="problem.content" v-for="(item, index) in problem.content" :key="index">
+          <p class="question">Q{{index + 1}}：{{item.questions}}</p>
+          <p class="answer">
+            A{{index + 1}}：{{item.Answer}}
+          </p>
         </div>
       </div>
     </div>
@@ -55,14 +46,15 @@
 </template>
 <script>
 import Vue from 'vue';
-import lHeader from '../../components/common/lHeader';
 import { getFaqProblem } from '../../service/getData';
 export default {
   name: 'feedback',
-  data () {
+  data() {
     return {
       title: '帮助与反馈',
-
+      page: 'help', // 默认：帮助与反馈页面
+      fagProblem: [], // 常见问题
+      problem: '', // 查看的问题
     }
   },
   created() {
@@ -72,28 +64,66 @@ export default {
     // 获取用户常见问题
     async getFaqProblemList() {
       let res = await getFaqProblem();
-      console.log(res);
-      /*if(){
-
-      }*/
-    }
+      if (res.status == "ok") {
+        this.fagProblem = res.data;
+        // console.log(this.fagProblem);
+      }
+    },
+    // 查看常见问题--详情
+    chooseFaq(page, title, item) {
+      this.page = page;
+      this.title = title;
+      this.problem = item;
+    },
+    // 返回
+    goBack() {
+      if (this.page == 'help') {
+        this.$router.go(-1);
+        return
+      } else if (this.page == 'faq') {
+        this.page = 'help';
+        this.title = '帮助与反馈';
+      }
+    },
   },
   components: {
-    lHeader,
+
   },
 }
 </script>
 <style lang="scss" scoped>
 @import '../../assets/css/mixin.scss';
 .feedback {
-  @include wh(100%, 100%);
-  .header{
-    @include wh(100%,4rem);
+  @include wh(100%, 100%); // 标题
+  .header {
+    @include wh(100%, 4rem);
+    @include bgColor(#fff);
     position: fixed;
     left: 0;
     top: 0;
     z-index: 1;
-  }
+    .title {
+      @include wh(100%, 4rem);
+      @include average(#999);
+      line-height: 4rem;
+      text-align: center;
+      h2 {
+        font-size: 1.8rem;
+        color: #000;
+        letter-spacing: 1px;
+      }
+    }
+    .back {
+      position: absolute;
+      top: .7rem;
+      left: .7rem;
+      @include wh(2.4rem, 2.4rem);
+      background-image: url('../../assets/image/icon/login/nav_btn_return.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 2.2rem 2.2rem;
+    }
+  } // 主体内容
   .content {
     @include wh(100%, 100%);
     background-color: #F0F0F0;
@@ -128,7 +158,7 @@ export default {
             width: .7rem;
             height: 1.3rem;
             background-image: url(/static/icon/order/icon_next.png);
-            background-size: 0.7rem,1.3rem;
+            background-size: 0.7rem, 1.3rem;
             background-position: 50%;
             background-repeat: no-repeat;
           }
@@ -144,8 +174,33 @@ export default {
           line-height: 1.6rem;
         }
       }
+    } // 常见问题--详情
+    .faq_detail {
+      min-height: 100%;
+      background-color: #fff;
+      padding-bottom: 6rem;
+      p.title {
+        text-align: center;
+        padding: 2.2rem 0 0;
+        font-size: 2rem;
+      }
+      .faq_item {
+        padding: 0 1.5rem;
+        p {
+          &.question {
+            padding: 2.2rem 0 1.2rem;
+            line-height: 2rem;
+            font-size: 1.4rem;
+            color: #EC413E;
+          }
+          &.answer {
+            text-align: left;
+            font-size: 1.4rem;
+            color: #666;
+          }
+        }
+      }
     }
   }
-  
 }
 </style>
