@@ -24,10 +24,10 @@
       </div>
     </div>
     <!-- 广告窗口 -->
-    <div class="sign_box" v-if="advert_state">
+    <div class="sign_box" v-if="advertInfo.state">
       <div class="mask">
         <div class="sign_tip">
-          <a class="advert_link" href="#"><img class="advert_img" src="../../assets/image/icon/home/home_bg_sign01.png" alt=""></a>
+          <a class="advert_link" target="_blank" :href="advertInfo.link"><img class="advert_img" :src="advertInfo.img" alt=""></a>
           <div class="close_advert" @click="closeAdvert">
             <img src="../../assets/image/icon/home/home_icons_close.png" alt="关闭">
           </div>
@@ -53,7 +53,11 @@ export default {
       signed_day: '', // 累计签到天数
       catfood_total: '', // 累计猫粮总数
       hideFooterHeader: true,
-      advert_state: false,
+      advertInfo: {
+        state: false, // 显示广告
+        link: '', // 广告链接
+        img: '', // 广告图片
+      },
     }
   },
   created(){
@@ -84,13 +88,30 @@ export default {
     closeSign (){
       this.sign_state = false;
     },
+    // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
+    linkType(item,tab) {
+      if(item.ad_type == '1'){ // 专题链接
+        this.advertInfo.link = item.link;
+      }else if(item.ad_type == '2'){ // 店铺链接
+        // this.advertInfo.link = `/stylist/${tab}/${item.link}`
+        this.advertInfo.link = "/detail/shopping/" + item.link;
+      }else if(item.ad_type == '3'){ // 产品链接
+        this.advertInfo.link = "/detail/" + item.link;
+      }
+      // location.href = this.advertInfo.link;
+    },
     // 显示广告窗口
     showAdvertBox (home_tc){
-      this.advert_state = true;
+      console.log("home_tc:",home_tc);
+      if(home_tc && home_tc.length > 0){
+        this.advertInfo.img = home_tc[0].image ? home_tc[0].image : '';
+        this.linkType(home_tc[0]);
+        this.advertInfo.state = true;
+      }
     },
     // 关闭广告窗口
     closeAdvert (){
-      this.advert_state = false;
+      this.advertInfo.state = false;
     },
     showHeaderFooter(){
       let query = this.$route.query
@@ -100,7 +121,7 @@ export default {
         /* this.navHeight = 10.8 */
         this.navTop = 4.4
       }
-    }
+    },
   },
   components: {
     hHeader,
@@ -137,7 +158,7 @@ export default {
       .sign_tip{
         position: relative;
         width: 24rem;
-        max-height: 50%;
+        // max-height: 50%;
         margin: 15rem auto 0;
         border-radius: 1rem;
         .close_sign{
@@ -154,7 +175,7 @@ export default {
         // 关闭广告弹窗
         .close_advert {
           position: absolute;
-          bottom: -7rem;
+          bottom: -8rem;
           left: 40%;
           @include wh(5rem,5rem);
           cursor: pointer;

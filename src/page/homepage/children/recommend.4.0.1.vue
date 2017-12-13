@@ -118,6 +118,7 @@ import moreTab from './children/moreTab';
 import "../../../../node_modules/mint-ui/lib/swipe/style.css";
 import keyConf from "../../../common/keyConf";
 import { getHomeRecommend } from "@/service/getData";
+import {setStore,getStore} from '../../../common/store.js';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 export default {
@@ -162,6 +163,8 @@ export default {
       this.resData.type_64 = res.type_64.data;
       this.resData.type_128 = res.type_128.data;
       this.resData.type_conf = res.type_conf.data;
+
+      this.showAdvertBox(); // 显示广告窗口
     },
     
     // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
@@ -178,7 +181,18 @@ export default {
     },
     // 定时弹出广告窗口
     showAdvertBox() {
-      this.$emit('showAdvert', this.resData.home_tc);
+      let advert_time_old = getStore("advert_time");
+      // console.log("advert_time_old:",advert_time_old);
+
+      let advertDate = new Date();
+      let advert_time = advertDate.toLocaleDateString(); // 首页当前打开的日期
+      setStore("advert_time",advertDate.toLocaleDateString());
+      // console.log("advert_time:",advert_time);
+      if(advert_time == advert_time_old){
+        return
+      }else { // 不是当天则显示广告
+        this.$emit('showAdvert', this.resData.home_tc);
+      }
     },
   },
   components: {moreTab},
