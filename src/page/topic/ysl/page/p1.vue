@@ -3,7 +3,7 @@
         <div class="alter-wrap" v-if="overdue">
             <div class="alter">
                 <p class="title">{{title}}</p>
-                <p class="msg">感谢关注,更多请关注</p>
+                <p class="msg">更多请关注俏猫</p>
                 <img class="full" src="/static/topic/ysl/qr.jpg" alt="">
             </div>
             <div class="alert-mask"></div>
