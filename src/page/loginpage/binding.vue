@@ -110,6 +110,7 @@ export default {
       if (res.status === 'ok') {
         let code = this.$route.query.code || '';
         if (code){ // 微信授权成功
+          alert(code);
           this.WechatLogin(code);
         }else {
           location.href = res.url;
