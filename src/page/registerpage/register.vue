@@ -170,11 +170,11 @@
           let code = this.$route.query.code || '';
           if (code){
             // 微信尝试授权
-            alert(111);
+            alert("授权成功：",res.url);
             this.WechatLogin(code);
           }else {
             // 微信登录，获取微信code
-            alert(res.url);
+            alert("未授权：",res.url);
             location.href = res.url;
           }
           
