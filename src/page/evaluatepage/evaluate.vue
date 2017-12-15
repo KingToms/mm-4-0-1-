@@ -8,7 +8,7 @@
       </div> -->
       <div class="produce-info">
         <div class="text">
-          <p>模特礼仪妆</p>
+          <p>{{order.order_product && order.order_product.length > 0? order.order_product[0].product_name:''}}</p>
           <span v-show="order.comments_num > 0">已评价</span>
           <!-- <p>
             <span>￥368</span>
@@ -16,7 +16,7 @@
             <span><small>x</small> 1</span>
           </p> -->
         </div>
-        <img :src="order.order_product && order.order_product.length > 0? order.order_product[0].thumb:''" alt="">
+        <img :src="order.order_product[0].thumb | uesrImg" alt="">
         <div class="score"  v-if="order.comments_num === 0" >
           <!-- <div class="title">
             <img src="/static/icon/order/indent_icon_grade.png" alt="">
@@ -78,7 +78,7 @@ export default {
   data () {
     return {
       title:'评价晒单',
-      star:0,
+      star:5,
       sn: '',
       base64:[], // 上传的图片
       uploadSuccess:[], // 上传成功的图片路径
@@ -123,6 +123,10 @@ export default {
     },
     // 评价订单
     async commentOrder() {
+      if(this.formData.content.trim() == ''){
+        alert("评价内容不能为空");
+        return
+      }
       this.formData = {
         order_id: this.order.id,
         product_id: this.order.order_product[0].id,
@@ -133,6 +137,7 @@ export default {
         parent_id: this.order.comments_num > 0 ? this.order.comments[0].id : 0,
         top_parent_id: this.order.comments_num > 0 ? this.order.comments[0].id : 0
       }
+      debugger
       let res = await commentOrder(this.formData)
       if(res.status === 'ok')
         this.$router.push({name:'evaResult'})
@@ -163,7 +168,20 @@ export default {
       this.uploadSuccess.splice(index,1)
     }
 
-  }
+  },
+  filters: {
+    uesrImg(item) {
+      if (!item) {
+        return require("../../assets/image/icon/detail/square_default_bg.jpg");
+      } else {
+        if (item.indexOf("http") != -1) {
+          return item;
+        } else {
+          return "http://pic.qiaocat.com/upload" + item;
+        }
+      }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
