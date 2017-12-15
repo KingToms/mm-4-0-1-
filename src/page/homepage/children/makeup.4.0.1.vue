@@ -7,8 +7,8 @@
       <ul class="filter-tab">
         <li :class="{active: chooseTab.indexOf('salesVolume') > -1}" @click="orderCompre">{{condiction.compreOrder.name}}</li>
         <li :class="{active: chooseTab.indexOf('categary') > -1}" @click="filterCategery">{{condiction.categaryFilter.cateNames.length > 3 ? condiction.categaryFilter.cateNames.substr(0,3)+'...' : (condiction.categaryFilter.cateNames.length == 0 ? '分类' : condiction.categaryFilter.cateNames)}}</li>
-        <li v-if="condiction.priceOrder == 'desc'" :class="{active: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格降序</li>
-        <li v-else :class="{active: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格升序</li>
+        <li v-if="condiction.priceOrder == 'desc'" :class="{active: chooseTab.indexOf('priceOrder') > -1, desc_order: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格</li>
+        <li v-else :class="{active: chooseTab.indexOf('priceOrder') > -1}" @click="orderPrice">价格</li>
         <li :class="{active: chooseTab.indexOf('filterCondition') > -1}" @click="filterPrice">筛选</li>
       </ul>
     </div>
@@ -172,7 +172,7 @@ export default {
       this.flag = false;
       this.condiction.compreOrder.id = this.condiction.compreOrder.id == 'com' ? '' : this.condiction.compreOrder.id;
       let sortBy = this.chooseTab.indexOf('priceOrder') > -1 ? (this.condiction.compreOrder.id ? `${this.condiction.compreOrder.id},price` : 'price') : `${this.condiction.compreOrder.id}`;
-      let sort_rule = this.chooseTab.indexOf('priceOrder') > -1 ? this.condiction.priceOrder : 'asc';
+      let sort_rule = this.chooseTab.indexOf('priceOrder') > -1 ? this.condiction.priceOrder : 'desc';
       this.setPriceFilter();
       let obj = {
         fileds: this.filed,
@@ -377,15 +377,19 @@ export default {
       @include sc(1.4rem,#666);
       &.active {
         @include sc(1.4rem, $themeRed);
-        @include liAfter("1", 0.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
-        @include liAfter("2", 0.8rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
-        @include liAfter("3", 0.2rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
-        @include liAfter("4", 1.8rem, 0.95rem, 1.1rem, "../../../assets/image/icon/all/classify_icon_screen_sel.png");
+        @include liAfter("1", 0.2rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
+        @include liAfter("2", 1.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
+        @include liAfter("3", 1.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel.png");
+        @include liAfter("4", 1.5rem, 0.95rem, 1.1rem, "../../../assets/image/icon/all/classify_icon_screen_sel.png");
       }
-      @include liAfter(1, 0.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
-      @include liAfter(2, 1.8rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
-      @include liAfter(3, 0.2rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
-      @include liAfter(4, 1.8rem, 0.95rem, 1.1rem, "../../../assets/image/icon/all/classify_icon_screen_nor.png");
+      // 价格降序，红色箭头向下
+      &.desc_order {
+        @include liAfter("3", 1.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_sel_desc.png");
+      }
+      @include liAfter(1, 0.2rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
+      @include liAfter(2, 1.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
+      @include liAfter(3, 1.4rem, 0.9rem, 0.45rem, "../../../assets/image/icon/all/classify_icon_choose_nor.png");
+      @include liAfter(4, 1.5rem, 0.95rem, 1.1rem, "../../../assets/image/icon/all/classify_icon_screen_nor.png");
     }
   }
 
