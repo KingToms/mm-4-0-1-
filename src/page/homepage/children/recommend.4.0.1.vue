@@ -155,7 +155,7 @@ export default {
     async getData(){
       let res = await getHomeRecommend();
       this.resData.Shuffling = res.Shuffling.data;
-      this.resData.home_tc = res.home_tc.data;
+      this.resData.home_tc = (res.home_tc && res.home_tc.data) ? res.home_tc.data : [];
       this.resData.Advert = res.Advert.data;
       this.resData.Hotlist = res.Hotlist.data;
       this.resData.Hot_sty = res.Hot_sty.data;
@@ -164,7 +164,10 @@ export default {
       this.resData.type_128 = res.type_128.data;
       this.resData.type_conf = res.type_conf.data;
 
-      this.showAdvertBox(); // 显示广告窗口
+      // 显示广告窗口
+      if(this.resData.home_tc.length > 0){
+        this.showAdvertBox();
+      }
     },
     
     // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
