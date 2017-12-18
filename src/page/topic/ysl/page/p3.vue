@@ -30,7 +30,10 @@
             </div>
         </div>
         <div style="height: 80px;"></div>
-        <router-link class="generate" to="/topic-ysl/p4">生成召集令</router-link>
+        <div class="footer-wrap">
+            <router-link class="generate" to="/topic-ysl/p4" style="border-right: 3px solid #fff;">生成召集令</router-link>
+            <router-link class="generate" to="/topic-ysl/p2" style="border: none;">查看总榜单</router-link>
+        </div>
     </div>
 </template>
 <script>
@@ -180,16 +183,22 @@
         }
     }
 
-    .generate {
+    .footer-wrap {
         position: fixed;
+        display: flex;
+        justify-content: center;
         width: 100%;
-        height: 50px;
-        line-height: 50px;
-        color: #fee9a8;
-        background: #000;
-        font-size: 18px;
-        text-align: center;
         bottom: 0;
         left: 0;
+        background: #d52121;
+        .generate {
+            display: inline-block;
+            width: 40%;
+            color: #fff;
+            height: 50px;
+            line-height: 50px;
+            font-size: 18px;
+            text-align: center;
+        }
     }
 </style>
