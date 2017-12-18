@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div style="height: 30px;"></div>
+        <div style="height: 30px;" class="tips">下拉加载更多</div>
     </div>
 </template>
 <script>
@@ -32,18 +32,34 @@
         name: "ysl",
         data () {
             return {
-                items: {}
+                items: [],
+                params: {
+                    page_no: 1,
+                    per_page: 20,
+                }
             };
         },
         created () {
+            let vm = this;
             this.funYslIndex();
+            $(window).scroll(function () {
+                let scrollTop = $(this).scrollTop();
+                let scrollHeight = $(document).height();
+                let windowHeight = $(this).height();
+                if (scrollTop + windowHeight == scrollHeight) {
+                    vm.funLoadMore();
+                }
+            });
         },
         methods: {
             async funYslIndex () {
-                let res = await yslIndex();
+                let res = await yslIndex(this.params);
                 console.log(res);
                 if (res.status === 'ok') {
-                    this.items = res.data;
+                    res.data.forEach((val) => {
+                        this.items.push(val);
+                    });
+
                 } else {
                     alert(res.msg);
                     if (res.code === 100) {
@@ -55,6 +71,10 @@
                     }
                 }
             },
+            funLoadMore () {
+                this.params.page_no++;
+                this.funYslIndex();
+            }
         }
     }
 </script>
@@ -170,5 +190,12 @@
             font-size: 16px;
             font-weight: bold;
         }
+    }
+
+    .tips {
+        font-size: 12px;
+        color: #000000;
+        text-align: center;
+        line-height: 30px;
     }
 </style>

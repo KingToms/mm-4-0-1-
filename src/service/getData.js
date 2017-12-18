@@ -154,7 +154,8 @@ export const yslUserTake = (data) => fetch (`/Ysl/ysl_user_take?API_VERSION=topi
 // 用户信息
 export const yslUserInfo = (data) => fetch (`/Ysl/ysl_user_info?API_VERSION=topic`, data, 'POST')
 // 列表
-export const yslIndex = () => fetch (`/Ysl/ysl_index?API_VERSION=topic`, {}, 'POST')
+//export const yslIndex = () => fetch (`/Ysl/ysl_index?API_VERSION=topic`, {}, 'POST')
+export const yslIndex = (data) => fetch (`/Ysl/ysl_all_rank?API_VERSION=topic`, data, 'POST')
 // 我的排名
 export const yslMyRank = () => fetch (`/Ysl/ysl_my_rank?API_VERSION=topic`, {}, 'POST')
 // 生成二维码
