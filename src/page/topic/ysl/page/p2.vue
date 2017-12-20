@@ -33,6 +33,7 @@
         data () {
             return {
                 items: [],
+                loadData: false,
                 params: {
                     page_no: 1,
                     per_page: 20,
@@ -43,23 +44,26 @@
             let vm = this;
             this.funYslIndex();
             $(window).scroll(function () {
-                let scrollTop = $(this).scrollTop();
-                let scrollHeight = $(document).height();
-                let windowHeight = $(this).height();
-                if (scrollTop + windowHeight == scrollHeight) {
-                    vm.funLoadMore();
+                if (vm.loadData) {
+                    let scrollTop = $(this).scrollTop();
+                    let scrollHeight = $(document).height();
+                    let windowHeight = $(this).height();
+                    if (scrollTop + windowHeight == scrollHeight) {
+                        console.log(`page:${vm.params.page_no}`);
+                        vm.funLoadMore();
+                    }
                 }
             });
         },
         methods: {
             async funYslIndex () {
+                this.loadData = false;
                 let res = await yslIndex(this.params);
-                console.log(res);
                 if (res.status === 'ok') {
                     res.data.forEach((val) => {
                         this.items.push(val);
                     });
-
+                    this.loadData = true;
                 } else {
                     alert(res.msg);
                     if (res.code === 100) {
