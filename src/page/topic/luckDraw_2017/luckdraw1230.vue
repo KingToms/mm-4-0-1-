@@ -93,8 +93,8 @@ export default {
       timer: null, // 定时器
 
       shareData: { // APP分享
-        title: '俏猫转盘抽奖送流量',
-        desc: '女生形象大赛，女神们都给我“转”起来~',
+        title: '毫无套路，100%中奖！',
+        desc: '俏猫三周年·10000G流量豪气送~',
         link: 'http://mm.qiaocat.com/topic-luckdraw-1230?plid=96',
         imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg'
       },
@@ -288,8 +288,8 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "俏猫转盘抽奖送流量",
-          "女生形象大赛，女神们都给我“转”起来~",
+          "毫无套路，100%中奖！",
+          "俏猫三周年·10000G流量豪气送~",
           "http://mm.qiaocat.com/topic-luckdraw-1230?plid=96",
           "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg",
         );
@@ -398,7 +398,8 @@ export default {
         }
       }
       .explain-box {
-        margin: 28% auto 0;
+        margin: 9rem auto 0;
+        max-width: 37.5rem;
       }
     }
     img {
@@ -419,7 +420,7 @@ export default {
     .wheel-box {
       position: absolute;
       left: 0;
-      top: 30.5%;
+      top: 31.4%;
       width: 100%;
       font-size: 0;
       .wheel {
@@ -449,7 +450,7 @@ export default {
           span {
             display: block;
             margin-top: 20%;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
           }
 
           @for $i from 0 through 7 {
