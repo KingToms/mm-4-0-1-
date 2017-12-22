@@ -136,7 +136,7 @@ export default {
       right: 2.5rem;
       @include wh(0.8rem,0.8rem);
       margin: 0.7rem;
-      background-image: url('../../../assets/image/icon/login/icon_delete.png');
+      background-image: url('../../../assets/image/icon/login/icon_delete_new.png');
       background-size: 0.8rem 0.8rem;
     }
   }
