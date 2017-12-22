@@ -95,7 +95,7 @@ export default {
       shareData: { // APP分享
         title: '毫无套路，100%中奖！',
         desc: '俏猫三周年·10000G流量豪气送~',
-        link: 'http://mm.qiaocat.com/topic-luckdraw-1230?plid=96',
+        link: 'http://mm.qiaocat.com/topic-luckdraw-1230?plid=101',
         imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg'
       },
     };
@@ -290,7 +290,7 @@ export default {
         _this.share_setup(
           "毫无套路，100%中奖！",
           "俏猫三周年·10000G流量豪气送~",
-          "http://mm.qiaocat.com/topic-luckdraw-1230?plid=96",
+          "http://mm.qiaocat.com/topic-luckdraw-1230?plid=101",
           "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg",
         );
       });
