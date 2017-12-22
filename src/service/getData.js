@@ -47,6 +47,8 @@ export const complaint = (data) => fetch(`/qiaomao/qm_user_complaint_submit`, da
 export const getStylist = (data) => fetch(`/qiaomao/qm_user_complaint_stylist`, data, 'POST')
 // 用户足迹
 export const getFootList = (data) => fetch(`/qiaomao/qm_user_footprint_list`, data, 'POST')
+// 帮助反馈--用户常见问题
+export const getFaqProblem = (data) => fetch(`/mon/mon_config_faq_problem`, data, 'POST')
 
 
 export const getInfo = () => fetch(`/dresser/dr_add_data`,{},'POST')
@@ -141,8 +143,12 @@ export const foundDzpl = (data) => fetch(`/qiaomao/qm_index_found_dzpl`, data, '
 
 // 支付成功，调用推送消息
 export const orderJPush = (data) => fetch (`/mon/mon_order_jpush`, data, 'POST')
-// 获取微信code
+// 获取微信code(专题)
 export const getWechatCode = (data) => fetch (`/wechat/code_url?API_VERSION=topic`, data, 'POST')
+// 获取微信code
+export const WechatCode = (data) => fetch (`/mon/mon_wechat_code_url`, data, 'POST')
+// 微信code绑定
+export const WechatLogin = (data) => fetch (`/mon/mon_user_wechat_login`, data, 'POST')
 
 /*专题接口*/
 // 万圣节‘鬼混夜’专题---获取下单成功排队序号
