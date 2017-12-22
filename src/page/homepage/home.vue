@@ -159,7 +159,7 @@ export default {
         position: relative;
         width: 24rem;
         // max-height: 50%;
-        margin: 15rem auto 0;
+        margin: 8rem auto 0;
         border-radius: 1rem;
         .close_sign{
           position: absolute;
