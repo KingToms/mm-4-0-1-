@@ -86,7 +86,7 @@
         <span class="more" @click="pingjia_show">查看全部</span>
       </div>
       <!-- 订购须知 -->
-      <!-- <div class="orderInfo">
+       <div class="orderInfo">
         <div class="title clear">
           <span class="left">订购须知</span>
           <router-link to="/desc">
@@ -98,10 +98,10 @@
         </div>
         <div class="content">
           <ul>
-            <li v-for="(item,i) in orderDesc" :key="i">{{i}}.{{item}};</li>
+            <li v-for="(item,i) in orderDesc" :key="i">{{i+1}}.{{item}};</li>
           </ul>
         </div>
-      </div> -->
+      </div>
       <!--机构个人自营-->
       <shopDesc :info="mys_info.infoList" v-if="product_info.type_user && product_info.type_user ==1"></shopDesc>
       <!--图文详情-->

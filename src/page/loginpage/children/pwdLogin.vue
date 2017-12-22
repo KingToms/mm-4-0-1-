@@ -1,11 +1,14 @@
 <template>
   <div class="pwdLogin">
+    <div class="title-box">
+      <p class="title">账号密码登录</p>
+    </div>
     <div class="mobile">
-      <input type="tel" name="mobile" class="tel" v-model="mobile" autocomplete="off" placeholder="请输入手机号码" @focus="setIcomShowTel" @blur="setIconHide">
+      <input type="tel" name="mobile" class="tel" maxlength="11" v-model="mobile" autocomplete="off" placeholder="请输入手机号" @focus="setIcomShowTel" @blur="setIconHide">
       <i class="icon-delete" v-show="iconShow=='tel'" @click="resetText('tel')"></i>
     </div>
     <div class="pwd">
-      <input type="password" class="password" name="pwd" v-model="pwd" placeholder="请输入您的密码"   @focus="setIcomShowPwd"   @blur="setIconHide">
+      <input type="password" class="password" name="pwd" v-model="pwd" placeholder="请输入密码" @focus="setIcomShowPwd"   @blur="setIconHide">
       <i class="icon-delete"  v-show="iconShow=='password'" @click="resetText('password')"></i> 
     </div>
     <alert-tip :alertText="alertText" v-if="alertShow"  @closeTip="closeTip"></alert-tip>
@@ -88,43 +91,53 @@ export default {
 .pwdLogin{
   width: 100%;
   overflow: hidden;
-  margin-top: 3rem;
+  // margin-top: 3rem;
+  .title-box {
+    margin-top: 2rem;
+    padding: 0 2.5rem;
+    .title {
+      line-height: 2.4rem;
+      font-size: 2.4rem;
+      color: #000;
+      padding-bottom: 0.3rem;
+    }
+  }
   .mobile{
     input[type=tel]{
-      background-image: url('../../../assets/image/icon/login/icon_user.png');
+      // background-image: url('../../../assets/image/icon/login/icon_user.png');
     }
   }
   .pwd{
     input[type=password]{
-      background-image: url('../../../assets/image/icon/login/icon_password.png');
+      // background-image: url('../../../assets/image/icon/login/icon_password.png');
     }
   }
   .mobile,.pwd{
     position: relative;
     width: 100%;
-    padding: 0px 1.5625rem;
+    padding: 0 2.5rem;
     box-sizing: border-box;
-    margin-bottom:2.75rem;
+    margin-top: 1.2rem;
     input[type=tel],input[type=password]{
-      @include wh(100%,4.4rem);
-      padding-left:3.75rem;
+      @include wh(100%, 5rem);
+      // padding-left: 3.75rem;
       font-size: 1.5rem;
       letter-spacing: 2px;
       color: #000;
-      // background-color: #F5F5F5;
       border-bottom: 1px solid #999;
-      // @include border_2(#999);
       background-size: 1.7rem 1.9rem;
       background-position:1.2rem 1.25rem;
       background-repeat: no-repeat;
     }
     i.icon-delete{
       position: absolute;
+      box-sizing: border-box;
       top: 1.5rem;
-      right: 1.5rem;
-      @include wh(1.4rem,1.4rem);
-      background-image: url('../../../assets/image/icon/login/icon_delete.png');
-      background-size: 1.4rem 1.4rem;
+      right: 2.5rem;
+      @include wh(0.8rem,0.8rem);
+      margin: 0.7rem;
+      background-image: url('../../../assets/image/icon/login/icon_delete_new.png');
+      background-size: 0.8rem 0.8rem;
     }
   }
 }

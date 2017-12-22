@@ -118,6 +118,7 @@ import moreTab from './children/moreTab';
 import "../../../../node_modules/mint-ui/lib/swipe/style.css";
 import keyConf from "../../../common/keyConf";
 import { getHomeRecommend } from "@/service/getData";
+import {setStore,getStore} from '../../../common/store.js';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 export default {
@@ -129,6 +130,7 @@ export default {
         Shuffling: [],  // banner轮播图
         Advert: [],  // 广告图
         Hotlist: [], // 热卖
+        home_tc: [], // 首页弹窗
         Hot_sty: [], // 人气美业师
         type_1: [],  // 推荐化妆
         type_64: [], // 推荐美睫
@@ -153,6 +155,7 @@ export default {
     async getData(){
       let res = await getHomeRecommend();
       this.resData.Shuffling = res.Shuffling.data;
+      this.resData.home_tc = (res.home_tc && res.home_tc.data) ? res.home_tc.data : [];
       this.resData.Advert = res.Advert.data;
       this.resData.Hotlist = res.Hotlist.data;
       this.resData.Hot_sty = res.Hot_sty.data;
@@ -160,6 +163,11 @@ export default {
       this.resData.type_64 = res.type_64.data;
       this.resData.type_128 = res.type_128.data;
       this.resData.type_conf = res.type_conf.data;
+
+      // 显示广告窗口
+      if(this.resData.home_tc.length > 0){
+        this.showAdvertBox();
+      }
     },
     
     // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
@@ -173,6 +181,21 @@ export default {
         this.link_address = "/detail/" + item.link;
       }
       location.href = this.link_address;
+    },
+    // 定时弹出广告窗口
+    showAdvertBox() {
+      let advert_time_old = getStore("advert_time");
+      // console.log("advert_time_old:",advert_time_old);
+
+      let advertDate = new Date();
+      let advert_time = advertDate.toLocaleDateString(); // 首页当前打开的日期
+      setStore("advert_time",advertDate.toLocaleDateString());
+      // console.log("advert_time:",advert_time);
+      if(advert_time == advert_time_old){
+        return
+      }else { // 不是当天则显示广告
+        this.$emit('showAdvert', this.resData.home_tc);
+      }
     },
   },
   components: {moreTab},

@@ -1,6 +1,6 @@
 <template>
   <div class="statement">
-    <div class="header">
+    <div class="header" v-if="hideHeader">
       <l-header :title="title"></l-header>
     </div>
     <content>
@@ -26,11 +26,25 @@ export default {
   data () {
     return {
       title: '免责声明',
+      hideHeader: true,
     }
   },
   components:{
     lHeader
-  }
+  },
+  created (){
+    this.showHeader();
+  },
+  methods: {
+    /*APP客户端中隐藏标题栏*/
+    showHeader(){
+      let query = this.$route.query
+      query = query ? query : {}
+      if(query.app == 'ios' || query.app == 'android'){
+        this.hideHeader = false;
+      }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -44,6 +58,9 @@ export default {
     padding: 2rem 1.5rem 0;
     &:first-child{
       padding: 6rem 1.5rem 0;
+    }
+    &:last-child{
+      padding: 2rem 1.5rem 5rem;
     }
     font-size: 1.3rem;
     color: #000;

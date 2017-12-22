@@ -81,9 +81,10 @@
             </a>
           </li>
           <li class="left">
-            <router-link to="/feedback">
+            <router-link to="/help">
               <p><img src="/static/icon/ucenter/my_icon_feedback.png" alt=""></p>
-              <p>意见反馈</p>
+              <!--<p>意见反馈</p>-->
+              <p>帮助反馈</p>
             </router-link>
           </li>
         </ul>

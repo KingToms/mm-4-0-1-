@@ -7,7 +7,7 @@
         <!-- <headerNav :style="{'padding-top': `${navTop}rem`}"></headerNav> -->
       </nav>
     </div>
-    <router-view @showSign="showSignBox"></router-view>
+    <router-view @showSign="showSignBox" @showAdvert="showAdvertBox"></router-view>
     <!-- 签到窗口 -->
     <div class="sign_box" v-if="sign_state">
       <div class="mask">
@@ -19,6 +19,17 @@
             <p class="count" v-if="!signed_in">猫粮&nbsp;<span>+{{sign_number}}</span></p>
             <p class="con" :class="{'signed_con': signed_in}">已经连续签到{{signed_day}}天,累计获得猫粮{{catfood_total}}</p>
             <router-link to="/cat_food" class="cat_food">查看猫粮</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 广告窗口 -->
+    <div class="sign_box" v-if="advertInfo.state">
+      <div class="mask">
+        <div class="sign_tip">
+          <a class="advert_link" target="_blank" :href="advertInfo.link"><img class="advert_img" :src="advertInfo.img" alt=""></a>
+          <div class="close_advert" @click="closeAdvert">
+            <img src="../../assets/image/icon/home/home_icons_close.png" alt="关闭">
           </div>
         </div>
       </div>
@@ -41,7 +52,12 @@ export default {
       sign_number: '2', // 签到猫粮增加数
       signed_day: '', // 累计签到天数
       catfood_total: '', // 累计猫粮总数
-      hideFooterHeader: true
+      hideFooterHeader: true,
+      advertInfo: {
+        state: false, // 显示广告
+        link: '', // 广告链接
+        img: '', // 广告图片
+      },
     }
   },
   created(){
@@ -72,6 +88,31 @@ export default {
     closeSign (){
       this.sign_state = false;
     },
+    // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
+    linkType(item,tab) {
+      if(item.ad_type == '1'){ // 专题链接
+        this.advertInfo.link = item.link;
+      }else if(item.ad_type == '2'){ // 店铺链接
+        // this.advertInfo.link = `/stylist/${tab}/${item.link}`
+        this.advertInfo.link = "/detail/shopping/" + item.link;
+      }else if(item.ad_type == '3'){ // 产品链接
+        this.advertInfo.link = "/detail/" + item.link;
+      }
+      // location.href = this.advertInfo.link;
+    },
+    // 显示广告窗口
+    showAdvertBox (home_tc){
+      console.log("home_tc:",home_tc);
+      if(home_tc && home_tc.length > 0){
+        this.advertInfo.img = home_tc[0].image ? home_tc[0].image : '';
+        this.linkType(home_tc[0]);
+        this.advertInfo.state = true;
+      }
+    },
+    // 关闭广告窗口
+    closeAdvert (){
+      this.advertInfo.state = false;
+    },
     showHeaderFooter(){
       let query = this.$route.query
       query = query ? query : {}
@@ -80,7 +121,7 @@ export default {
         /* this.navHeight = 10.8 */
         this.navTop = 4.4
       }
-    }
+    },
   },
   components: {
     hHeader,
@@ -116,17 +157,35 @@ export default {
       z-index: 1000;
       .sign_tip{
         position: relative;
-        width: 26rem;
-        margin: 35% auto;
+        width: 24rem;
+        // max-height: 50%;
+        margin: 8rem auto 0;
+        border-radius: 1rem;
         .close_sign{
           position: absolute;
           top: -0.5rem;
           right: -0.5rem;
           @include wh(3rem,3rem);
+          cursor: pointer;
+        }
+        // 广告链接
+        .advert_link {
+          display: block;
+        }
+        // 关闭广告弹窗
+        .close_advert {
+          position: absolute;
+          bottom: -8rem;
+          left: 40%;
+          @include wh(5rem,5rem);
+          cursor: pointer;
         }
         img{
           width: 100%;
           vertical-align: top;
+        }
+        img.advert_img {
+          border-radius: 1rem;
         }
         .sign_text{
           background-color: #fff;
