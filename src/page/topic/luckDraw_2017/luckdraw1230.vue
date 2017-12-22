@@ -27,9 +27,15 @@
               <div v-else>
                 <p class="p1">恭喜你，获得</p>
                 <!--888元现金券-->
-                <p class="p2" v-if="gift_id == '8'"><b>“{{gift_content}}”</b>，请直接进入俏猫公众号可查看。</p>
+                <div class="p2" v-if="gift_id == '8'">
+                  <b>“{{gift_content}}”</b>
+                  <p class="tip-txt">请直接进入俏猫公众号可查看。</p>
+                </div>
                 <!--流量-->
-                <p class="p2" v-else><b>“{{gift_content}}流量”</b>，我们将在24小时内为您充值，请留意手机短信。</p>
+                <div class="p2" v-else>
+                  <b>“{{gift_content}}流量”</b>
+                  <p class="tip-txt">我们将在24小时内为您充值，请留意手机短信。</p>
+                </div>
               </div>
             </div>
           </div>
@@ -43,7 +49,7 @@
       </div>
       <img class="bg-img" src="/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg" alt="">
       <!--活动说明按钮-->
-      <div class="explain-btn" @click="showExplainBox" title="活动说明">活动说明</div>
+      <div class="explain-btn" @click="showExplainBox" title="活动说明"></div>
       <!--大转盘-->
       <div class="wheel-box">
         <div id="rotary-table" class="wheel">
@@ -362,13 +368,20 @@ export default {
         // 结果提示
         .result {
           padding-top: 15%;
-          p {
+          p,.p2 {
             font-size: 2rem;
             color: #cc9942;
             b {
+              display: inline-block;
               color: #cc9942;
               font-weight: bold;
+              margin-top: 0.5rem;
             }
+          }
+          .tip-txt {
+            margin-top: 3rem;
+            font-size: 1.2rem;
+            color: #010101;
           }
         }
         // 结果提示
@@ -396,23 +409,22 @@ export default {
     }
     .explain-btn {
       position: absolute;
-      width: 17%;
+      width: 20%;
       height: 5%;
       text-align: center;
-      right: 6%;
+      right: 2%;
       top: 2%;
       cursor: pointer;
-      // background-color: pink;
     }
     .wheel-box {
       position: absolute;
       left: 0;
-      top: 28%;
+      top: 30.5%;
       width: 100%;
       font-size: 0;
       .wheel {
         position: relative;
-        width: 92%;
+        width: 63%;
         display: block;
         margin: 0 auto;
         background: url("/static/topic/luckDraw_2017/luckDraw_1230/empty.png") center no-repeat;
@@ -437,7 +449,7 @@ export default {
           span {
             display: block;
             margin-top: 20%;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
           }
 
           @for $i from 0 through 7 {
@@ -447,53 +459,53 @@ export default {
           }
 
           &.gift_0 {
-            top: 82%;
+            top: 77%;
             left: 40%;
             transform: rotate(180deg);
           }
           &.gift_1 {
-            top: 70%;
-            left: 15%;
+            top: 71%;
+            left: 13%;
             transform: rotate(225deg);
           }
           &.gift_2 {
             top: 72%;
-            left: 67%;
+            left: 69%;
             transform: rotate(135deg);
           }
           &.gift_3 {
-            top: 45%;
-            left: 79%;
+            top: 44%;
+            left: 80%;
             transform: rotate(90deg);
           }
           &.gift_4 {
-            top: 44%;
-            left: 4%;
+            top: 43%;
+            left: 1%;
             transform: rotate(270deg);
           }
           &.gift_5 {
-            top: 19%;
-            left: 68%;
+            top: 17%;
+            left: 69%;
             transform: rotate(45deg);
           }
           &.gift_6 {
-            top: 17%;
-            left: 15%;
+            top: 15%;
+            left: 13%;
             transform: rotate(-45deg);
           }
           &.gift_7 {
-            top: 7%;
-            left: 42%;
+            top: 3%;
+            left: 41%;
             transform: rotate(0deg);
           }
         }
       }
       .start {
         display: block;
-        width: 20%;
+        width: 18%;
         position: absolute;
-        left: 40%;
-        top: 36%;
+        left: 41%;
+        top: 30%;
         cursor: pointer;
         z-index: 3;
       }
