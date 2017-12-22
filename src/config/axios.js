@@ -47,7 +47,7 @@ export default async (url = '', params = {}, type = 'GET') => {
 
   // url = url + '?API_VERSION=V4.0.0';
   if(url.indexOf('API_VERSION') < 0)
-    url = url + '?API_VERSION=V4.0.1';
+    url = url + '?API_VERSION=V4.1.0';
 
   return new Promise((resolve, reject) => {
     /*axios({
