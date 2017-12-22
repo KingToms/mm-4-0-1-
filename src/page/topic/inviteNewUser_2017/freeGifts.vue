@@ -116,7 +116,7 @@ import common from "../../../common/common";
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css'
 import { setStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getFreeGift } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getFreeGift, Reccommend } from "@/service/getData";
 export default {
   name: "FreeGifts",
   data () {
@@ -134,11 +134,13 @@ export default {
       login_state: false, // 登录时登录状态
       login_con: "登录",
       plid: "", //推广来源
+      recommendList: [], // 热销推荐
     };
   },
   created (){
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
     this.shareWechat(); // 微信分享
+    this.getReccommend();
   },
   methods: {
     /*显示活动规则*/
@@ -196,6 +198,13 @@ export default {
         }
 
       }
+    },
+    async getReccommend() {
+      let res = await Reccommend({});
+      if (res.status === "ok"){
+        this.recommendList = res.data;
+      }
+      console.log(this.recommendList);
     },
 
     /* 快捷登录----开始 */
