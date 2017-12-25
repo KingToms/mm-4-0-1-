@@ -2,9 +2,9 @@
   <div class="system_box">
     <lHeader :title="title"></lHeader>
     <div class="message_text" v-if="hasMessage">
-      <systemItem :msgState="msgState"></systemItem>
-      <systemItem :msgState="msgState"></systemItem>
-      <systemItem :msgState="!msgState"></systemItem>
+      <systemItem :isSystemMsg="isSystemMsg"></systemItem>
+      <systemItem :isSystemMsg="isSystemMsg"></systemItem>
+      <systemItem :isSystemMsg="!isSystemMsg"></systemItem>
     </div>
     <no-message v-if="!hasMessage"></no-message>
   </div>
@@ -19,7 +19,7 @@ export default {
     return {
       title: '系统消息',
       hasMessage: true, //是否有系统消息
-      msgState: true, // 是否是优惠券消息,还是订单消息
+      isSystemMsg: true, // 是否是优惠券消息,还是订单消息
     };
   },
   methods: {

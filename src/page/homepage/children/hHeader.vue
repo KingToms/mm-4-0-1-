@@ -10,9 +10,10 @@
         <input type="text" name="search" id="search" v-model="searchContent" placeholder="魅力社交妆" disabled>
       </div>
       <!-- 消息通知 -->
-      <!-- <router-link to="/messageCenter" class="top_right">
-        <img src="../../../assets/image/icon/home/info_nor.png" alt="">
-      </router-link> -->
+      <router-link to="/messageCenter" class="top_right">
+        <img src="../../../assets/image/icon/home/info_sel.png" v-if="hasMsg" alt="">
+        <img src="../../../assets/image/icon/home/info_nor.png" v-else alt="">
+      </router-link>
     </div>
   </header>
 </template>
@@ -29,7 +30,8 @@ export default {
       searchContent: '',
       _self: '',
       city: '广州市',
-      adcode: ''
+      adcode: '',
+      hasMsg: true, // 消息列表(是否有未读消息)
     }
   },
   created (){
@@ -117,8 +119,8 @@ export default {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    // padding: 0 4.8rem 0 9rem;
-    padding: 0 1.5rem 0 9rem;
+    padding: 0 4.8rem 0 9rem;
+    // padding: 0 1.5rem 0 9rem;
     img{
       position: absolute;
       top: 1.4rem;
@@ -143,16 +145,18 @@ export default {
     }
   }
   .top_right{
-    z-index: 3;
     position: absolute;
     right: 0;
     top: 0;
+    display: block;
+    width: 4.8rem;
     height: 100%;
-    padding: 0 1.2rem;
+    text-align: center;
+    cursor: pointer;
     img{
       display: inline-block;
       width: 2.3rem;
-      vertical-align: middle;
+      margin-top: 0.9rem;
     }
   }
 }

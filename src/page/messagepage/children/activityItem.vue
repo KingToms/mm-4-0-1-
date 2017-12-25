@@ -16,7 +16,18 @@ export default {
     return {
     };
   },
-  props:['item'],
+  props:{
+    item: {
+      default: {
+        link: '#',
+        title: '从路人甲蜕变成女王',
+        image: 'http://crm2test.qiaocat.com//upload/ad/b8474a62363da1334755405a66087a1d.jpg',
+        description: '女神节不能输侧颜杀！拉近镜头你敢吗？完美侧颜，俘虏那些奇遇的男生',
+        created_at: '2017-03-01',
+      },
+      type: Object
+    }
+  },
   methods: {
   }
 }
