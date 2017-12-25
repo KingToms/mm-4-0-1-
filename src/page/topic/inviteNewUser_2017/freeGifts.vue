@@ -29,6 +29,9 @@
       <!--热销推荐-->
       <div class="recommend">
         <img class="top" src="/static/topic/inviteNewUser_2017/invite2_07.jpg" alt="">
+        <div class="pro_list clearfix">
+          <productItem v-for="(item,index) in recommendList" :key="index" :item="item"></productItem>
+        </div>
       </div>
 
       <!--活动规则-->
@@ -117,6 +120,7 @@ import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css'
 import { setStore } from "../../../common/store";
 import { getCode, authLogin, userIsLogin, getFreeGift, Reccommend } from "@/service/getData";
+import productItem from "./children/productItem"
 export default {
   name: "FreeGifts",
   data () {
@@ -204,7 +208,7 @@ export default {
       if (res.status === "ok"){
         this.recommendList = res.data;
       }
-      console.log(this.recommendList);
+      // console.log(this.recommendList);
     },
 
     /* 快捷登录----开始 */
@@ -311,8 +315,8 @@ export default {
           _this.share_setup(
             '新人专享，免费领好礼！',
             '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
-            'http://tmp-mm.qiaocat.com/topic-free-gifts?plid=94',
-            'http://tmp-mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
+            'http://mm.qiaocat.com/topic-free-gifts?plid=102',
+            'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
           );
       });
     },
@@ -343,6 +347,9 @@ export default {
       });
     },
   },
+  components: {
+    productItem,
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -416,6 +423,20 @@ export default {
         width: 100%;
         vertical-align: top;
       }
+      // 产品列表
+      .pro_list {
+        background-color: #D9EEFF;
+        padding: 0 0 3rem 1rem;
+        margin-top: -2rem;
+      }
+      // 清除浮动
+      .clearfix::before, .clearfix::after {
+        display: block;
+        content: '';
+        visibility: hidden;
+        height: 100%;
+        clear: both;
+      }
     }
 
      /*活动规则*/
@@ -438,7 +459,7 @@ export default {
           display: block;
           width: 12%;
           position: absolute;
-          top: -4.4rem;
+          top: -5rem;
           right: 0;
           cursor: pointer;
         }
