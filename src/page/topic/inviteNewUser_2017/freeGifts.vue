@@ -128,7 +128,7 @@ export default {
       receive_state: false, // 领取结果显示(true: 领取结果页面)
       first_state: false, // 第一次领取
       pro_id: '', // 礼品
-      pro_name: '玛丽黛佳 轻雾感口红', // 所领取的礼品名称
+      pro_name: '', // 所领取的礼品名称
       ruleState: false, // 活动规则显示
       countdown: 60,
       mobile: '',
@@ -172,13 +172,13 @@ export default {
         if(result.status == "ok"){
           this.pro_id = giftID;
           switch (this.pro_id) {
-            case 1:
+            case '1':
               this.pro_name = "玛丽黛佳 轻雾感口红";
               break;
-            case 2:
+            case '2':
               this.pro_name = "柚子舍柚稚园 多肽修复原液";
               break;
-            case 3:
+            case '3':
               this.pro_name = "PBA妆前乳";
               break;
             default:
@@ -649,7 +649,7 @@ export default {
             &:nth-of-type(2) {
               font-size: 1.6rem;
               line-height: 1.4rem;
-              width: 50%;
+              width: 58%;
               margin: 0 auto;
               .txt_bg {
                 display: block;
