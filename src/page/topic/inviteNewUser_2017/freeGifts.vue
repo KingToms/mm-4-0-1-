@@ -119,7 +119,7 @@ import common from "../../../common/common";
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css'
 import { setStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getFreeGift, Reccommend } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getFreeGift, getTopicRecommend } from "@/service/getData";
 import productItem from "./children/productItem"
 export default {
   name: "FreeGifts",
@@ -204,7 +204,7 @@ export default {
       }
     },
     async getReccommend() {
-      let res = await Reccommend({});
+      let res = await getTopicRecommend({});
       if (res.status === "ok"){
         this.recommendList = res.data;
       }
