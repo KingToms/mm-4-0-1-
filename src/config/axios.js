@@ -8,11 +8,11 @@ let hostname = window.location.origin;
 let protocol = window.location.protocol;
 console.log('hostname', window.location);
 let baseUrl
-if (hostname.indexOf('tmp-mm.qiaocat.com') > -1 && protocol.indexOf('http') > -1){
+if (hostname.indexOf('tmp-mm.qiaocat.com') > -1 && protocol == 'http:'){
   baseUrl = keyConf.baseUrl.tmp
-} else if (hostname.indexOf('mm.qiaocat.com') > -1 && protocol.indexOf('http') > -1){
+} else if (hostname.indexOf('mm.qiaocat.com') > -1 && protocol == 'http:'){
   baseUrl = keyConf.baseUrl.master
-} else if (hostname.indexOf('mm.qiaocat.com') > -1 && protocol.indexOf('https') > -1){
+} else if (hostname.indexOf('mm.qiaocat.com') > -1 && protocol == 'https:'){
   baseUrl = keyConf.baseUrl.masters
 }else{
   baseUrl = keyConf.baseUrl.test
