@@ -90,14 +90,16 @@
         <router-link to="/stylist/fans" class="more-img"></router-link>
       </div>
       <div class="mys-item">
-        <div class="mys-left" v-for="(item,index) in resData.Hot_sty" :key="index" @click="$router.push(`/detail/shopping/${item.stylist.id}`)">
+        <div class="mys-left" v-for="(item,index) in resData.Hot_sty" :key="index" v-if="index <2" @click="$router.push(`/detail/shopping/${item.stylist.id}`)">
           <div class="item-img">
             <img :src="item.image" alt="">
             <span class="mys-level">{{item.stylist && item.stylist.level_name}}</span>
           </div>
           <div class="item-text">
             <p class="name">{{item.stylist && item.stylist.store_name}}</p>
-            <p class="categary">化妆/美睫/半永久</p>
+            <p class="categary">
+              化妆/美睫/半永久
+            </p>
           </div>
         </div>
       </div>
@@ -199,7 +201,27 @@ export default {
     },
   },
   components: {moreTab},
-  filters: {}
+  filters: {
+    // 美业师技术类型
+    techType(n) {
+      switch (n) {
+        case "1":
+          return "化妆";
+        case "64":
+          return "美睫";
+        case "128":
+          return "半永久";
+        case "512":
+          return "培训";
+        case "2048":
+          return "医美";
+        case "2069":
+          return "互动";
+        default:
+          return "化妆";
+      }
+    },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -403,13 +425,15 @@ export default {
           padding-bottom: 7rem;
           @include wh(6.5rem, 6.5rem);
           img{
-            width: 100%;
+            // width: 100%;
+            height: 6.5rem;
             border-radius: 50%;
           }
           .mys-level{
             position: absolute;
             bottom: .3rem;
-            left: 50%;
+            // left: 50%;
+            left: 3.25rem;
             transform: translateX(-50%);
             line-height: 1.3rem;
             @include sc(1.2rem, $bgWhite);
