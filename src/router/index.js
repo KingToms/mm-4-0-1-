@@ -172,6 +172,9 @@ const luckDraw_1129 = r => require.ensure([], () => r(require('@/page/topic/luck
 const luckDraw_1230 = r => require.ensure([], () => r(require('@/page/topic/luckDraw_2017/luckdraw1230')), 'luckDraw_2017');
 // 2017年会妆专题
 const annualMakeup = r => require.ensure([], () => r(require('@/page/topic/annualMakeup/index')), 'annualMakeup');
+// 2017邀新领礼品
+const inviteNewUser = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/index')), 'inviteNewUser_2017');
+const FreeGifts = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/freeGifts')), 'inviteNewUser_2017');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -601,6 +604,14 @@ const router = new Router({
         {
           path: '/topic-annual-makeup',
           component: annualMakeup
+        },
+        {
+          path: '/topic-invite-newuser',
+          component: inviteNewUser
+        },
+        {
+          path: '/topic-free-gifts',
+          component: FreeGifts
         },
         {
           // 错误页

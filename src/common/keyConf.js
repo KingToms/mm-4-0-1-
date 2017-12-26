@@ -13,6 +13,7 @@ export default {
   // baseUrl: 'http://api-mm-test.qiaocat.com', // 测试 V4.0.0
   baseUrl:{
     master: 'http://api-mm.qiaocat.com',
+    masters: 'https://api-mm.qiaocat.com',
     test: 'http://api-mm-test.qiaocat.com',
     tmp: 'http://tmp-api-mm.qiaocat.com',
   },

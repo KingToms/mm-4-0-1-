@@ -34,7 +34,7 @@ export default {
     showHeaderFooter(){
       let query = this.$route.query
       query = query ? query : {}
-      if(query.app == 'ios' || query.app == 'android'){
+      if(query.app == 'ios' || query.app == 'android' || query.app=='wechatapp'){
         this.hideFooterHeader = false
       }
     },

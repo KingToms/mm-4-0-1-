@@ -90,14 +90,16 @@
         <router-link to="/stylist/fans" class="more-img"></router-link>
       </div>
       <div class="mys-item">
-        <div class="mys-left" v-for="(item,index) in resData.Hot_sty" :key="index" @click="$router.push(`/detail/shopping/${item.stylist.id}`)">
+        <div class="mys-left" v-for="(item,index) in resData.Hot_sty" :key="index" v-if="index <2" @click="$router.push(`/detail/shopping/${item.stylist.id}`)">
           <div class="item-img">
             <img :src="item.image" alt="">
             <span class="mys-level">{{item.stylist && item.stylist.level_name}}</span>
           </div>
           <div class="item-text">
             <p class="name">{{item.stylist && item.stylist.store_name}}</p>
-            <p class="categary">化妆/美睫/半永久</p>
+            <p class="categary" v-if="item.stylist && item.stylist.type">
+              {{item.stylist.type | techType}}
+            </p>
           </div>
         </div>
       </div>
@@ -199,7 +201,31 @@ export default {
     },
   },
   components: {moreTab},
-  filters: {}
+  filters: {
+    // 美业师技术类型
+    techType(item) {
+      let tech_type = []; // 美业师技术类型
+      item.split(",").forEach(function(n, i){
+        switch (n) {
+          case "1":
+            return tech_type.push("化妆");
+          case "64":
+            return tech_type.push("美睫");
+          case "128":
+            return tech_type.push("半永久");
+          case "512":
+            return tech_type.push("培训");
+          case "2048":
+            return tech_type.push("医美");
+          case "2069":
+            return tech_type.push("互动");
+          default:
+            return tech_type.push("化妆");
+        }
+      });
+      return tech_type.join('/');
+    },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -403,13 +429,15 @@ export default {
           padding-bottom: 7rem;
           @include wh(6.5rem, 6.5rem);
           img{
-            width: 100%;
+            // width: 100%;
+            height: 6.5rem;
             border-radius: 50%;
           }
           .mys-level{
             position: absolute;
             bottom: .3rem;
-            left: 50%;
+            // left: 50%;
+            left: 3.25rem;
             transform: translateX(-50%);
             line-height: 1.3rem;
             @include sc(1.2rem, $bgWhite);

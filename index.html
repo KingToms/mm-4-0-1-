@@ -17,9 +17,30 @@
       }
     </style>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
-    <script src="http://crm.qiaocat.com/js/wechat/config"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <!--<script src="http://api-mm.qiaocat.com/js/wechat/config"></script>-->
+    <!--<script src="https://api-mm.qiaocat.com/js/wechat/config"></script>-->
     <script src="/static/jquery.min.js"></script>
     <script>
+        // 根据域名不同(http、https),调用对应的微信分享config
+        function getProtocol (){
+          var protocol = window.location.protocol;
+          var script=document.createElement("script");
+          script.setAttribute("type", "text/javascript");
+          if(protocol == ('http:')){
+            script.setAttribute("src", "http://api-mm.qiaocat.com/js/wechat/config");
+          }else{
+            script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config");
+          }
+          var heads = document.getElementsByTagName("head");
+          if(heads.length)
+            heads[0].appendChild(script);
+          else
+            document.documentElement.appendChild(script);
+        }
+        getProtocol();
+
+
         // 浏览器在监听改变窗口大小时候的变化
         font_with();
 
@@ -87,6 +108,10 @@
         document.querySelector('title').textContent = '俏猫转盘抽奖送流量';
       }else if(window.location.href.indexOf('/topic-annual-makeup') > -1){
         document.querySelector('title').textContent = '【双12预售】俏猫年会妆定制';
+      }else if(window.location.href.indexOf('/topic-invite-newuser') > -1){
+        document.querySelector('title').textContent = '邀请好友，马上领钱';
+      }else if(window.location.href.indexOf('/topic-free-gifts') > -1){
+        document.querySelector('title').textContent = '新人专享，免费领好礼';
       }
   
     </script>
