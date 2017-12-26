@@ -97,8 +97,8 @@
           </div>
           <div class="item-text">
             <p class="name">{{item.stylist && item.stylist.store_name}}</p>
-            <p class="categary">
-              化妆/美睫/半永久
+            <p class="categary" v-if="item.stylist && item.stylist.type">
+              {{item.stylist.type | techType}}
             </p>
           </div>
         </div>
@@ -203,23 +203,27 @@ export default {
   components: {moreTab},
   filters: {
     // 美业师技术类型
-    techType(n) {
-      switch (n) {
-        case "1":
-          return "化妆";
-        case "64":
-          return "美睫";
-        case "128":
-          return "半永久";
-        case "512":
-          return "培训";
-        case "2048":
-          return "医美";
-        case "2069":
-          return "互动";
-        default:
-          return "化妆";
-      }
+    techType(item) {
+      let tech_type = []; // 美业师技术类型
+      item.split(",").forEach(function(n, i){
+        switch (n) {
+          case "1":
+            return tech_type.push("化妆");
+          case "64":
+            return tech_type.push("美睫");
+          case "128":
+            return tech_type.push("半永久");
+          case "512":
+            return tech_type.push("培训");
+          case "2048":
+            return tech_type.push("医美");
+          case "2069":
+            return tech_type.push("互动");
+          default:
+            return tech_type.push("化妆");
+        }
+      });
+      return tech_type.join('/');
     },
   }
 };
