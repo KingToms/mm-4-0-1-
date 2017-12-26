@@ -435,9 +435,9 @@ export default {
           }
           .mys-level{
             position: absolute;
-            bottom: .3rem;
+            bottom: -0.2rem;
             // left: 50%;
-            left: 3.25rem;
+            left: 3.2rem;
             transform: translateX(-50%);
             line-height: 1.3rem;
             @include sc(1.2rem, $bgWhite);
