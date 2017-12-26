@@ -119,7 +119,7 @@ import common from "../../../common/common";
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css'
 import { setStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getFreeGift, getTopicRecommend } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getTopicGift, getTopicRecommend } from "@/service/getData";
 import productItem from "./children/productItem"
 export default {
   name: "FreeGifts",
@@ -168,7 +168,7 @@ export default {
         }
       } else { // 已登录
         // 领取礼品
-        let result = await getFreeGift({gift_id: giftID});
+        let result = await getTopicGift({gift_id: giftID});
         if(result.status == "ok"){
           this.pro_id = giftID;
           switch (this.pro_id) {

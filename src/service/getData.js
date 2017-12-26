@@ -155,7 +155,8 @@ export const WechatLogin = (data) => fetch (`/mon/mon_user_wechat_login`, data, 
 export const getTopicNum = (data) => fetch (`/qiaomao/qm_topic_dressparty_count`, data, 'POST')
 // 双十一邀好友专题---领取免费礼品
 export const getFreeGift = (data) => fetch (`/qiaomao/qm_topic_get_gift`, data, 'POST')
-// 邀新领礼专题--热销推荐
+// 邀新领礼专题--领免费礼品、热销推荐
+export const getTopicGift = (data) => fetch('/topic/topic_free_get_gifts', data, 'POST')
 export const getTopicRecommend = (data) => fetch('/topic/qm_topic_free_gifts', data, 'POST')
 // YSL微信登陆
 export const yslUserTake = (data) => fetch (`/Ysl/ysl_user_take?API_VERSION=topic`, data, 'POST')
