@@ -123,7 +123,7 @@ import { getCode, authLogin, userIsLogin, getTopicGift, getTopicRecommend } from
 import productItem from "./children/productItem"
 export default {
   name: "FreeGifts",
-  data () {
+  data() {
     return {
       receive_state: false, // 领取结果显示(true: 领取结果页面)
       first_state: false, // 第一次领取
@@ -141,35 +141,35 @@ export default {
       recommendList: [], // 热销推荐
     };
   },
-  created (){
+  created() {
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
     this.shareWechat(); // 微信分享
     this.getReccommend();
   },
   methods: {
     /*显示活动规则*/
-    showRule (){
+    showRule() {
       this.ruleState = true;
     },
     /*隐藏活动规则*/
-    closeRule (){
+    closeRule() {
       this.ruleState = false;
     },
     /*免费领*/
-    async receiveGift(giftID){
+    async receiveGift(giftID) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
-      
+
       if (!qm_cookie || isLogin.status == "error") { // 未登录
-        if ( common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1 ) {
+        if (common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1) {
           window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)---注：该页面肯定是app站外打开
           this.isShow = true;
         }
       } else { // 已登录
         // 领取礼品
-        let result = await getTopicGift({gift_id: giftID});
-        if(result.status == "ok"){
+        let result = await getTopicGift({ gift_id: giftID });
+        if (result.status == "ok") {
           this.pro_id = giftID;
           switch (this.pro_id) {
             case '1':
@@ -187,11 +187,11 @@ export default {
           }
           this.receive_state = true; // 领取结果
           this.first_state = true; // 第一次领取
-        }else if(result.status == "error" && result.code == "1"){
+        } else if (result.status == "error" && result.code == "1") {
           this.pro_id = giftID;
           this.receive_state = true; // 领取结果
           this.first_state = false; // 你已领取过(非第一次领取)
-        }else{
+        } else {
           // 提示：礼品不存在
           Toast({
             message: result.msg,
@@ -205,7 +205,7 @@ export default {
     },
     async getReccommend() {
       let res = await getTopicRecommend({});
-      if (res.status === "ok"){
+      if (res.status === "ok") {
         this.recommendList = res.data;
       }
       // console.log(this.recommendList);
@@ -213,8 +213,8 @@ export default {
 
     /* 快捷登录----开始 */
     // 获取短信验证码
-    async sendCode () {
-      if(this.mobile.length < 11){
+    async sendCode() {
+      if (this.mobile.length < 11) {
         Toast({
           message: '手机格式不正确',
           duration: 1000,
@@ -224,15 +224,33 @@ export default {
         return
       }
       this.countdown = 60
-      common.settime($(this.$el.querySelector("#sendCode")),this.countdown);
-      let res = await getCode({mobile: this.mobile, type: 1})
-      if(res.status != 'ok'){
+      this.settime($(this.$el.querySelector("#sendCode")), this.countdown);
+      let res = await getCode({ mobile: this.mobile, type: 1 })
+      if (res.status != 'ok') {
         alert(res.msg);
       }
     },
+    // 验证码倒计时重新发送
+    settime($el, countdown) {
+      function aa() {
+        if (countdown == 0) {
+          $el.removeAttr('disabled');
+          $el.val('获取验证码').css('backgroundColor', '#ff8584');
+        } else {
+          $el.attr('disabled', 'true').css('backgroundColor', '#bfbfbf');
+          $el.val(`重新发送(${countdown}s)`);
+          countdown--;
+
+          setTimeout(function() {
+            aa();
+          }, 1000);
+        }
+      }
+      aa()
+    },
     // 验证码登录
-    async codeLogin () {
-      if(this.mobile.length < 11){
+    async codeLogin() {
+      if (this.mobile.length < 11) {
         Toast({
           message: '手机格式不正确',
           duration: 1000,
@@ -240,7 +258,7 @@ export default {
         });
         return
       }
-      if(this.code.length <= 0){
+      if (this.code.length <= 0) {
         Toast({
           message: '验证码不能为空',
           duration: 1000,
@@ -252,11 +270,11 @@ export default {
       this.login_state = true;
       this.login_con = "登录中...";
       this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-      let result = await authLogin({mobile: this.mobile,code: this.code,plid: this.plid})
-      if(result.status == 'ok'){
-        $.cookie(keyConf.qm_cookie, this.mobile, {expires:1, path: '/'})
+      let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid })
+      if (result.status == 'ok') {
+        $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
         setStore(keyConf.userMoile, this.mobile)
-        
+
         Toast({
           message: result.msg,
           duration: 700,
@@ -264,10 +282,10 @@ export default {
         });
         // 隐藏弹框
         let self = this;
-        setTimeout(function(){
+        setTimeout(function() {
           self.isShow = false;
-        },1200);
-      }else{
+        }, 1200);
+      } else {
         Toast({
           message: result.msg,
           duration: 1000,
@@ -279,45 +297,45 @@ export default {
       this.login_con = "登录";
     },
     // 显示删除按钮
-    setIconShow(choose){
+    setIconShow(choose) {
       let self = this
       setTimeout(function() {
         self.iconShow = choose;
       }, 300)
     },
     // 隐藏删除按钮
-    setIconHide () {
+    setIconHide() {
       let self = this;
       setTimeout(function() {
         self.iconShow = '';
       }, 300)
     },
     // 点击删除按钮，清空输入内容
-    resetText (_self) {
-      let $input = $(this.$el.querySelector('.'+_self))
+    resetText(_self) {
+      let $input = $(this.$el.querySelector('.' + _self))
       $input.val('')
-       if($input.prop('type')==='tel'){
-         this.mobile=''
-       }else{
-         this.code=''
-       }
+      if ($input.prop('type') === 'tel') {
+        this.mobile = ''
+      } else {
+        this.code = ''
+      }
     },
     // 隐藏弹框
-    loginboxHide () {
+    loginboxHide() {
       this.isShow = false;
     },
     /* 快捷登录----结束 */
 
     //微信分享
-    shareWechat(){
+    shareWechat() {
       let _this = this;
-      wx.ready(function () {
-          _this.share_setup(
-            '新人专享，免费领好礼！',
-            '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
-            'http://mm.qiaocat.com/topic-free-gifts?plid=102',
-            'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
-          );
+      wx.ready(function() {
+        _this.share_setup(
+          '新人专享，免费领好礼！',
+          '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+          'http://mm.qiaocat.com/topic-free-gifts?plid=102',
+          'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
+        );
       });
     },
     share_setup(title, desc, link, imgUrl) {
@@ -360,7 +378,7 @@ export default {
     /*顶部banner*/
     .banner {
       font-size: 0;
-      img{
+      img {
         font-size: 0;
         width: 100%;
       }
@@ -379,8 +397,7 @@ export default {
           bottom: 0;
           width: 36%;
           height: 4rem;
-          cursor: pointer;
-          // background-color: pink;
+          cursor: pointer; // background-color: pink;
         }
         &:nth-of-type(1) {
           .receive {
@@ -422,15 +439,14 @@ export default {
       img.top {
         width: 100%;
         vertical-align: top;
-      }
-      // 产品列表
+      } // 产品列表
       .pro_list {
         background-color: #D9EEFF;
         padding: 0 0 3rem 1rem;
         margin-top: -2rem;
-      }
-      // 清除浮动
-      .clearfix::before, .clearfix::after {
+      } // 清除浮动
+      .clearfix::before,
+      .clearfix::after {
         display: block;
         content: '';
         visibility: hidden;
@@ -439,7 +455,7 @@ export default {
       }
     }
 
-     /*活动规则*/
+    /*活动规则*/
     .activity-rule {
       position: fixed;
       left: 0;
@@ -447,7 +463,7 @@ export default {
       width: 100%;
       height: 100%;
       z-index: 1;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0, 0, 0, 0.7);
       .rule-box {
         max-width: 750px;
         position: relative;
@@ -506,7 +522,7 @@ export default {
             position: absolute;
             top: 0;
             right: 0;
-            @include wh(3rem,3rem);
+            @include wh(3rem, 3rem);
             cursor: pointer;
           }
         }
@@ -516,35 +532,34 @@ export default {
           #cd-login {
             width: 100%;
             padding-top: 2.4rem;
-            .mobile{
+            .mobile {
               width: 100%;
               margin-bottom: 2.5rem;
               position: relative;
               padding: 0px 1.5rem;
-              .input-mobile{
-                .icon-delete{
+              .input-mobile {
+                .icon-delete {
                   top: 1.5rem;
                   right: 1.2rem;
                 }
               }
-              
-              input[type=tel],input[type=tel]:-webkit-autofill{
-                @include wh(100%,4.4rem);
-                // background-image: url('../../../assets/image/icon/login/icon_user.png');
+
+              input[type=tel],
+              input[type=tel]:-webkit-autofill {
+                @include wh(100%, 4.4rem); // background-image: url('../../../assets/image/icon/login/icon_user.png');
               }
             }
-            .code{
+            .code {
               padding: 0px 1.5rem;
               padding-right: 42%;
-              input[type=number]{
-                @include wh(100%,4.4rem);
-                // background-image: url('../../../assets/image/icon/login/icon_code.png');
+              input[type=number] {
+                @include wh(100%, 4.4rem); // background-image: url('../../../assets/image/icon/login/icon_code.png');
               }
-              .icon-delete{
+              .icon-delete {
                 top: 1.5rem;
                 right: 46%;
               }
-              input[type=button]{
+              input[type=button] {
                 position: absolute;
                 top: 0rem;
                 right: 1.5rem;
@@ -556,33 +571,33 @@ export default {
                 text-align: center;
                 font-size: 1.5rem;
                 font-weight: 300;
-                letter-spacing: 1px;
-                // border-radius: 4rem;
+                letter-spacing: 1px; // border-radius: 4rem;
                 color: $bgWhite;
                 cursor: pointer;
               }
-              
             }
-            .mobile,.code{
+            .mobile,
+            .code {
               width: 100%;
               margin-bottom: 1.8rem;
-              input[type=tel],input[type=number]{
+              input[type=tel],
+              input[type=number] {
                 padding-left: 1.5rem;
                 font-size: 1.5rem;
                 letter-spacing: 1px;
                 color: #000;
-                border: 1px solid #999;
-                // border-radius: 4rem;
+                border: 1px solid #999; // border-radius: 4rem;
                 background-size: 1.7rem 1.9rem;
                 background-position: 1rem 1.2rem;
                 background-repeat: no-repeat;
               }
             }
-            .input-mobile,.code{
+            .input-mobile,
+            .code {
               position: relative;
-              .icon-delete{
+              .icon-delete {
                 position: absolute;
-                @include wh(1.4rem,1.4rem);
+                @include wh(1.4rem, 1.4rem);
                 background-image: url('../../../assets/image/icon/login/icon_delete.png');
                 background-size: 1.4rem 1.4rem;
               }
@@ -620,10 +635,13 @@ export default {
         }
       }
     }
-    .fade-enter-active, .fade-leave-active {
+    .fade-enter-active,
+    .fade-leave-active {
       transition: opacity .5s
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    .fade-enter,
+    .fade-leave-to/* .fade-leave-active in below version 2.1.8 */
+    {
       opacity: 0
     }
   }
@@ -663,26 +681,26 @@ export default {
         }
         /*领取过了*/
         .notfirst {
-            p {
-              color: #000;
-              font-size: 1.6rem;
-              line-height: 1.5rem;
-              &:nth-of-type(1) {
-                margin-bottom: 0.6rem;
-              }
-              &:nth-of-type(2) {
-                width: 44%;
-                margin: 0 auto;
-                .notfirst_bg {
-                  display: block;
-                  width: 100%;
-                  height: 1.2rem;
-                  background-color: #FFE8E8;
-                  margin-top: -0.8rem;
-                }
+          p {
+            color: #000;
+            font-size: 1.6rem;
+            line-height: 1.5rem;
+            &:nth-of-type(1) {
+              margin-bottom: 0.6rem;
+            }
+            &:nth-of-type(2) {
+              width: 44%;
+              margin: 0 auto;
+              .notfirst_bg {
+                display: block;
+                width: 100%;
+                height: 1.2rem;
+                background-color: #FFE8E8;
+                margin-top: -0.8rem;
               }
             }
           }
+        }
       }
       .pro_img {
         text-align: center;

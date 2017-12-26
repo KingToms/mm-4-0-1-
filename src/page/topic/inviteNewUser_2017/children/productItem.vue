@@ -60,7 +60,6 @@ export default {
       let cw;
       setTimeout(function() {
         cw = $('.product_img').width();
-        console.log("cw:",cw);
         $('.product_img').css({
           'height': cw + 'px'
         });
