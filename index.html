@@ -17,9 +17,7 @@
       }
     </style>
     <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>-->
-    <!--<script src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>-->
-    <!--<script src="http://api-mm.qiaocat.com/js/wechat/config"></script>-->
-    <!--<script src="https://api-mm.qiaocat.com/js/wechat/config/"></script>-->
+    <!--<script src="http://crm.qiaocat.com/js/wechat/config"></script>-->
     <script src="/static/jquery.min.js"></script>
     <script>
         // 根据域名不同(http、https),调用对应的微信分享config
@@ -31,8 +29,7 @@
           if(protocol == ('http:')){
             config ? script.setAttribute("src", "http://crm.qiaocat.com/js/wechat/config") : script.setAttribute("src", "http://res.wx.qq.com/open/js/jweixin-1.1.0.js");
           }else{
-            // config ? script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config/") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
-            config ? script.setAttribute("src", "http://crm.qiaocat.com/js/wechat/config") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
+            config ? script.setAttribute("src", "https://crm.qiaocat.com/js/wechat/config") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
           }
           if(heads.length)
             heads[0].appendChild(script);
