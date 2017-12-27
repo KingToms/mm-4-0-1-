@@ -19,7 +19,7 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <!--<script src="http://api-mm.qiaocat.com/js/wechat/config"></script>-->
-    <!--<script src="https://api-mm.qiaocat.com/js/wechat/config"></script>-->
+    <!--<script src="https://api-mm.qiaocat.com/js/wechat/config/"></script>-->
     <script src="/static/jquery.min.js"></script>
     <script>
         // 根据域名不同(http、https),调用对应的微信分享config
@@ -30,7 +30,7 @@
           if(protocol == ('http:')){
             script.setAttribute("src", "http://api-mm.qiaocat.com/js/wechat/config");
           }else{
-            script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config");
+            script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config/");
           }
           var heads = document.getElementsByTagName("head");
           if(heads.length)
