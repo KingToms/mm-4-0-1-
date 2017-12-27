@@ -31,7 +31,8 @@
           if(protocol == ('http:')){
             config ? script.setAttribute("src", "http://crm.qiaocat.com/js/wechat/config") : script.setAttribute("src", "http://res.wx.qq.com/open/js/jweixin-1.1.0.js");
           }else{
-            config ? script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config/") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
+            // config ? script.setAttribute("src", "https://api-mm.qiaocat.com/js/wechat/config/") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
+            config ? script.setAttribute("src", "http://crm.qiaocat.com/js/wechat/config") : script.setAttribute("src", "https://res.wx.qq.com/open/js/jweixin-1.1.0.js");
           }
           if(heads.length)
             heads[0].appendChild(script);
