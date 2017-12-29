@@ -35,7 +35,7 @@
                 <div class="p2" v-else-if="gift_id == '7'">
                   <b>“一张{{gift_content}}”</b>
                   <p class="tip-txt exchange">
-                    <a :href="ticket_link" target="_blank"><img src="/static/topic/luckDraw_2017/luckDraw_1230/exchange.png" alt=""></a>
+                    <a href="https://at.umeng.com/S15Tba"><img src="/static/topic/luckDraw_2017/luckDraw_1230/exchange.png" alt=""></a>
                   </p>
                 </div>
                 <!--流量-->
