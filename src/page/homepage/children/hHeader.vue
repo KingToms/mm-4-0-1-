@@ -22,6 +22,7 @@ import Vue from 'vue'
 import {getStore} from '../../../common/store';
 import {setStore} from '../../../common/store.js';
 import {mapMutations} from 'vuex';
+import { getMsgCenter } from '@/service/getData';
 import '../../../common/geolocation.min.js'; // 引入腾讯地图前端定位组件的js
 export default {
   name: 'header',
@@ -31,7 +32,7 @@ export default {
       _self: '',
       city: '广州市',
       adcode: '',
-      hasMsg: true, // 消息列表(是否有未读消息)
+      hasMsg: false, // 消息列表(是否有未读消息)
     }
   },
   created (){
@@ -40,6 +41,8 @@ export default {
     }else{
       this.city = JSON.parse(getStore("current_city")).city_name;
     }
+
+    this.hasNewMsg();
   },
   computed: {
   },
@@ -69,6 +72,23 @@ export default {
       alert("定位失败！请重新选择城市");
     },
 
+    // 判断首页消息中心，是否有未读消息
+    async hasNewMsg (){
+      let res = await getMsgCenter();
+      if(res.status == 'ok'){
+        // console.log("res:",res);
+        if(res.data.system){
+          this.hasMsg = (res.data.system.is_read == '0') ? 'true' : 'false';
+          // 系统消息有未读消息
+          if(this.hasMsg){
+            return
+          }
+        }
+        if(!this.hasMsg && res.data.topic){
+          this.hasMsg = (res.data.topic.is_read == '0') ? 'true' : 'false';
+        }
+      }
+    },
   },
   props: []
 }

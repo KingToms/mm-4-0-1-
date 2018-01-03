@@ -133,6 +133,13 @@ export const walletBalanceList = (data) => fetch(`/qiaomao/qm_user_balance_list`
 // 首页的城市获取
 export const getCities = (data) => fetch(`/mon/mon_service_cities`, data, 'POST')
 
+// 首页的消息中心
+export const getMsgCenter = (data) => fetch(`/news/news_index`, data, 'POST')
+// 消息中心--活动消息
+export const getActivityMsg = (data) => fetch(`/news/news_topic`, data, 'POST')
+// 消息中心--系统消息
+export const getSystemMsg = (data) => fetch(`/news/news_system`, data, 'POST')
+
 // 优惠券中心领券
 export const getCenterCoupons = (data) => fetch(`/qiaomao/qm_coupon_fetch`, data, 'POST')
 

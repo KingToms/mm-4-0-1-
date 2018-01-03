@@ -1,11 +1,11 @@
 <template>
   <section class="activityMsg">
-    <a :href="item.link">
+    <a :href="item.href_url">
       <h3 class="title">{{item.title}}</h3>
-      <div class="img" :style="{'background-image':`url(${item.image})`}"></div>
-      <div class="content" v-html="item.description">
+      <div class="img" :style="{'background-image':`url(${item.photo})`}"></div>
+      <div class="content" v-html="item.content">
       </div>
-      <p class="time">{{item.created_at}}</p>
+      <p class="time">{{item.create_time.substring(0,10)}}</p>
     </a>
   </section>
 </template>
@@ -18,13 +18,6 @@ export default {
   },
   props:{
     item: {
-      default: {
-        link: '#',
-        title: '从路人甲蜕变成女王',
-        image: 'http://crm2test.qiaocat.com//upload/ad/b8474a62363da1334755405a66087a1d.jpg',
-        description: '女神节不能输侧颜杀！拉近镜头你敢吗？完美侧颜，俘虏那些奇遇的男生',
-        created_at: '2017-03-01',
-      },
       type: Object
     }
   },
