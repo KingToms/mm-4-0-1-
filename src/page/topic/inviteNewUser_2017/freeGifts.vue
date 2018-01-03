@@ -111,6 +111,9 @@
         </div>
       </div>
     </section>
+
+    <!--分享信息-->
+    <span id="differentShare" :data="JSON.stringify(shareData)" style="display: none"></span>
   </div>
 </template>
 <script>
@@ -139,6 +142,13 @@ export default {
       login_con: "登录",
       plid: "", //推广来源
       recommendList: [], // 热销推荐
+      
+      shareData: { // APP分享
+        title: '新人专享，免费领好礼！',
+        desc: '俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+        link: 'http://mm.qiaocat.com/topic-free-gifts?plid=102',
+        imgUrl: 'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
+      },
     };
   },
   created() {
@@ -161,7 +171,10 @@ export default {
       let isLogin = await userIsLogin();
 
       if (!qm_cookie || isLogin.status == "error") { // 未登录
-        if (common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1) {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
           window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)---注：该页面肯定是app站外打开
           this.isShow = true;
@@ -332,7 +345,7 @@ export default {
       wx.ready(function() {
         _this.share_setup(
           '新人专享，免费领好礼！',
-          '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+          '俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
           'http://mm.qiaocat.com/topic-free-gifts?plid=102',
           'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
         );

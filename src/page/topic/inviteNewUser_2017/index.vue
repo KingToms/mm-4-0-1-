@@ -36,7 +36,7 @@ export default {
 
       shareData: { // APP分享
         title: '新人专享，免费领好礼！',
-        desc: '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+        desc: '俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
         link: 'http://mm.qiaocat.com/topic-free-gifts?plid=102',
         imgUrl: 'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
       },
@@ -87,7 +87,7 @@ export default {
       wx.ready(function() {
         _this.share_setup(
           "新人专享，免费领好礼！",
-          "价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~",
+          "俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~",
           "http://mm.qiaocat.com/topic-free-gifts?plid=102",
           "http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg"
         );
