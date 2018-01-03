@@ -83,7 +83,7 @@
     </section>
     <section class="result-box" v-if="receive_state">
       <div class="notapp-box">
-        <div class="content">
+        <div class="content" :class="{app_content : app_state}">
           <div class="first-box" v-if="first_state">
             <p>- 领取成功 -</p>
             <p>
@@ -105,12 +105,15 @@
           <img v-if="pro_id == '3'" src="/static/topic/inviteNewUser_2017/invte2_succeed3.png" alt="">
         </div>
         <p class="tip_txt">下单满39元，即可包邮到家，7天内有效。</p>
-        <a class="link-to" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.qiaocat.app&fromcase=40002">立即查看</a>
-        <div class="process_box">
+        <a class="link-to" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.qiaocat.app&fromcase=40002" v-if="!app_state">立即查看</a>
+        <div class="process_box" v-if="!app_state">
           <img src="/static/topic/inviteNewUser_2017/invite2_porcess2.png" alt="流程">
         </div>
       </div>
     </section>
+
+    <!--分享信息-->
+    <span id="differentShare" :data="JSON.stringify(shareData)" style="display: none"></span>
   </div>
 </template>
 <script>
@@ -125,6 +128,7 @@ export default {
   name: "FreeGifts",
   data() {
     return {
+      app_state: false, // 专题是否在APP中
       receive_state: false, // 领取结果显示(true: 领取结果页面)
       first_state: false, // 第一次领取
       pro_id: '', // 礼品
@@ -139,9 +143,23 @@ export default {
       login_con: "登录",
       plid: "", //推广来源
       recommendList: [], // 热销推荐
+      
+      shareData: { // APP分享
+        title: '新人专享，免费领好礼！',
+        desc: '俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+        link: 'http://mm.qiaocat.com/topic-free-gifts?plid=102',
+        imgUrl: 'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
+      },
     };
   },
   created() {
+    if(
+      common.getQueryString("app") == "ios" ||
+      common.getQueryString("app") == "android"
+    ){
+      this.app_state = true;
+    }
+
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
     this.shareWechat(); // 微信分享
     this.getReccommend();
@@ -161,7 +179,10 @@ export default {
       let isLogin = await userIsLogin();
 
       if (!qm_cookie || isLogin.status == "error") { // 未登录
-        if (common.getQueryString("app").indexOf("ios") > -1 || common.getQueryString("app").indexOf("android") > -1) {
+        if (
+          common.getQueryString("app") == "ios" ||
+          common.getQueryString("app") == "android"
+        ) {
           window.location.href = '/login?action=login&url=/topic-sendgift';
         } else { // APP站外登录(H5登录)---注：该页面肯定是app站外打开
           this.isShow = true;
@@ -332,7 +353,7 @@ export default {
       wx.ready(function() {
         _this.share_setup(
           '新人专享，免费领好礼！',
-          '价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
+          '俏猫|价值149元的彩妆品免费领，赶紧喊你的小伙伴来领取吧~',
           'http://mm.qiaocat.com/topic-free-gifts?plid=102',
           'http://mm.qiaocat.com/static/topic/inviteNewUser_2017/share.jpg'
         );
@@ -701,6 +722,10 @@ export default {
             }
           }
         }
+      }
+      // app打开，结果页面样式调整
+      .app_content {
+        padding-top: 7.5rem;
       }
       .pro_img {
         text-align: center;
