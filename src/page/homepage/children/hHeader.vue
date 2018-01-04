@@ -78,14 +78,14 @@ export default {
       if(res.status == 'ok'){
         // console.log("res:",res);
         if(res.data.system){
-          this.hasMsg = (res.data.system.is_read == '0') ? 'true' : 'false';
+          this.hasMsg = (res.data.system.is_read == '0') ? true : false;
           // 系统消息有未读消息
           if(this.hasMsg){
             return
           }
         }
         if(!this.hasMsg && res.data.topic){
-          this.hasMsg = (res.data.topic.is_read == '0') ? 'true' : 'false';
+          this.hasMsg = (res.data.topic.is_read == '0') ? true : false;
         }
       }
     },

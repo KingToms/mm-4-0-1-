@@ -77,13 +77,13 @@ export default {
         if(res.data.system){
           this.classList.system.time = res.data.system.create_time ? res.data.system.create_time.substring(0,10) : '';
           this.classList.system.content = res.data.system.content;
-          this.classList.system.has_new = (res.data.system.is_read == '0') ? 'true' : 'false';
+          this.classList.system.has_new = (res.data.system.is_read == '0') ? true : false;
         }
         // 活动消息
         if(res.data.topic){
           this.classList.activity.time = res.data.topic.create_time ? res.data.topic.create_time.substring(0,10) : '';
           this.classList.activity.content = res.data.topic.content;
-          this.classList.activity.has_new = (res.data.topic.is_read == '0') ? 'true' : 'false';
+          this.classList.activity.has_new = (res.data.topic.is_read == '0') ? true : false;
         }
       }
     },

@@ -139,6 +139,8 @@ export const getMsgCenter = (data) => fetch(`/news/news_index`, data, 'POST')
 export const getActivityMsg = (data) => fetch(`/news/news_topic`, data, 'POST')
 // 消息中心--系统消息
 export const getSystemMsg = (data) => fetch(`/news/news_system`, data, 'POST')
+// 消息中心--设置已读(1为活动消息设置已读，2为系统消息设置已读)
+export const setMsgReaded = (data) => fetch(`/news/news_set_read`, data, 'POST')
 
 // 优惠券中心领券
 export const getCenterCoupons = (data) => fetch(`/qiaomao/qm_coupon_fetch`, data, 'POST')

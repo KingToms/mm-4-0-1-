@@ -25,9 +25,11 @@ export default {
       type: Object
     }
   },
+  created(){
+  },
   methods: {
 
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
