@@ -36,6 +36,9 @@ export const categoryList = (data) => fetch(`/qiaomao/qm_category_get_list`, dat
 // 获取人气最高 or 新店开张美业师
 export const getStylistFans = (data) => fetch(`/qiaomao/qm_user_stylist_list`, data, 'POST')
 
+/*首页底部--导航栏图标*/
+export const getNavIcon = (data) => fetch(`/mon/mon_config_daohanglan`, data, 'POST')
+
 export const getUserInfo = (data) => fetch(`/qiaomao/qm_profile_get`, data, 'POST')
 // 用户修改资料
 export const saveInfo = (data) => fetch(`/qiaomao/qm_user_modify_base`, data, 'POST')

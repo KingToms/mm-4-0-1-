@@ -7,7 +7,8 @@
 </div>
 </template>
 <script>
-import VFooter from '../components/common/footer';
+// import VFooter from '../components/common/footer';
+import VFooter from '../components/common/footer.4.2.0';
 import keyConf from '../common/keyConf';
 import { storage_custom } from '../common/store.js';
 import common from '../common/common.js';
