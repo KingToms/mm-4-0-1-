@@ -7,8 +7,10 @@
         <div id="touch-test">
             <div class="box">
                 <div class="page-box" v-for="(item,i) in pageNumber" :key="i" :class="{'slide-active':i===0}">
-                    <!--<span style="position: absolute">{{i+1}}</span>-->
-                    <img class="full" :src="`/static/topic/brand_display/${i+1}.jpg`" alt="">
+                    <div style="position: relative;">
+                        <a href="JavaScript:;" @click="funHref" class="beautiful-small-city" v-if="i==pageNumber-1"></a>
+                        <img class="full" :src="`/static/topic/brand_display/${i+1}.jpg`" alt="">
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,7 +27,7 @@
                 moveClientY: 0,
                 touchHeight: 0,
                 pageIndex: 0,
-                pageNumber: 13,
+                pageNumber: 14,
                 counter: 4000,
                 interval: null,
             }
@@ -59,6 +61,9 @@
             }
         },
         methods: {
+            funHref () {
+                alert('链接还没有');
+            },
             funInterval () {
                 clearInterval(this.interval);
                 if (++this.pageIndex > this.pageNumber - 1) this.pageIndex = 0;
@@ -203,5 +208,14 @@
         100% {
             opacity: 0;
         }
+    }
+
+    .beautiful-small-city {
+        position: absolute;
+        display: inline-block;
+        width: 80%;
+        height: 12%;
+        left: 10%;
+        top: 74%;
     }
 </style>
