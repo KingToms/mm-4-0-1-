@@ -315,7 +315,7 @@ export default {
       text-align: center;
       span{
         position: absolute;
-        left: 40%;
+        // left: 40%;
         transform: translateX(-50%);
         font-size: 1.8rem;
         color: #000;
