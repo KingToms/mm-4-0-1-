@@ -7,7 +7,7 @@
         <div id="touch-test">
             <div class="box">
                 <div class="page-box" v-for="(item,i) in pageNumber" :key="i" :class="{'slide-active':i===0}">
-                    <span style="position: absolute">{{i+1}}</span>
+                    <!--<span style="position: absolute">{{i+1}}</span>-->
                     <img class="full" :src="`/static/topic/brand_display/${i+1}.jpg`" alt="">
                 </div>
             </div>
