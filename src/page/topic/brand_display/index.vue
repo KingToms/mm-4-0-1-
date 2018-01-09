@@ -15,6 +15,7 @@
             </div>
         </div>
         <img class="arrow arrow-1" src="/static/topic/brand_display/jiantou.png" alt="">
+        <span class="index-number">{{pageIndex+1}}/{{pageNumber}}</span>
     </div>
 </template>
 <script>
@@ -27,7 +28,7 @@
                 moveClientY: 0,
                 touchHeight: 0,
                 pageIndex: 0,
-                pageNumber: 14,
+                pageNumber: 15,
                 counter: 4000,
                 interval: null,
             }
@@ -79,7 +80,6 @@
                 if (nextIndex === this.pageNumber) {
                     nextIndex = 0;
                 }
-                console.log(index);
                 $('.page-box.slide-prev').removeClass('slide-prev');
                 $('.page-box.slide-next').removeClass('slide-next');
                 if (index === 0)
@@ -108,7 +108,6 @@
                                 this.pageIndex = this.pageNumber - 1;
                             }
                         } else {
-                            console.log(":::::" + this.pageIndex);
                             if (this.pageIndex >= this.pageNumber - 1) return false;
                             if (++this.pageIndex > this.pageNumber - 1) {
                                 this.pageIndex = 0;
@@ -217,5 +216,15 @@
         height: 12%;
         left: 10%;
         top: 74%;
+    }
+
+    .index-number {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        color: #fff;
+        font-weight: bold;
+        z-index: 20;
+        text-shadow: 1px 1px 0 #000;
     }
 </style>
