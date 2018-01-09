@@ -175,6 +175,8 @@ const annualMakeup = r => require.ensure([], () => r(require('@/page/topic/annua
 // 2017邀新领礼品
 const inviteNewUser = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/index')), 'inviteNewUser_2017');
 const FreeGifts = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/freeGifts')), 'inviteNewUser_2017');
+// 俏猫3周年品牌展示
+const brandDisplay = r => require.ensure([], () => r(require('@/page/topic/brand_display/index')), 'brandDisplay');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -614,6 +616,11 @@ const router = new Router({
           component: FreeGifts
         },
         {
+          path: '/topic-brandDisplay',
+          meta: {title: '俏猫3周年生日趴'},
+          component: brandDisplay
+        },
+        {
           // 错误页
           path: '*',
           name: 'error',
@@ -628,6 +635,7 @@ const router = new Router({
 })
 
  router.beforeEach((to, from, next) => {
+     window.document.title = to.meta.title || '俏猫';
    /* if(to.fullPath.indexOf('usercenter') > -1){
      debugger
    } */
