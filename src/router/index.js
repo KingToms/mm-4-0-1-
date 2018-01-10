@@ -646,7 +646,7 @@ const router = new Router({
         },
         // 三周年--美丽小城
         {
-          path: '/topic-luckdraw-town',
+          path: '/topic-beauty-town',
           component: luckDrawTownBase,
             children:[
                 {
@@ -656,12 +656,12 @@ const router = new Router({
                 },
                 {
                     path:'luckdraw',
-                    meta: {title: '集金币大转盘~俏猫三周年'},
+                    meta: {title: '集金币大转盘-俏猫三周年'},
                     component:luckDrawTown
                 },
                 {
                     path:'questionnaire',
-                    meta: {title: '调查问卷~俏猫三周年'},
+                    meta: {title: '调查问卷-俏猫三周年'},
                     component:Questionnaire
                 }
             ]
