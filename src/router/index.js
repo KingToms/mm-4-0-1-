@@ -180,6 +180,8 @@ const brandDisplay = r => require.ensure([], () => r(require('@/page/topic/brand
 // 俏猫3周年美丽小城
   // 俏妈3周年*集金币大转盘
 const luckDraw_town = r => require.ensure([], () => r(require('@/page/topic/beauty_town/luckdraw_3')), '3rdAnniversary');
+  // 俏妈3周年*问卷调查
+const Questionnaire = r => require.ensure([], () => r(require('@/page/topic/beauty_town/questionnaire')), '3rdAnniversary');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -645,6 +647,12 @@ const router = new Router({
           path: '/topic-luckdraw-town',
           meta: {title: '集金币大转盘~俏猫三周年'},
           component: luckDraw_town
+        },
+        // 三周年--调查问卷
+        {
+          path: '/topic-questionnaire',
+          meta: {title: '调查问卷~俏猫三周年'},
+          component: Questionnaire
         },
         {
           // 错误页

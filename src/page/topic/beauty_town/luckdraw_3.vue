@@ -4,7 +4,7 @@
       <!--一、活动说明-->
       <div class="bg" v-show="isExplain">
         <div class="result-box explain-box">
-          <img class="close" src="/static/topic/luckDraw_2017/luckDraw_1230/icon_shut.png" alt="关闭" @click="closeExplainBox">
+          <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeExplainBox">
           <div class="explain">
             <p>【活动时间】即日起至1月31号</p>
             <p>【活动细则】</p>
@@ -62,21 +62,21 @@
 
       <!--三、大转盘抽奖-->
       <div class="luckdraw-box">
-        <img class="bg-img" src="/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg" alt="">
+        <img class="bg-img" src="/static/topic/beauty_down/luckdraw_3/bg.jpg" alt="">
         <div class="wheel-box">
           <div id="rotary-table" class="wheel">
             <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
               <span>{{item.prize ? item.prize : ''}}</span>
             </div>
           </div>
-          <img class="start" src="/static/topic/luckDraw_2017/luckDraw_1230/start.png" alt="点击开始" @click="luckyDraw">
+          <img class="start" src="/static/topic/beauty_down/luckdraw_3/start.png" alt="点击开始" @click="luckyDraw">
         </div>
       </div>
 
       <!--四、抽奖结果-->
       <div class="bg" v-show="isbg">
         <div class="result-box">
-          <img class="close" src="/static/topic/luckDraw_2017/luckDraw_1230/icon_shut.png" alt="关闭" @click="closeBox">
+          <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeBox">
           <div class="receive-box" v-if="first_state">
             <div class="result">
               <!--谢谢参与-->
@@ -92,7 +92,7 @@
                 <div class="p2" v-else-if="gift_id == '7'">
                   <b>“一张{{gift_content}}”</b>
                   <p class="tip-txt exchange">
-                    <a href="https://at.umeng.com/S15Tba"><img src="/static/topic/luckDraw_2017/luckDraw_1230/exchange.png" alt=""></a>
+                    <a href="https://at.umeng.com/S15Tba"><img src="/static/topic/beauty_down/luckdraw_3/exchange.png" alt=""></a>
                   </p>
                 </div>
                 <!--流量-->
@@ -160,7 +160,7 @@ export default {
         title: '毫无套路，100%中奖！',
         desc: '俏猫三周年·10000G流量豪气送~',
         link: 'http://mm.qiaocat.com/topic-luckdraw-town?plid=101',
-        imgUrl: 'http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg'
+        imgUrl: 'http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg'
       },
     };
   },
@@ -443,7 +443,7 @@ export default {
           "毫无套路，100%中奖！",
           "俏猫三周年·10000G流量豪气送~",
           "http://mm.qiaocat.com/topic-luckdraw-town?plid=101",
-          "http://mm.qiaocat.com/static/topic/luckDraw_2017/luckDraw_1230/share.jpg",
+          "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
         );
       });
     },
@@ -650,7 +650,7 @@ export default {
       height: 100%;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.6);
-      // background-image: url("/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg");
+      // background-image: url("/static/topic/beauty_down/luckdraw_3/bg.jpg");
       // background-position: 0 0;
       // background-repeat: no-repeat;
       // background-size: contain;
@@ -758,7 +758,7 @@ export default {
         width: 63%;
         display: block;
         margin: 0 auto;
-        background: url("/static/topic/luckDraw_2017/luckDraw_1230/empty.png") center no-repeat;
+        background: url("/static/topic/beauty_down/luckdraw_3/empty.png") center no-repeat;
         background-size: contain;
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
