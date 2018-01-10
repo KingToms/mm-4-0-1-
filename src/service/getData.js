@@ -183,6 +183,9 @@ export const setPlate = (data) => fetch (`/plate/set_plate?API_VERSION=topic`, d
 export const getPrize = (data) => fetch (`/PhoneData/list_prize?API_VERSION=topic`, data, 'POST')
   // 20171230转盘抽奖
 export const setDraw = (data) => fetch (`/PhoneData/draw_data?API_VERSION=topic`, data, 'POST')
+// 俏猫3周年--美丽小城
+  // 3周年--调查问卷答案提交
+export const setQuestionnaire = (data) => fetch (`/topic/topic_three_question`, data, 'POST')
 
 // 获取订单状态数据
 export const getConfigData = (data) => fetch(`/mon/mon_config_order_status`, data, 'POST')

@@ -49,6 +49,9 @@
             <li class="option">
               <p class="num">第5/5题</p>
               <img class="q_img" src="/static/topic/beauty_down/questionnaire/question5.png" alt="题目5">
+              <div class="submit" v-show="submitBtn" @click="submitResult">
+                <img src="/static/topic/beauty_down/questionnaire/btn_submit.png" alt="提交答案">
+              </div>
               <ol>
                 <li></li>
                 <li></li>
@@ -67,6 +70,9 @@
   </div>
 </template>
 <script>
+import { Toast } from 'mint-ui';
+import '../../../../node_modules/mint-ui/lib/toast/style.css';
+import { setQuestionnaire } from "@/service/getData"
 export default {
   name: "questionnaire",
   data() {
@@ -75,9 +81,11 @@ export default {
       answerList: [], // 选择的答案数组
       answer: ["A", "B", "C", "D"],
       index: '0',
+      submitBtn: false, // 默认不显示提交答案按钮
     };
   },
   created() {
+    this.shareWechat();
   },
   mounted(){
     this.selectAnswer();
@@ -97,7 +105,8 @@ export default {
         if (_this.n <= 5) {
           _this.index = $(this).index(); // 选择了第几个选项
           _this.answerList[_this.n - 1] = _this.n + '_' + _this.answer[_this.index];
-          console.log("选择的答案列表：",_this.answerList);
+          _this.submitBtn = _this.answerList.length >=5 ? true : false;
+          console.log(_this.answerList.join(','));
         }
       });
     },
@@ -120,6 +129,67 @@ export default {
       this.translate();
     },
 
+    // 提交问卷答案
+    async submitResult(){
+      if(this.answerList.length < 5){
+        Toast({
+          message: '部分题目未选择答案',
+          duration: 1000,
+          className: 'toast-tip'
+        });
+        return
+      }else{
+        let res = await setQuestionnaire({q_key: this.answerList.join(',')});
+        if(res.status == "ok"){
+          Toast({
+            message: '问卷提交成功',
+            duration: 1000,
+            className: 'toast-tip'
+          });
+
+          // 调红根接口，增加一次抽奖机会
+        }
+      }
+    },
+
+    /*微信分享*/
+    shareWechat() {
+      let _this = this;
+      wx.ready(function() {
+        _this.share_setup(
+          "抽奖赢iPhoneX！",
+          "-填写调查问卷，抽奖赢iPhoneX~",
+          "http://mm.qiaocat.com/topic-beauty-town",
+          "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
+        );
+      });
+    },
+    share_setup(title, desc, link, imgUrl) {
+      wx.onMenuShareAppMessage({
+        title: title,
+        desc: desc,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          console.log(1, res);
+        },
+        error: function(err) {
+          console.log(1, err);
+        }
+      });
+      wx.onMenuShareTimeline({
+        title: title,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          //todo
+          console.log(2, res);
+        },
+        error: function(err) {
+          console.log(2, err);
+        }
+      });
+    },
   },
   filters(){
 
@@ -165,13 +235,22 @@ export default {
             .num {
               text-align: right;
               padding-right: 4rem;
-              margin: 1rem 0;
+              margin: 1rem 0 0.5rem 0;
               font-size: 1.4rem;
               line-height: 2rem;
               color: #B6B6B3;
             }
             .q_img {
               width: 80%;
+            }
+            // 提交答案
+            .submit {
+              cursor: pointer;
+              margin: 0.8rem auto 0;
+              width: 16rem;
+              img {
+                width: 100%;
+              }
             }
             ol {
               position: absolute;
@@ -192,8 +271,8 @@ export default {
                   position: absolute;
                   height: 3.68rem;
                   background: url('/static/topic/beauty_down/questionnaire/icon_selected.png') no-repeat center/cover;
-                  right: 2.4rem;
-                  top: 1rem;
+                  right: 3rem;
+                  top: 0.8rem;
                   margin-top: -1.8rem;
                 }
               }
