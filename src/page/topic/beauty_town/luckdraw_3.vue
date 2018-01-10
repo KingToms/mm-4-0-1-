@@ -1,12 +1,12 @@
 <template>
   <div class="luckdraw-box">
     <div class="big-wheel">
-      <!--活动说明-->
+      <!--一、活动说明-->
       <div class="bg" v-show="isExplain">
         <div class="result-box explain-box">
           <img class="close" src="/static/topic/luckDraw_2017/luckDraw_1230/icon_shut.png" alt="关闭" @click="closeExplainBox">
           <div class="explain">
-            <p>【活动时间】即日起 至 1月31号</p>
+            <p>【活动时间】即日起至1月31号</p>
             <p>【活动细则】</p>
             <p>1. 凡在俏猫小城上集齐10枚金币均可获得1次抽奖机会；</p>
             <p>2. 用户需要输入手机号并验证后方可参加抽奖；</p>
@@ -17,7 +17,10 @@
           </div>
         </div>
       </div>
-      <!--弹出层登录-->
+      <!--活动说明按钮-->
+      <div class="explain-btn" @click="showExplainBox" title="活动说明"></div>
+
+      <!--二、注册登录窗口-->
       <transition name="fade">
         <section class="cd-user-modal" v-if="isShow">
           <div class="cd-user-modal-container">
@@ -56,7 +59,21 @@
           </div>
         </section>
       </transition>
-      <!--抽奖结果-->
+
+      <!--三、大转盘抽奖-->
+      <div class="luckdraw-box">
+        <img class="bg-img" src="/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg" alt="">
+        <div class="wheel-box">
+          <div id="rotary-table" class="wheel">
+            <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
+              <span>{{item.prize ? item.prize : ''}}</span>
+            </div>
+          </div>
+          <img class="start" src="/static/topic/luckDraw_2017/luckDraw_1230/start.png" alt="点击开始" @click="luckyDraw">
+        </div>
+      </div>
+
+      <!--四、抽奖结果-->
       <div class="bg" v-show="isbg">
         <div class="result-box">
           <img class="close" src="/static/topic/luckDraw_2017/luckDraw_1230/icon_shut.png" alt="关闭" @click="closeBox">
@@ -84,6 +101,7 @@
                   <p class="tip-txt">我们将在24小时内为您充值，请留意手机短信。</p>
                 </div>
               </div>
+
             </div>
           </div>
           <!--你已经领取过-->
@@ -94,21 +112,9 @@
           </div>
         </div>
       </div>
-      <img class="bg-img" src="/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg" alt="">
-      <!--活动说明按钮-->
-      <div class="explain-btn" @click="showExplainBox" title="活动说明"></div>
-      <!--大转盘-->
-      <div class="wheel-box">
-        <div id="rotary-table" class="wheel">
-          <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
-            <span>{{item.prize ? item.prize : ''}}</span>
-          </div>
-        </div>
-        <img class="start" src="/static/topic/luckDraw_2017/luckDraw_1230/start.png" alt="点击开始" @click="luckyDraw">
-      </div>
     </div>
 
-    <!--分享信息-->
+    <!--五、APP分享信息-->
     <span id="differentShare" :data="JSON.stringify(shareData)" style="display: none"></span>
   </div>
 </template>
@@ -644,6 +650,10 @@ export default {
       height: 100%;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.6);
+      // background-image: url("/static/topic/luckDraw_2017/luckDraw_1230/bg.jpg");
+      // background-position: 0 0;
+      // background-repeat: no-repeat;
+      // background-size: contain;
       z-index: 99;
       .result-box {
         max-width: 37.5rem;
@@ -653,6 +663,8 @@ export default {
         margin: 40% auto 0;
         background-color: #fff;
         text-align: center;
+
+        border: 0.1rem solid #ccc;
         .close {
           position: absolute;
           right: -1rem;
@@ -731,8 +743,9 @@ export default {
       height: 5%;
       text-align: center;
       right: 2%;
-      top: 2%;
+      top: 3%;
       cursor: pointer;
+      z-index: 1;
     }
     .wheel-box {
       position: absolute;
