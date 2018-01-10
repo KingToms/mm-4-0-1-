@@ -1,28 +1,264 @@
 <template>
-  <div class="questionn_box">
+  <div class="question_box">
     <div class="content">
-      <img class="bg" src="/static/topic/beauty_down/questionnaire/bg.jpg" alt="">
+      <img class="bg" src="/static/topic/beauty_down/questionnaire/bg1.jpg" alt="">
+      <div class="question">
+        <!--问卷题目-->
+        <div class="option_box">
+          <ul class="options">
+            <li class="option">
+              <p class="num">第1/5题</p>
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question1.png" alt="题目1">
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </li>
+            <li class="option">
+              <p class="num">第2/5题</p>
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question2.png" alt="题目2">
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </li>
+            <li class="option">
+              <p class="num">第3/5题</p>
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question3.png" alt="题目3">
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </li>
+            <li class="option">
+              <p class="num">第4/5题</p>
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question4.png" alt="题目4">
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </li>
+            <li class="option">
+              <p class="num">第5/5题</p>
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question5.png" alt="题目5">
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+        <!--返回上题-->
+        <div class="reback" @click="rebackUp">
+          <img src="/static/topic/beauty_down/questionnaire/reback.png" alt="返回上题">
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "questionnaire",
-  data () {
+  data() {
     return {
+      n: '0', // 第几题
+      answerList: [], // 选择的答案数组
+      answer: ["A", "B", "C", "D"],
+      index: '0',
     };
   },
+  created() {
+  },
+  mounted(){
+    this.selectAnswer();
+  },
   methods: {
-  }
+    // 答案选择
+    selectAnswer() {
+      let _this = this;
+      $(".options > li").on("click", "li", function() {
+        $(this).addClass("active").siblings().removeClass("active");
+        if(_this.n < 5){
+          _this.n++;
+        }
+        if (_this.n < 5) { // 前4题
+          _this.translate();
+        }
+        if (_this.n <= 5) {
+          _this.index = $(this).index(); // 选择了第几个选项
+          _this.answerList[_this.n - 1] = _this.n + '_' + _this.answer[_this.index];
+          console.log("选择的答案列表：",_this.answerList);
+        }
+      });
+    },
+    // 滑动到下一题
+    translate() {
+      $(".options").css("-ms-transform", "translateX(-" + 34 * this.n + "rem)");
+      $(".options").css("-moz-transform", "translateX(-" + 34 * this.n + "rem)");
+      $(".options").css("-webkit-transform", "translateX(-" + 34 * this.n + "rem)");
+      $(".options").css("-o-transform", "translateX(-" + 34 * this.n + "rem)");
+      $(".options").css("transform", "translateX(-" + 34 * this.n + "rem)");
+    },
+    // 返回上题
+    rebackUp() {
+      this.n--;
+      if (this.n < 0) {
+        this.n = 0;
+        return;
+      }
+      this.n = this.n >=4 ? 3 : this.n;
+      this.translate();
+    },
+
+  },
+  filters(){
+
+  },
 }
 </script>
 <style lang="scss" scoped>
-.questionn_box {
+.question_box {
   position: relative;
   .content {
-    position: relative;
+    position: relative; // 背景
     .bg {
       width: 100%;
+    } // 问卷内容
+    .question {
+      position: absolute;
+      left: 0;
+      top: 31.4%;
+      width: 100%;
+      padding: 0 5%;
+      font-size: 0; // 问卷题目
+      .option_box {
+        position: relative;
+        width: 100%;
+        height: 35rem;
+        overflow: hidden; // 每一题
+        .options {
+          width: 264rem;
+          overflow: hidden;
+          -webkit-transition: all 0.5s;
+          -moz-transition: all 0.5s;
+          -ms-transition: all 0.5s;
+          -o-transition: all 0.5s;
+          transition: all 0.5s;
+          li.option {
+            float: left;
+            position: relative;
+            width: 34rem;
+            height: 34rem;
+            font-size: 2rem;
+            text-align: center;
+            p {}
+            .num {
+              text-align: right;
+              padding-right: 4rem;
+              margin: 1rem 0;
+              font-size: 1.4rem;
+              line-height: 2rem;
+              color: #B6B6B3;
+            }
+            .q_img {
+              width: 80%;
+            }
+            ol {
+              position: absolute;
+              left: 2rem;
+              top: 9rem;
+              width: 30rem;
+              li {
+                width: 100%;
+                text-align: center;
+                position: relative;
+                margin-top: 2rem;
+                height: 2.1rem;
+                line-height: 2.1rem;
+                cursor: pointer;
+                &.active:after {
+                  content: "";
+                  width: 4.8rem;
+                  position: absolute;
+                  height: 3.68rem;
+                  background: url('/static/topic/beauty_down/questionnaire/icon_selected.png') no-repeat center/cover;
+                  right: 2.4rem;
+                  top: 1rem;
+                  margin-top: -1.8rem;
+                }
+              }
+            } // 题目2
+            &:nth-of-type(2) {
+              ol {
+                li {
+                  &:nth-of-type(3) {
+                    margin-top: 1rem;
+                  }
+                }
+              }
+            } // 题目3
+            &:nth-of-type(3) {
+              ol {
+                li {
+                  margin-top: 3.2rem;
+                  &:nth-of-type(2) {
+                    margin-top: 2.4rem;
+                    height: 4.4rem;
+                  }
+                  &:nth-of-type(3) {
+                    margin-top: 2.4rem;
+                  }
+                  &:nth-of-type(4) {
+                    margin-top: 2.2rem;
+                  }
+                }
+              }
+            } // 题目4
+            &:nth-of-type(4) {
+              ol {
+                li {
+                  &:nth-of-type(4) {
+                    margin-top: 1.8rem;
+                    height: 3.6rem;
+                  }
+                }
+              }
+            } // 题目5
+            &:nth-of-type(5) {
+              ol {
+                li {
+                  margin-top: 2.6rem;
+                  &:nth-of-type(1) {
+                    margin-top: 3.1rem;
+                  }
+                  &:nth-of-type(4) {
+                    margin-top: 2.3rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+      } // 返回上题
+      .reback {
+        margin-top: 2.2rem;
+        margin-left: 0.5rem;
+        width: 8rem;
+        cursor: pointer;
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }
