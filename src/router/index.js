@@ -178,8 +178,10 @@ const FreeGifts = r => require.ensure([], () => r(require('@/page/topic/inviteNe
 // 俏猫3周年品牌展示
 const brandDisplay = r => require.ensure([], () => r(require('@/page/topic/brand_display/index')), 'brandDisplay');
 // 俏猫3周年美丽小城
-  // 俏妈3周年*集金币大转盘
-const luckDraw_town = r => require.ensure([], () => r(require('@/page/topic/beauty_town/luckdraw_3')), '3rdAnniversary');
+// 俏猫3周年*集金币大转盘
+const luckDrawTownBase = r => require.ensure([], () => r(require('@/page/topic/beauty_town/base')), '3rdAnniversary');
+const luckDrawTownIndex = r => require.ensure([], () => r(require('@/page/topic/beauty_town/index')), '3rdAnniversary');
+const luckDrawTown = r => require.ensure([], () => r(require('@/page/topic/beauty_town/luckdraw_3')), '3rdAnniversary');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -643,8 +645,19 @@ const router = new Router({
         // 三周年--美丽小城
         {
           path: '/topic-luckdraw-town',
-          meta: {title: '集金币大转盘~俏猫三周年'},
-          component: luckDraw_town
+          component: luckDrawTownBase,
+            children:[
+                {
+                    path:'',
+                    meta: {title: '美丽小城-俏猫三周年'},
+                    component:luckDrawTownIndex
+                },
+                {
+                    path:'luckdraw',
+                    meta: {title: '集金币大转盘~俏猫三周年'},
+                    component:luckDrawTown
+                }
+            ]
         },
         {
           // 错误页
