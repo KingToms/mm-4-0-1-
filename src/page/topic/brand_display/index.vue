@@ -28,8 +28,8 @@
                 moveClientY: 0,
                 touchHeight: 0,
                 pageIndex: 0,
-                pageNumber: 15,
-                counter: 4000,
+                pageNumber: 17,
+                counter: 5000,
                 interval: null,
             }
         },
@@ -68,7 +68,7 @@
             funInterval () {
                 clearInterval(this.interval);
                 if (++this.pageIndex > this.pageNumber - 1) this.pageIndex = 0;
-                this.counter = (this.pageIndex >= this.pageNumber - 1) ? 8000 : 4000;
+                this.counter = (this.pageIndex >= this.pageNumber - 1) ? 8000 : 5000;
                 this.funSetClass(this.pageIndex);
                 this.interval = setInterval(this.funInterval, this.counter);
             },
