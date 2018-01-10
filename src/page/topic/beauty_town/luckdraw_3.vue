@@ -24,11 +24,6 @@
       <transition name="fade">
         <section class="cd-user-modal" v-if="isShow">
           <div class="cd-user-modal-container">
-            <ul class="cd-switcher">
-              <!--<li><a class="title" href="#0">快捷登录</a></li>-->
-              <img class="close-box" @click="loginboxHide" src="/static/topic/giftGiving_1111/icon_shut.png" alt="">
-            </ul>
-
             <!-- 登录表单 -->
             <div class="login-box">
               <div id="cd-login">
@@ -53,23 +48,25 @@
                 <input :class="{'logining': login_state}" type="button" v-model="login_con" @click="codeLogin">
               </div>
             </div>
-            <!--<div class="get-process">
-              <img src="/static/topic/inviteNewUser_2017/invite2_process.png" alt="">
-            </div>-->
+
+            <ul class="cd-switcher">
+              <!--<li><a class="title" href="#0">快捷登录</a></li>-->
+              <img class="close-box" @click="loginboxHide" src="/static/topic/giftGiving_1111/icon_shut.png" alt="">
+            </ul>
           </div>
         </section>
       </transition>
 
       <!--三、大转盘抽奖-->
       <div class="luckdraw-box">
-        <img class="bg-img" src="/static/topic/beauty_down/luckdraw_3/bg.jpg" alt="">
+        <img class="bg-img" src="/static/topic/beauty_down/luckdraw_3/home_page.jpg" alt="">
         <div class="wheel-box">
           <div id="rotary-table" class="wheel">
             <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
               <span>{{item.prize ? item.prize : ''}}</span>
             </div>
           </div>
-          <img class="start" src="/static/topic/beauty_down/luckdraw_3/start.png" alt="点击开始" @click="luckyDraw">
+          <img class="start" src="/static/topic/beauty_down/luckdraw_3/arrow.png" alt="点击开始" @click="luckyDraw">
         </div>
       </div>
 
@@ -153,7 +150,7 @@ export default {
       iconShow: '',
       isShow: false, // 是否显示登录弹框
       login_state: false, // 登录时登录状态
-      login_con: "登录",
+      login_con: "马上抽奖",
       /*注册登录窗口---结束*/
 
       shareData: { // APP分享
@@ -345,7 +342,7 @@ export default {
         function aa() {
           if (countdown == 0) {
             $el.removeAttr('disabled');
-            $el.val('获取验证码').css('backgroundColor', '#FE0000');
+            $el.val('获取验证码').css('backgroundColor', '#FF5466');
           } else {
             $el.attr('disabled', 'true').css('backgroundColor', '#bfbfbf');
             $el.val(`重新发送(${countdown}s)`);
@@ -378,7 +375,7 @@ export default {
         }
 
         this.login_state = true;
-        this.login_con = "登录中...";
+        this.login_con = "抽奖准备中...";
         this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
         let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid })
         if (result.status == 'ok') {
@@ -497,15 +494,19 @@ export default {
       -moz-transition: opacity 0.3s 0, visibility 0 0.3s;
       transition: opacity 0.3s 0, visibility 0 0.3s;
       .cd-user-modal-container {
+        max-width: 37.5rem;
         margin: 0 auto;
-        margin-top: 36%;
-        width: 86%;
+        margin-top: 10rem;
+        width: 80%;
+        height: 31rem;
+        background: url("/static/topic/beauty_down/luckdraw_3/box_register.png") no-repeat center/contain;
         .cd-switcher {
           width: 100%;
           height: 4rem;
           position: relative;
           line-height: 4rem;
           text-align: center;
+          margin-top: 5rem;
           li {
             text-align: center;
             .title {
@@ -516,15 +517,15 @@ export default {
           }
           .close-box {
             display: block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            @include wh(3rem, 3rem);
+            width: 4rem;
+            height: 4rem;
             cursor: pointer;
+            margin: 0 auto;
+            opacity: 0;
           }
         }
         .login-box {
-          background-color: #fff;
+          // background-color: #fff;
           padding-bottom: 3rem;
           #cd-login {
             width: 100%;
@@ -533,7 +534,7 @@ export default {
               width: 100%;
               margin-bottom: 2.5rem;
               position: relative;
-              padding: 0px 1.5rem;
+              padding: 0 3rem 0 2.5rem;
               .input-mobile {
                 .icon-delete {
                   top: 1.5rem;
@@ -547,28 +548,28 @@ export default {
               }
             }
             .code {
-              padding: 0px 1.5rem;
-              padding-right: 42%;
+              padding: 0 3rem 0 2.5rem;
+              padding-right: 47%;
               input[type=number] {
                 @include wh(100%, 4.4rem); // background-image: url('../../../assets/image/icon/login/icon_code.png');
               }
               .icon-delete {
                 top: 1.5rem;
-                right: 46%;
+                right: 50%;
               }
               input[type=button] {
                 position: absolute;
                 top: 0rem;
-                right: 1.5rem;
+                right: 3rem;
                 padding: 0 0.4rem;
                 width: 34%;
                 height: 4.4rem;
                 line-height: 4.4rem;
-                background-color: #FE0000;
+                background-color: #FF5466;
                 text-align: center;
                 font-size: 1.5rem;
                 font-weight: 300;
-                letter-spacing: 1px; // border-radius: 4rem;
+                letter-spacing: 1px;
                 color: $bgWhite;
                 cursor: pointer;
               }
@@ -605,29 +606,19 @@ export default {
             width: 100%;
             height: 4.4rem;
             line-height: 4.4rem;
-            padding: 0 1.5rem;
+            padding: 0 3rem 0 2.5rem;
             input {
               cursor: pointer;
               width: 100%;
               height: 4.4rem;
-              background-color: #FE0000;
+              background-color: #FF5466;
               font-size: 1.9rem;
               color: #fff;
               letter-spacing: 2px;
-              border-radius: 4rem;
               &.logining {
                 background-color: #ccc;
               }
             }
-          }
-        }
-        .get-process {
-          width: 100%;
-          background-color: #f1f1f1;
-          padding: 1rem;
-          img {
-            width: 100%;
-            vertical-align: top;
           }
         }
       }
@@ -658,7 +649,7 @@ export default {
       .result-box {
         max-width: 37.5rem;
         position: relative;
-        width: 86%;
+        width: 80%;
         min-height: 30%;
         margin: 40% auto 0;
         background-color: #fff;
@@ -746,19 +737,20 @@ export default {
       top: 3%;
       cursor: pointer;
       z-index: 1;
+      background-color: pink;
     }
     .wheel-box {
       position: absolute;
       left: 0;
-      top: 31.4%;
+      top: 25.2%;
       width: 100%;
       font-size: 0;
       .wheel {
         position: relative;
-        width: 63%;
+        width: 82%;
         display: block;
         margin: 0 auto;
-        background: url("/static/topic/beauty_down/luckdraw_3/empty.png") center no-repeat;
+        background: url("/static/topic/beauty_down/luckdraw_3/dial.png") center no-repeat;
         background-size: contain;
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
@@ -836,7 +828,7 @@ export default {
         width: 18%;
         position: absolute;
         left: 41%;
-        top: 30%;
+        top: 36%;
         cursor: pointer;
         z-index: 1;
       }
