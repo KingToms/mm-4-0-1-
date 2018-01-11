@@ -1,25 +1,6 @@
 <template>
   <div class="luckdraw-box">
     <div class="big-wheel">
-      <!--一、活动说明-->
-      <div class="bg" v-show="isExplain">
-        <div class="result-box explain-box">
-          <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeExplainBox">
-          <div class="explain">
-            <p>【活动时间】即日起至1月31号</p>
-            <p>【活动细则】</p>
-            <p>1. 凡在俏猫小城上集齐10枚金币均可获得1次抽奖机会；</p>
-            <p>2. 用户需要输入手机号并验证后方可参加抽奖；</p>
-            <p>3. 奖品包括Iphone X、知名彩妆护肤好物、专业化妆刷套组、原创潮牌箱包、美妆券等；</p>
-            <p>4. 抽到实物礼品，需如实填写个人信息以便发货；</p>
-            <p>5. 实物礼品将于活动结束后的五个工作日内寄出；</p>
-            <p>6. 如果发现不正当作弊行为，俏猫保留取消活动资格及追究进一步责任的权利；</p>
-          </div>
-        </div>
-      </div>
-      <!--活动说明按钮-->
-      <div class="explain-btn" @click="showExplainBox" title="活动说明"></div>
-
       <!--二、注册登录窗口-->
       <transition name="fade">
         <section class="cd-user-modal" v-if="isShow">
@@ -30,13 +11,13 @@
                 <form class="cd-form">
                   <div class="mobile">
                     <div class="input-mobile">
-                      <input type="tel" class="tel" v-model="mobile" @focus="setIconShow('tel')" @blur="setIconHide" placeholder="请输入手机号码" autofocus autocomplete="off" maxlength="11">
+                      <input type="tel" class="tel" v-model="mobile" @focus="setIconShow('tel')" @blur="setIconHide" placeholder="手机号码" autofocus autocomplete="off" maxlength="11">
                       <i class="icon-delete" v-show="iconShow=='tel'" @click="resetText('tel')"></i>
                     </div>
                   </div>
 
                   <div class="code">
-                    <input type="number" v-model="code" class="number" name="code" @focus="setIconShow('number')" @blur="setIconHide" placeholder="请输入验证码" autocomplete="off" maxlength="6">
+                    <input type="number" v-model="code" class="number" name="code" @focus="setIconShow('number')" @blur="setIconHide" placeholder="验证码" autocomplete="off" maxlength="6">
                     <i class="icon-delete" v-show="iconShow=='number'" @click="resetText('number')"></i>
                     <div class="btn">
                       <input type="button" value="获取验证码" @click="sendCode" id="sendCode">
@@ -74,31 +55,25 @@
       <div class="bg" v-show="isbg">
         <div class="result-box">
           <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeBox">
-          <div class="receive-box" v-if="first_state">
+          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_awards.png" alt="">
+          <div class="received-box" v-if="first_state">
             <div class="result">
-              <!--谢谢参与-->
-              <p class="p1" v-if="gift_id == '1'"><b>{{gift_content}}</b></p>
-              <div v-else>
-                <p class="p1">恭喜你，获得</p>
-                <!--888元现金券-->
-                <div class="p2" v-if="gift_id == '8'">
-                  <b>“{{gift_content}}”</b>
-                  <p class="tip-txt">请直接进入俏猫公众号可查看。</p>
-                </div>
-                <!--电影票-->
-                <div class="p2" v-else-if="gift_id == '7'">
-                  <b>“一张{{gift_content}}”</b>
-                  <p class="tip-txt exchange">
-                    <a href="https://at.umeng.com/S15Tba"><img src="/static/topic/beauty_down/luckdraw_3/exchange.png" alt=""></a>
-                  </p>
-                </div>
-                <!--流量-->
-                <div class="p2" v-else>
-                  <b>“{{gift_content}}流量”</b>
-                  <p class="tip-txt">我们将在24小时内为您充值，请留意手机短信。</p>
+              <!--非实物：888元俏猫美妆券-->
+              <div class="p2" v-if="gift_id == '8'">
+                <img class="pro_img" src="/static/topic/beauty_down/luckdraw_3/product_888.png" alt="">
+                <p class="tip-txt">完成问卷还可以获得抽奖机会~</p>
+                <div class="next-box">
+                  <span class="next" @click="shareBoxShow = true">分享</span>
+                  <span class="next" @click="goQuestionnaire">问卷</span>
                 </div>
               </div>
-
+              <!--实物：-->
+              <div class="p2" v-else>
+                <div class="pro_box">
+                  <img class="pro_img" src="/static/topic/beauty_down/luckdraw_3/product_MLDJ.png" alt="">
+                </div>
+                <button class="delivery" @click="goReceipt">填写收货信息</button>
+              </div>
             </div>
           </div>
           <!--你已经领取过-->
@@ -108,6 +83,13 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!--分享指引-->
+    <div class="share-guide" @click="hideShareBox" v-if="shareBoxShow">
+      <div>
+        <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
       </div>
     </div>
 
@@ -127,13 +109,12 @@ export default {
   data() {
     return {
       plid: '', // 推广来源
-      isExplain: false, // 活动说明(显示)
-      isbg: false, //虚化背景
+      isbg: true, //虚化背景
       first_state: true, // 第一次领取
       // gift_txt: ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券'],
       gift_txt: [],
       gift_con: ['4', '3', '5', '6', '2','7', '1','0'], // ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券']，对应的位置
-      gift_id: 1, // 后端返回抽中的奖品
+      gift_id: 6, // 后端返回抽中的奖品
       gift_content: '', // 奖品内容
       ticket_link: 'https://at.umeng.com/S15Tba', // 电影票链接
       gift_msg: '', // 抽奖提示
@@ -153,6 +134,7 @@ export default {
       login_con: "马上抽奖",
       /*注册登录窗口---结束*/
 
+      shareBoxShow: false, // 分享指引
       shareData: { // APP分享
         title: '毫无套路，100%中奖！',
         desc: '俏猫三周年·10000G流量豪气送~',
@@ -310,14 +292,6 @@ export default {
     closeBox() {
       this.isbg = false;
     },
-    /*显示活动说明页面*/
-    showExplainBox() {
-      this.isExplain = true;
-    },
-    /*关闭活动说明页面*/
-    closeExplainBox() {
-      this.isExplain = false;
-    },
 
     /* 快捷登录----开始 */
       // 获取短信验证码
@@ -400,7 +374,7 @@ export default {
           });
         }
         this.login_state = false;
-        this.login_con = "登录";
+        this.login_con = "马上抽奖";
       },
       // 显示删除按钮
       setIconShow(choose) {
@@ -432,6 +406,20 @@ export default {
       },
     /* 快捷登录----结束 */
 
+    /*跳转到调查问卷*/
+    goQuestionnaire() {
+      this.$router.push('./questionnaire');
+    },
+
+    /*跳转到填写收货信息*/
+    goReceipt() {
+      this.$router.push('./receipt');
+    },
+
+    // 隐藏分享指引
+    hideShareBox (){
+      this.shareBoxShow = false;
+    },
     /*微信分享*/
     shareWechat() {
       let _this = this;
@@ -567,7 +555,7 @@ export default {
                 line-height: 4.4rem;
                 background-color: #FF5466;
                 text-align: center;
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 font-weight: 300;
                 letter-spacing: 1px;
                 color: $bgWhite;
@@ -601,7 +589,7 @@ export default {
               }
             }
           }
-          /*登录*/
+          /*马上抽奖*/
           .login-container {
             width: 100%;
             height: 4.4rem;
@@ -612,9 +600,10 @@ export default {
               width: 100%;
               height: 4.4rem;
               background-color: #FF5466;
-              font-size: 1.9rem;
+              font-size: 1.8rem;
               color: #fff;
               letter-spacing: 2px;
+              border-radius: 4rem;
               &.logining {
                 background-color: #ccc;
               }
@@ -649,57 +638,68 @@ export default {
       .result-box {
         max-width: 37.5rem;
         position: relative;
-        width: 80%;
+        width: 76%;
         min-height: 30%;
-        margin: 40% auto 0;
-        background-color: #fff;
+        margin: 10% auto 0;
         text-align: center;
-
-        border: 0.1rem solid #ccc;
         .close {
           position: absolute;
-          right: -1rem;
-          // top: -30%;
-          top: -6rem;
+          left: 11rem;
+          bottom: -1rem;
           display: block;
           padding: 1rem;
-          width: 10%;
+          width: 12%;
           cursor: pointer;
+          opacity: 0;
         }
-        .explain {
-          text-align: left;
-          padding: 2rem 1rem 3rem;
-          p {
-            font-size: 1.2rem;
-            color: #000;
-            padding-top: 0.5rem;
-          }
+        // 结果弹框背景
+        .bg-box {
+          width: 100%;
+        }
+        // 抽奖结果窗口
+        .received-box {
+          width: 100%;
+          position: absolute;
+          top: 2rem;
+          left: 0;
         }
         // 结果提示
         .result {
-          padding-top: 15%;
-          p,.p2 {
-            font-size: 2rem;
-            color: #cc9942;
-            b {
-              display: inline-block;
-              color: #cc9942;
-              font-weight: bold;
-              margin-top: 0.5rem;
-            }
+          padding-top: 8%;
+          // 中奖产品图
+          .pro_img {
+            width: 60%;
+          }
+          // 选择收货地址按钮
+          .delivery {
+            width: 75%;
+            margin: 3rem 1rem 0;
+            height: 4.4rem;
+            line-height: 4.4rem;
+            font-size: 1.8rem;
+            background-color: #FF5466;
+            text-align: center;
+            color: #fff;
+            border-radius: 4rem;
+            cursor: pointer;
           }
           .tip-txt {
-            margin-top: 3rem;
-            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
             color: #010101;
           }
-          // 点击兑换电影票
-          .exchange {
-            width: 50%;
-            margin: 3rem auto 0;
-            img {
-              width: 100%;
-              margin-bottom: 2rem;
+          .next-box {
+            span.next {
+              display: inline-block;
+              width: 10rem;
+              margin: 0 1rem;
+              height: 4.4rem;
+              line-height: 4.4rem;
+              font-size: 1.8rem;
+              background-color: #FF5466;
+              text-align: center;
+              color: #fff;
+              border-radius: 4rem;
               cursor: pointer;
             }
           }
@@ -713,13 +713,9 @@ export default {
         .received-box {
           // 结果提示
           .result {
-            padding-top: 22%;
+            // padding-top: 22%;
           }
         }
-      }
-      .explain-box {
-        margin: 9rem auto 0;
-        max-width: 37.5rem;
       }
     }
     img {
@@ -727,17 +723,6 @@ export default {
     }
     .bg-img {
       width: 100%;
-    }
-    .explain-btn {
-      position: absolute;
-      width: 20%;
-      height: 5%;
-      text-align: center;
-      right: 2%;
-      top: 3%;
-      cursor: pointer;
-      z-index: 1;
-      background-color: pink;
     }
     .wheel-box {
       position: absolute;
@@ -782,8 +767,8 @@ export default {
           }
 
           &.gift_0 {
-            top: 77%;
-            left: 40%;
+            top: 83%;
+            left: 41%;
             transform: rotate(180deg);
           }
           &.gift_1 {
@@ -832,6 +817,25 @@ export default {
         cursor: pointer;
         z-index: 1;
       }
+    }
+  }
+  // 分享指引
+  .share-guide {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    div {
+      width: 100%;
+      height: 100%;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

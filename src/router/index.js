@@ -184,6 +184,8 @@ const luckDrawTownIndex = r => require.ensure([], () => r(require('@/page/topic/
 const luckDrawTown = r => require.ensure([], () => r(require('@/page/topic/beauty_town/luckdraw_3')), '3rdAnniversary');
 // 俏猫3周年*问卷调查
 const Questionnaire = r => require.ensure([], () => r(require('@/page/topic/beauty_town/questionnaire')), '3rdAnniversary');
+// 俏猫3周年*收货信息
+const receiptInfo = r => require.ensure([], () => r(require('@/page/topic/beauty_town/receipt_info')), '3rdAnniversary');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -663,6 +665,11 @@ const router = new Router({
                     path:'questionnaire',
                     meta: {title: '调查问卷-俏猫三周年'},
                     component:Questionnaire
+                },
+                {
+                    path:'receipt',
+                    meta: {title: '填写收货信息-俏猫三周年'},
+                    component:receiptInfo
                 }
             ]
         },
