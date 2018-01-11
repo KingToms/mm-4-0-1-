@@ -35,7 +35,9 @@
                 <div class="p2" v-else-if="gift_id == '7'">
                   <b>“一张{{gift_content}}”</b>
                   <p class="tip-txt exchange">
-                    <a href="https://at.umeng.com/S15Tba"><img src="/static/topic/luckDraw_2017/luckDraw_1230/exchange.png" alt=""></a>
+                    <a href="http://wxpay.ixingmei.com/smi-act/pages/hungry_red_packet_ticket/hungry_red_packet_index.html?platform=dixintong&sendMsg=0">
+                      <img src="/static/topic/luckDraw_2017/luckDraw_1230/exchange.png" alt="">
+                    </a>
                   </p>
                 </div>
                 <!--流量-->
@@ -92,7 +94,7 @@ export default {
       gift_con: ['4', '3', '5', '6', '2','7', '1','0'], // ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券']，对应的位置
       gift_id: 1, // 后端返回抽中的奖品
       gift_content: '', // 奖品内容
-      ticket_link: 'https://at.umeng.com/S15Tba', // 电影票链接
+      ticket_link: 'http://wxpay.ixingmei.com/smi-act/pages/hungry_red_packet_ticket/hungry_red_packet_index.html?platform=dixintong&sendMsg=0', // 电影票链接
       gift_msg: '', // 抽奖提示
       offOn: true, // 是否转动
       num: 0,

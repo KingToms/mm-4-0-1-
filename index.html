@@ -51,7 +51,7 @@
         window.onresize = font_with;
         function font_with(){
           var clientWidth = document.documentElement ? document.documentElement.clientWidth : document.body;
-          if(clientWidth<751){
+          if(clientWidth<750){
             var font=clientWidth*20/750>20?20:clientWidth*20/750;
             document.querySelector("html").style.fontSize = font+"px";
           }else{
