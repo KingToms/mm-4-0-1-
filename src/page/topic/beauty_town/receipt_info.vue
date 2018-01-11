@@ -6,8 +6,9 @@
       <div class="info">
         <input type="text" v-model="name" class="content" placeholder="收货人">
         <input type="tel" v-model="mobile" class="content" placeholder="联系电话" autocomplete="off" maxlength="11">
-        <div class="area-box">
-          <input type="text" v-model="area" readonly="readonly" class="content" placeholder="所在地区">
+        <div class="area-box" @click="showPicker">
+          <!--<input type="text" v-model="area" readonly="readonly" class="content" placeholder="所在地区">-->
+          <div class="content con_area" :class="{hasCon: area != '所在地区'}">{{area ? area : '所在地区'}}</div>
           <i class="icon"></i>
         </div>
         <div class="datail">
@@ -18,21 +19,46 @@
       <p class="tips">我们会在5个工作日将礼品寄给你哦~</p>
       <div class="submit">提交</div>
     </div>
+
+    <myAddress :showAddressPicker="showAddressPicker" :init="area" @save-address="saveAddress" @hide-picker="hidePicker"></myAddress>
   </div>
 </template>
 <script>
+import myAddress from './children/address_picker.vue';
 export default {
   name: "receiptInfo",
-  data () {
+  data() {
     return {
       name: '', // 收货人
       mobile: '', // 联系电话
-      area: '', // 所在地区
       address: '', // 详细地址
       full_address: '', // 完整的收货地址
+
+      showAddressPicker: false, // 显示地区选择
+      area: '所在地区', // 所在地区
     };
   },
+  components: {
+    myAddress,
+  },
   methods: {
+    // 显示地区选择
+    showPicker() {
+      this.showAddressPicker = !this.showAddressPicker
+    },
+    // 隐藏地区选择
+    hidePicker() {
+      // 接受子组件关闭popup事件
+      this.showAddressPicker = false;
+    },
+    // 完成选择地区
+    saveAddress(val) {
+      // 从子组件接受返回所选值 val
+      this.area = val;
+      this.showAddressPicker = !this.showAddressPicker;
+    },
+
+    // 清空具体地址
     resetText() {
       this.address = '';
     },
@@ -41,13 +67,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .receipt-box {
-  position: relative;
-  // 背景
+  position: relative; // 背景
   .bg-img {
     vertical-align: top;
     width: 100%;
-  }
-  // 收货信息
+  } // 收货信息
   .info-box {
     position: absolute;
     left: 10%;
@@ -58,7 +82,7 @@ export default {
       color: #000;
     }
     .info {
-      input.content {
+      .content {
         display: block;
         width: 100%;
         height: 4.4rem;
@@ -66,10 +90,18 @@ export default {
         margin-top: 1.4rem;
         padding-left: 1rem;
         font-size: 1.5rem;
-      }
+      } 
       // 所在地区
       .area-box {
         position: relative;
+        .con_area {
+          line-height: 4.4rem;
+          color: #999;
+        }
+        // 已选择所在地区
+        .hasCon {
+          color: #000;
+        }
         .icon {
           position: absolute;
           right: 1.5rem;
@@ -96,8 +128,7 @@ export default {
           background-image: url('/static/topic/beauty_down/luckdraw_3/icon_delete.png');
           cursor: pointer;
         }
-      }
-      // 具体地址
+      } // 具体地址
       #address {
         resize: none;
         word-break: break-all;
@@ -108,18 +139,15 @@ export default {
         color: #000;
         border: .05rem solid #000;
         margin-top: 1.4rem;
-        padding-left: 1rem;
-        padding-right: 3.5rem;
+        padding: 0.4rem 3.5rem 0.4rem 1rem;
       }
-    }
-    // 提示
+    } // 提示
     .tips {
       font-size: 1.4rem;
       color: #000;
       line-height: 1.4rem;
       margin-top: 0.6rem;
-    }
-    // 提交
+    } // 提交
     .submit {
       width: 100%;
       height: 4.4rem;
