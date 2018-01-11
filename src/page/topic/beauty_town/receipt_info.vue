@@ -4,20 +4,20 @@
     <div class="info-box">
       <p class="title">填写收货信息</p>
       <div class="info">
-        <input type="text" v-model="name" class="content" placeholder="收货人">
-        <input type="tel" v-model="mobile" class="content" placeholder="联系电话" autocomplete="off" maxlength="11">
+        <input type="text" v-model="infoObj.real_name" class="content" placeholder="收货人">
+        <input type="tel" v-model="infoObj.mobile" class="content" placeholder="联系电话" autocomplete="off" maxlength="11">
         <div class="area-box" @click="showPicker">
           <!--<input type="text" v-model="area" readonly="readonly" class="content" placeholder="所在地区">-->
           <div class="content con_area" :class="{hasCon: area != '所在地区'}">{{area ? area : '所在地区'}}</div>
           <i class="icon"></i>
         </div>
         <div class="datail">
-          <textarea id="address" type="text" v-model="address" placeholder="详细地址需填写楼栋楼层或房间号信息"></textarea>
-          <i class="icon-delete" v-show="address.length > 0" @click="resetText()"></i>
+          <textarea id="address" type="text" v-model="part_address" placeholder="详细地址需填写楼栋楼层或房间号信息"></textarea>
+          <i class="icon-delete" v-show="part_address.length > 0" @click="resetText()"></i>
         </div>
       </div>
       <p class="tips">我们会在5个工作日将礼品寄给你哦~</p>
-      <div class="submit">提交</div>
+      <div class="submit" @click="submitInfo">提交</div>
     </div>
 
     <myAddress :showAddressPicker="showAddressPicker" :init="area" @save-address="saveAddress" @hide-picker="hidePicker"></myAddress>
@@ -25,18 +25,28 @@
 </template>
 <script>
 import myAddress from './children/address_picker.vue';
+import keyConf from '../../../common/keyConf';
+import { Toast } from 'mint-ui';
+import '../../../../node_modules/mint-ui/lib/toast/style.css';
+import { setAddData } from "@/service/getData";
 export default {
   name: "receiptInfo",
   data() {
     return {
-      name: '', // 收货人
-      mobile: '', // 联系电话
-      address: '', // 详细地址
-      full_address: '', // 完整的收货地址
+      infoObj: {
+        key_id: '', // 主键id
+        real_name: '', // 收货人
+        mobile: '', // 联系电话
+        address: '', // 完整的收货地址
+      },
 
       showAddressPicker: false, // 显示地区选择
       area: '所在地区', // 所在地区
+      part_address: '', // 详细地址
     };
+  },
+  created() {
+    this.shareWechat();
   },
   components: {
     myAddress,
@@ -57,10 +67,103 @@ export default {
       this.area = val;
       this.showAddressPicker = !this.showAddressPicker;
     },
-
     // 清空具体地址
     resetText() {
-      this.address = '';
+      this.part_address = '';
+    },
+
+    /*完善奖品收货地址*/
+    async setFullAddress(infoObj) {
+      let res = await setAddData(infoObj);
+      if (res.status == 'ok') {
+        alert('我们会在5个工作日将礼品寄给你哦~');
+        this.$router.push('./luckdraw');
+      }else{
+        alert(res.msg);
+        this.$router.push('/topic-beauty-town');
+      }
+    },
+
+    /*提交收货信息*/
+    submitInfo() {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      if(!qm_cookie){ // 未登录
+        alert("账户暂未登录哦~");
+        this.$router.push('/topic-beauty-town');
+      }else {
+        // 用户已登录
+        if (this.infoObj.real_name.length <= 0) {
+          Toast({
+            message: '收货人不能为空',
+            duration: 1000,
+            className: 'toast-tip'
+          });
+          return
+        }
+        if (this.infoObj.mobile.length < 11) {
+          Toast({
+            message: '联系格式不正确',
+            duration: 1000,
+            className: 'toast-tip'
+          });
+          return
+        }
+
+        if(this.area.length > 0 && this.area != '所在地区' && this.part_address.length > 0){
+          // 需选择了地区、填写具体地址
+          this.area = this.area.replace(/-/g,'');
+          this.infoObj.address = this.area + this.part_address;
+        }
+        if (this.infoObj.address.length <= 0 ) {
+          Toast({
+            message: '收货地址不完整',
+            duration: 1000,
+            className: 'toast-tip'
+          });
+          return
+        }
+        
+        this.setFullAddress(this.infoObj);
+      }
+
+    },
+
+    /*微信分享*/
+    shareWechat() {
+      let _this = this;
+      wx.ready(function() {
+        _this.share_setup(
+          "美丽小城，俏猫三周年！",
+          "俏猫三周年·集金币抽iphoneX~",
+          "http://mm.qiaocat.com/topic-beauty-town?plid=101",
+          "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
+        );
+      });
+    },
+    share_setup(title, desc, link, imgUrl) {
+      wx.onMenuShareAppMessage({
+        title: title,
+        desc: desc,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          console.log(1, res);
+        },
+        error: function(err) {
+          console.log(1, err);
+        }
+      });
+      wx.onMenuShareTimeline({
+        title: title,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          console.log(2, res);
+        },
+        error: function(err) {
+          console.log(2, err);
+        }
+      });
     },
   },
 }
@@ -90,15 +193,13 @@ export default {
         margin-top: 1.4rem;
         padding-left: 1rem;
         font-size: 1.5rem;
-      } 
-      // 所在地区
+      } // 所在地区
       .area-box {
         position: relative;
         .con_area {
           line-height: 4.4rem;
           color: #999;
-        }
-        // 已选择所在地区
+        } // 已选择所在地区
         .hasCon {
           color: #000;
         }

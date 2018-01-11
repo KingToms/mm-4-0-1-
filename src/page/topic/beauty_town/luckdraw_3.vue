@@ -108,7 +108,7 @@ import common from "../../../common/common"
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
 import { setStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw, getMoreDraw } from "@/service/getData";
 export default {
   name: "luckDraw1230",
   data() {
@@ -142,7 +142,7 @@ export default {
       shareData: { // APP分享
         title: '毫无套路，100%中奖！',
         desc: '俏猫三周年·10000G流量豪气送~',
-        link: 'http://mm.qiaocat.com/topic-luckdraw-town?plid=101',
+        link: 'http://mm.qiaocat.com/topic-beauty-town?plid=101',
         imgUrl: 'http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg'
       },
     };
@@ -171,6 +171,16 @@ export default {
 
   },
   methods: {
+    /*增加获奖次数*/
+    async getMoreLuckdraw(addType) {
+      // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+      let res = await getMoreDraw({type: addType});
+      if(res.status == 'ok'){
+        // 增加了一次抽奖机会
+        this.shareBoxShow = false; //隐藏分享指引
+        alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+      }
+    },
     /*获取抽奖礼品列表*/
     async getGiftList() {
       let res = await getPrizeList();
@@ -190,7 +200,7 @@ export default {
           common.getQueryString("app") == "ios" ||
           common.getQueryString("app") == "android"
         ) {
-          window.location.href = this.plid ? `/login?action=login&url=/topic-luckdraw-town?plid=${this.plid}` : `/login?action=login&url=/topic-luckdraw-town`;
+          window.location.href = this.plid ? `/login?action=login&url=/topic-beauty-town?plid=${this.plid}` : `/login?action=login&url=/topic-beauty-town`;
         } else {
           // 未登录，显示注册登录窗口
           this.isShow = true;
@@ -355,7 +365,10 @@ export default {
         this.login_state = true;
         this.login_con = "抽奖准备中...";
         this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-        let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid })
+                  // 获取本地存储，微信授权的ID、昵称、头像作为参数返回后台，若为空，则跳转到~俏猫美丽小城
+                  
+
+        let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid });
         if (result.status == 'ok') {
           $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
           setStore(keyConf.userMoile, this.mobile)
@@ -429,9 +442,9 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "毫无套路，100%中奖！",
-          "俏猫三周年·10000G流量豪气送~",
-          "http://mm.qiaocat.com/topic-luckdraw-town?plid=101",
+          "美丽小城，俏猫三周年！",
+          "俏猫三周年·集金币抽iphoneX~",
+          "http://mm.qiaocat.com/topic-beauty-town?plid=101",
           "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
         );
       });
@@ -444,6 +457,8 @@ export default {
         imgUrl: imgUrl,
         success: function(res) {
           console.log(1, res);
+          // 微信分享成功回调
+          this.getMoreLuckdraw('share');
         },
         error: function(err) {
           console.log(1, err);
@@ -454,8 +469,9 @@ export default {
         link: link,
         imgUrl: imgUrl,
         success: function(res) {
-          //todo
           console.log(2, res);
+          // 微信分享成功回调
+          this.getMoreLuckdraw('share');
         },
         error: function(err) {
           console.log(2, err);

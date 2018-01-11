@@ -72,7 +72,7 @@
 <script>
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { setQuestionnaire } from "@/service/getData"
+import { setQuestionnaire, getMoreDraw } from "@/service/getData"
 export default {
   name: "questionnaire",
   data() {
@@ -143,13 +143,26 @@ export default {
         if(res.status == "ok"){
           Toast({
             message: '问卷提交成功',
-            duration: 1000,
+            duration: 200,
             className: 'toast-tip'
           });
 
-          // 调红根接口，增加一次抽奖机会
+          this.getMoreLuckdraw('paper');
         }
       }
+    },
+
+    /*增加获奖次数*/
+    async getMoreLuckdraw(addType) {
+      // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+      let res = await getMoreDraw({type: addType});
+      if(res.status == 'ok'){
+        // 增加了一次抽奖机会
+        alert("已完成问卷，已为您增加1次抽奖机会，马上抽奖吧~");
+      }else { // 账号未登录
+        alert(res.msg);
+      }
+      this.$router.push('./luckdraw'); // 重新调回到抽奖页面
     },
 
     /*微信分享*/
@@ -157,8 +170,8 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "抽奖赢iPhoneX！",
-          "-填写调查问卷，抽奖赢iPhoneX~",
+          "美丽小城，俏猫三周年！",
+          "俏猫三周年·集金币抽iphoneX~",
           "http://mm.qiaocat.com/topic-beauty-town",
           "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
         );
