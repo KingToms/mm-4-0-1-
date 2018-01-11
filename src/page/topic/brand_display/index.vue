@@ -9,7 +9,7 @@
                 <div class="page-box" v-for="(item,i) in pageNumber" :key="i" :class="{'slide-active':i===0}">
                     <div style="position: relative;">
                         <a href="JavaScript:;" @click="funHref" class="beautiful-small-city" v-if="i==pageNumber-1"></a>
-                        <img class="full" :src="`/static/topic/brand_display/${i+1}.jpg`" alt="">
+                        <img class="full" :src="`/static/topic/brand_display/img${i+1}.jpg`" alt="">
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 moveClientY: 0,
                 touchHeight: 0,
                 pageIndex: 0,
-                pageNumber: 17,
+                pageNumber: 21,
                 counter: 5000,
                 interval: null,
             }
@@ -63,7 +63,7 @@
         },
         methods: {
             funHref () {
-                alert('链接还没有');
+                location.href = `${location.origin}/topic-beauty-town`
             },
             funInterval () {
                 clearInterval(this.interval);

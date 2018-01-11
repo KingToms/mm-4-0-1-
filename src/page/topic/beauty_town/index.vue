@@ -1,24 +1,361 @@
 <template>
     <div class="topic-main">
-        <h1>俏猫三周年</h1>
+        <img src="/static/topic/beauty_down/index/web/tab_top.png" alt="" class="top-mask">
+        <div class="tab-win">
+            <p class="txt-tips">{{getGift}}</p>
+            <img src="/static/topic/beauty_down/index/web/tab_win.png" alt="" class="full">
+        </div>
+        <img src="/static/topic/beauty_down/index/web/clickMe.png" alt="" class="click-me" v-if="goldNumber>=10">
+        <div class="footer-box">
+            <div class="left-box">
+                <div class="portrait">
+                    <img src="https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg" alt="">
+                </div>
+                <div class="gold-number">
+                    <div class="number-box">
+                        <img :src="`/static/topic/beauty_down/index/web/${item}.png`" alt="" class="number" v-for="(item,i) in goldNumber.toString()" :key="i">
+                    </div>
+                    <img src="/static/topic/beauty_down/index/web/tab_gold.png" alt="" class="tab-gold">
+                </div>
+            </div>
+            <img :src="`/static/topic/beauty_down/index/web/logo${(goldNumber>9)?'_1':''}.png`" alt="" class="logo" @click="funClick">
+        </div>
+        <brandShow :brandShowBox="brandShowBox"></brandShow>
+        <div class="alter-wrap" v-if="alertBox">
+            <div class="alter">
+                <img class="full" :src="alertImg" alt="">
+                <a href=""></a>
+                <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="funCloseAlert">
+            </div>
+            <div class="alert-mask"></div>
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-13" v-if="getGoldItem.indexOf(13)<0" @click="funGetGold(13)">
+            <img src="/static/topic/beauty_down/index/3years_01.png" alt="" class="full">
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-12" v-if="getGoldItem.indexOf(12)<0" @click="funGetGold(12)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-11" v-if="getGoldItem.indexOf(11)<0" @click="funGetGold(11)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-10" v-if="getGoldItem.indexOf(10)<0" @click="funGetGold(10)">
+            <img src="/static/topic/beauty_down/index/3years_02.png" alt="" class="full">
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-14" v-if="getGoldItem.indexOf(14)<0" @click="funGetGold(14)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-9" v-if="getGoldItem.indexOf(9)<0" @click="funGetGold(9)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-8" v-if="getGoldItem.indexOf(8)<0" @click="funGetGold(8)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-7" v-if="getGoldItem.indexOf(7)<0" @click="funGetGold(7)">
+            <img src="/static/topic/beauty_down/index/3years_03.png" alt="" class="full">
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-6" v-if="getGoldItem.indexOf(6)<0" @click="funGetGold(6)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-5" v-if="getGoldItem.indexOf(5)<0" @click="funGetGold(5)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-4" v-if="getGoldItem.indexOf(4)<0" @click="funGetGold(4)">
+            <img src="/static/topic/beauty_down/index/3years_04.png" alt="" class="full">
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-3" v-if="getGoldItem.indexOf(3)<0" @click="funGetGold(3)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-2" v-if="getGoldItem.indexOf(2)<0" @click="funGetGold(2)">
+            <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-1" v-if="getGoldItem.indexOf(1)<0" @click="funGetGold(1)">
+            <img src="/static/topic/beauty_down/index/3years_05.png" alt="" class="full">
+        </div>
+        <div class="block-img">
+            <img src="/static/topic/beauty_down/index/3years_06.png" alt="" class="full">
+        </div>
+        <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1">
     </div>
 </template>
 <script>
-    document.addEventListener('touchmove', function (e) {e.preventDefault()}, false);
+    import brandShow from './alert'
+
     export default {
         name: "brandDisplay",
         data () {
-            return {}
+            return {
+                brandShowBox: {
+                    status: false,
+                    images: []
+                },
+                alertBox: false,
+                getGift: '恭喜 hero 获得 iPhone X',
+                goldNumber: 0,
+                getGoldItem: [], // 获得的金币
+                bgMusic: new Audio(),
+                goldMusic: new Audio(),
+                alertImg: '/static/topic/beauty_down/index/web/synopsis.png'
+            }
+        },
+        mounted () {
+            let _this = this;
+            let musicPath = '/static/topic/beauty_down/index/';
+            this.bgMusic.src = `${musicPath}3years-bgm.mp3`;
+            this.goldMusic.src = `${musicPath}getGoldMusic.mp3`;
+            this.bgMusic.loop = 'loop';
+            this.bgMusic.play();
+
+            /**
+             * 原理是在微信易信执行Ready之前，先注册事件，所以放在所有请求的最前面
+             * 给个全局函数
+             */
+            document.addEventListener("WeixinJSBridgeReady", function () {
+                audioAutoPlay('audio');
+            }, false);
+            document.addEventListener('YixinJSBridgeReady', function () {
+                audioAutoPlay('audio');
+            }, false);
+
+            /**
+             * 全局控制播放函数
+             */
+            function audioAutoPlay () {
+                let play = function () {
+                    _this.bgMusic.play();
+                    document.removeEventListener("touchstart", play, false);
+                };
+                _this.bgMusic.play();
+                document.addEventListener("touchstart", play, false);
+            }
+
+            let isAppInside = /micromessenger/i.test(navigator.userAgent.toLowerCase()) || /yixin/i.test(navigator.userAgent.toLowerCase());
+            if (!isAppInside) {
+                audioAutoPlay();//给非微信易信浏览器
+            }
         },
         created () {},
-        mounted () {},
-        methods: {},
+        methods: {
+            /**
+             * 获得金币后弹出展示品牌
+             */
+            funGetGoldAlaert () {
+                // this.alertImg = '/static/topic/beauty_down/index/web/getGold.png';
+                this.brandShowBox.status = true;
+                this.brandShowBox.images = this.getGoldItem;
+            },
+            /**
+             * 收集金币
+             * @param {int} goldIndex - 第几个金币
+             */
+            funGetGold (goldIndex) {
+                this.goldMusic.currentTime = 0;
+                this.goldMusic.play();
+                this.goldNumber++;
+                this.getGoldItem.push(goldIndex);
+                this.funCalcGoldNumber();
+                this.funGetGoldAlaert();
+            },
+            /**
+             * 计算金币数量
+             */
+            funCalcGoldNumber () {
+                if (this.goldNumber >= 14) {
+                    this.alertImg = '/static/topic/beauty_down/index/web/gold_10.png';
+                    this.alertBox = true;
+                }
+            },
+            /**
+             * 点击猫头抽奖
+             */
+            funClick () {
+                if (this.goldNumber > 9) {
+                    this.$router.push('/topic-beauty-town/luckdraw');
+                }
+            },
+            /**
+             * 关闭弹窗
+             */
+            funCloseAlert () {
+                this.alertBox = false;
+            }
+        },
+        components: {brandShow}
     }
 </script>
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
 
-    img.full {
+    .topic-main {
+        overflow: auto;
+    }
+
+    .block-img {
+        position: relative;
+    }
+
+    .footer-box {
+        position: fixed;
+        padding: 10px;
         width: 100%;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        @include fj();
+        align-items: center;
+        .logo {
+            width: 70px;
+        }
+        .left-box {
+            @include fj();
+            align-items: center;
+            .gold-number {
+                margin-left: 8px;
+                position: relative;
+                .number-box {
+                    position: absolute;
+                    @include fj(center);
+                    align-items: center;
+                    top: 0;
+                    right: 8px;
+                    width: 30px;
+                    height: 84%;
+                    .number {
+                        height: 16px;
+                        margin-right: 2px;
+                    }
+                }
+                .tab-gold {
+                    width: 115px;
+                }
+            }
+            .portrait {
+                @include wh(70px, 70px);
+                overflow: hidden;
+                border-radius: 50%;
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.50);
+                img {
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .top-mask {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .tab-win {
+        position: fixed;
+        top: 0;
+        width: 70%;
+        left: 15%;
+        z-index: 10;
+        .txt-tips {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            color: #fff;
+            font-size: 12px;
+            margin-top: -20px;
+            font-weight: 700;
+            @include lineHeight(30px);
+            text-align: center;
+        }
+    }
+
+    .gold-img {
+        position: absolute;
+        width: 12%;
+        &.gold-1 {
+            top: 46%;
+            left: 42%;
+        }
+        &.gold-2 {
+            top: 24%;
+            left: 75%;
+        }
+        &.gold-3 {
+            top: 12%;
+            left: 23%;
+        }
+        &.gold-4 {
+            top: 67%;
+            left: 72%;
+        }
+        &.gold-5 {
+            top: 31%;
+            left: 60%;
+        }
+        &.gold-6 {
+            top: 2%;
+            left: 31%;
+        }
+        &.gold-7 {
+            top: 45%;
+            left: 87%;
+        }
+        &.gold-8 {
+            top: 12%;
+            left: 51%;
+        }
+        &.gold-9 {
+            top: 7%;
+            left: 15%;
+        }
+        &.gold-10 {
+            top: 73%;
+            left: 74%;
+        }
+        &.gold-11 {
+            top: 74%;
+            left: 33%;
+        }
+        &.gold-12 {
+            top: 6%;
+            left: 17%;
+        }
+        &.gold-13 {
+            top: 64%;
+            left: 69%;
+        }
+        &.gold-14 {
+            top: 54%;
+            left: 25%;
+        }
+    }
+
+    .alter-wrap {
+        .alter {
+            position: fixed;
+            padding: 20px;
+            width: 90%;
+            left: 5%;
+            top: 20%;
+            z-index: 30;
+            text-align: center;
+        }
+        .icon-x {
+            width: 40px;
+            display: block;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+        .alert-mask {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 20;
+        }
+    }
+
+    .tab-1 {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+
+    .click-me {
+        position: fixed;
+        right: 0;
+        bottom: 80px;
+        width: 90px;
+        z-index: 10;
     }
 </style>

@@ -52,5 +52,8 @@
     }
 </script>
 <style>
-
+    img.full {
+        display: block;
+        width: 100%;
+    }
 </style>
