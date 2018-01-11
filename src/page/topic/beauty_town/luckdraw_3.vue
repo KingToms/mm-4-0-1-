@@ -44,7 +44,7 @@
         <div class="wheel-box">
           <div id="rotary-table" class="wheel">
             <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
-              <span>{{item.prize ? item.prize : ''}}</span>
+              <span>{{item.prize_name ? item.prize_name : ''}}</span>
             </div>
           </div>
           <img class="start" src="/static/topic/beauty_down/luckdraw_3/arrow.png" alt="点击开始" @click="luckyDraw">
@@ -59,8 +59,8 @@
           <div class="received-box" v-if="first_state">
             <div class="result">
               <!--非实物：888元俏猫美妆券-->
-              <div class="p2" v-if="gift_id == '8'">
-                <img class="pro_img" src="/static/topic/beauty_down/luckdraw_3/product_888.png" alt="">
+              <div class="p2" v-if="gift_id == '7' || gift_id == '8'">
+                <img class="pro_img" :src="pro_img" alt="">
                 <p class="tip-txt">完成问卷还可以获得抽奖机会~</p>
                 <div class="next-box">
                   <span class="next" @click="shareBoxShow = true">分享</span>
@@ -70,7 +70,7 @@
               <!--实物：-->
               <div class="p2" v-else>
                 <div class="pro_box">
-                  <img class="pro_img" src="/static/topic/beauty_down/luckdraw_3/product_MLDJ.png" alt="">
+                  <img class="pro_img" :src="pro_img" alt="">
                 </div>
                 <button class="delivery" @click="goReceipt">填写收货信息</button>
               </div>
@@ -80,6 +80,11 @@
           <div class="received-box" v-else>
             <div class="result">
               <p class="p1">{{gift_msg}}</p>
+              <p class="tip-txt">完成问卷还可以获得抽奖机会~</p>
+              <div class="next-box">
+                <span class="next" @click="shareBoxShow = true">分享</span>
+                <span class="next" @click="goQuestionnaire">问卷</span>
+              </div>
             </div>
           </div>
         </div>
@@ -103,7 +108,7 @@ import common from "../../../common/common"
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
 import { setStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getPrize, setDraw } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw } from "@/service/getData";
 export default {
   name: "luckDraw1230",
   data() {
@@ -111,12 +116,11 @@ export default {
       plid: '', // 推广来源
       isbg: false, //虚化背景
       first_state: true, // 第一次领取
-      // gift_txt: ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券'],
+      // gift_txt: ['PBA经典款BB霜 小样', '玛丽黛佳 怪怪收纳袋', 'Won-in箱包（双肩）', '雅美菲套刷', '玛丽黛佳 巴黎时装周妆容别册', '柚花少女套盒', '俏猫888元美妆券', 'IPHONE X'],
       gift_txt: [],
-      gift_con: ['4', '3', '5', '6', '2','7', '1','0'], // ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券']，对应的位置
-      gift_id: 1, // 后端返回抽中的奖品
-      gift_content: '', // 奖品内容
-      ticket_link: 'https://at.umeng.com/S15Tba', // 电影票链接
+      gift_con: ['7', '6', '5', '4', '3','2', '1','0'], // ['PBA经典款BB霜 小样', '玛丽黛佳 怪怪收纳袋', 'Won-in箱包（双肩）', '雅美菲套刷', '玛丽黛佳 巴黎时装周妆容别册', '柚花少女套盒', '俏猫888元美妆券', 'IPHONE X']，对应的位置
+      gift_id: 7, // 后端返回抽中的奖品
+      pro_img: '', // 奖品图片
       gift_msg: '', // 抽奖提示
       offOn: true, // 是否转动
       num: 0,
@@ -169,12 +173,12 @@ export default {
   methods: {
     /*获取抽奖礼品列表*/
     async getGiftList() {
-      let res = await getPrize();
-      let resData = eval(res.data);
-      for (var i in resData) {
-        this.gift_txt.push(resData[i]);
+      let res = await getPrizeList();
+      if(res.status == 'ok'){
+        this.gift_txt = res.data;
+        // console.log("奖品列表:", this.gift_txt);
       }
-      // console.log("gift_txt:", this.gift_txt);
+
     },
 
     /*抽奖*/
@@ -195,7 +199,7 @@ export default {
         if (this.offOn) { // 防止连续点击抽奖
           this.num++;
           this.offOn = !this.offOn;
-          let setDrawData = await setDraw();
+          let setDrawData = await getLuckDraw();
           if (setDrawData.status == 'ok') {
             this.ratating(setDrawData.data);
           } else {
@@ -214,22 +218,22 @@ export default {
     ratating(data) {
       let _this = this;
       // let cat = Math.floor(Math.random()*8)*45; // 前端随机
-      if (data.code == '1') {
-        _this.gift_id = 1; // 1:谢谢参与
-      } else if (data.code == '2') {
-        _this.gift_id = 2; // 2:10M
-      } else if (data.code == '3') {
-        _this.gift_id = 3; // 3:20M
-      } else if (data.code == '4') {
-        _this.gift_id = 4; // 4:30M
-      } else if (data.code == '5') {
-        _this.gift_id = 5; // 5:50M
-      } else if (data.code == '6') {
-        _this.gift_id = 6; // 6:100M
-      } else if (data.code == '7') {
-        _this.gift_id = 7; // 7:电影票
-      } else if (data.code == '8') {
-        _this.gift_id = 8; // 8:888元美妆券
+      if (data.prize_id == '1') {
+        _this.gift_id = 1; // 1:PBA经典款BB霜 小样
+      } else if (data.prize_id == '2') {
+        _this.gift_id = 2; // 2:玛丽黛佳 怪怪收纳袋
+      } else if (data.prize_id == '3') {
+        _this.gift_id = 3; // 3:Won-in箱包（双肩）
+      } else if (data.prize_id == '4') {
+        _this.gift_id = 4; // 4:雅美菲套刷
+      } else if (data.prize_id == '5') {
+        _this.gift_id = 5; // 5:玛丽黛佳 巴黎时装周妆容别册
+      } else if (data.prize_id == '6') {
+        _this.gift_id = 6; // 6:柚花少女套盒
+      } else if (data.prize_id == '7') {
+        _this.gift_id = 7; // 7:俏猫888元美妆券
+      } else if (data.prize_id == '8') {
+        _this.gift_id = 8; // 8:IPHONE X
       }
       let cat = _this.gift_con[(_this.gift_id - 1) >= 0 ? (_this.gift_id - 1) : 1] * 45; // 后端抽奖
       let rotaryTable = document.getElementById("rotary-table");
@@ -242,43 +246,43 @@ export default {
           _this.n = _this.rdm % 360;
           switch (_this.n) { // 转动幅度
             case 0:
-              // 888元美妆券
-              _this.gift_content = data.name;
+              // IPHONE X
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_888.png';
               _this.isbg = true;
               break;
             case 45:
-              // 500M
-              _this.gift_content = data.name;
+              // 俏猫888元美妆券
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_888.png';
               _this.isbg = true;
               break;
             case 90:
-              // 50M
-              _this.gift_content = data.name;
+              // 柚花少女套盒
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_YHTH.png';
               _this.isbg = true;
               break;
             case 135:
-              // 10M
-              _this.gift_content = data.name;
+              // 玛丽黛佳 巴黎时装周妆容别册
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_Magazine.png';
               _this.isbg = true;
               break;
             case 180:
-              // 谢谢参与
-              _this.gift_content = data.name;
+              // 雅美菲套刷
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_YMF.png';
               _this.isbg = true;
               break;
             case 225:
-              // 20M
-              _this.gift_content = data.name;
+              // 玛丽黛佳 怪怪收纳袋',
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_MLDJ.png';
               _this.isbg = true;
               break;
             case 270:
-              // 30M
-              _this.gift_content = data.name;
+              // 'Won-in箱包（双肩）
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_Won_in.png';
               _this.isbg = true;
               break;
             case 315:
-              // 100M
-              _this.gift_content = data.name;
+              // PBA经典款BB霜 小样
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_PAB.png';
               _this.isbg = true;
               break;
           };
@@ -713,7 +717,10 @@ export default {
         .received-box {
           // 结果提示
           .result {
-            // padding-top: 22%;
+            .p1 {
+              font-size: 2rem;
+              margin: 7rem auto;
+            }
           }
         }
       }
@@ -751,7 +758,7 @@ export default {
         .gift {
           position: absolute;
           top: 10%;
-          width: 18%;
+          width: 25%;
           color: #000;
           text-align: center;
           span {
@@ -767,44 +774,56 @@ export default {
           }
 
           &.gift_0 {
-            top: 83%;
-            left: 41%;
-            transform: rotate(180deg);
+          top: 14%;
+          left: 66%;
+            transform: rotate(45deg);
           }
           &.gift_1 {
-            top: 71%;
-            left: 13%;
-            transform: rotate(225deg);
+            top: 41%;
+            left: 77%;
+            transform: rotate(90deg);
+            span {
+              color: #DF0A36;
+            }
           }
           &.gift_2 {
-            top: 72%;
-            left: 69%;
+            top: 69%;
+            left: 65%;
             transform: rotate(135deg);
           }
           &.gift_3 {
-            top: 44%;
-            left: 80%;
-            transform: rotate(90deg);
+            top: 86%;
+            left: 37%;
+            transform: rotate(180deg);
+            span {
+              color: #DF0A36;
+            }
           }
           &.gift_4 {
-            top: 43%;
-            left: 1%;
-            transform: rotate(270deg);
+            top: 64%;
+            left: 11%;
+            transform: rotate(225deg);
           }
           &.gift_5 {
-            top: 17%;
-            left: 69%;
-            transform: rotate(45deg);
+            top: 41%;
+            left: -1%;
+            transform: rotate(270deg);
+            span {
+              color: #DF0A36;
+            }
           }
           &.gift_6 {
-            top: 15%;
-            left: 13%;
+            top: 13%;
+            left: 11%;
             transform: rotate(-45deg);
           }
           &.gift_7 {
             top: 3%;
-            left: 41%;
+            left: 39%;
             transform: rotate(0deg);
+            span {
+              color: #DF0A36;
+            }
           }
         }
       }
