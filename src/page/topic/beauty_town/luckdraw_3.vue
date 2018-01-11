@@ -109,12 +109,12 @@ export default {
   data() {
     return {
       plid: '', // 推广来源
-      isbg: true, //虚化背景
+      isbg: false, //虚化背景
       first_state: true, // 第一次领取
       // gift_txt: ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券'],
       gift_txt: [],
       gift_con: ['4', '3', '5', '6', '2','7', '1','0'], // ['谢谢参与', '10M', '20M', '30M', '50M', '100M', '500M', '888元美妆券']，对应的位置
-      gift_id: 6, // 后端返回抽中的奖品
+      gift_id: 1, // 后端返回抽中的奖品
       gift_content: '', // 奖品内容
       ticket_link: 'https://at.umeng.com/S15Tba', // 电影票链接
       gift_msg: '', // 抽奖提示
