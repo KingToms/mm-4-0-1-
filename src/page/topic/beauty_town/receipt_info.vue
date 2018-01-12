@@ -123,6 +123,7 @@ export default {
           return
         }
         
+        this.infoObj.key_id = $.cookie('key_id') ? $.cookie('key_id') : '';
         this.setFullAddress(this.infoObj);
       }
 

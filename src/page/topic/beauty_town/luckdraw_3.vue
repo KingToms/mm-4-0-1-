@@ -245,7 +245,14 @@ export default {
       } else if (data.prize_id == '8') {
         _this.gift_id = 8; // 8:IPHONE X
       }
-      let cat = _this.gift_con[(_this.gift_id - 1) >= 0 ? (_this.gift_id - 1) : 1] * 45; // 后端抽奖
+
+      if(data.prize_id == '7' || data.prize_id == '8'){ // 用户抽奖了实物奖品
+        $.cookie('key_id', '', { expires: 1, path: '/topic-beauty-town' });
+      }else{
+        $.cookie('key_id', data.key_id, { expires: 1, path: '/topic-beauty-town' });// 实物奖品key_id
+      }
+
+      let cat = _this.gift_con[(_this.gift_id - 1) >= 0 ? (_this.gift_id - 1) : 7] * 45; // 后端抽奖
       let rotaryTable = document.getElementById("rotary-table");
       clearInterval(_this.timer);
       _this.timer = setInterval(function() {
@@ -257,42 +264,42 @@ export default {
           switch (_this.n) { // 转动幅度
             case 0:
               // IPHONE X
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_888.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_7.png';
               _this.isbg = true;
               break;
             case 45:
               // 俏猫888元美妆券
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_888.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_7.png';
               _this.isbg = true;
               break;
             case 90:
               // 柚花少女套盒
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_YHTH.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_6.png';
               _this.isbg = true;
               break;
             case 135:
               // 玛丽黛佳 巴黎时装周妆容别册
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_Magazine.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_5.png';
               _this.isbg = true;
               break;
             case 180:
               // 雅美菲套刷
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_YMF.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_4.png';
               _this.isbg = true;
               break;
             case 225:
-              // 玛丽黛佳 怪怪收纳袋',
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_MLDJ.png';
+              // Won-in箱包（双肩）
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_3.png';
               _this.isbg = true;
               break;
             case 270:
-              // 'Won-in箱包（双肩）
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_Won_in.png';
+              // 玛丽黛佳 怪怪收纳袋
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_2.png';
               _this.isbg = true;
               break;
             case 315:
               // PBA经典款BB霜 小样
-              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_PAB.png';
+              _this.pro_img = '/static/topic/beauty_down/luckdraw_3/product_1.png';
               _this.isbg = true;
               break;
           };
