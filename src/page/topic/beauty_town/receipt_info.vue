@@ -46,7 +46,7 @@ export default {
     };
   },
   created() {
-    this.shareWechat();
+
   },
   components: {
     myAddress,
@@ -127,44 +127,6 @@ export default {
         this.setFullAddress(this.infoObj);
       }
 
-    },
-
-    /*微信分享*/
-    shareWechat() {
-      let _this = this;
-      wx.ready(function() {
-        _this.share_setup(
-          "美丽小城，俏猫三周年！",
-          "俏猫三周年·集金币抽iphoneX~",
-          "http://mm.qiaocat.com/topic-beauty-town?plid=101",
-          "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg",
-        );
-      });
-    },
-    share_setup(title, desc, link, imgUrl) {
-      wx.onMenuShareAppMessage({
-        title: title,
-        desc: desc,
-        link: link,
-        imgUrl: imgUrl,
-        success: function(res) {
-          console.log(1, res);
-        },
-        error: function(err) {
-          console.log(1, err);
-        }
-      });
-      wx.onMenuShareTimeline({
-        title: title,
-        link: link,
-        imgUrl: imgUrl,
-        success: function(res) {
-          console.log(2, res);
-        },
-        error: function(err) {
-          console.log(2, err);
-        }
-      });
     },
   },
 }

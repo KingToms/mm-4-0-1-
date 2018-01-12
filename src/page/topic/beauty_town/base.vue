@@ -2,6 +2,7 @@
     <router-view></router-view>
 </template>
 <script>
+    import { getMoreDraw } from "@/service/getData";
     export default {
         data () {
             return {};
@@ -10,15 +11,25 @@
             this.shareWechat();
         },
         methods: {
+            /* 增加获奖次数 */
+            async getMoreLuckdraw(addType) {
+                // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+                let res = await getMoreDraw({type: addType});
+                if(res.status == 'ok'){
+                    // 增加了一次抽奖机会
+                    alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+                }
+            },
+
             /*微信分享*/
             shareWechat () {
                 let _this = this;
                 wx.ready(function () {
                     _this.share_setup(
-                        "俏猫三周年",
-                        "俏猫三周年~",
+                        "美丽小城，俏猫三周年！",
+                        "俏猫三周年·集金币抽iphoneX~",
                         "http://mm.qiaocat.com/topic-luckdraw-town",
-                        ""
+                        "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg"
                     );
                 });
             },
@@ -30,6 +41,10 @@
                     imgUrl: imgUrl,
                     success: function (res) {
                         console.log(1, res);
+                        if(this.$route.path == '/topic-beauty-town/luckdraw'){
+                            // 微信分享成功回调
+                            this.getMoreLuckdraw('share');
+                        }
                     },
                     error: function (err) {
                         console.log(1, err);
@@ -42,6 +57,10 @@
                     success: function (res) {
                         //todo
                         console.log(2, res);
+                        if(this.$route.path == '/topic-beauty-town/luckdraw'){
+                            // 微信分享成功回调
+                            this.getMoreLuckdraw('share');
+                        }
                     },
                     error: function (err) {
                         console.log(2, err);
