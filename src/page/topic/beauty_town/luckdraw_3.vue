@@ -53,9 +53,10 @@
 
       <!--四、抽奖结果-->
       <div class="bg" v-show="isbg">
-        <div class="result-box">
+        <div class="result-box" :class="{'nochance-box': noChance}">
           <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeBox">
-          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_awards.png" alt="">
+          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_awards.png" v-show="!noChance" alt="">
+          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_register.png" v-show="noChance" alt="">
           <div class="received-box" v-if="first_state">
             <div class="result">
               <!--非实物：888元俏猫美妆券-->
@@ -76,14 +77,21 @@
               </div>
             </div>
           </div>
-          <!--你已经领取过-->
+          <!--没有抽奖次数-->
           <div class="received-box" v-else>
             <div class="result">
-              <p class="p1">{{gift_msg}}</p>
-              <p class="tip-txt">完成问卷还可以获得抽奖机会~</p>
-              <div class="next-box">
-                <span class="next" @click="shareBoxShow = true">分享</span>
-                <span class="next" @click="goQuestionnaire">问卷</span>
+              <div class="first-part" v-if="!noChance">
+                <p class="p1">{{gift_msg}}</p>
+                <p class="tip-txt">完成问卷还可以获得抽奖机会~</p>
+                <div class="next-box">
+                  <span class="next" @click="shareBoxShow = true">分享</span>
+                  <span class="next" @click="goQuestionnaire">问卷</span>
+                </div>
+              </div>
+              <!--遇见你，3生有幸-->
+              <div class="last-part" v-else>
+                <img src="/static/topic/beauty_down/luckdraw_3/advert.png" alt="遇见你，3生有幸" class="advert">
+                <p class="last-tip">您已花光所有抽奖机会</p>
               </div>
             </div>
           </div>
@@ -114,7 +122,7 @@ export default {
   data() {
     return {
       isbg: false, //虚化背景
-      first_state: true, // 第一次领取
+      first_state: true, // 抽奖成功
       // gift_txt: ['PBA经典款BB霜 小样', '玛丽黛佳 怪怪收纳袋', 'Won-in箱包（双肩）', '雅美菲套刷', '玛丽黛佳 巴黎时装周妆容别册', '柚花少女套盒', '俏猫888元美妆券', 'IPHONE X'],
       gift_txt: [],
       gift_con: ['7', '6', '5', '4', '3','2', '1','0'], // ['PBA经典款BB霜 小样', '玛丽黛佳 怪怪收纳袋', 'Won-in箱包（双肩）', '雅美菲套刷', '玛丽黛佳 巴黎时装周妆容别册', '柚花少女套盒', '俏猫888元美妆券', 'IPHONE X']，对应的位置
@@ -142,6 +150,7 @@ export default {
       login_con: "马上抽奖",
       /*---注册登录窗口---结束*/
 
+      noChance: false, // 共3次机会，是否用完
       shareBoxShow: false, // 分享指引
       shareData: { // APP分享
         title: '美丽小城，俏猫三周年！',
@@ -216,11 +225,14 @@ export default {
           if (setDrawData.status == 'ok') {
             this.ratating(setDrawData.data);
           } else {
+            // 3次机会都用完后，提示“遇见你三生有幸”
+            this.noChance = (setDrawData.code == '3') ? (this.noChance = true) : false;
+
             this.offOn = !this.offOn;
             if (!this.isbg) { // 没显示结果的时候，显示
-              this.gift_msg = setDrawData.msg;
-              this.first_state = false; // 已领取过奖品
-              this.isbg = true;
+              this.gift_msg = setDrawData.msg; // 抽奖失败提示
+              this.first_state = false; // 抽奖失败，次数已用完
+              this.isbg = true; // 显示抽奖结果
             }
           }
         }
@@ -637,7 +649,7 @@ export default {
         position: relative;
         width: 76%;
         min-height: 30%;
-        margin: 10% auto 0;
+        margin: 20% auto 0;
         text-align: center;
         .close {
           position: absolute;
@@ -700,22 +712,28 @@ export default {
               cursor: pointer;
             }
           }
-        }
-        // 结果提示
-        .tips {
-          font-size: 1.2rem;
-          color: #000;
-          padding-top: 10%;
-        }
-        .received-box {
-          // 结果提示
-          .result {
-            .p1 {
-              font-size: 2rem;
-              margin: 7rem auto;
+          .p1 {
+            font-size: 2rem;
+            margin: 7rem auto;
+          }
+          // 遇见你，3生有幸
+          .last-part {
+            margin-top: -2.8rem;
+            img {
+              width: 75%;
+              margin: 0 auto;
+            }
+            .last-tip {
+              margin-top: 0.4rem;
+              font-size: 1.8rem;
             }
           }
         }
+      }
+
+      // 3次抽奖机会都用完
+      .nochance-box {
+        margin-top: 30%;
       }
     }
     img {
