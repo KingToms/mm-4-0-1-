@@ -184,6 +184,12 @@ export const getPrize = (data) => fetch (`/PhoneData/list_prize?API_VERSION=topi
   // 20171230转盘抽奖
 export const setDraw = (data) => fetch (`/PhoneData/draw_data?API_VERSION=topic`, data, 'POST')
 // 俏猫3周年--美丽小城
+// 俏猫-专题三周获奖用户列表
+export const topicThreeYearAquser = () => fetch (`/topic/topic_three_year_zquser`, {}, 'POST')
+// 俏猫-专题三周年金币领取
+export const topicThreeGetGold = (data) => fetch (`/topic/topic_three_jb_lq`, data, 'POST')
+// 俏猫-专题三周年金币列表
+export const topicThreeGoldList = (data) => fetch (`/topic/topic_three_jb_list`, data, 'POST')
   // 3周年--调查问卷答案提交
 export const setQuestionnaire = (data) => fetch (`/topic/topic_three_question`, data, 'POST')
   // 3周年--抽奖奖品列表
