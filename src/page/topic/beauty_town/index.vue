@@ -7,20 +7,20 @@
             <p class="txt-tips">{{getGift}}</p>
             <img src="/static/topic/beauty_down/index/web/tab_win.png" alt="" class="full">
         </div>
-        <img src="/static/topic/beauty_down/index/web/clickMe.png" alt="" class="click-me" v-if="goldNumber>=10">
+        <img src="/static/topic/beauty_down/index/web/clickMe.png" alt="" class="click-me" v-if="getGoldItem.length>=10">
         <div class="footer-box">
             <div class="left-box">
                 <div class="portrait">
-                    <img src="https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg" alt="">
+                    <img :src="localData.wechat_avatar" alt="">
                 </div>
                 <div class="gold-number">
                     <div class="number-box">
-                        <img :src="`/static/topic/beauty_down/index/web/${item}.png`" alt="" class="number" v-for="(item,i) in goldNumber.toString()" :key="i">
+                        <img :src="`/static/topic/beauty_down/index/web/${item}.png`" alt="" class="number" v-for="(item,i) in getGoldItem.length.toString()" :key="i">
                     </div>
                     <img src="/static/topic/beauty_down/index/web/tab_gold.png" alt="" class="tab-gold">
                 </div>
             </div>
-            <img :src="`/static/topic/beauty_down/index/web/logo${(goldNumber>9)?'_1':''}.png`" alt="" class="logo" @click="funClick">
+            <img :src="`/static/topic/beauty_down/index/web/logo${(getGoldItem.length>9)?'_1':''}.png`" alt="" class="logo" @click="funClick">
         </div>
         <brandShow :brandShowBox="brandShowBox" ref="child" v-on:childMethod="funCalcGoldNumber"></brandShow>
         <div class="alter-wrap" v-if="alertBox">
@@ -32,56 +32,61 @@
         </div>
         <div class="block-img">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-13" v-if="getGoldItem.indexOf(13)<0" @click="funGetGold(13)">
-            <img src="/static/topic/beauty_down/index/3years_01.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_01.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-12" v-if="getGoldItem.indexOf(12)<0" @click="funGetGold(12)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-11" v-if="getGoldItem.indexOf(11)<0" @click="funGetGold(11)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-10" v-if="getGoldItem.indexOf(10)<0" @click="funGetGold(10)">
-            <img src="/static/topic/beauty_down/index/3years_02.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_02.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-14" v-if="getGoldItem.indexOf(14)<0" @click="funGetGold(14)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-9" v-if="getGoldItem.indexOf(9)<0" @click="funGetGold(9)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-8" v-if="getGoldItem.indexOf(8)<0" @click="funGetGold(8)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-7" v-if="getGoldItem.indexOf(7)<0" @click="funGetGold(7)">
-            <img src="/static/topic/beauty_down/index/3years_03.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_03.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-6" v-if="getGoldItem.indexOf(6)<0" @click="funGetGold(6)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-5" v-if="getGoldItem.indexOf(5)<0" @click="funGetGold(5)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-4" v-if="getGoldItem.indexOf(4)<0" @click="funGetGold(4)">
-            <img src="/static/topic/beauty_down/index/3years_04.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_04.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-3" v-if="getGoldItem.indexOf(3)<0" @click="funGetGold(3)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-2" v-if="getGoldItem.indexOf(2)<0" @click="funGetGold(2)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-1" v-if="getGoldItem.indexOf(1)<0" @click="funGetGold(1)">
-            <img src="/static/topic/beauty_down/index/3years_05.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_05.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
-            <img src="/static/topic/beauty_down/index/3years_06.png" alt="" class="full">
+            <img src="/static/topic/beauty_down/index/3years_06.png" alt="" class="full box-bg">
         </div>
-        <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1">
+        <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1" name="end">
     </div>
 </template>
 <script>
     import brandShow from './alert'
+    import {topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
 
     export default {
         name: "brandDisplay",
         data () {
             return {
+                localData: {
+                    'wechat_id': 'qiu_yongjin',
+                    'wechat_avatar': 'https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg',
+                    'wechat_nickname': 'hero'
+                },
                 brandShowBox: {
                     status: false,
                     title: false,
                     isBtn: true,
                     href: '',
-                    images: []
+                    images: [],
                 },
                 alertBox: true,
                 getGift: '恭喜 hero 获得 iPhone X',
-                goldNumber: 0,
                 getGoldItem: [], // 获得的金币
                 bgmStatus: true,
                 bgMusic: new Audio(),
@@ -92,13 +97,17 @@
         mounted () {
             let _this = this;
             this.$nextTick(function () {
-                let goldImg = document.getElementsByClassName('full');
+                let goldImg = document.getElementsByClassName('box-bg');
+                console.log(goldImg);
                 let goldImgNum = goldImg.length;
-                for (let i = 0; i < goldImg.length - 1; i++) {
+                for (let i = 0; i < goldImg.length; i++) {
                     goldImg[i].onload = () => {
-                        if (--goldImgNum <= 1) {
+                        console.log('完成' + goldImg[i].src, goldImg[i].height);
+                        if (!--goldImgNum) {
                             let topicMain = document.getElementById('topic-main');
-                            topicMain.scrollTop = topicMain.scrollHeight;
+                            setTimeout(() => {
+                                $('html,body').scrollTop(topicMain.scrollHeight);
+                            }, 3000);
                         }
                     }
                 }
@@ -136,8 +145,42 @@
                 }
             });
         },
-        created () {},
+        created () {
+            this.funTopicThreeYearAquser();
+            this.funTopicThreeGoldList();
+        },
         methods: {
+            /**
+             * 俏猫-专题三周获奖用户列表
+             */
+            async funTopicThreeYearAquser () {
+                let res = await topicThreeYearAquser();
+                console.log(res);
+                if (res.status === 'ok') {
+                    console.log(res);
+                }
+            },
+            /**
+             * 俏猫-专题三周年金币列表
+             */
+            async funTopicThreeGoldList () {
+                let _this = this;
+                let res = await topicThreeGoldList({'wechat_id': this.localData.wechat_id});
+                if (res.status === 'ok') {
+                    let jsonData = res.data;
+                    for (let p in jsonData) {
+                        if (jsonData[p])
+                            _this.getGoldItem.push(parseInt(p));
+                    }
+                }
+            },
+            async funTopicThreeGetGold (goleIndex) {
+                let res = await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
+                console.log(res);
+                if (res.status === 'ok') {
+                    console.log(res);
+                }
+            },
             click () {
                 this.$refs.child.callMethod();
             },
@@ -175,6 +218,7 @@
                 this.brandShowBox.images = images;
                 this.brandShowBox.status = true;
                 this.brandShowBox.href = this.funBrandHerf(goldIndex);
+                this.funTopicThreeGetGold(goldIndex);
                 this.click();
             },
             /**
@@ -184,7 +228,6 @@
             funGetGold (goldIndex) {
                 this.goldMusic.currentTime = 0;
                 this.goldMusic.play();
-                this.goldNumber++;
                 this.getGoldItem.push(goldIndex);
                 this.funGetGoldAlaert(goldIndex);
             },
@@ -193,7 +236,7 @@
              */
             funCalcGoldNumber () {
                 this.brandShowBox.status = false;
-                if (this.goldNumber >= 14) {
+                if (this.getGoldItem.length >= 14) {
                     this.alertImg = '/static/topic/beauty_down/index/web/gold_10.png';
                     this.alertBox = true;
                 }
@@ -210,7 +253,7 @@
              * 点击猫头抽奖
              */
             funClick () {
-                if (this.goldNumber > 9) {
+                if (this.getGoldItem.length > 9) {
                     this.$router.push('/topic-beauty-town/luckdraw');
                 }
             },
@@ -240,10 +283,6 @@
 </script>
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
-
-    #topic-main {
-        overflow: auto;
-    }
 
     .block-img {
         position: relative;
