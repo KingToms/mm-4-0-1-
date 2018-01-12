@@ -116,7 +116,7 @@ import common from "../../../common/common"
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
 import { setStore, getStore } from "../../../common/store";
-import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw, getMoreDraw } from "@/service/getData";
+import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw, getMoreDraw, topicThreeGoldList } from "@/service/getData";
 export default {
   name: "luckDraw1230",
   data() {
@@ -151,6 +151,7 @@ export default {
       /*---注册登录窗口---结束*/
 
       noChance: false, // 共3次机会，是否用完
+      jb_count: '0', // 已获取的金币总数
       shareBoxShow: false, // 分享指引
       shareData: { // APP分享
         title: '美丽小城，俏猫三周年！',
@@ -163,8 +164,13 @@ export default {
   created() {
     this.getGiftList();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.wechat_id = getStore('wechat_id') ? getStore('wechat_id') : ''; //微信id
+    this.wechat_avatar = getStore('wechat_avatar') ? getStore('wechat_avatar') : ''; //微信用户头像
+    this.wechat_nickname = getStore('wechat_nickname') ? getStore('wechat_nickname') : ''; //微信用户昵称
 
-    console.log("this.plid:", this.plid);
+    if(this.wechat_id){ // 微信已授权登录，获取收集的金币列表
+      this.getJbList(this.wechat_id);
+    }
   },
   mounted() {
     /*使大转盘盒子显示为正方形*/
@@ -188,9 +194,21 @@ export default {
       // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
       let res = await getMoreDraw({type: addType});
       if(res.status == 'ok'){
-        // 增加了一次抽奖机会
-        this.shareBoxShow = false; //隐藏分享指引
-        alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+        // 分享增加
+        if(addType == 'share'){
+          this.shareBoxShow = false; //隐藏分享指引
+          alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+        }
+      }
+    },
+    /*获取金币列表*/
+    async getJbList(wechat_id) {
+      let res = await topicThreeGoldList({ wechat_id: wechat_id });
+      if(res.status == 'ok'){
+        this.jb_count = res.count;
+        if(this.jb_count >= 10){
+          this.getMoreLuckdraw('gold');
+        }
       }
     },
     /*获取抽奖礼品列表*/
@@ -383,13 +401,9 @@ export default {
           });
           return
         }
-        this.login_state = true; // 显示登录窗口
+        this.login_state = true;
         this.login_con = "抽奖准备中...";
 
-        this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-        this.wechat_id = getStore('wechat_id') ? getStore('wechat_id') : ''; //微信id
-        this.wechat_avatar = getStore('wechat_avatar') ? getStore('wechat_avatar') : ''; //微信用户头像
-        this.wechat_nickname = getStore('wechat_nickname') ? getStore('wechat_nickname') : ''; //微信用户昵称
 
         let result = await authLogin({
           mobile: this.mobile,
@@ -399,7 +413,7 @@ export default {
           wechat_avatar: this.wechat_avatar,
           wechat_nickname: this.wechat_nickname
         });
-        if (result.status == 'ok') {
+        if (result.status == 'ok') { // 登录成功
           $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
           setStore(keyConf.userMoile, this.mobile)
 
@@ -413,7 +427,7 @@ export default {
           setTimeout(function() {
             self.isShow = false;
           }, 1200);
-        } else {
+        } else { // 登录失败
           Toast({
             message: result.msg,
             duration: 1000,
