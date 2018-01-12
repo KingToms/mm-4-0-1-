@@ -164,9 +164,12 @@ export default {
   created() {
     this.getGiftList();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-    this.wechat_id = getStore('wechat_id') ? getStore('wechat_id') : ''; //微信id
-    this.wechat_avatar = getStore('wechat_avatar') ? getStore('wechat_avatar') : ''; //微信用户头像
-    this.wechat_nickname = getStore('wechat_nickname') ? getStore('wechat_nickname') : ''; //微信用户昵称
+
+    // 获取已授权微信信息
+    let localData = (getStore('localData'))? JSON.parse(getStore('localData')) : '';
+    this.wechat_id = localData.wechat_id ? localData.wechat_id : ''; //微信id
+    this.wechat_avatar = localData.wechat_avatar ? localData.wechat_avatar : ''; //微信用户头像
+    this.wechat_nickname = localData.wechat_nickname ? localData.wechat_nickname : ''; //微信用户昵称
 
     if(this.wechat_id){ // 微信已授权登录，获取收集的金币列表
       this.getJbList(this.wechat_id);
