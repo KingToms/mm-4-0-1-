@@ -107,13 +107,12 @@ import keyConf from "../../../common/keyConf";
 import common from "../../../common/common"
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { setStore } from "../../../common/store";
+import { setStore, getStore } from "../../../common/store";
 import { getCode, authLogin, userIsLogin, getPrizeList, getLuckDraw, getMoreDraw } from "@/service/getData";
 export default {
   name: "luckDraw1230",
   data() {
     return {
-      plid: '', // 推广来源
       isbg: false, //虚化背景
       first_state: true, // 第一次领取
       // gift_txt: ['PBA经典款BB霜 小样', '玛丽黛佳 怪怪收纳袋', 'Won-in箱包（双肩）', '雅美菲套刷', '玛丽黛佳 巴黎时装周妆容别册', '柚花少女套盒', '俏猫888元美妆券', 'IPHONE X'],
@@ -128,15 +127,20 @@ export default {
       rdm: 0, // 转盘转到哪
       timer: null, // 定时器
 
-      /*注册登录窗口---开始*/
+      /*---注册登录窗口---开始*/
+      wechat_id: '', //微信id
+      wechat_avatar: '', //微信用户头像
+      wechat_nickname: '', //微信用户昵称
+
       countdown: 60,
-      mobile: '',
-      code: '',
+      mobile: '', // 手机号
+      code: '', // 验证码
+      plid: '', // 推广来源
       iconShow: '',
       isShow: false, // 是否显示登录弹框
       login_state: false, // 登录时登录状态
       login_con: "马上抽奖",
-      /*注册登录窗口---结束*/
+      /*---注册登录窗口---结束*/
 
       shareBoxShow: false, // 分享指引
       shareData: { // APP分享
@@ -368,14 +372,22 @@ export default {
           });
           return
         }
-
-        this.login_state = true;
+        this.login_state = true; // 显示登录窗口
         this.login_con = "抽奖准备中...";
-        this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-                  // 获取本地存储，微信授权的ID、昵称、头像作为参数返回后台，若为空，则跳转到~俏猫美丽小城
-                  
 
-        let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid });
+        this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+        this.wechat_id = getStore('wechat_id') ? getStore('wechat_id') : ''; //微信id
+        this.wechat_avatar = getStore('wechat_avatar') ? getStore('wechat_avatar') : ''; //微信用户头像
+        this.wechat_nickname = getStore('wechat_nickname') ? getStore('wechat_nickname') : ''; //微信用户昵称
+
+        let result = await authLogin({
+          mobile: this.mobile,
+          code: this.code,
+          plid: this.plid,
+          wechat_id: this.wechat_id,
+          wechat_avatar: this.wechat_avatar,
+          wechat_nickname: this.wechat_nickname
+        });
         if (result.status == 'ok') {
           $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
           setStore(keyConf.userMoile, this.mobile)
