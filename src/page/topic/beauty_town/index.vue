@@ -25,6 +25,7 @@
         <brandShow :brandShowBox="brandShowBox" ref="child" v-on:childMethod="funCalcGoldNumber"></brandShow>
         <div class="alter-wrap" v-if="alertBox">
             <div class="alter">
+                <router-link to="" class="luck-draw"></router-link>
                 <img class="full" :src="alertImg" alt="">
                 <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="funCloseAlert">
             </div>
@@ -78,6 +79,10 @@
                     'wechat_avatar': 'https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg',
                     'wechat_nickname': 'hero'
                 },
+                luckDrawNum: {
+                    'be_num': null,
+                    'in_num': null
+                },
                 brandShowBox: {
                     status: false,
                     title: false,
@@ -102,12 +107,12 @@
                 let goldImgNum = goldImg.length;
                 for (let i = 0; i < goldImg.length; i++) {
                     goldImg[i].onload = () => {
-                        console.log('完成' + goldImg[i].src, goldImg[i].height);
                         if (!--goldImgNum) {
                             let topicMain = document.getElementById('topic-main');
                             setTimeout(() => {
                                 $('html,body').scrollTop(topicMain.scrollHeight);
-                            }, 3000);
+                                topicMain.style.opacity = '1';
+                            }, 2000);
                         }
                     }
                 }
@@ -148,6 +153,7 @@
         created () {
             this.funTopicThreeYearAquser();
             this.funTopicThreeGoldList();
+            localStorage.setItem('localData', JSON.stringify(this.localData));
         },
         methods: {
             /**
@@ -155,9 +161,11 @@
              */
             async funTopicThreeYearAquser () {
                 let res = await topicThreeYearAquser();
-                console.log(res);
                 if (res.status === 'ok') {
-                    console.log(res);
+                    this.luckDrawNum = {
+                        'be_num': res['topic_qcat3_num']['be_num'],
+                        'in_num': res['topic_qcat3_num']['in_num']
+                    }
                 }
             },
             /**
@@ -174,12 +182,11 @@
                     }
                 }
             },
+            /**
+             * 俏猫-专题三周年金币领取
+             */
             async funTopicThreeGetGold (goleIndex) {
-                let res = await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
-                console.log(res);
-                if (res.status === 'ok') {
-                    console.log(res);
-                }
+                await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
             },
             click () {
                 this.$refs.child.callMethod();
@@ -253,7 +260,9 @@
              * 点击猫头抽奖
              */
             funClick () {
-                if (this.getGoldItem.length > 9) {
+                if (this.luckDrawNum['be_num'] == 0 && this.luckDrawNum['in_num'] == 3) {
+                    alert('已用完抽奖机会');
+                } else if (this.getGoldItem.length > 9) {
                     this.$router.push('/topic-beauty-town/luckdraw');
                 }
             },
@@ -283,6 +292,10 @@
 </script>
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
+
+    #topic-main {
+        opacity: 0;
+    }
 
     .block-img {
         position: relative;
