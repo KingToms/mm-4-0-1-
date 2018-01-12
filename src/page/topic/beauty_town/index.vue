@@ -3,10 +3,7 @@
         <img :src="`/static/topic/beauty_down/index/web/${(bgmStatus)?'':'un_'}music_icon.png`" alt="" class="bgm" @click="funBGM">
         <img src="/static/topic/beauty_down/index/web/icon_rule.png" alt="" class="icon-rule" @click="funShowRule">
         <img src="/static/topic/beauty_down/index/web/tab_top.png" alt="" class="top-mask">
-        <div class="tab-win">
-            <p class="txt-tips">{{getGift}}</p>
-            <img src="/static/topic/beauty_down/index/web/tab_win.png" alt="" class="full">
-        </div>
+        <tabWin></tabWin>
         <img src="/static/topic/beauty_down/index/web/clickMe.png" alt="" class="click-me" v-if="getGoldItem.length>=10">
         <div class="footer-box">
             <div class="left-box">
@@ -67,8 +64,10 @@
     </div>
 </template>
 <script>
+    import tabWin from './winning_list'
     import brandShow from './alert'
-    import {topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
+    import {getWechatCode, WechatLogin, topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
+    import commonJS from '../../../common/common.js'
 
     export default {
         name: "brandDisplay",
@@ -91,7 +90,6 @@
                     images: [],
                 },
                 alertBox: true,
-                getGift: '恭喜 hero 获得 iPhone X',
                 getGoldItem: [], // 获得的金币
                 bgmStatus: true,
                 bgMusic: new Audio(),
@@ -151,11 +149,43 @@
             });
         },
         created () {
-            this.funTopicThreeYearAquser();
-            this.funTopicThreeGoldList();
+            if (commonJS.getQueryString('code')) {
+                // 071yqdLy1Uumsh02gtLy1aocLy1yqdLU
+                this.funWechatLogin();
+                this.funTopicThreeYearAquser();
+                this.funTopicThreeGoldList();
+            } else {
+                // 没有code,则获取微信code
+                this.funGetWechatCode();
+            }
             localStorage.setItem('localData', JSON.stringify(this.localData));
         },
         methods: {
+            /**
+             * 获取微信code
+             */
+            async funGetWechatCode () {
+                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com'});
+                console.log(res);
+                if (res.status === 'ok') {
+                    location.href = res.url;
+                }
+            },
+            /**
+             * 微信code绑定
+             */
+            async funWechatLogin () {
+                let res = await WechatLogin({code: commonJS.getQueryString('code')});
+                console.log(res);
+                if (res.data) {
+                    this.localData = {
+                        'wechat_id': res.data['unionid'],
+                        'wechat_avatar': res.data['headimgurl'],
+                        'wechat_nickname': res.data['nickname']
+                    };
+                    localStorage.setItem('localData', JSON.stringify(this.localData));
+                }
+            },
             /**
              * 俏猫-专题三周获奖用户列表
              */
@@ -287,7 +317,7 @@
                 this.alertBox = false;
             }
         },
-        components: {brandShow}
+        components: {tabWin, brandShow}
     }
 </script>
 <style lang="scss" scoped>
@@ -356,26 +386,6 @@
         top: 0;
         left: 0;
         z-index: 1;
-    }
-
-    .tab-win {
-        position: fixed;
-        top: 0;
-        width: 70%;
-        left: 15%;
-        z-index: 10;
-        .txt-tips {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            color: #fff;
-            font-size: 12px;
-            margin-top: -20px;
-            font-weight: 700;
-            @include lineHeight(30px);
-            text-align: center;
-        }
     }
 
     .gold-img {
