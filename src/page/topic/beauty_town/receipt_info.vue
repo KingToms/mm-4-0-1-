@@ -1,7 +1,7 @@
 <template>
   <div class="receipt-box">
     <img class="bg-img" src="/static/topic/beauty_down/luckdraw_3/bg_submit.jpg" alt="">
-    <div class="info-box">
+    <div class="info-box" v-if="!resultState">
       <p class="title">填写收货信息</p>
       <div class="info">
         <input type="text" v-model="infoObj.real_name" class="content" placeholder="收货人">
@@ -16,10 +16,24 @@
           <i class="icon-delete" v-show="part_address.length > 0" @click="resetText()"></i>
         </div>
       </div>
-      <p class="tips">我们会在5个工作日将礼品寄给你哦~</p>
+      <p class="tips">我们会在5个工作日内将礼品寄给你，到付不包邮哦~</p>
       <div class="submit" @click="submitInfo">提交</div>
     </div>
+    <!--结果提醒-->
+    <div class="result-box" v-else>
+      <img src="/static/topic/beauty_down/luckdraw_3/submit_success.png" alt="提交成功">
+      <div class="next-box">
+        <span class="next" @click="shareBoxShow = true"></span>
+        <span class="next" @click="goQuestionnaire"></span>
+      </div>
+    </div>
 
+    <!--分享指引-->
+    <div class="share-guide" @click="hideShareBox" v-if="shareBoxShow">
+      <div>
+        <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
+      </div>
+    </div>
     <myAddress :showAddressPicker="showAddressPicker" :init="area" @save-address="saveAddress" @hide-picker="hidePicker"></myAddress>
   </div>
 </template>
@@ -43,6 +57,8 @@ export default {
       showAddressPicker: false, // 显示地区选择
       area: '所在地区', // 所在地区
       part_address: '', // 详细地址
+      shareBoxShow: false, // 分享指引
+      resultState: false, // 提交结果显示
     };
   },
   created() {
@@ -76,8 +92,7 @@ export default {
     async setFullAddress(infoObj) {
       let res = await setAddData(infoObj);
       if (res.status == 'ok') {
-        alert('我们会在5个工作日将礼品寄给你哦~');
-        this.$router.push('./luckdraw');
+        this.resultState = true; // 提交成功
       }else{
         alert(res.msg);
         this.$router.push('/topic-beauty-town');
@@ -128,6 +143,15 @@ export default {
       }
 
     },
+
+    /*跳转到调查问卷*/
+    goQuestionnaire() {
+      this.$router.push('./questionnaire');
+    },
+    // 隐藏分享指引
+    hideShareBox (){
+      this.shareBoxShow = false;
+    },
   },
 }
 </script>
@@ -137,7 +161,8 @@ export default {
   .bg-img {
     vertical-align: top;
     width: 100%;
-  } // 收货信息
+  } 
+  // 收货信息
   .info-box {
     position: absolute;
     left: 10%;
@@ -209,7 +234,7 @@ export default {
     .tips {
       font-size: 1.4rem;
       color: #000;
-      line-height: 1.4rem;
+      line-height: 1.5em;
       margin-top: 0.6rem;
     } // 提交
     .submit {
@@ -222,7 +247,59 @@ export default {
       color: #fff;
       cursor: pointer;
       font-size: 1.8rem;
-      margin-top: 3.5rem;
+      margin-top: 3rem;
+    }
+  }
+  // 提交结果
+  .result-box {
+    position: absolute;
+    left: 10%;
+    top: 35%;
+    width: 80%;
+    img {
+      width: 100%;
+      margin-top: 3rem;
+    }
+    // 分享、问卷
+    .next-box {
+      position: absolute;
+      left: 0;
+      bottom: 0.2rem;
+      span.next {
+        display: inline-block;
+        width: 12.5rem;
+        height: 4.4rem;
+        line-height: 4.4rem;
+        font-size: 1.8rem;
+        text-align: center;
+        color: #fff;
+        border-radius: 4rem;
+        cursor: pointer;
+        margin-left: 1rem;
+        &:nth-of-type(2){
+          margin-left: 3rem;
+        }
+      }
+    }
+  }
+
+  // 分享指引
+  .share-guide {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    div {
+      width: 100%;
+      height: 100%;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

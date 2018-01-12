@@ -72,7 +72,8 @@
 <script>
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { setQuestionnaire, getMoreDraw } from "@/service/getData"
+import { setQuestionnaire, getMoreDraw } from "@/service/getData";
+import { setStore, getStore } from "../../../common/store";
 export default {
   name: "questionnaire",
   data() {
@@ -82,6 +83,8 @@ export default {
       answer: ["A", "B", "C", "D"],
       index: '0',
       submitBtn: false, // 默认不显示提交答案按钮
+
+      questionnaire: '', // 是否提交过问卷
     };
   },
   mounted(){
@@ -128,24 +131,32 @@ export default {
 
     // 提交问卷答案
     async submitResult(){
-      if(this.answerList.length < 5){
-        Toast({
-          message: '部分题目未选择答案',
-          duration: 1000,
-          className: 'toast-tip'
-        });
-        return
-      }else{
-        let res = await setQuestionnaire({q_key: this.answerList.join(',')});
-        if(res.status == "ok"){
+      this.questionnaire = getStore('questionnaire') ? getStore('questionnaire') : '';
+      if(this.questionnaire == 'ok'){
+        alert('您已提交过问卷，不用重复提交~');
+        this.$router.push('./luckdraw'); // 重新调回到抽奖页面
+      }else{ // 第一次提交问卷
+        if(this.answerList.length < 5){
           Toast({
-            message: '问卷提交成功',
-            duration: 200,
+            message: '部分题目未选择答案',
+            duration: 1000,
             className: 'toast-tip'
           });
+          return
+        }else{
+          let res = await setQuestionnaire({q_key: this.answerList.join(',')});
+          if(res.status == "ok"){
+            setStore('questionnaire', 'ok'); // 记录提交了问卷
+            Toast({
+              message: '问卷提交成功',
+              duration: 200,
+              className: 'toast-tip'
+            });
 
-          this.getMoreLuckdraw('paper');
+            this.getMoreLuckdraw('paper');
+          }
         }
+
       }
     },
 

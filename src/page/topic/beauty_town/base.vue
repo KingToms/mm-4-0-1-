@@ -18,6 +18,7 @@
                 if(res.status == 'ok'){
                     // 增加了一次抽奖机会
                     alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+                    this.$router.push('./luckdraw');
                 }
             },
 
@@ -41,7 +42,10 @@
                     imgUrl: imgUrl,
                     success: function (res) {
                         console.log(1, res);
-                        if(this.$route.path == '/topic-beauty-town/luckdraw'){
+                        if(
+                            this.$route.path == '/topic-beauty-town/luckdraw' || 
+                            this.$route.path == '/topic-beauty-town/receipt'
+                        ){
                             // 微信分享成功回调
                             this.getMoreLuckdraw('share');
                         }
@@ -57,7 +61,10 @@
                     success: function (res) {
                         //todo
                         console.log(2, res);
-                        if(this.$route.path == '/topic-beauty-town/luckdraw'){
+                        if(
+                            this.$route.path == '/topic-beauty-town/luckdraw' || 
+                            this.$route.path == '/topic-beauty-town/receipt'
+                        ){
                             // 微信分享成功回调
                             this.getMoreLuckdraw('share');
                         }
