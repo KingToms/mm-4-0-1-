@@ -1,5 +1,7 @@
 <template>
-    <div class="topic-main">
+    <div id="topic-main">
+        <img :src="`/static/topic/beauty_down/index/web/${(bgmStatus)?'':'un_'}music_icon.png`" alt="" class="bgm" @click="funBGM">
+        <img src="/static/topic/beauty_down/index/web/icon_rule.png" alt="" class="icon-rule" @click="funShowRule">
         <img src="/static/topic/beauty_down/index/web/tab_top.png" alt="" class="top-mask">
         <div class="tab-win">
             <p class="txt-tips">{{getGift}}</p>
@@ -20,11 +22,10 @@
             </div>
             <img :src="`/static/topic/beauty_down/index/web/logo${(goldNumber>9)?'_1':''}.png`" alt="" class="logo" @click="funClick">
         </div>
-        <brandShow :brandShowBox="brandShowBox"></brandShow>
+        <brandShow :brandShowBox="brandShowBox" ref="child" v-on:childMethod="funCalcGoldNumber"></brandShow>
         <div class="alter-wrap" v-if="alertBox">
             <div class="alter">
                 <img class="full" :src="alertImg" alt="">
-                <a href=""></a>
                 <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="funCloseAlert">
             </div>
             <div class="alert-mask"></div>
@@ -73,12 +74,16 @@
             return {
                 brandShowBox: {
                     status: false,
+                    title: false,
+                    isBtn: true,
+                    href: '',
                     images: []
                 },
-                alertBox: false,
+                alertBox: true,
                 getGift: '恭喜 hero 获得 iPhone X',
                 goldNumber: 0,
                 getGoldItem: [], // 获得的金币
+                bgmStatus: true,
                 bgMusic: new Audio(),
                 goldMusic: new Audio(),
                 alertImg: '/static/topic/beauty_down/index/web/synopsis.png'
@@ -86,49 +91,91 @@
         },
         mounted () {
             let _this = this;
-            let musicPath = '/static/topic/beauty_down/index/';
-            this.bgMusic.src = `${musicPath}3years-bgm.mp3`;
-            this.goldMusic.src = `${musicPath}getGoldMusic.mp3`;
-            this.bgMusic.loop = 'loop';
-            this.bgMusic.play();
+            this.$nextTick(function () {
+                let goldImg = document.getElementsByClassName('full');
+                let goldImgNum = goldImg.length;
+                for (let i = 0; i < goldImg.length - 1; i++) {
+                    goldImg[i].onload = () => {
+                        if (--goldImgNum <= 1) {
+                            let topicMain = document.getElementById('topic-main');
+                            topicMain.scrollTop = topicMain.scrollHeight;
+                        }
+                    }
+                }
 
-            /**
-             * 原理是在微信易信执行Ready之前，先注册事件，所以放在所有请求的最前面
-             * 给个全局函数
-             */
-            document.addEventListener("WeixinJSBridgeReady", function () {
-                audioAutoPlay('audio');
-            }, false);
-            document.addEventListener('YixinJSBridgeReady', function () {
-                audioAutoPlay('audio');
-            }, false);
+                this.bgMusic.src = '/static/topic/beauty_down/index/3years-bgm.mp3';
+                this.goldMusic.src = '/static/topic/beauty_down/index/getGoldMusic.mp3';
+                this.bgMusic.loop = 'loop';
+                this.bgMusic.play();
+                /**
+                 * 原理是在微信易信执行Ready之前，先注册事件，所以放在所有请求的最前面
+                 * 给个全局函数
+                 */
+                document.addEventListener("WeixinJSBridgeReady", function () {
+                    audioAutoPlay('audio');
+                }, false);
+                document.addEventListener('YixinJSBridgeReady', function () {
+                    audioAutoPlay('audio');
+                }, false);
 
-            /**
-             * 全局控制播放函数
-             */
-            function audioAutoPlay () {
-                let play = function () {
+                /**
+                 * 全局控制播放函数
+                 */
+                function audioAutoPlay () {
+                    let play = function () {
+                        _this.bgMusic.play();
+                        document.removeEventListener("touchstart", play, false);
+                    };
                     _this.bgMusic.play();
-                    document.removeEventListener("touchstart", play, false);
-                };
-                _this.bgMusic.play();
-                document.addEventListener("touchstart", play, false);
-            }
+                    document.addEventListener("touchstart", play, false);
+                }
 
-            let isAppInside = /micromessenger/i.test(navigator.userAgent.toLowerCase()) || /yixin/i.test(navigator.userAgent.toLowerCase());
-            if (!isAppInside) {
-                audioAutoPlay();//给非微信易信浏览器
-            }
+                let isAppInside = /micromessenger/i.test(navigator.userAgent.toLowerCase()) || /yixin/i.test(navigator.userAgent.toLowerCase());
+                if (!isAppInside) {
+                    audioAutoPlay();//给非微信易信浏览器
+                }
+            });
         },
         created () {},
         methods: {
+            click () {
+                this.$refs.child.callMethod();
+            },
+            funBrandHerf (index) {
+                let href = {
+                    '1': 'http://mm.qiaocat.com/home/recommend?plid=103', // 全民便利店
+                    '2': 'http://m.qiaocat.com/topic-BrideMakeups', // 俏猫婚策店
+                    '3': 'http://mm.qiaocat.com/topic-annual-makeup?plid=94&from=banner&plid=104', // 全明星工厂
+                    '4': 'https://shop13319964.wxrrd.com/', // 俏猫商城
+                    '5': 'http://www.omicy.com/goods-100371.html?code=tg_qmszn_gdn_20170110', // 无敏氏
+                    '6': 'http://mobile.uzise.com/topic-20180108?code=tg_qmszn_gdn_20180110', // 柚子舍
+                    '7': 'http://shop.m.jd.com/?shopId=695770', // 伊肤泉
+                    '8': 'http://55919434.m.weimob.com/vshop/55919434/index', // 蓓缇佳儿
+                    '9': 'https://kdt.im/pFjPKh', // 哇吲
+                    '12': 'https://common.ofo.so/campaign/rbqpacket/?channel=33096_1513866284564&banner=https%3A%2F%2Fimg.ofo.so%2Fcms%2F93be09038c920940a7dd5cdf2ba88ab5.jpg', // ofo
+                    '14': 'http://m.tb.cn/h.ztJ8UL', // 雅美菲
+
+                };
+                return href[index];
+            },
             /**
              * 获得金币后弹出展示品牌
              */
-            funGetGoldAlaert () {
-                // this.alertImg = '/static/topic/beauty_down/index/web/getGold.png';
+            funGetGoldAlaert (goldIndex) {
+                let images = [];
+                if (goldIndex === 10) {
+                    this.brandShowBox.isBtn = false;
+                    for (let i = 1; i <= 8; i++) {
+                        images.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
+                    }
+                } else {
+                    this.brandShowBox.isBtn = true;
+                    images = [`/static/topic/beauty_down/index/brand/${goldIndex}.jpg`];
+                }
+                this.brandShowBox.images = images;
                 this.brandShowBox.status = true;
-                this.brandShowBox.images = this.getGoldItem;
+                this.brandShowBox.href = this.funBrandHerf(goldIndex);
+                this.click();
             },
             /**
              * 收集金币
@@ -139,17 +186,25 @@
                 this.goldMusic.play();
                 this.goldNumber++;
                 this.getGoldItem.push(goldIndex);
-                this.funCalcGoldNumber();
-                this.funGetGoldAlaert();
+                this.funGetGoldAlaert(goldIndex);
             },
             /**
-             * 计算金币数量
+             * 获得所有金币后弹出
              */
             funCalcGoldNumber () {
+                this.brandShowBox.status = false;
                 if (this.goldNumber >= 14) {
                     this.alertImg = '/static/topic/beauty_down/index/web/gold_10.png';
                     this.alertBox = true;
                 }
+            },
+            /**
+             * 活动规则
+             */
+            funShowRule () {
+                this.brandShowBox.status = false;
+                this.alertImg = '/static/topic/beauty_down/index/web/rule.png';
+                this.alertBox = true;
             },
             /**
              * 点击猫头抽奖
@@ -160,9 +215,23 @@
                 }
             },
             /**
+             * 背景音乐开关
+             */
+            funBGM () {
+                this.brandShowBox.status = false;
+                if (this.bgMusic.paused) {
+                    this.bgMusic.play();
+                } else {
+                    this.bgMusic.pause();
+                }
+                this.bgmStatus = !this.bgMusic.paused;
+            },
+            /**
              * 关闭弹窗
              */
             funCloseAlert () {
+                this.alertImg = '';
+                this.brandShowBox.status = false;
                 this.alertBox = false;
             }
         },
@@ -172,7 +241,7 @@
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
 
-    .topic-main {
+    #topic-main {
         overflow: auto;
     }
 
@@ -324,7 +393,8 @@
             padding: 20px;
             width: 90%;
             left: 5%;
-            top: 20%;
+            top: 50%;
+            transform: translateY(-50%);
             z-index: 30;
             text-align: center;
         }
@@ -357,5 +427,19 @@
         bottom: 80px;
         width: 90px;
         z-index: 10;
+    }
+
+    .bgm, .icon-rule {
+        position: fixed;
+        z-index: 20;
+        top: 15px;
+        left: 15px;
+    }
+
+    .icon-rule {
+        right: 5px;
+        left: initial;
+        top: 10%;
+        width: 84px;
     }
 </style>
