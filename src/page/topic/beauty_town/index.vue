@@ -74,7 +74,7 @@
         data () {
             return {
                 localData: {
-                    'wechat_id': 'qiu_yongjin',
+                    'wechat_id': 'qiu_yongjin2',
                     'wechat_avatar': 'https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg',
                     'wechat_nickname': 'hero'
                 },
@@ -388,64 +388,65 @@
         z-index: 1;
     }
 
+    @mixin dongHua($index,$top,$left) {
+        @keyframes #{$index} {
+            from {
+                top: $top;
+            }
+            to {
+                top: $top - 5;
+            }
+        }
+
+        top: $top;
+        left: $left;
+        animation: $index 2s infinite alternate;
+    }
+
     .gold-img {
         position: absolute;
         width: 12%;
         &.gold-1 {
-            top: 46%;
-            left: 42%;
+            @include dongHua(gold1, 46%, 42%);
         }
         &.gold-2 {
-            top: 24%;
-            left: 75%;
+            @include dongHua(gold2, 24%, 75%);
         }
         &.gold-3 {
-            top: 12%;
-            left: 23%;
+            @include dongHua(gold3, 12%, 23%);
         }
         &.gold-4 {
-            top: 67%;
-            left: 72%;
+            @include dongHua(gold4, 67%, 72%);
         }
         &.gold-5 {
-            top: 31%;
-            left: 60%;
+            @include dongHua(gold5, 31%, 60%);
         }
         &.gold-6 {
-            top: 2%;
-            left: 31%;
+            @include dongHua(gold6, 2%, 31%);
         }
         &.gold-7 {
-            top: 45%;
-            left: 87%;
+            @include dongHua(gold7, 45%, 87%);
         }
         &.gold-8 {
-            top: 12%;
-            left: 51%;
+            @include dongHua(gold8, 12%, 51%);
         }
         &.gold-9 {
-            top: 7%;
-            left: 15%;
+            @include dongHua(gold9, 7%, 15%);
         }
         &.gold-10 {
-            top: 73%;
-            left: 74%;
+            @include dongHua(gold10, 73%, 74%);
         }
         &.gold-11 {
-            top: 74%;
-            left: 33%;
+            @include dongHua(gold11, 74%, 33%);
         }
         &.gold-12 {
-            top: 6%;
-            left: 17%;
+            @include dongHua(gold12, 6%, 17%);
         }
         &.gold-13 {
-            top: 64%;
-            left: 69%;
+            @include dongHua(gold13, 64%, 69%);
         }
         &.gold-14 {
-            top: 54%;
-            left: 25%;
+            @include dongHua(gold14, 54%, 25%);
         }
     }
 
