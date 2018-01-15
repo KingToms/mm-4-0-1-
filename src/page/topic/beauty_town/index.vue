@@ -177,7 +177,7 @@
              * 获取微信code
              */
             async funGetWechatCode () {
-                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com'});
+                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
                 console.log(res);
                 if (res.status === 'ok') {
                     location.href = res.url;
