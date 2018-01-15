@@ -267,7 +267,7 @@
                 this.brandShowBox.images = images;
                 this.brandShowBox.status = true;
                 this.brandShowBox.href = this.funBrandHerf(goldIndex);
-                // this.funTopicThreeGetGold(goldIndex);
+                this.funTopicThreeGetGold(goldIndex);
                 this.click();
             },
             /**
@@ -410,6 +410,15 @@
         z-index: 1;
     }
 
+    @keyframes tips-cj {
+        from {
+            bottom: 85px;
+        }
+        to {
+            bottom: 80px;
+        }
+    }
+
     @mixin dongHua($index,$top,$left) {
         @keyframes #{$index} {
             from {
@@ -522,6 +531,7 @@
         bottom: 80px;
         width: 90px;
         z-index: 10;
+        animation: tips-cj 1s infinite alternate;
     }
 
     .bgm, .icon-rule {
