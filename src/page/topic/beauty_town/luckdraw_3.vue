@@ -157,7 +157,7 @@ export default {
       shareData: { // APP分享
         title: '美丽小城，俏猫三周年！',
         desc: '俏猫三周年·集金币抽iphoneX~',
-        link: 'http://mm.qiaocat.com/topic-beauty-town?plid=101',
+        link: 'http://mm.qiaocat.com/topic-beauty-town',
         imgUrl: 'http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg'
       },
     };

@@ -13,11 +13,8 @@
         methods: {
             /* 增加获奖次数 */
             async getMoreLuckdraw(addType) {
-                alert(this.$route.path);
+                // 微信分享成功回调
                 if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
-                    // 微信分享成功回调
-                    alert("页面回调");
-
                     // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
                     let res = await getMoreDraw({type: addType});
                     if(res.status == 'ok'){
@@ -49,7 +46,6 @@
                     imgUrl: imgUrl,
                     success: function (res) {
                         console.log(1, res);
-                        alert("分享成功");
                         _this.getMoreLuckdraw('share');
 
                     },
@@ -64,7 +60,6 @@
                     success: function (res) {
                         //todo
                         console.log(2, res);
-                        alert("分享成功");
                         _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {
