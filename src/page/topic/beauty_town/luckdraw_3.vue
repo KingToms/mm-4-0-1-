@@ -134,6 +134,7 @@ export default {
       n: 0,
       rdm: 0, // 转盘转到哪
       timer: null, // 定时器
+      
 
       /*---注册登录窗口---开始*/
       wechat_id: '', //微信id
