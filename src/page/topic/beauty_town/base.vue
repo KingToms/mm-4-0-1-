@@ -29,7 +29,7 @@
                     _this.share_setup(
                         "美丽小城，俏猫三周年！",
                         "俏猫三周年·集金币抽iphoneX~",
-                        "http://mm.qiaocat.com/topic-luckdraw-town",
+                        "http://mm.qiaocat.com/topic-beauty-town",
                         "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg"
                     );
                 });
@@ -42,11 +42,10 @@
                     imgUrl: imgUrl,
                     success: function (res) {
                         console.log(1, res);
-                        if(
-                            this.$route.path == '/topic-beauty-town/luckdraw' || 
-                            this.$route.path == '/topic-beauty-town/receipt'
-                        ){
+                        alert("分享成功");
+                        if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
                             // 微信分享成功回调
+                            alert("页面回调");
                             this.getMoreLuckdraw('share');
                         }
                     },
@@ -61,11 +60,10 @@
                     success: function (res) {
                         //todo
                         console.log(2, res);
-                        if(
-                            this.$route.path == '/topic-beauty-town/luckdraw' || 
-                            this.$route.path == '/topic-beauty-town/receipt'
-                        ){
+                        alert("分享成功");
+                        if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
                             // 微信分享成功回调
+                            alert("页面回调");
                             this.getMoreLuckdraw('share');
                         }
                     },
