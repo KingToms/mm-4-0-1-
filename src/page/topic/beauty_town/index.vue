@@ -249,6 +249,7 @@
                     '8': 'http://55919434.m.weimob.com/vshop/55919434/index', // 蓓缇佳儿
                     '9': 'https://kdt.im/pFjPKh', // 哇吲
                     '12': 'https://common.ofo.so/campaign/rbqpacket/?channel=33096_1513866284564&banner=https%3A%2F%2Fimg.ofo.so%2Fcms%2F93be09038c920940a7dd5cdf2ba88ab5.jpg', // ofo
+                    '13': 'http://mm.qiaocat.com/topic-brandDisplay', // 俏猫交友中心
                     '14': 'http://m.tb.cn/h.ztJ8UL', // 雅美菲
 
                 };
