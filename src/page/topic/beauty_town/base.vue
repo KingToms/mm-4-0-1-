@@ -13,12 +13,18 @@
         methods: {
             /* 增加获奖次数 */
             async getMoreLuckdraw(addType) {
-                // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
-                let res = await getMoreDraw({type: addType});
-                if(res.status == 'ok'){
-                    // 增加了一次抽奖机会
-                    alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
-                    this.$router.push('./luckdraw');
+                alert(this.$route.path);
+                if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
+                    // 微信分享成功回调
+                    alert("页面回调");
+
+                    // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+                    let res = await getMoreDraw({type: addType});
+                    if(res.status == 'ok'){
+                        // 增加了一次抽奖机会
+                        alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+                        this.$router.push('./luckdraw');
+                    }
                 }
             },
 
@@ -43,11 +49,8 @@
                     success: function (res) {
                         console.log(1, res);
                         alert("分享成功");
-                        if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
-                            // 微信分享成功回调
-                            alert("页面回调");
-                            this.getMoreLuckdraw('share');
-                        }
+                        this.getMoreLuckdraw('share');
+
                     },
                     error: function (err) {
                         console.log(1, err);
@@ -61,11 +64,7 @@
                         //todo
                         console.log(2, res);
                         alert("分享成功");
-                        if(this.$route.path == '/topic-beauty-town/luckdraw' || this.$route.path == '/topic-beauty-town/receipt'){
-                            // 微信分享成功回调
-                            alert("页面回调");
-                            this.getMoreLuckdraw('share');
-                        }
+                        this.getMoreLuckdraw('share');
                     },
                     error: function (err) {
                         console.log(2, err);
