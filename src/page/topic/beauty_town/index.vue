@@ -163,7 +163,7 @@
         created () {
             this.localData = JSON.parse(localStorage.getItem('localData'));
             // 如果有微信ID,测不用再次授权
-            if (this.localData.wechat_id) {
+            if (this.localData) {
                 this.funWechatLogin();
                 this.funTopicThreeYearAquser();
                 this.funTopicThreeGoldList();
