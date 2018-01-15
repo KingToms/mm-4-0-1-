@@ -175,6 +175,8 @@ export default {
     if(this.wechat_id){ // 微信已授权登录，获取收集的金币列表
       this.getJbList(this.wechat_id);
     }
+
+    this.shareWechat();
   },
   mounted() {
     /*使大转盘盒子显示为正方形*/
@@ -193,6 +195,49 @@ export default {
 
   },
   methods: {
+    /*微信分享*/
+    shareWechat () {
+        let _this = this;
+        wx.ready(function () {
+            _this.share_setup(
+                "美丽小城，俏猫三周年！",
+                "俏猫三周年·集金币抽iphoneX~",
+                "http://mm.qiaocat.com/topic-beauty-town",
+                "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg"
+            );
+        });
+    },
+    share_setup (title, desc, link, imgUrl) {
+        let _this = this;
+        wx.onMenuShareAppMessage({
+            title: title,
+            desc: desc,
+            link: link,
+            imgUrl: imgUrl,
+            success: function (res) {
+                console.log(1, res);
+                _this.getMoreLuckdraw('share');
+
+            },
+            error: function (err) {
+                console.log(1, err);
+            }
+        });
+        wx.onMenuShareTimeline({
+            title: title,
+            link: link,
+            imgUrl: imgUrl,
+            success: function (res) {
+                //todo
+                console.log(2, res);
+                _this.getMoreLuckdraw('share');
+            },
+            error: function (err) {
+                console.log(2, err);
+            }
+        });
+    },
+
     /*增加获奖次数*/
     async getMoreLuckdraw(addType) {
       // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
