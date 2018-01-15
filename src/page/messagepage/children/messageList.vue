@@ -2,7 +2,7 @@
   <router-link :to="list.url" tag="div" class="li_list">
     <div class="icon">
       <img :src="list.image" alt="" onerror="this.src='../../../../static/icon/message/service_icon_user.png'">
-      <img src="../../../../static/icon/message/info_icon_list_red.png" alt="新消息" class="new_message">
+      <img src="../../../../static/icon/message/info_icon_list_red.png" alt="新消息" class="new_message" v-show="list.has_new">
     </div>
     <div class="content">
       <p class="top clear">
@@ -25,9 +25,11 @@ export default {
       type: Object
     }
   },
+  created(){
+  },
   methods: {
 
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -66,7 +68,7 @@ div.li_list{
       }
     }
     p.text{
-      line-height: 1.2rem;
+      line-height: 1.3rem;
       @include sc(1.3rem,#999);
       margin-right: 1.5rem;
       overflow: hidden;

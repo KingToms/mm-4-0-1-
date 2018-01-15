@@ -1,11 +1,11 @@
 <template>
   <section class="activityMsg">
-    <a :href="item.link">
+    <a :href="item.href_url">
       <h3 class="title">{{item.title}}</h3>
-      <div class="img" :style="{'background-image':`url(${item.image})`}"></div>
-      <div class="content" v-html="item.description">
+      <div class="img" :style="{'background-image':`url(${item.photo})`}"></div>
+      <div class="content" v-html="item.content">
       </div>
-      <p class="time">{{item.created_at}}</p>
+      <p class="time">{{item.create_time.substring(0,10)}}</p>
     </a>
   </section>
 </template>
@@ -16,7 +16,11 @@ export default {
     return {
     };
   },
-  props:['item'],
+  props:{
+    item: {
+      type: Object
+    }
+  },
   methods: {
   }
 }

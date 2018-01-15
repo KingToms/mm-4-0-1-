@@ -3,10 +3,10 @@
     <lHeader :title="title"></lHeader>
     <section class="message_box class_box">
       <messageList :list="classList.activity"></messageList>
-      <messageList :list="classList.customer"></messageList>
+      <!--<messageList :list="classList.customer"></messageList>-->
       <messageList :list="classList.system"></messageList>
     </section>
-    <section class="message_box">
+    <section class="message_box" v-if="message_box">
       <messageList :list="messsageList"></messageList>
       <messageList :list="messsageList"></messageList>
       <messageList :list="messsageList"></messageList>
@@ -17,6 +17,7 @@
 import Vue from 'vue';
 import lHeader from '../../components/common/lHeader';
 import messageList from '../../page/messagepage/children/messageList';
+import { getMsgCenter } from '@/service/getData';
 export default {
   name: "messageCenter",
   data () {
@@ -28,26 +29,30 @@ export default {
           url: '/messageCenter/activity',
           image: '../../../static/icon/message/info_icon_list01.png',
           title: '活动消息',
-          time: '2017-07-03',
-          content: '3月8日女神节给他完美侧颜杀'
+          time: '',
+          content: '',
+          has_new: false, // 有新消息
         },
         /* 客服消息 */
         customer: {
           url: '/messageCenter/message',
           image: '../../../static/icon/message/info_icon_list02.png',
           title: '俏猫客服',
-          time: '2017-06-18',
-          content: '美业师已出发'
+          time: '',
+          content: '',
+          has_new: false, // 有新消息
         },
         /* 系统消息 */
         system: {
           url: '/messageCenter/system',
           image: '../../../static/icon/message/info_icon_list03.png',
           title: '系统消息',
-          time: '2017-07-03',
-          content: '您有1张价值100元的优惠券，将于2016年12月21日过期，请及时使用，祝你体验愉快。'
+          time: '',
+          content: '',
+          has_new: false, // 有新消息
         },
       },
+      message_box: false, // 暂不显示留言功能
       /* 订单消息 */
       messsageList: {
         url: '/messageCenter/message',
@@ -59,7 +64,29 @@ export default {
       }
     };
   },
+  created (){
+    this.getMsgCenterList();
+  },
   methods: {
+    // 获取消息中心首页
+    async getMsgCenterList (){
+      let res = await getMsgCenter();
+      if(res.status == 'ok'){
+        // console.log("res:",res);
+        // 系统消息
+        if(res.data.system){
+          this.classList.system.time = res.data.system.create_time ? res.data.system.create_time.substring(0,10) : '';
+          this.classList.system.content = res.data.system.content;
+          this.classList.system.has_new = (res.data.system.is_read == '0') ? true : false;
+        }
+        // 活动消息
+        if(res.data.topic){
+          this.classList.activity.time = res.data.topic.create_time ? res.data.topic.create_time.substring(0,10) : '';
+          this.classList.activity.content = res.data.topic.content;
+          this.classList.activity.has_new = (res.data.topic.is_read == '0') ? true : false;
+        }
+      }
+    },
   },
   components: {
     lHeader,
