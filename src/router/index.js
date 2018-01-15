@@ -175,6 +175,17 @@ const annualMakeup = r => require.ensure([], () => r(require('@/page/topic/annua
 // 2017邀新领礼品
 const inviteNewUser = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/index')), 'inviteNewUser_2017');
 const FreeGifts = r => require.ensure([], () => r(require('@/page/topic/inviteNewUser_2017/freeGifts')), 'inviteNewUser_2017');
+// 俏猫3周年品牌展示
+const brandDisplay = r => require.ensure([], () => r(require('@/page/topic/brand_display/index')), 'brandDisplay');
+// 俏猫3周年美丽小城
+const luckDrawTownBase = r => require.ensure([], () => r(require('@/page/topic/beauty_town/base')), '3rdAnniversary');
+const luckDrawTownIndex = r => require.ensure([], () => r(require('@/page/topic/beauty_town/index')), '3rdAnniversary');
+// 俏猫3周年*集金币大转盘
+const luckDrawTown = r => require.ensure([], () => r(require('@/page/topic/beauty_town/luckdraw_3')), '3rdAnniversary');
+// 俏猫3周年*问卷调查
+const Questionnaire = r => require.ensure([], () => r(require('@/page/topic/beauty_town/questionnaire')), '3rdAnniversary');
+// 俏猫3周年*收货信息
+const receiptInfo = r => require.ensure([], () => r(require('@/page/topic/beauty_town/receipt_info')), '3rdAnniversary');
 /*专题模块结束 */
 
 // 路由导向错误
@@ -521,38 +532,45 @@ const router = new Router({
         // 专题一：万圣节特效妆
         {
           path: '/topic-halloween',
+          meta: {title: '万圣节你“妆”够了吗'},
           component: Halloween
         },
         // 专题二：万圣节鬼混夜特价1元、10元
         {
           path: '/topic-dressparty',
+          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
           name: 'DressParty',
           component: DressParty,
         },
         {
           path: '/topic-dressparty/lineup/:ordersn/:dressparty',
+          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
           name: 'lineUp',
           component: lineUp,
         },
         // 专题三：万圣节鬼混夜特价0.01元
         {
           path: '/topic-makeup001',
+          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
           name: 'MakeUp_001',
           component: MakeUp_001
         },
         {
           path: '/topic-makeup001/lineup001/:ordersn/:dressparty',
+          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
           name: 'lineUp_001',
           component: lineUp_001,
         },
         // 专题四：双11美妆狂欢夜
         {
           path: '/topic-double-eleven',
+          meta: {title: '双11美妆狂欢夜'},
           component: doubleEleven
         },
         // 专题五：双11俏猫邀你领好礼
         {
         path: '/topic-sendgift',
+        meta: {title: '俏猫邀你领好礼'},
         component: sendGift
         },
         {
@@ -575,43 +593,85 @@ const router = new Router({
         },
         {
           path: '/topic-new-user-888',
+          meta: {title: '888元新人美妆大礼包'},
           component: NewUser_888
         },
         {
           path: '/topic-new-user-50',
+          meta: {title: '50元新人美妆大礼包'},
           component: NewUser_50
         },
         {
           path: '/topic-newuser-invite-600',
+          meta: {title: '俏猫|贴心的上门美业服务平台'},
           component: NewUser_600_invite
         },
         {
           path: '/topic-new-user-600',
+          meta: {title: '俏猫|贴心的上门美业服务平台'},
           component: NewUser_600
         },
         {
           path: '/topic-thanksgiving-2017',
+          meta: {title: '美睫感恩节专场'},
           component: Thanksgiving_2017
         },
         {
           path: '/topic-luckdraw-1129',
+          meta: {title: '俏猫&华工妇委抽奖转盘'},
           component: luckDraw_1129
         },
         {
           path: '/topic-luckdraw-1230',
+          meta: {title: '俏猫转盘抽奖送流量'},
           component: luckDraw_1230
         },
         {
           path: '/topic-annual-makeup',
+          meta: {title: '【双12预售】俏猫年会妆定制'},
           component: annualMakeup
         },
         {
           path: '/topic-invite-newuser',
+          meta: {title: '邀请好友，马上领钱'},
           component: inviteNewUser
         },
         {
           path: '/topic-free-gifts',
+          meta: {title: '新人专享，免费领好礼'},
           component: FreeGifts
+        },
+        {
+          path: '/topic-brandDisplay',
+          meta: {title: '俏猫3周年生日趴'},
+          component: brandDisplay
+        },
+        // 三周年--美丽小城
+        {
+          path: '/topic-beauty-town',
+          component: luckDrawTownBase,
+            children:[
+                {
+                    path:'',
+                    meta: {title: '美丽小城-俏猫三周年'},
+                    component:luckDrawTownIndex
+                },
+                {
+                    path:'luckdraw',
+                    meta: {title: '集金币大转盘-俏猫三周年'},
+                    component:luckDrawTown
+                },
+                {
+                    path:'questionnaire',
+                    meta: {title: '调查问卷-俏猫三周年'},
+                    component:Questionnaire
+                },
+                {
+                    path:'receipt',
+                    meta: {title: '填写收货信息-俏猫三周年'},
+                    component:receiptInfo
+                }
+            ]
         },
         {
           // 错误页
@@ -628,6 +688,7 @@ const router = new Router({
 })
 
  router.beforeEach((to, from, next) => {
+   if(to.meta.title) window.document.title = to.meta.title ;
    /* if(to.fullPath.indexOf('usercenter') > -1){
      debugger
    } */

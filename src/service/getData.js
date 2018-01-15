@@ -195,6 +195,23 @@ export const setPlate = (data) => fetch (`/plate/set_plate?API_VERSION=topic`, d
 export const getPrize = (data) => fetch (`/PhoneData/list_prize?API_VERSION=topic`, data, 'POST')
   // 20171230转盘抽奖
 export const setDraw = (data) => fetch (`/PhoneData/draw_data?API_VERSION=topic`, data, 'POST')
+// 俏猫3周年--美丽小城
+// 俏猫-专题三周获奖用户列表
+export const topicThreeYearAquser = () => fetch (`/topic/topic_three_year_zquser`, {}, 'POST')
+// 俏猫-专题三周年金币领取
+export const topicThreeGetGold = (data) => fetch (`/topic/topic_three_jb_lq`, data, 'POST')
+// 俏猫-专题三周年金币列表
+export const topicThreeGoldList = (data) => fetch (`/topic/topic_three_jb_list`, data, 'POST')
+  // 3周年--调查问卷答案提交
+export const setQuestionnaire = (data) => fetch (`/topic/topic_three_question`, data, 'POST')
+  // 3周年--抽奖奖品列表
+export const getPrizeList = (data) => fetch (`/topic/qcat3_list_prize`, data, 'POST')
+  // 3周年--抽奖
+export const getLuckDraw = (data) => fetch (`/topic/topic_draw3`, data, 'POST')
+  // 3周年--增加抽奖次数
+export const getMoreDraw = (data) => fetch (`/topic/set_qcat3_num`, data, 'POST')
+  // 3周年-- 完善收货地址
+export const setAddData = (data) => fetch (`/topic/add_data`, data, 'POST')
 
 // 获取订单状态数据
 export const getConfigData = (data) => fetch(`/mon/mon_config_order_status`, data, 'POST')

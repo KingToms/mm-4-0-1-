@@ -45,6 +45,7 @@
         <img :src="resData.Advert[0].image" alt="">
       </a>
     </div>
+
     <!-- 热卖排行 -->
     <div class="hot">
       <div class="title">
