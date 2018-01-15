@@ -161,9 +161,10 @@
             });
         },
         created () {
-            this.localData = JSON.parse(localStorage.getItem('localData'));
-            // 如果有微信ID,测不用再次授权
-            if (this.localData) {
+            let tmp = JSON.parse(localStorage.getItem('localData'));
+            if (tmp) this.localData = tmp;
+            // 已授权
+            if (commonJS.getQueryString('code')) {
                 this.funWechatLogin();
                 this.funTopicThreeYearAquser();
                 this.funTopicThreeGoldList();
@@ -177,10 +178,11 @@
              * 获取微信code
              */
             async funGetWechatCode () {
-                let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
-                console.log(res);
-                if (res.status === 'ok') {
-                    location.href = res.url;
+                if (!this.localData.wechat_id) {
+                    let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
+                    if (res.status === 'ok') {
+                        location.href = res.url;
+                    }
                 }
             },
             /**
@@ -189,13 +191,15 @@
             async funWechatLogin () {
                 let res = await WechatLogin({code: commonJS.getQueryString('code')});
                 console.log(res);
-                if (res.status === 'ok') {
+                if (res.status === 'ok' || res.data) {
                     this.localData = {
                         'wechat_id': res.data['unionid'],
                         'wechat_avatar': res.data['headimgurl'],
                         'wechat_nickname': res.data['nickname']
                     };
                     localStorage.setItem('localData', JSON.stringify(this.localData));
+                } else {
+                    this.funGetWechatCode();
                 }
             },
             /**
