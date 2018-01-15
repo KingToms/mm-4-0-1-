@@ -47,16 +47,26 @@
             <div class="alert-mask"></div>
         </div>
         <div class="block-img">
+            <span class="house house-14-b" @click="funGetGoldAlaert(13,false)"></span>
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-13" v-if="getGoldItem.indexOf(13)<0" @click="funGetGold(13)">
             <img src="/static/topic/beauty_down/index/3years_01.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
+            <span class="house house-14-a" @click="funGetGoldAlaert(13,false)"></span>
+            <span class="house house-13" @click="funGetGoldAlaert(12,false)"></span>
+            <span class="house house-12" @click="funGetGoldAlaert(11,false)"></span>
+            <span class="house house-11-b" @click="funGetGoldAlaert(10,false)"></span>
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-12" v-if="getGoldItem.indexOf(12)<0" @click="funGetGold(12)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-11" v-if="getGoldItem.indexOf(11)<0" @click="funGetGold(11)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-10" v-if="getGoldItem.indexOf(10)<0" @click="funGetGold(10)">
             <img src="/static/topic/beauty_down/index/3years_02.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
+            <span class="house house-11-a" @click="funGetGoldAlaert(10,false)"></span>
+            <span class="house house-10" @click="funGetGoldAlaert(9,false)"></span>
+            <span class="house house-9" @click="funGetGoldAlaert(8,false)"></span>
+            <span class="house house-7" @click="funGetGoldAlaert(14,false)"></span>
+            <span class="house house-8-b" @click="funGetGoldAlaert(7,false)"></span>
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-14" v-if="getGoldItem.indexOf(14)<0" @click="funGetGold(14)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-9" v-if="getGoldItem.indexOf(9)<0" @click="funGetGold(9)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-8" v-if="getGoldItem.indexOf(8)<0" @click="funGetGold(8)">
@@ -64,12 +74,20 @@
             <img src="/static/topic/beauty_down/index/3years_03.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
+            <span class="house house-8-a" @click="funGetGoldAlaert(7,false)"></span>
+            <span class="house house-6" @click="funGetGoldAlaert(6,false)"></span>
+            <span class="house house-5" @click="funGetGoldAlaert(5,false)"></span>
+            <span class="house house-4-b" @click="funGetGoldAlaert(4,false)"></span>
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-6" v-if="getGoldItem.indexOf(6)<0" @click="funGetGold(6)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-5" v-if="getGoldItem.indexOf(5)<0" @click="funGetGold(5)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-4" v-if="getGoldItem.indexOf(4)<0" @click="funGetGold(4)">
             <img src="/static/topic/beauty_down/index/3years_04.png" alt="" class="full box-bg">
         </div>
         <div class="block-img">
+            <span class="house house-4-a" @click="funGetGoldAlaert(4,false)"></span>
+            <span class="house house-3" @click="funGetGoldAlaert(3,false)"></span>
+            <span class="house house-2" @click="funGetGoldAlaert(2,false)"></span>
+            <span class="house house-1" @click="funGetGoldAlaert(1,false)"></span>
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-3" v-if="getGoldItem.indexOf(3)<0" @click="funGetGold(3)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-2" v-if="getGoldItem.indexOf(2)<0" @click="funGetGold(2)">
             <img src="/static/topic/beauty_down/index/web/gold.gif" alt="" class="gold-img gold-1" v-if="getGoldItem.indexOf(1)<0" @click="funGetGold(1)">
@@ -106,7 +124,7 @@
                 },
                 brandShowBox: {
                     status: false,
-                    title: false,
+                    title: true,
                     isBtn: true,
                     href: '',
                     images: [],
@@ -264,14 +282,13 @@
                     '12': 'https://common.ofo.so/campaign/rbqpacket/?channel=33096_1513866284564&banner=https%3A%2F%2Fimg.ofo.so%2Fcms%2F93be09038c920940a7dd5cdf2ba88ab5.jpg', // ofo
                     '13': 'http://mm.qiaocat.com/topic-brandDisplay', // 俏猫交友中心
                     '14': 'http://m.tb.cn/h.ztJ8UL', // 雅美菲
-
                 };
                 return href[index];
             },
             /**
              * 获得金币后弹出展示品牌
              */
-            funGetGoldAlaert (goldIndex) {
+            funGetGoldAlaert (goldIndex, type = true) {
                 let images = [];
                 if (goldIndex === 10) {
                     this.brandShowBox.isBtn = false;
@@ -284,8 +301,9 @@
                 }
                 this.brandShowBox.images = images;
                 this.brandShowBox.status = true;
+                this.brandShowBox.title = type;
                 this.brandShowBox.href = this.funBrandHerf(goldIndex);
-                this.funTopicThreeGetGold(goldIndex);
+                type && this.funTopicThreeGetGold(goldIndex);
                 this.click();
             },
             /**
@@ -308,6 +326,7 @@
              * 获得所有金币后弹出
              */
             funCalcGoldNumber () {
+                alert(1);
                 this.brandShowBox.status = false;
                 // 集齐所有金币同时抽过奖而且还有抽奖机会,侧提示用户抽奖
                 if (this.getGoldItem.length >= 14 && this.luckDrawNum['be_num'] >= 1) {
@@ -385,6 +404,118 @@
 
     .block-img {
         position: relative;
+        .house {
+            display: inline-block;
+            position: absolute;
+            &.house-1 {
+                top: 58%;
+                left: 15%;
+                width: 40%;
+                height: 42%;
+            }
+            &.house-2 {
+                top: 34%;
+                left: 64%;
+                width: 36%;
+                height: 45%;
+            }
+            &.house-3 {
+                top: 22%;
+                left: 13%;
+                width: 30%;
+                height: 32%;
+            }
+            &.house-4-a {
+                top: 0;
+                left: 58%;
+                width: 42%;
+                height: 24%;
+            }
+            &.house-4-b {
+                bottom: 0;
+                left: 58%;
+                width: 42%;
+                height: 24%;
+            }
+            &.house-5 {
+                top: 40%;
+                left: 52%;
+                width: 27%;
+                height: 27%;
+            }
+            &.house-6 {
+                top: 9%;
+                left: 16%;
+                width: 31%;
+                height: 46%;
+            }
+            &.house-7 {
+                bottom: 0;
+                left: 6%;
+                width: 35%;
+                height: 40%;
+            }
+            &.house-8-a {
+                top: 0;
+                right: 0;
+                width: 43%;
+                height: 21%;
+            }
+            &.house-8-b {
+                bottom: 0;
+                right: 0;
+                width: 37%;
+                height: 33%;
+            }
+            &.house-9 {
+                top: 24%;
+                left: 41%;
+                width: 41%;
+                height: 40%;
+            }
+            &.house-10 {
+                top: 20%;
+                left: 5%;
+                width: 35%;
+                height: 33%;
+            }
+            &.house-11-a {
+                top: 0;
+                right: 0;
+                width: 40%;
+                height: 23%;
+            }
+            &.house-11-b {
+                bottom: 0;
+                right: 0;
+                width: 40%;
+                height: 19%;
+            }
+            &.house-12 {
+                bottom: 0;
+                left: 0;
+                width: 44%;
+                height: 39%;
+            }
+            &.house-13 {
+                top: 14%;
+                left: 4%;
+                width: 35%;
+                height: 33%;
+            }
+            &.house-14-a {
+                top: 0;
+                right: 0;
+                width: 41%;
+                height: 20%;
+            }
+            &.house-14-b {
+                bottom: 0;
+                right: 0;
+                width: 41%;
+                height: 28%;
+            }
+        }
     }
 
     .footer-box {

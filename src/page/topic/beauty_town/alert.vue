@@ -1,7 +1,7 @@
 <template>
     <div class="alter-wrap" v-if="brandShowBox.status">
         <div class="alter">
-            <img class="congrats" src="/static/topic/beauty_down/index/web/congrats.png" alt="">
+            <img class="congrats" src="/static/topic/beauty_down/index/web/congrats.png" alt="" v-if="brandShowBox.title">
             <img class="full" src="/static/topic/beauty_down/index/web/box_head.png" alt="" style="margin-top: -2.5%;">
             <div class="items-img">
                 <div v-if="brandShowBox.images.length>1">
@@ -34,7 +34,7 @@
                 type: Object,
                 default: {
                     status: false,
-                    title: false,
+                    title: true,
                     isBtn: true,
                     href: '',
                     images: []
@@ -57,7 +57,7 @@
         methods: {
             callMethod () {
                 this.$nextTick(function () {
-                    this.startup();
+                    this.brandShowBox.images.length > 1 && this.startup();
                 });
             },
             arrowLeft () {
@@ -83,7 +83,6 @@
                 }, false);
 
                 el.addEventListener("touchend", (e) => {
-                    console.log(this.moveClientX);
                     if (this.moveClientX <= -10 || this.moveClientX >= 10) {
                         if (this.moveClientX >= 0)
                             this.arrowLeft();
@@ -96,8 +95,9 @@
              * 关闭弹窗
              */
             funCloseAlert () {
-                this.$emit('childMethod', 'childParam');
-                this.brandShowBox = false;
+                if (this.brandShowBox.title)
+                    this.$emit('childMethod');
+                this.brandShowBox.status = false;
             }
         },
     }
