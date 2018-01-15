@@ -40,16 +40,9 @@
     </div>
     </div>
     <!-- 广告图 -->
-    <!--<div class="adver" v-if="resData.Advert && resData.Advert.length > 0">
+    <div class="adver" v-if="resData.Advert && resData.Advert.length > 0">
       <a @click="linkType(resData.Advert[0])">
         <img :src="resData.Advert[0].image" alt="">
-      </a>
-    </div>-->
-
-    <!--应运营要求，暂时写死"邀新领礼专题"-->
-    <div class="adver">
-      <a href="http://mm.qiaocat.com/topic-free-gifts?plid=102">
-        <img src="../../../assets/image/img/home/home_advert.jpg" alt="俏猫新人，免费领好礼">
       </a>
     </div>
 
