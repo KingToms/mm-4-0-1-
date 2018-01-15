@@ -284,7 +284,7 @@
              * 抽奖提示
              */
             funLuckDrawTips () {
-                console.log('抽奖提示');
+                alert('抽奖提示的弹出');
             },
             /**
              * 获得所有金币后弹出
