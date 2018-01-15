@@ -29,13 +29,20 @@
             <div class="alert-mask"></div>
         </div>
         <!--抽过奖或没有抽奖次数的弹窗-->
-        <div class="alter-wrap" v-if="nono">
+        <div class="alter-wrap" v-if="alertStatus>0">
             <div class="alter">
-                <div class="img-wrap">
+                <div class="img-wrap" v-if="alertStatus===1">
                     <img class="full" src="/static/topic/beauty_down/index/brand/0.jpg" alt="">
                     <p>您已花光所有抽奖机会</p>
                 </div>
-                <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="nono = false">
+                <div class="img-wrap" v-if="alertStatus===2">
+                    <div class="btn-box">
+                        <span class="left" @click="funShare"></span>
+                        <a href="http://mm.qiaocat.com/topic-beauty-town/questionnaire"></a>
+                    </div>
+                    <img class="full" src="/static/topic/beauty_down/index/web/all_2.png" alt="">
+                </div>
+                <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="alertStatus = 0">
             </div>
             <div class="alert-mask"></div>
         </div>
@@ -72,6 +79,10 @@
             <img src="/static/topic/beauty_down/index/3years_06.png" alt="" class="full box-bg">
         </div>
         <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1" name="end">
+        <!--分享指引-->
+        <div class="share-guide" @click="hideShareBox" v-if="showShareBox">
+            <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
+        </div>
     </div>
 </template>
 <script>
@@ -100,13 +111,14 @@
                     href: '',
                     images: [],
                 },
-                nono: false,
+                alertStatus: 0,
                 alertBox: true,
                 getGoldItem: [], // 获得的金币
                 bgmStatus: true,
                 bgMusic: new Audio(),
                 goldMusic: new Audio(),
-                alertImg: '/static/topic/beauty_down/index/web/synopsis.png'
+                alertImg: '/static/topic/beauty_down/index/web/synopsis.png',
+                showShareBox: false
             }
         },
         mounted () {
@@ -289,7 +301,7 @@
              * 抽奖提示
              */
             funLuckDrawTips () {
-                alert('抽奖提示的弹出');
+                this.alertStatus = 2;
             },
             /**
              * 获得所有金币后弹出
@@ -318,8 +330,9 @@
             funClick () {
                 // 没有抽奖机会时的提示
                 if (this.luckDrawNum['be_num'] === 0 && this.luckDrawNum['in_num'] === 3) {
-                    this.nono = true;
+                    this.alertStatus = 1;
                 } else if (this.getGoldItem.length > 9) {
+                    this.bgMusic.pause();
                     this.$router.push('/topic-beauty-town/luckdraw');
                 }
             },
@@ -342,6 +355,21 @@
                 this.alertImg = '';
                 this.brandShowBox.status = false;
                 this.alertBox = false;
+            },
+            /**
+             * 分享
+             */
+            funShare () {
+                this.showShareBox = true;
+                setTimeout(() => {
+                    this.alertStatus = 0;
+                }, 300);
+            },
+            /**
+             * 隐藏分享指引
+             */
+            hideShareBox () {
+                this.showShareBox = !this.showShareBox;
             }
         },
         components: {tabWin, brandShow}
@@ -504,7 +532,21 @@
                 @include wh(80%, 24%);
             }
             .img-wrap {
+                position: relative;
                 background: #fff;
+            }
+            .btn-box {
+                position: absolute;
+                bottom: 9%;
+                width: 90%;
+                height: 30%;
+                left: 5%;
+                @include fj();
+                a, span {
+                    display: inline-block;
+                    height: 100%;
+                    width: 45%;
+                }
             }
         }
         .icon-x {
@@ -551,5 +593,19 @@
         left: initial;
         top: 10%;
         width: 84px;
+    }
+
+    // 分享指引
+    .share-guide {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        img {
+            width: 100%;
+            height: 100%;
+        }
     }
 </style>
