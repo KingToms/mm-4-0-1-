@@ -326,7 +326,6 @@
              * 获得所有金币后弹出
              */
             funCalcGoldNumber () {
-                alert(1);
                 this.brandShowBox.status = false;
                 // 集齐所有金币同时抽过奖而且还有抽奖机会,侧提示用户抽奖
                 if (this.getGoldItem.length >= 14 && this.luckDrawNum['be_num'] >= 1) {
