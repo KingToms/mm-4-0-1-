@@ -41,6 +41,7 @@
                 });
             },
             share_setup (title, desc, link, imgUrl) {
+                let _this = this;
                 wx.onMenuShareAppMessage({
                     title: title,
                     desc: desc,
@@ -49,7 +50,7 @@
                     success: function (res) {
                         console.log(1, res);
                         alert("分享成功");
-                        this.getMoreLuckdraw('share');
+                        _this.getMoreLuckdraw('share');
 
                     },
                     error: function (err) {
@@ -64,7 +65,7 @@
                         //todo
                         console.log(2, res);
                         alert("分享成功");
-                        this.getMoreLuckdraw('share');
+                        _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {
                         console.log(2, err);
