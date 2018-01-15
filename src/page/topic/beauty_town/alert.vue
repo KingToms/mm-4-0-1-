@@ -14,6 +14,7 @@
                         <img :src="item" alt="" class="full">
                     </li>
                 </ul>
+                <p class="show-page" v-if="brandShowBox.images.length>1">{{pageIndex+1}}/{{brandShowBox.images.length}}</p>
                 <a :href="brandShowBox.href" class="click-check" v-if="brandShowBox.isBtn">点击查看</a>
             </div>
             <img class="full" src="/static/topic/beauty_down/index/web/box_end.png" alt="">
@@ -60,10 +61,13 @@
                 });
             },
             arrowLeft () {
-                this.pageIndex--;
+                if (--this.pageIndex < 1)
+                    this.pageIndex = 0;
             },
             arrowRight () {
-                this.pageIndex++;
+                let len = this.brandShowBox.images.length - 1;
+                if (++this.pageIndex > len)
+                    this.pageIndex = len;
             },
             /**
              * 滑动切换图片
@@ -100,6 +104,12 @@
 </script>
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
+
+    .show-page {
+        text-align: right;
+        margin-right: 6%;
+        color: #2f2f2f;
+    }
 
     .alter-wrap {
         ul {

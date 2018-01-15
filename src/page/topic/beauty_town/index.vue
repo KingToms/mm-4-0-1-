@@ -22,9 +22,20 @@
         <brandShow :brandShowBox="brandShowBox" ref="child" v-on:childMethod="funCalcGoldNumber"></brandShow>
         <div class="alter-wrap" v-if="alertBox">
             <div class="alter">
-                <router-link to="" class="luck-draw"></router-link>
+                <router-link to="/topic-beauty-town/luckdraw" class="luck-draw" v-if="alertImg==='/static/topic/beauty_down/index/web/gold_10.png'"></router-link>
                 <img class="full" :src="alertImg" alt="">
                 <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="funCloseAlert">
+            </div>
+            <div class="alert-mask"></div>
+        </div>
+        <!--抽过奖或没有抽奖次数的弹窗-->
+        <div class="alter-wrap" v-if="nono">
+            <div class="alter">
+                <div class="img-wrap">
+                    <img class="full" src="/static/topic/beauty_down/index/brand/0.jpg" alt="">
+                    <p>您已花光所有抽奖机会</p>
+                </div>
+                <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="nono = false">
             </div>
             <div class="alert-mask"></div>
         </div>
@@ -74,9 +85,9 @@
         data () {
             return {
                 localData: {
-                    'wechat_id': 'qiu_yongjin2',
-                    'wechat_avatar': 'https://p1.music.126.net/ZojeJ15KO_F468L3i5SDoA==/3418381663192492.jpg',
-                    'wechat_nickname': 'hero'
+                    'wechat_id': '',
+                    'wechat_avatar': '',
+                    'wechat_nickname': ''
                 },
                 luckDrawNum: {
                     'be_num': null,
@@ -89,6 +100,7 @@
                     href: '',
                     images: [],
                 },
+                nono: false,
                 alertBox: true,
                 getGoldItem: [], // 获得的金币
                 bgmStatus: true,
@@ -149,16 +161,16 @@
             });
         },
         created () {
-            if (commonJS.getQueryString('code')) {
-                // 071yqdLy1Uumsh02gtLy1aocLy1yqdLU
+            this.localData = JSON.parse(localStorage.getItem('localData'));
+            // 如果有微信ID,测不用再次授权
+            if (this.localData.wechat_id) {
                 this.funWechatLogin();
                 this.funTopicThreeYearAquser();
                 this.funTopicThreeGoldList();
             } else {
-                // 没有code,则获取微信code
+                // 没有微信ID,则获取微信code进行授权
                 this.funGetWechatCode();
             }
-            localStorage.setItem('localData', JSON.stringify(this.localData));
         },
         methods: {
             /**
@@ -177,7 +189,7 @@
             async funWechatLogin () {
                 let res = await WechatLogin({code: commonJS.getQueryString('code')});
                 console.log(res);
-                if (res.data) {
+                if (res.status === 'ok') {
                     this.localData = {
                         'wechat_id': res.data['unionid'],
                         'wechat_avatar': res.data['headimgurl'],
@@ -191,7 +203,7 @@
              */
             async funTopicThreeYearAquser () {
                 let res = await topicThreeYearAquser();
-                if (res.status === 'ok') {
+                if (res.status === 'ok' && res['topic_qcat3_num']) {
                     this.luckDrawNum = {
                         'be_num': res['topic_qcat3_num']['be_num'],
                         'in_num': res['topic_qcat3_num']['in_num']
@@ -255,7 +267,7 @@
                 this.brandShowBox.images = images;
                 this.brandShowBox.status = true;
                 this.brandShowBox.href = this.funBrandHerf(goldIndex);
-                this.funTopicThreeGetGold(goldIndex);
+                // this.funTopicThreeGetGold(goldIndex);
                 this.click();
             },
             /**
@@ -269,11 +281,20 @@
                 this.funGetGoldAlaert(goldIndex);
             },
             /**
+             * 抽奖提示
+             */
+            funLuckDrawTips () {
+                console.log('抽奖提示');
+            },
+            /**
              * 获得所有金币后弹出
              */
             funCalcGoldNumber () {
                 this.brandShowBox.status = false;
-                if (this.getGoldItem.length >= 14) {
+                // 集齐所有金币同时抽过奖而且还有抽奖机会,侧提示用户抽奖
+                if (this.getGoldItem.length >= 14 && this.luckDrawNum['be_num'] >= 1) {
+                    this.funLuckDrawTips();
+                } else if (this.getGoldItem.length >= 14) {
                     this.alertImg = '/static/topic/beauty_down/index/web/gold_10.png';
                     this.alertBox = true;
                 }
@@ -290,8 +311,9 @@
              * 点击猫头抽奖
              */
             funClick () {
-                if (this.luckDrawNum['be_num'] == 0 && this.luckDrawNum['in_num'] == 3) {
-                    alert('已用完抽奖机会');
+                // 没有抽奖机会时的提示
+                if (this.luckDrawNum['be_num'] === 0 && this.luckDrawNum['in_num'] === 3) {
+                    this.nono = true;
                 } else if (this.getGoldItem.length > 9) {
                     this.$router.push('/topic-beauty-town/luckdraw');
                 }
@@ -460,6 +482,16 @@
             transform: translateY(-50%);
             z-index: 30;
             text-align: center;
+            .luck-draw {
+                display: inline-block;
+                position: absolute;
+                top: 43%;
+                left: 10%;
+                @include wh(80%, 24%);
+            }
+            .img-wrap {
+                background: #fff;
+            }
         }
         .icon-x {
             width: 40px;
