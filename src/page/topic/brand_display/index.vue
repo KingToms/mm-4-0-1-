@@ -140,7 +140,7 @@
                         "俏猫3周年生日趴",
                         "3年，我们感谢所有曾经携手的品牌，感恩一路以来新老朋友的支持",
                         "http://mm.qiaocat.com/topic-brandDisplay",
-                        ""
+                        "http://mm.qiaocat.com/static/topic/brand_display/share.jpg"
                     );
                 });
             },
