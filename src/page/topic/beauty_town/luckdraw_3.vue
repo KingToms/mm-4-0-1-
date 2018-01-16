@@ -18,7 +18,7 @@
 
                   <div class="code">
                     <input type="number" v-model="code" class="number" name="code" @focus="setIconShow('number')" @blur="setIconHide" placeholder="验证码" autocomplete="off" maxlength="6">
-                    <i class="icon-delete" v-show="iconShow=='number' && code.length > 0"" @click="resetText('number')"></i>
+                    <i class="icon-delete" v-show="iconShow=='number' && code.length > 0" @click="resetText('number')"></i>
                     <div class="btn">
                       <input type="button" value="获取验证码" @click="sendCode" id="sendCode">
                     </div>
