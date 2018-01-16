@@ -61,6 +61,9 @@
                 audioAutoPlay();
             }
         },
+        created () {
+            this.shareWechat();
+        },
         methods: {
             funHref () {
                 location.href = `${location.origin}/topic-beauty-town`
@@ -128,8 +131,50 @@
                     audioMp3.pause();
                     $(".mugine_audio_off").css("display", "block");
                 }
+            },
+            /*微信分享*/
+            shareWechat () {
+                let _this = this;
+                wx.ready(function () {
+                    _this.share_setup(
+                        "俏猫3周年生日趴",
+                        "3年，我们感谢所有曾经携手的品牌，感恩一路以来新老朋友的支持",
+                        "http://mm.qiaocat.com/topic-brandDisplay",
+                        ""
+                    );
+                });
+            },
+            share_setup (title, desc, link, imgUrl) {
+                let _this = this;
+                wx.onMenuShareAppMessage({
+                    title: title,
+                    desc: desc,
+                    link: link,
+                    imgUrl: imgUrl,
+                    success: function (res) {
+                        console.log(1, res);
+                        _this.getMoreLuckdraw('share');
+
+                    },
+                    error: function (err) {
+                        console.log(1, err);
+                    }
+                });
+                wx.onMenuShareTimeline({
+                    title: title,
+                    link: link,
+                    imgUrl: imgUrl,
+                    success: function (res) {
+                        //todo
+                        console.log(2, res);
+                        _this.getMoreLuckdraw('share');
+                    },
+                    error: function (err) {
+                        console.log(2, err);
+                    }
+                });
             }
-        },
+        }
     }
 </script>
 <style lang="scss" scoped>
