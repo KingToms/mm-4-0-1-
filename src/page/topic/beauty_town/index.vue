@@ -206,8 +206,8 @@
         },
         methods: {
             /*
-            * 微信分享
-            */
+             * 微信分享
+             */
             shareWechat () {
                 let _this = this;
                 wx.ready(function () {
@@ -252,7 +252,8 @@
              */
             async funGetWechatCode () {
                 if (!this.localData.wechat_id) {
-                    let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
+                    // let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
+                    let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/testUse'});
                     if (res.status === 'ok') {
                         location.href = res.url;
                     }
