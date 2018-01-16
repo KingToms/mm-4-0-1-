@@ -119,6 +119,7 @@ export default {
         // 分享增加
         if(addType == 'share'){
           this.shareBoxShow = false; //隐藏分享指引
+          this.isbg = false; // 隐藏原先抽奖结果
           alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
         }
       }

@@ -95,6 +95,7 @@ export default {
       return
     }
 
+    $(window).scrollTop(0);
     // 微信分享
     this.shareWechat();
   },
