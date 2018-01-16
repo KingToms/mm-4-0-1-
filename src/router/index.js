@@ -130,6 +130,8 @@ const Shopping = resolve => require.ensure([], () => resolve(require('@/page/det
 const OrderDesc = resolve => require.ensure([], () => resolve(require('../page/detailpage/children/orderDesv')), 'orderdescd')
 
 const  Discovery = resolve => require.ensure([], () => resolve(require('@/page/discoverypage/discovery')),' discovery')
+// 测试使用的
+const  testUse = resolve => require.ensure([], () => resolve(require('@/page/test/index')),' testUse')
 
 // const PhotoSwipe = resolve => require.ensure([], () => resolve(require('@/page/photoSwipe/index')), 'photoswipe')
 
@@ -525,6 +527,10 @@ const router = new Router({
         {
           path: '/footerhis',
           component: FooterHis
+        },
+        {
+          path: '/testUse',
+          component: testUse
         },
         /**
          * 专题路由
