@@ -54,9 +54,9 @@
       <!--四、抽奖结果-->
       <div class="bg" v-show="isbg">
         <div class="result-box" :class="{'nochance-box': noChance}">
-          <img class="close" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeBox">
-          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_awards.png" v-show="!noChance" alt="">
-          <img class="bg-box" src="/static/topic/beauty_down/luckdraw_3/box_register.png" v-show="noChance" alt="">
+          <img class="close" :class="{'close-show': noChance}" src="/static/topic/beauty_down/luckdraw_3/icon_shut.png" alt="关闭" @click="closeBox">
+          <img class="bg-box" :class="{'bg-boxHidden': noChance}" src="/static/topic/beauty_down/luckdraw_3/box_awards.png" alt="">
+
           <div class="received-box" v-if="first_state">
             <div class="result">
               <!--非实物：888元俏猫美妆券-->
@@ -90,8 +90,8 @@
               </div>
               <!--遇见你，3生有幸-->
               <div class="last-part" v-else>
-                <img src="/static/topic/beauty_down/luckdraw_3/advert.png" alt="遇见你，3生有幸" class="advert">
-                <p class="last-tip">您已花光所有抽奖机会</p>
+                <img src="/static/topic/beauty_down/luckdraw_3/advert.png" alt="" class="advert">
+                <a href="http://mm.qiaocat.com/topic-annual-makeup?plid=94&from=banner" target="_blank" class="last-tip"></a>
               </div>
             </div>
           </div>
@@ -730,10 +730,19 @@ export default {
           width: 12%;
           cursor: pointer;
           opacity: 0;
+          z-index: 3;
+        }
+        // 显示关闭按钮
+        .close-show {
+          opacity: 1;
+          bottom: -5rem;
         }
         // 结果弹框背景
         .bg-box {
           width: 100%;
+        }
+        .bg-boxHidden {
+          opacity: 0;
         }
         // 抽奖结果窗口
         .received-box {
@@ -790,12 +799,17 @@ export default {
           .last-part {
             margin-top: -2.8rem;
             img {
-              width: 75%;
+              width: 100%;
               margin: 0 auto;
             }
             .last-tip {
-              margin-top: 0.4rem;
-              font-size: 1.8rem;
+              display: block;
+              width: 13rem;
+              height: 4rem;
+              position: absolute;
+              left: 27%;
+              bottom: 1.8rem;
+              cursor: pointer;
             }
           }
         }
@@ -803,7 +817,7 @@ export default {
 
       // 3次抽奖机会都用完
       .nochance-box {
-        margin-top: 30%;
+        margin-top: 6%;
       }
     }
     img {
