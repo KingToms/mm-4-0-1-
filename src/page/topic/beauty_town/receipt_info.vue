@@ -31,7 +31,7 @@
     <!--分享指引-->
     <div class="share-guide" @click="hideShareBox" v-if="shareBoxShow">
       <div>
-        <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
+        <img src="/static/topic/beauty_down/index/guide.png" alt="">
       </div>
     </div>
     <myAddress :showAddressPicker="showAddressPicker" :init="area" @save-address="saveAddress" @hide-picker="hidePicker"></myAddress>
@@ -119,6 +119,7 @@ export default {
         // 分享增加
         if(addType == 'share'){
           this.shareBoxShow = false; //隐藏分享指引
+          this.isbg = false; // 隐藏原先抽奖结果
           alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
         }
       }

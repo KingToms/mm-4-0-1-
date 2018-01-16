@@ -99,7 +99,7 @@
         <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1" name="end">
         <!--分享指引-->
         <div class="share-guide" @click="hideShareBox" v-if="showShareBox">
-            <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
+            <img src="/static/topic/beauty_down/index/guide.png" alt="">
         </div>
     </div>
 </template>
@@ -206,8 +206,8 @@
         },
         methods: {
             /*
-            * 微信分享
-            */
+             * 微信分享
+             */
             shareWechat () {
                 let _this = this;
                 wx.ready(function () {
@@ -252,7 +252,8 @@
              */
             async funGetWechatCode () {
                 if (!this.localData.wechat_id) {
-                    let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
+                    // let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/topic-beauty-town'});
+                    let res = await getWechatCode({redirectURI: 'http://mm.qiaocat.com/testUse'});
                     if (res.status === 'ok') {
                         location.href = res.url;
                     }

@@ -1,6 +1,6 @@
 <template>
     <div class="tab-win">
-        <marquee direction="up" scrolldelay="200" loop="-1" class="txt-tips" v-if="items.length">
+        <marquee direction="up" scrolldelay="350" loop="-1" class="txt-tips" v-if="items.length">
             <p v-for="(item,i) in items" :key="i">恭喜 {{item['user_name']}} 获得 {{item['prize_name']}}</p>
         </marquee>
         <img src="/static/topic/beauty_down/index/web/tab_win.png" alt="" class="full">
