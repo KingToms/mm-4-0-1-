@@ -28,7 +28,7 @@
                 moveClientY: 0,
                 touchHeight: 0,
                 pageIndex: 0,
-                pageNumber: 22,
+                pageNumber: 21,
                 counter: 5000,
                 interval: null,
             }
