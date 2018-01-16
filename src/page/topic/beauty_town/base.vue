@@ -8,7 +8,7 @@
             return {};
         },
         created () {
-            this.shareWechat();
+            // this.shareWechat();
         },
         methods: {
             /* 增加获奖次数 */

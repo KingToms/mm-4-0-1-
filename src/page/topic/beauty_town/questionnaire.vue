@@ -94,11 +94,54 @@ export default {
       this.$router.push('./luckdraw'); // 重新调回到抽奖页面
       return
     }
+
+    // 微信分享
+    this.shareWechat();
   },
   mounted(){
     this.selectAnswer();
   },
   methods: {
+    // 微信分享
+    shareWechat () {
+        let _this = this;
+        wx.ready(function () {
+            _this.share_setup(
+                "美丽小城，俏猫三周年！",
+                "俏猫三周年·集金币抽iphoneX~",
+                "http://mm.qiaocat.com/topic-beauty-town",
+                "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg"
+            );
+        });
+    },
+    share_setup (title, desc, link, imgUrl) {
+        let _this = this;
+        wx.onMenuShareAppMessage({
+            title: title,
+            desc: desc,
+            link: link,
+            imgUrl: imgUrl,
+            success: function (res) {
+
+            },
+            error: function (err) {
+
+            }
+        });
+        wx.onMenuShareTimeline({
+            title: title,
+            link: link,
+            imgUrl: imgUrl,
+            success: function (res) {
+                //todo
+                console.log(2, res);
+            },
+            error: function (err) {
+                console.log(2, err);
+            }
+        });
+    },
+
     // 答案选择
     selectAnswer() {
       let _this = this;
