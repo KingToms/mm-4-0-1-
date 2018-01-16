@@ -12,13 +12,13 @@
                   <div class="mobile">
                     <div class="input-mobile">
                       <input type="tel" class="tel" v-model="mobile" @focus="setIconShow('tel')" @blur="setIconHide" placeholder="手机号码" autofocus autocomplete="off" maxlength="11">
-                      <i class="icon-delete" v-show="iconShow=='tel'" @click="resetText('tel')"></i>
+                      <i class="icon-delete" v-show="iconShow=='tel' && mobile.length > 0" @click="resetText('tel')"></i>
                     </div>
                   </div>
 
                   <div class="code">
                     <input type="number" v-model="code" class="number" name="code" @focus="setIconShow('number')" @blur="setIconHide" placeholder="验证码" autocomplete="off" maxlength="6">
-                    <i class="icon-delete" v-show="iconShow=='number'" @click="resetText('number')"></i>
+                    <i class="icon-delete" v-show="iconShow=='number' && code.length > 0"" @click="resetText('number')"></i>
                     <div class="btn">
                       <input type="button" value="获取验证码" @click="sendCode" id="sendCode">
                     </div>
@@ -172,7 +172,7 @@ export default {
     this.wechat_avatar = localData.wechat_avatar ? localData.wechat_avatar : ''; //微信用户头像
     this.wechat_nickname = localData.wechat_nickname ? localData.wechat_nickname : ''; //微信用户昵称
 
-    if(this.wechat_id){ // 微信已授权登录，获取收集的金币列表
+    if(this.wechat_id && $.cookie(keyConf.qm_cookie)){ // 微信已授权 且 账户已登录，获取收集的金币列表
       this.getJbList(this.wechat_id);
     }
 
@@ -262,6 +262,7 @@ export default {
     },
     /*获取抽奖礼品列表*/
     async getGiftList() {
+      $(window).scrollTop(0);
       let res = await getPrizeList();
       if(res.status == 'ok'){
         this.gift_txt = res.data;
@@ -475,6 +476,11 @@ export default {
           let self = this;
           setTimeout(function() {
             self.isShow = false;
+
+            // 根据金币列表增加抽奖次数
+            if(self.wechat_id){
+              self.getJbList(self.wechat_id);
+            }
           }, 1200);
         } else { // 登录失败
           Toast({
