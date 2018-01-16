@@ -99,7 +99,7 @@
         <img src="/static/topic/beauty_down/index/web/tab_1.png" alt="" class="full tab-1" name="end">
         <!--分享指引-->
         <div class="share-guide" @click="hideShareBox" v-if="showShareBox">
-            <img src="/static/topic/inviteNewUser_2017/guide2.png" alt="">
+            <img src="/static/topic/beauty_down/index/guide.png" alt="">
         </div>
     </div>
 </template>

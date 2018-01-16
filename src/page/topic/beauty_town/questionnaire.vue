@@ -274,7 +274,7 @@ export default {
             .submit {
               cursor: pointer;
               margin: 0.8rem auto 0;
-              width: 16rem;
+              width: 19rem;
               img {
                 width: 100%;
               }
@@ -359,7 +359,7 @@ export default {
       .reback {
         margin-top: 2.2rem;
         margin-left: 0.5rem;
-        width: 8rem;
+        width: 10rem;
         cursor: pointer;
         img {
           width: 100%;
