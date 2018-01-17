@@ -212,7 +212,7 @@
             if (commonJS.getQueryString('code')) {
                 this.funWechatLogin();
                 this.funTopicThreeYearAquser();
-                // this.funTopicThreeGoldList();
+                this.funTopicThreeGoldList();
             } else {
                 // 没有微信ID,则获取微信code进行授权
                 this.funGetWechatCode();
@@ -320,6 +320,7 @@
              */
             async funTopicThreeGoldList () {
                 let _this = this;
+                _this.getGoldItem = [];
                 let res = await topicThreeGoldList({'wechat_id': this.localData.wechat_id});
                 if (res.status === 'ok') {
                     let jsonData = res.data;
