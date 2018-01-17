@@ -40,7 +40,7 @@
 
       <!--三、大转盘抽奖-->
       <div class="luckdraw-box">
-        <img class="bg-img" src="/static/topic/beauty_down/luckdraw_3/home_page.jpg" alt="">
+        <img class="bg-img" :class="{'noBg': !isbg}" src="/static/topic/beauty_down/luckdraw_3/home_page.jpg" alt="">
         <div class="wheel-box">
           <div id="rotary-table" class="wheel">
             <div :class="`gift gift_${index}`" v-for="(item,index) in gift_txt" :key="index">
@@ -827,6 +827,10 @@ export default {
       vertical-align: top;
     }
     .bg-img {
+      width: 100%;
+    }
+    // 关闭抽奖结果时
+    .noBg {
       width: 100%;
     }
     .wheel-box {
