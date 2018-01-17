@@ -402,7 +402,8 @@
                     this.alertStatus = 1;
                 } else if (this.getGoldItem.length > 9) {
                     this.bgMusic.pause();
-                    this.$router.push('http://mm.qiaocat.com/topic-beauty-town/luckdraw?plid=107');
+                    // this.$router.push('/topic-beauty-town/luckdraw?plid=107');
+                    window.location.href = 'http://mm.qiaocat.com/topic-beauty-town/luckdraw?plid=107'
                 }
             },
             /**
