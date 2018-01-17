@@ -659,7 +659,7 @@ const router = new Router({
             children:[
                 {
                     path:'',
-                    meta: {title: '美丽小城-俏猫三周年'},
+                    meta: {title: '俏猫3周年 | 集金币赢IphoneX'},
                     component:luckDrawTownIndex
                 },
                 {
