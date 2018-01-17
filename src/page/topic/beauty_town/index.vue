@@ -731,7 +731,6 @@
             }
             .img-wrap {
                 position: relative;
-                background: #fff;
             }
             .btn-box {
                 position: absolute;
