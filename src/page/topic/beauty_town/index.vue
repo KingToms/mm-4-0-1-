@@ -152,8 +152,14 @@
                             let topicMain = document.getElementById('topic-main');
                             $('html,body').scrollTop(topicMain.scrollHeight);
                             topicMain.style.opacity = '1';
-                            /*setTimeout(() => {
-                             }, 300);*/
+                            let imgS = [];
+                            for (let i = 1; i <= 8; i++) {
+                                imgS.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
+                            }
+                            for (let i = 1; i <= 4; i++) {
+                                imgS.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
+                            }
+                            _this.preload(imgS);
                         }
                     }
                 }
@@ -312,6 +318,16 @@
             async funTopicThreeGetGold (goleIndex) {
                 await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
             },
+            /**
+             * 预加载图片
+             */
+            preload (arr) {
+                let newImages = [];
+                for (let i = 0; i < arr.length; i++) {
+                    newImages[i] = new Image();
+                    newImages[i].src = arr[i];
+                }
+            },
             click () {
                 this.$refs.child.callMethod();
             },
@@ -344,7 +360,7 @@
                     }
                 } else if (goldIndex === 11) {
                     this.brandShowBox.isBtn = false;
-                    for (let i = 1; i <= 1; i++) {
+                    for (let i = 1; i <= 4; i++) {
                         images.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
                     }
                 } else {
