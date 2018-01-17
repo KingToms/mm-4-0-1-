@@ -42,7 +42,7 @@ import myAddress from './children/address_picker.vue';
 import keyConf from '../../../common/keyConf';
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { setAddData } from "@/service/getData";
+import { setAddData,getMoreDraw } from "@/service/getData";
 export default {
   name: "receiptInfo",
   data() {
@@ -62,8 +62,8 @@ export default {
     };
   },
   created() {
-    $(window).scrollTop(0);
     this.shareWechat();
+    $(window).scrollTop(0);
   },
   components: {
     myAddress,
