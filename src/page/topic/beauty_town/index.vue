@@ -106,7 +106,7 @@
 </template>
 <script>
     import tabWin from './winning_list'
-    import brandShow from './alert'
+    import brandShow from './alert_box'
     import {getWechatCode, WechatLogin, topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
     import commonJS from '../../../common/common.js'
 

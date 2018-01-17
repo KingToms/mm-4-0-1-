@@ -16,11 +16,12 @@
             };
         },
         mounted () {
+            this.$nextTick(() => {
+                this.funTopicThreeYearAquser();
+            })
 
         },
-        created () {
-            this.funTopicThreeYearAquser();
-        },
+        created () {},
         methods: {
             /**
              * 俏猫-专题三周获奖用户列表
@@ -56,7 +57,7 @@
                 font-size: 12px;
                 font-weight: 700;
                 overflow: hidden;
-                text-overflow:ellipsis;
+                text-overflow: ellipsis;
                 white-space: nowrap;
                 @include lineHeight(40px);
             }
