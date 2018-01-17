@@ -214,7 +214,7 @@ export default {
       if(res.status == 'ok'){
         // 增加了一次抽奖机会
         alert("已完成问卷，已为您增加1次抽奖机会，马上抽奖吧~");
-      }else if(res.status != 'ok' && res.code == '-100'){ // 已提交过调查问卷，不用重复提交
+      }else if(res.code == '-100' || res.code == '-300'){ // 已提交过调查问卷，不用重复提交
         alert('您已提交过问卷，不用重复提交~');
       }else { // 账号未登录
         alert(res.msg);
