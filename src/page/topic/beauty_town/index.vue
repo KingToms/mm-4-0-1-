@@ -151,9 +151,9 @@
                         if (!--goldImgNum) {
                             let topicMain = document.getElementById('topic-main');
                             $('html,body').scrollTop(topicMain.scrollHeight);
+                            topicMain.style.opacity = '1';
                             /*setTimeout(() => {
-                                topicMain.style.opacity = '1';
-                            }, 300);*/
+                             }, 300);*/
                         }
                     }
                 }
@@ -448,9 +448,9 @@
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
 
-    /*#topic-main {
+    #topic-main {
         opacity: 0;
-    }*/
+    }
 
     .block-img {
         position: relative;
