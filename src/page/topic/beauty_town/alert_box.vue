@@ -53,18 +53,21 @@
         },
         methods: {
             callMethod () {
+                this.pageIndex = 0;
+                this.startClientX = 0;
+                this.moveClientX = 0;
                 this.$nextTick(function () {
                     this.brandShowBox.images.length > 1 && this.startup();
                 });
             },
             arrowLeft () {
                 if (--this.pageIndex < 1)
-                    this.pageIndex = 0;
+                    this.pageIndex = this.brandShowBox.images.length - 1;
             },
             arrowRight () {
                 let len = this.brandShowBox.images.length - 1;
                 if (++this.pageIndex > len)
-                    this.pageIndex = len;
+                    this.pageIndex = 0;
             },
             /**
              * 滑动切换图片
