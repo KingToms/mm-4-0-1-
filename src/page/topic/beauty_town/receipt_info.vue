@@ -62,6 +62,7 @@ export default {
     };
   },
   created() {
+    $(window).scrollTop(0);
     this.shareWechat();
   },
   components: {
@@ -224,7 +225,7 @@ export default {
   .info-box {
     position: absolute;
     left: 10%;
-    top: 35%;
+    top: 32%;
     width: 80%;
     .title {
       font-size: 2.3rem;
@@ -236,7 +237,7 @@ export default {
         width: 100%;
         height: 4.4rem;
         border: .05rem solid #000;
-        margin-top: 1.4rem;
+        margin-top: 0.8rem;
         padding-left: 1rem;
         font-size: 1.5rem;
       } // 所在地区
@@ -305,7 +306,7 @@ export default {
       color: #fff;
       cursor: pointer;
       font-size: 1.8rem;
-      margin-top: 3rem;
+      margin-top: 1.5rem;
     }
   }
   // 提交结果
