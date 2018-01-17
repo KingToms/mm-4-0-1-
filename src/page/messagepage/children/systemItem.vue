@@ -1,19 +1,22 @@
 <template>
   <section class="systemMsg">
-    <p class="time">2016-12-15 08:00</p>
+    <p class="time">{{time}}</p>
     <div class="msg_box">
-      <h3 class="title">优惠券过期提醒</h3>
+      <h3 class="title" v-if="isSystemMsg">{{sys_title}}</h3>
+      <h3 class="title" v-else>{{order_info.msg}}</h3>
       <div class="content_box">
-        <div class="img"></div>
+        <div class="img" :style="{backgroundImage : 'url('+ msg_img +')'}"></div>
         <div class="text">
-          <p class="tipText" v-if="msgState">您有1张价值100元的优惠券，将于2017年08月31日到期，请及时使用。</p>
-          <div class="orderText" v-if="!msgState">
-            <p class="title">新人面试妆</p>
+          <!--优惠券消息-->
+          <p class="tipText" v-if="isSystemMsg">{{tip_text}}</p>
+          <!--订单消息-->
+          <div class="orderText" v-else>
+            <p class="title">{{order_info.description}}</p>
             <p class="price">
-              <span class="discount_price">￥178</span>
-              <span class="original_price">￥198</span>
+              <span class="discount_price">￥{{order_info.price}}</span>
+              <span class="original_price">￥{{order_info.market_price}}</span>
             </p>
-            <p class="order_num">订单号：4444400000</p>
+            <p class="order_num">订单号：{{order_info.sn}}</p>
           </div>
         </div>
       </div>
@@ -25,9 +28,25 @@ export default {
   name: "systemItem",
   data () {
     return {
+      sys_title: '优惠券过期提醒',
+      time: '2016-12-15 08:00',
+      msg_img: '../../../../static/image/message/search_pic03.png',
+      tip_text: '您有1张价值100元的优惠券，将于2017年08月31日到期，请及时使用。',
+      order_info: {
+        msg: '美业师已出发', // 订单消息
+        description: '新人面试妆', // 产品描述
+        price: '178', // 原价
+        market_price: '198', // 价格
+        sn: '4444400000', // 订单号
+      },
     };
   },
-  props: ['msgState'],
+  props: {
+    isSystemMsg:{
+      default: false, // 默认是系统消息
+      type: Boolean
+    },
+  },
   methods: {
   }
 }
@@ -57,7 +76,9 @@ export default {
       margin-top: 1.2rem;
       .img{
         @include wh(6.6rem,6.6rem);
-        @include bis("../../../../static/image/message/search_pic03.png");
+        // @include bis("../../../../static/image/message/search_pic03.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
         background-color: #ddd;
         position: absolute;
         left: 0;

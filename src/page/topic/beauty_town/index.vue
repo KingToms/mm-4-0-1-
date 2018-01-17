@@ -151,9 +151,15 @@
                         if (!--goldImgNum) {
                             let topicMain = document.getElementById('topic-main');
                             $('html,body').scrollTop(topicMain.scrollHeight);
-                            /*setTimeout(() => {
-                                topicMain.style.opacity = '1';
-                            }, 300);*/
+                            topicMain.style.opacity = '1';
+                            let imgS = [];
+                            for (let i = 1; i <= 8; i++) {
+                                imgS.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
+                            }
+                            for (let i = 1; i <= 4; i++) {
+                                imgS.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
+                            }
+                            _this.preload(imgS);
                         }
                     }
                 }
@@ -213,8 +219,8 @@
                 let _this = this;
                 wx.ready(function () {
                     _this.share_setup(
-                        "美丽小城，俏猫三周年！",
-                        "俏猫三周年·集金币抽iphoneX~",
+                        "俏猫3周年 | 集金币赢IphoneX",
+                        "戳~快点来拼手速吧，收集金币即可参与抽奖！",
                         "http://mm.qiaocat.com/topic-beauty-town",
                         "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share.jpg"
                     );
@@ -312,6 +318,16 @@
             async funTopicThreeGetGold (goleIndex) {
                 await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
             },
+            /**
+             * 预加载图片
+             */
+            preload (arr) {
+                let newImages = [];
+                for (let i = 0; i < arr.length; i++) {
+                    newImages[i] = new Image();
+                    newImages[i].src = arr[i];
+                }
+            },
             click () {
                 this.$refs.child.callMethod();
             },
@@ -344,7 +360,7 @@
                     }
                 } else if (goldIndex === 11) {
                     this.brandShowBox.isBtn = false;
-                    for (let i = 1; i <= 1; i++) {
+                    for (let i = 1; i <= 4; i++) {
                         images.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
                     }
                 } else {
@@ -448,9 +464,9 @@
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
 
-    /*#topic-main {
+    #topic-main {
         opacity: 0;
-    }*/
+    }
 
     .block-img {
         position: relative;

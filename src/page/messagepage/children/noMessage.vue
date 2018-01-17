@@ -1,6 +1,6 @@
 <template>
   <div class="no-message">
-    <img src="/static/image/message/info_icon_null.png" alt="没有相关订单">
+    <img src="/static/image/message/info_icon_null.png" alt="没有相关消息">
     <p>您没有相关的消息</p>
   </div>
 </template>

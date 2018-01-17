@@ -36,6 +36,9 @@ export const categoryList = (data) => fetch(`/qiaomao/qm_category_get_list`, dat
 // 获取人气最高 or 新店开张美业师
 export const getStylistFans = (data) => fetch(`/qiaomao/qm_user_stylist_list`, data, 'POST')
 
+/*首页底部--导航栏图标*/
+export const getNavIcon = (data) => fetch(`/mon/mon_config_daohanglan`, data, 'POST')
+
 export const getUserInfo = (data) => fetch(`/qiaomao/qm_profile_get`, data, 'POST')
 // 用户修改资料
 export const saveInfo = (data) => fetch(`/qiaomao/qm_user_modify_base`, data, 'POST')
@@ -132,6 +135,15 @@ export const address = (data) => fetch(`/qiaomao/qm_get_street`, data, 'POST')
 export const walletBalanceList = (data) => fetch(`/qiaomao/qm_user_balance_list`, data, 'POST')
 // 首页的城市获取
 export const getCities = (data) => fetch(`/mon/mon_service_cities`, data, 'POST')
+
+// 首页的消息中心
+export const getMsgCenter = (data) => fetch(`/news/news_index`, data, 'POST')
+// 消息中心--活动消息
+export const getActivityMsg = (data) => fetch(`/news/news_topic`, data, 'POST')
+// 消息中心--系统消息
+export const getSystemMsg = (data) => fetch(`/news/news_system`, data, 'POST')
+// 消息中心--设置已读(1为活动消息设置已读，2为系统消息设置已读)
+export const setMsgReaded = (data) => fetch(`/news/news_set_read`, data, 'POST')
 
 // 优惠券中心领券
 export const getCenterCoupons = (data) => fetch(`/qiaomao/qm_coupon_fetch`, data, 'POST')

@@ -10,9 +10,10 @@
         <input type="text" name="search" id="search" v-model="searchContent" placeholder="魅力社交妆" disabled>
       </div>
       <!-- 消息通知 -->
-      <!-- <router-link to="/messageCenter" class="top_right">
-        <img src="../../../assets/image/icon/home/info_nor.png" alt="">
-      </router-link> -->
+      <router-link to="/messageCenter" class="top_right">
+        <img src="../../../assets/image/icon/home/info_sel.png" v-if="hasMsg" alt="">
+        <img src="../../../assets/image/icon/home/info_nor.png" v-else alt="">
+      </router-link>
     </div>
   </header>
 </template>
@@ -21,6 +22,7 @@ import Vue from 'vue'
 import {getStore} from '../../../common/store';
 import {setStore} from '../../../common/store.js';
 import {mapMutations} from 'vuex';
+import { getMsgCenter } from '@/service/getData';
 import '../../../common/geolocation.min.js'; // 引入腾讯地图前端定位组件的js
 export default {
   name: 'header',
@@ -29,7 +31,8 @@ export default {
       searchContent: '',
       _self: '',
       city: '广州市',
-      adcode: ''
+      adcode: '',
+      hasMsg: false, // 消息列表(是否有未读消息)
     }
   },
   created (){
@@ -38,6 +41,8 @@ export default {
     }else{
       this.city = JSON.parse(getStore("current_city")).city_name;
     }
+
+    this.hasNewMsg();
   },
   computed: {
   },
@@ -67,6 +72,23 @@ export default {
       alert("定位失败！请重新选择城市");
     },
 
+    // 判断首页消息中心，是否有未读消息
+    async hasNewMsg (){
+      let res = await getMsgCenter();
+      if(res.status == 'ok'){
+        // console.log("res:",res);
+        if(res.data.system){
+          this.hasMsg = (res.data.system.is_read == '0') ? true : false;
+          // 系统消息有未读消息
+          if(this.hasMsg){
+            return
+          }
+        }
+        if(!this.hasMsg && res.data.topic){
+          this.hasMsg = (res.data.topic.is_read == '0') ? true : false;
+        }
+      }
+    },
   },
   props: []
 }
@@ -117,8 +139,8 @@ export default {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    // padding: 0 4.8rem 0 9rem;
-    padding: 0 1.5rem 0 9rem;
+    padding: 0 4.8rem 0 9rem;
+    // padding: 0 1.5rem 0 9rem;
     img{
       position: absolute;
       top: 1.4rem;
@@ -143,16 +165,18 @@ export default {
     }
   }
   .top_right{
-    z-index: 3;
     position: absolute;
     right: 0;
     top: 0;
+    display: block;
+    width: 4.8rem;
     height: 100%;
-    padding: 0 1.2rem;
+    text-align: center;
+    cursor: pointer;
     img{
       display: inline-block;
       width: 2.3rem;
-      vertical-align: middle;
+      margin-top: 0.9rem;
     }
   }
 }
