@@ -107,7 +107,7 @@
 <script>
     import tabWin from './winning_list'
     import brandShow from './alert_box'
-    import {getWechatCode, WechatLogin, topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
+    import {getWechatCode, WechatLogin, topicThreeYearAquser, getMoreDraw, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
     import commonJS from '../../../common/common.js'
 
     export default {
@@ -244,7 +244,6 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-                        alert('分享成功');
                         _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {}
@@ -254,7 +253,6 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-                        alert('分享成功');
                         _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {}
