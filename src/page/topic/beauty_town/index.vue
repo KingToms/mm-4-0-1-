@@ -212,7 +212,7 @@
             if (commonJS.getQueryString('code')) {
                 this.funWechatLogin();
                 this.funTopicThreeYearAquser();
-                this.funTopicThreeGoldList();
+                // this.funTopicThreeGoldList();
             } else {
                 // 没有微信ID,则获取微信code进行授权
                 this.funGetWechatCode();
