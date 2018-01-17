@@ -244,6 +244,7 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
+                        alert('分享成功');
                         _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {}
@@ -253,6 +254,7 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
+                        alert('分享成功');
                         _this.getMoreLuckdraw('share');
                     },
                     error: function (err) {}
