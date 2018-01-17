@@ -342,6 +342,11 @@
                     for (let i = 1; i <= 8; i++) {
                         images.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
                     }
+                } else if (goldIndex === 11) {
+                    this.brandShowBox.isBtn = false;
+                    for (let i = 1; i <= 1; i++) {
+                        images.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
+                    }
                 } else {
                     this.brandShowBox.isBtn = true;
                     images = [`/static/topic/beauty_down/index/brand/${goldIndex}.jpg`];
