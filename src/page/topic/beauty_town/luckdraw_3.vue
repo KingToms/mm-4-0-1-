@@ -164,7 +164,7 @@ export default {
   },
   created() {
     this.getGiftList();
-    this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "107";
 
     // 获取已授权微信信息
     let localData = (getStore('localData'))? JSON.parse(getStore('localData')) : '';

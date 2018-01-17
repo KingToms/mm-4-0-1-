@@ -89,11 +89,6 @@ export default {
   },
   created() {
     this.questionnaire = getStore('questionnaire') ? getStore('questionnaire') : '';
-    if(this.questionnaire == 'ok'){
-      alert('您已提交过问卷，不用重复提交~');
-      this.$router.push('./luckdraw'); // 重新调回到抽奖页面
-      return
-    }
 
     $(window).scrollTop(0);
     // 微信分享
@@ -191,6 +186,13 @@ export default {
         });
         return
       }else{
+        // 不用前端限制，后端增加抽奖次数时限制
+        /*if(this.questionnaire == 'ok'){
+          alert('您已提交过问卷，不用重复提交~');
+          this.$router.push('./luckdraw?plid=107'); // 重新调回到抽奖页面
+          return
+        }*/
+
         let res = await setQuestionnaire({q_key: this.answerList.join(',')});
         if(res.status == "ok"){
           setStore('questionnaire', 'ok'); // 记录提交了问卷
@@ -212,10 +214,12 @@ export default {
       if(res.status == 'ok'){
         // 增加了一次抽奖机会
         alert("已完成问卷，已为您增加1次抽奖机会，马上抽奖吧~");
+      }else if(res.status != 'ok' && res.code == '-100'){ // 已提交过调查问卷，不用重复提交
+        alert('您已提交过问卷，不用重复提交~');
       }else { // 账号未登录
         alert(res.msg);
       }
-      this.$router.push('./luckdraw'); // 重新调回到抽奖页面
+      this.$router.push('./luckdraw?plid=107'); // 重新调回到抽奖页面
     },
 
   },
