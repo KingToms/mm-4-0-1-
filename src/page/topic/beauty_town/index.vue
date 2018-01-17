@@ -150,10 +150,10 @@
                     goldImg[i].onload = () => {
                         if (!--goldImgNum) {
                             let topicMain = document.getElementById('topic-main');
-                            setTimeout(() => {
-                                $('html,body').scrollTop(topicMain.scrollHeight);
+                            $('html,body').scrollTop(topicMain.scrollHeight);
+                            /*setTimeout(() => {
                                 topicMain.style.opacity = '1';
-                            }, 2000);
+                            }, 300);*/
                         }
                     }
                 }
@@ -447,9 +447,9 @@
 <style lang="scss" scoped>
     @import '../../../assets/css/mixin.scss';
 
-    #topic-main {
+    /*#topic-main {
         opacity: 0;
-    }
+    }*/
 
     .block-img {
         position: relative;
