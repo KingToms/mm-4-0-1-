@@ -531,7 +531,8 @@ export default {
 
     /*跳转到填写收货信息*/
     goReceipt() {
-      this.$router.push('./receipt');
+      // this.$router.push('./receipt');
+      window.location.href = 'http://mm.qiaocat.com/topic-beauty-town/receipt';
     },
 
     // 隐藏分享指引

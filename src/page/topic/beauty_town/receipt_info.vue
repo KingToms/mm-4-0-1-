@@ -120,7 +120,8 @@ export default {
         if(addType == 'share'){
           this.shareBoxShow = false; //隐藏分享指引
           alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
-          this.$router.push('./luckdraw?plid=107'); // 返回抽奖页面
+          // this.$router.push('./luckdraw?plid=107'); // 返回抽奖页面
+          window.location.href = 'http://mm.qiaocat.com/topic-beauty-town/luckdraw?plid=107'; // 返回抽奖页面
         }
       }
     },
