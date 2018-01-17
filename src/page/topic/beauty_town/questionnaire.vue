@@ -103,7 +103,7 @@ export default {
         let _this = this;
         wx.ready(function () {
             _this.share_setup(
-                "俏猫3周年 | 集金币赢IphoneX",
+                "俏猫3周年 | 集金币赢iPhoneX",
                 "戳~快点来拼手速吧，收集金币即可参与抽奖！",
                 "http://mm.qiaocat.com/topic-beauty-town",
                 "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share_1.jpg"
