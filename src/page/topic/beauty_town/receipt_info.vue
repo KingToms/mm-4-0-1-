@@ -42,7 +42,7 @@ import myAddress from './children/address_picker.vue';
 import keyConf from '../../../common/keyConf';
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { setAddData } from "@/service/getData";
+import { setAddData,getMoreDraw } from "@/service/getData";
 export default {
   name: "receiptInfo",
   data() {
@@ -59,11 +59,12 @@ export default {
       part_address: '', // 详细地址
       shareBoxShow: false, // 分享指引
       resultState: false, // 提交结果显示
+      hasSubmit: false, // 未提交收货信息
     };
   },
   created() {
-    $(window).scrollTop(0);
     this.shareWechat();
+    $(window).scrollTop(0);
   },
   components: {
     myAddress,
@@ -90,7 +91,9 @@ export default {
             imgUrl: imgUrl,
             success: function (res) {
                 console.log(1, res);
-                _this.getMoreLuckdraw('share');
+                if(_this.hasSubmit){
+                  _this.getMoreLuckdraw('share');
+                }
 
             },
             error: function (err) {
@@ -104,7 +107,9 @@ export default {
             success: function (res) {
                 //todo
                 console.log(2, res);
-                _this.getMoreLuckdraw('share');
+                if(_this.hasSubmit){
+                  _this.getMoreLuckdraw('share');
+                }
             },
             error: function (err) {
                 console.log(2, err);
@@ -152,7 +157,9 @@ export default {
       let res = await setAddData(infoObj);
       if (res.status == 'ok') {
         this.resultState = true; // 提交成功
+        this.hasSubmit = true;
       }else{
+        this.hasSubmit = false; // 提交失败
         alert(res.msg);
         this.$router.push('/topic-beauty-town');
       }
