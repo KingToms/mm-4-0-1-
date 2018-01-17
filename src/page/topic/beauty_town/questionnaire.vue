@@ -198,7 +198,7 @@ export default {
           setStore('questionnaire', 'ok'); // 记录提交了问卷
           Toast({
             message: '问卷提交成功',
-            duration: 200,
+            duration: 50,
             className: 'toast-tip'
           });
 
