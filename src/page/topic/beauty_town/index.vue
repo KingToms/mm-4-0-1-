@@ -244,26 +244,33 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-
+                        _this.getMoreLuckdraw('share');
                     },
-                    error: function (err) {
-
-                    }
+                    error: function (err) {}
                 });
                 wx.onMenuShareTimeline({
                     title: title,
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-                        //todo
-                        console.log(2, res);
+                        _this.getMoreLuckdraw('share');
                     },
-                    error: function (err) {
-                        console.log(2, err);
-                    }
+                    error: function (err) {}
                 });
             },
-
+            /*增加获奖次数*/
+            async getMoreLuckdraw (addType) {
+                // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+                let res = await getMoreDraw({type: addType});
+                if (res.status == 'ok') {
+                    // 分享增加
+                    if (addType == 'share') {
+                        this.showShareBox = false; //隐藏分享指引
+                        alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+                        this.$router.push('/topic-beauty-town/luckdraw?plid=107'); // 重新调回到抽奖页面
+                    }
+                }
+            },
             /**
              * 获取微信code
              */
