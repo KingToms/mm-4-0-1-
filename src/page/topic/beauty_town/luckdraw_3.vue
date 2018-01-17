@@ -292,6 +292,7 @@ export default {
           this.offOn = !this.offOn;
           let setDrawData = await getLuckDraw();
           if (setDrawData.status == 'ok') {
+            this.first_state = true; // 抽奖成功
             this.ratating(setDrawData.data);
           } else {
             // 3次机会都用完后，提示“遇见你三生有幸”
