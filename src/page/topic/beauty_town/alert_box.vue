@@ -1,6 +1,6 @@
 <template>
     <div class="alter-wrap" v-if="brandShowBox.status">
-        <div class="alter">
+        <!--<div class="alter">
             <img class="congrats" src="/static/topic/beauty_down/index/web/congrats.png" alt="" v-if="brandShowBox.title">
             <img class="full" src="/static/topic/beauty_down/index/web/box_head.png" alt="" style="margin-top: -2.5%;">
             <div class="items-img">
@@ -19,15 +19,12 @@
             </div>
             <img class="full" src="/static/topic/beauty_down/index/web/box_end.png" alt="">
             <img src="/static/topic/beauty_down/index/web/icon_x.png" alt="" class="icon-x" @click="funCloseAlert">
-        </div>
+        </div>-->
         <div class="alert-mask"></div>
     </div>
 </template>
 <script>
-    import PickerSlot from "mint-ui/packages/picker/src/picker-slot";
-
     export default {
-        components: {PickerSlot},
         props: {
             // 是否显示弹窗
             brandShowBox: {
