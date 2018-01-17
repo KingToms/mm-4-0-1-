@@ -152,12 +152,20 @@
                             let topicMain = document.getElementById('topic-main');
                             $('html,body').scrollTop(topicMain.scrollHeight);
                             topicMain.style.opacity = '1';
-                            let imgS = [];
+                            let imgS = [
+                                '/static/topic/beauty_down/index/web/box_head.png',
+                                '/static/topic/beauty_down/index/web/box_end.png',
+                                '/static/topic/beauty_down/index/web/1px.png'
+                            ];
                             for (let i = 1; i <= 8; i++) {
                                 imgS.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
                             }
                             for (let i = 1; i <= 4; i++) {
                                 imgS.push(`/static/topic/beauty_down/index/brand/11/img${i}.jpg`)
+                            }
+                            for (let i = 0; i <= 14; i++) {
+                                if (i != 10 && i != 11)
+                                    imgS.push(`/static/topic/beauty_down/index/brand/${i}.jpg`)
                             }
                             _this.preload(imgS);
                         }
