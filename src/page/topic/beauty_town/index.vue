@@ -267,7 +267,9 @@
                     if (addType == 'share') {
                         this.showShareBox = false; //隐藏分享指引
                         alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
-                        this.$router.push('/topic-beauty-town/luckdraw?plid=107'); // 重新调回到抽奖页面
+                        // 重新调回到抽奖页面
+                        // this.$router.push('/topic-beauty-town/luckdraw?plid=107');
+                        window.location.href = 'http://mm.qiaocat.com/topic-beauty-town/luckdraw?plid=107'
                     }
                 }
             },
