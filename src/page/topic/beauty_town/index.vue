@@ -314,7 +314,7 @@
                     this.luckDrawNum = {
                         'be_num': res['topic_qcat3_num']['be_num'],
                         'in_num': res['topic_qcat3_num']['in_num']
-                    }
+                    };
                 }
             },
             /**
@@ -410,10 +410,10 @@
             funCalcGoldNumber () {
                 this.brandShowBox.status = false;
                 // 集齐所有金币同时抽过奖而且还有抽奖机会,侧提示用户抽奖
-                if (this.getGoldItem.length >= 14 && this.luckDrawNum['be_num'] === 0 && this.luckDrawNum['in_num'] === 3) {
+                if (this.getGoldItem.length >= 14 && parseInt(this.luckDrawNum['be_num']) === 0 && parseInt(this.luckDrawNum['in_num']) === 3) {
                     // 没有抽奖机会时的提示
                     this.alertStatus = 1;
-                } else if (this.getGoldItem.length >= 14 && this.luckDrawNum['in_num'] > this.luckDrawNum['be_num']) {
+                } else if (this.getGoldItem.length >= 14 && parseInt(this.luckDrawNum['in_num']) >= parseInt(this.luckDrawNum['be_num'])) {
                     // 抽过奖并且还有抽奖机会,测提示抽奖
                     this.alertStatus = 2;
                 } else if (this.getGoldItem.length >= 14) {
