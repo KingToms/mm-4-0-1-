@@ -61,7 +61,7 @@
                 });
             },
             arrowLeft () {
-                if (--this.pageIndex < 1)
+                if (--this.pageIndex < 0)
                     this.pageIndex = this.brandShowBox.images.length - 1;
             },
             arrowRight () {
@@ -130,7 +130,7 @@
             width: 40%;
             font-size: 14px;
             color: #ff9696;
-            margin-top: 10px;
+            margin: 10px 0 5px 0;
             border: 1px solid #ff9696;
             border-radius: 8px;
         }

@@ -107,7 +107,7 @@
 <script>
     import tabWin from './winning_list'
     import brandShow from './alert_box'
-    import {getWechatCode, WechatLogin, topicThreeYearAquser, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
+    import {getWechatCode, WechatLogin, topicThreeYearAquser, getMoreDraw, topicThreeGetGold, topicThreeGoldList} from "@/service/getData";
     import commonJS from '../../../common/common.js'
 
     export default {
@@ -229,7 +229,7 @@
                 let _this = this;
                 wx.ready(function () {
                     _this.share_setup(
-                        "俏猫3周年 | 集金币赢IphoneX",
+                        "俏猫3周年 | 集金币赢iPhoneX",
                         "戳~快点来拼手速吧，收集金币即可参与抽奖！",
                         "http://mm.qiaocat.com/topic-beauty-town",
                         "http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share_1.jpg"
@@ -244,26 +244,35 @@
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-
+                        _this.getMoreLuckdraw('share');
                     },
-                    error: function (err) {
-
-                    }
+                    error: function (err) {}
                 });
                 wx.onMenuShareTimeline({
                     title: title,
                     link: link,
                     imgUrl: imgUrl,
                     success: function (res) {
-                        //todo
-                        console.log(2, res);
+                        _this.getMoreLuckdraw('share');
                     },
-                    error: function (err) {
-                        console.log(2, err);
-                    }
+                    error: function (err) {}
                 });
             },
-
+            /*增加获奖次数*/
+            async getMoreLuckdraw (addType) {
+                // type: gold为金币后增加，share为分享后增加，paper为问卷后增加
+                let res = await getMoreDraw({type: addType});
+                if (res.status == 'ok') {
+                    // 分享增加
+                    if (addType == 'share') {
+                        this.showShareBox = false; //隐藏分享指引
+                        alert("分享成功，已为您增加1次抽奖机会，马上抽奖吧~");
+                        // 重新调回到抽奖页面
+                        // this.$router.push('/topic-beauty-town/luckdraw?plid=107');
+                        window.location.href = 'http://mm.qiaocat.com/topic-beauty-town/luckdraw?plid=107'
+                    }
+                }
+            },
             /**
              * 获取微信code
              */
@@ -305,7 +314,7 @@
                     this.luckDrawNum = {
                         'be_num': res['topic_qcat3_num']['be_num'],
                         'in_num': res['topic_qcat3_num']['in_num']
-                    }
+                    };
                 }
             },
             /**
@@ -313,6 +322,7 @@
              */
             async funTopicThreeGoldList () {
                 let _this = this;
+                _this.getGoldItem = [];
                 let res = await topicThreeGoldList({'wechat_id': this.localData.wechat_id});
                 if (res.status === 'ok') {
                     let jsonData = res.data;
@@ -325,8 +335,11 @@
             /**
              * 俏猫-专题三周年金币领取
              */
-            async funTopicThreeGetGold (goleIndex) {
-                await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
+            async funTopicThreeGetGold (goldIndex) {
+                let res = await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goldIndex});
+                if (res.status === 'ok') {
+                    this.getGoldItem.push(goldIndex);
+                }
             },
             /**
              * 预加载图片
@@ -347,7 +360,7 @@
                     '2': 'http://m.qiaocat.com/topic-BrideMakeups', // 俏猫婚策店
                     '3': 'http://mm.qiaocat.com/topic-annual-makeup?plid=94&from=banner&plid=104', // 全明星工厂
                     '4': 'https://shop13319964.wxrrd.com/', // 俏猫商城
-                    '5': 'http://www.omicy.com/goods-100371.html?code=tg_qmszn_gdn_20170110', // 无敏氏
+                    '5': 'http://m.omicy.com/goods-100371.html?code=tg_gwbd_yfdyf_gdn_20171225', // 无敏氏
                     '6': 'http://mobile.uzise.com/topic-20180108?code=tg_qmszn_gdn_20180110', // 柚子舍
                     '7': 'http://shop.m.jd.com/?shopId=695770', // 伊肤泉
                     '8': 'http://55919434.m.weimob.com/vshop/55919434/index', // 蓓缇佳儿
@@ -391,19 +404,21 @@
             funGetGold (goldIndex) {
                 this.goldMusic.currentTime = 0;
                 this.goldMusic.play();
-                this.getGoldItem.push(goldIndex);
                 this.funGetGoldAlaert(goldIndex);
             },
             /**
              * 获得所有金币后弹出
              */
             funCalcGoldNumber () {
+                if (this.getGoldItem.length >= 13) {
+                    this.funTopicThreeYearAquser();
+                }
                 this.brandShowBox.status = false;
                 // 集齐所有金币同时抽过奖而且还有抽奖机会,侧提示用户抽奖
-                if (this.getGoldItem.length >= 14 && this.luckDrawNum['be_num'] === 0 && this.luckDrawNum['in_num'] === 3) {
+                if (this.getGoldItem.length >= 14 && parseInt(this.luckDrawNum['be_num']) === 0 && parseInt(this.luckDrawNum['in_num']) === 3) {
                     // 没有抽奖机会时的提示
                     this.alertStatus = 1;
-                } else if (this.getGoldItem.length >= 14 && this.luckDrawNum['in_num'] > this.luckDrawNum['be_num']) {
+                } else if (this.getGoldItem.length >= 14 && parseInt(this.luckDrawNum['in_num']) >= parseInt(this.luckDrawNum['be_num'])) {
                     // 抽过奖并且还有抽奖机会,测提示抽奖
                     this.alertStatus = 2;
                 } else if (this.getGoldItem.length >= 14) {
