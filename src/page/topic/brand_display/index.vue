@@ -66,7 +66,7 @@
         },
         methods: {
             funHref () {
-                location.href = `${location.origin}/topic-beauty-town`
+                // location.href = `${location.origin}/topic-beauty-town`
             },
             funInterval () {
                 clearInterval(this.interval);
