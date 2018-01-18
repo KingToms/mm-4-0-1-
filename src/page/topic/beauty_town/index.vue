@@ -335,8 +335,11 @@
             /**
              * 俏猫-专题三周年金币领取
              */
-            async funTopicThreeGetGold (goleIndex) {
-                await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goleIndex});
+            async funTopicThreeGetGold (goldIndex) {
+                let res = await topicThreeGetGold({'wechat_id': this.localData.wechat_id, value: goldIndex});
+                if (res.status === 'ok') {
+                    this.getGoldItem.push(goldIndex);
+                }
             },
             /**
              * 预加载图片
@@ -401,7 +404,6 @@
             funGetGold (goldIndex) {
                 this.goldMusic.currentTime = 0;
                 this.goldMusic.play();
-                this.getGoldItem.push(goldIndex);
                 this.funGetGoldAlaert(goldIndex);
             },
             /**
