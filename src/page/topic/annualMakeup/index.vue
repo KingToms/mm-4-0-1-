@@ -72,8 +72,8 @@ export default {
       from_ad: "topic_annualmakeup2017", //专题来源
 
       shareData: { // APP分享
-        title: '年会美丽大对决，做最亮眼的主角！',
-        desc: '【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~',
+        title: '俏猫|年会妆定制',
+        desc: '俏猫3周年，全场7折更实惠！忙了一年，是时候在年会上耀眼全场了！俏猫上门化妆还你好气色，面色红润有光泽~',
         link: 'http://mm.qiaocat.com/topic-annual-makeup?plid=94',
         imgUrl: 'http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg'
       },
@@ -200,8 +200,8 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "年会美丽大对决，做最亮眼的主角！",
-          "【双12预售】俏猫定制年会派对妆，可预约2个月内的妆容哦~",
+          "俏猫|年会妆定制",
+          "俏猫3周年，全场7折更实惠！忙了一年，是时候在年会上耀眼全场了！俏猫上门化妆还你好气色，面色红润有光泽~",
           "http://mm.qiaocat.com/topic-annual-makeup?plid=94",
           "http://mm.qiaocat.com/static/topic/annualMakeup/share.jpg"
         );

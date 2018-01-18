@@ -634,7 +634,7 @@ const router = new Router({
         },
         {
           path: '/topic-annual-makeup',
-          meta: {title: '【双12预售】俏猫年会妆定制'},
+          meta: {title: '俏猫|年会妆定制'},
           component: annualMakeup
         },
         {
