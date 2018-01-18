@@ -164,6 +164,7 @@ export default {
   },
   created() {
     this.getGiftList();
+    this.shareWechat();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "107";
 
     // 获取已授权微信信息
@@ -176,7 +177,6 @@ export default {
       this.getJbList(this.wechat_id);
     }
 
-    this.shareWechat();
   },
   mounted() {
     /*使大转盘盒子显示为正方形*/
