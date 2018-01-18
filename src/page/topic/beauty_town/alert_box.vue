@@ -130,7 +130,7 @@
             width: 40%;
             font-size: 14px;
             color: #ff9696;
-            margin-top: 10px;
+            margin: 10px 0 5px 0;
             border: 1px solid #ff9696;
             border-radius: 8px;
         }
