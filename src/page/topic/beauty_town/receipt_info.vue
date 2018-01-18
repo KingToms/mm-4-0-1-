@@ -16,7 +16,8 @@
           <i class="icon-delete" v-show="part_address.length > 0" @click="resetText()"></i>
         </div>
       </div>
-      <p class="tips">我们会在5个工作日内将礼品寄给你，到付不包邮哦~</p>
+      <p class="tips">礼品将于5个工作日内寄出，到付不包邮哦~</p>
+      <p class="tips tip-1">重要提示：退出当前页面视为自动放弃礼品！</p>
       <div class="submit" @click="submitInfo">提交</div>
     </div>
     <!--结果提醒-->
@@ -302,7 +303,13 @@ export default {
       color: #000;
       line-height: 1.5em;
       margin-top: 0.6rem;
-    } // 提交
+    }
+    .tip-1 {
+      font-size: 1.2rem;
+      color: red;
+      text-align: center;
+    }
+    // 提交
     .submit {
       width: 100%;
       height: 4.4rem;
