@@ -360,7 +360,7 @@
                     '2': 'http://m.qiaocat.com/topic-BrideMakeups', // 俏猫婚策店
                     '3': 'http://mm.qiaocat.com/topic-annual-makeup?plid=94&from=banner&plid=104', // 全明星工厂
                     '4': 'https://shop13319964.wxrrd.com/', // 俏猫商城
-                    '5': 'http://m.omicy.com/goods-100371.html?code=tg_qmszn_gdn_20170110', // 无敏氏
+                    '5': 'http://m.omicy.com/goods-100371.html?code=tg_gwbd_yfdyf_gdn_20171225', // 无敏氏
                     '6': 'http://mobile.uzise.com/topic-20180108?code=tg_qmszn_gdn_20180110', // 柚子舍
                     '7': 'http://shop.m.jd.com/?shopId=695770', // 伊肤泉
                     '8': 'http://55919434.m.weimob.com/vshop/55919434/index', // 蓓缇佳儿
