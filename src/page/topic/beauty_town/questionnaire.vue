@@ -38,7 +38,7 @@
             </li>
             <li class="option">
               <p class="num">第4/5题</p>
-              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question4.png" alt="题目4">
+              <img class="q_img" src="/static/topic/beauty_down/questionnaire/question4_1.png" alt="题目4">
               <ol>
                 <li></li>
                 <li></li>
