@@ -155,7 +155,8 @@
                             let imgS = [
                                 '/static/topic/beauty_down/index/web/box_head.png',
                                 '/static/topic/beauty_down/index/web/box_end.png',
-                                '/static/topic/beauty_down/index/web/1px.png'
+                                '/static/topic/beauty_down/index/web/1px.png',
+                                'http://mm.qiaocat.com/static/topic/beauty_down/luckdraw_3/share_1.jpg'
                             ];
                             for (let i = 1; i <= 8; i++) {
                                 imgS.push(`/static/topic/beauty_down/index/brand/10/img${i}.jpg`)
