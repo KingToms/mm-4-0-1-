@@ -61,7 +61,7 @@
                 });
             },
             arrowLeft () {
-                if (--this.pageIndex < 1)
+                if (--this.pageIndex < 0)
                     this.pageIndex = this.brandShowBox.images.length - 1;
             },
             arrowRight () {
