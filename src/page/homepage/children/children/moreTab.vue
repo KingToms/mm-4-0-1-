@@ -7,8 +7,8 @@
   </div>
   <div class="items">
     <div class="item" v-for="(item,index) in list" :key="index" @click="$router.push(`/detail/${item.product.id}`)">
-      <div class="item-img" :style="{backgroundImage:`url(${item.product && item.product.thumb})`}">
-        <!-- <img :src="item.product && item.product.thumb" alt=""> -->
+      <div class="item-img" :style="{backgroundImage:`url(${item.image})`}">
+      <!--<div class="item-img" :style="{backgroundImage:`url(${item.product && item.product.thumb})`}">-->
         <div class="collect">
           <span class="icon">{{item.product && item.product.follow_count}}</span>
         </div>
