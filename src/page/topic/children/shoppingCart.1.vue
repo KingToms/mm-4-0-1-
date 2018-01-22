@@ -80,6 +80,14 @@ export default {
       default: false,
       type: Boolean
     },
+    isAddBuy:{
+      default: false,
+      type: Boolean
+    },
+    addBuyIds:{
+      default: [],
+      type: Array
+    },
     topicCart: {
       default: '',
       type: String
@@ -167,6 +175,10 @@ export default {
         return;
       }
 
+      if(this.isAddBuy && !this.filterAddBuy()) {
+        alert('加拍品不可单独拍下哟~');
+        return false;
+      }
       this.$emit("hiddenCart");
       let proids = "";
       this.products.forEach(item => {
@@ -197,6 +209,18 @@ export default {
         this.discount = 10;
       }
     },
+    filterAddBuy(){
+      if(this.products.length > this.addBuyIds.length){
+        return true;
+      }
+      for (let index = 0; index < this.products.length ;index++) {
+        for (let i = 0; i < this.addBuyIds.length; i++) {
+          if(this.products[index].id == this.addBuyIds[i]) break;
+          if(i == this.addBuyIds.length - 1) return true;
+        }
+      }
+      return false;
+    }
   }
 };
 </script>

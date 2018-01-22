@@ -44,12 +44,12 @@ const Train = resolve => require.ensure([], () => resolve(require('@/page/homepa
 // 邀请好友
 const Invitation = resolve => require.ensure([], () => resolve(require('@/page/invitpage/index')), 'home')
 // 新用户邀请
-const InvitUser = resolve => require.ensure([], () => resolve(require('@/page/invitpage/inviteUser')),'invite')
+const InvitUser = resolve => require.ensure([], () => resolve(require('@/page/invitpage/inviteUser')), 'invite')
 // 人气最高店铺，新店开张
-const Stylist = resolve => require.ensure([], ()=> resolve(require('@/page/stylistpage/index')),'stylist')
+const Stylist = resolve => require.ensure([], () => resolve(require('@/page/stylistpage/index')), 'stylist')
 
 // 个人中心
-const UserCenter = resolve => require.ensure([], () => resolve(require('@/page/userpage/userCenter')),'user')
+const UserCenter = resolve => require.ensure([], () => resolve(require('@/page/userpage/userCenter')), 'user')
 // 个人资料
 const Profile = resolve => require.ensure([], () => resolve(require('@/page/userpage/profile')), 'user')
 // 关注（商品、店铺）
@@ -63,15 +63,15 @@ const CatFoodDesc = resolve => require.ensure([], () => resolve(require('@/page/
 // 我的钱包
 const Wallet = resolve => require.ensure([], () => resolve(require('@/page/userpage/wallet')), 'wallet')
 // 设置
-const Setting = resolve => require.ensure([], () => resolve(require('@/page/userpage/setting')),'setting')
+const Setting = resolve => require.ensure([], () => resolve(require('@/page/userpage/setting')), 'setting')
 // 免责声明
 const Statement = resolve => require.ensure([], () => resolve(require('@/page/userpage/statement')), 'setting')
 // 帮助与反馈
-const HelpFeedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback.4.1.0')),'setting')
+const HelpFeedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback.4.1.0')), 'setting')
 // 新手指导
-const Guide = resolve => require.ensure([], () => resolve(require('@/page/userpage/guide')),'setting')
+const Guide = resolve => require.ensure([], () => resolve(require('@/page/userpage/guide')), 'setting')
 // 意见反馈
-const Feedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback')),'setting')
+const Feedback = resolve => require.ensure([], () => resolve(require('@/page/userpage/feedback')), 'setting')
 // 投诉举报
 const Complaint = resolve => require.ensure([], () => resolve(require('@/page/userpage/complaint')), 'setting')
 // 用户优惠券中心
@@ -107,18 +107,18 @@ const SearchStart = resolve => require.ensure([], () => resolve(require('@/page/
 // 订单
 const Order = resolve => require.ensure([], () => resolve(require('@/page/orderpage/order')), 'pay')
 const Payment = resolve => require.ensure([], () => resolve(require('@/page/paypage/pay')), 'pay')
-const PayResult = resolve => require.ensure([], () => resolve(require('@/page/paypage/payResult')),'pay')
+const PayResult = resolve => require.ensure([], () => resolve(require('@/page/paypage/payResult')), 'pay')
 const PaySuccess = resolve => require.ensure([], () => resolve(require('@/page/paypage/children/success')), 'pay')
 const PayException = resolve => require.ensure([], () => resolve(require('@/page/paypage/children/exception')), 'pay')
 
-const OrderManage = resolve => require.ensure([], () => resolve(require('@/page/orderpage/orderManage')),'order')
-const OrderDetail = resolve => require.ensure([], () => resolve(require('@/page/orderpage/orderDetail')),'orderDetail')
-const CancelOrder = resolve => require.ensure([], () => resolve(require('@/page/orderpage/cancelOrder')),'cancelDetail')
+const OrderManage = resolve => require.ensure([], () => resolve(require('@/page/orderpage/orderManage')), 'order')
+const OrderDetail = resolve => require.ensure([], () => resolve(require('@/page/orderpage/orderDetail')), 'orderDetail')
+const CancelOrder = resolve => require.ensure([], () => resolve(require('@/page/orderpage/cancelOrder')), 'cancelDetail')
 
-const Evaluate = resolve => require.ensure([], () => resolve(require('@/page/evaluatepage/evaluate')),'evaluate')
-const EvaResult = resolve => require.ensure([], () => resolve(require('@/page/evaluatepage/evaResult')),'evaluate')
+const Evaluate = resolve => require.ensure([], () => resolve(require('@/page/evaluatepage/evaluate')), 'evaluate')
+const EvaResult = resolve => require.ensure([], () => resolve(require('@/page/evaluatepage/evaResult')), 'evaluate')
 
-const CouponCenter = resolve => require.ensure([], () => resolve(require('@/page/couponpage/coupon')),'coupon')
+const CouponCenter = resolve => require.ensure([], () => resolve(require('@/page/couponpage/coupon')), 'coupon')
 
 // 产品详情
 const Detail = resolve => require.ensure([], () => resolve(require('@/page/detailpage/detail')), 'detailPage')
@@ -129,9 +129,9 @@ const Shopping = resolve => require.ensure([], () => resolve(require('@/page/det
 // 订单赔付规则
 const OrderDesc = resolve => require.ensure([], () => resolve(require('../page/detailpage/children/orderDesv')), 'orderdescd')
 
-const  Discovery = resolve => require.ensure([], () => resolve(require('@/page/discoverypage/discovery')),' discovery')
+const Discovery = resolve => require.ensure([], () => resolve(require('@/page/discoverypage/discovery')), ' discovery')
 // 测试使用的
-const  testUse = resolve => require.ensure([], () => resolve(require('@/page/test/index')),' testUse')
+const testUse = resolve => require.ensure([], () => resolve(require('@/page/test/index')), ' testUse')
 
 // const PhotoSwipe = resolve => require.ensure([], () => resolve(require('@/page/photoSwipe/index')), 'photoswipe')
 
@@ -188,6 +188,10 @@ const luckDrawTown = r => require.ensure([], () => r(require('@/page/topic/beaut
 const Questionnaire = r => require.ensure([], () => r(require('@/page/topic/beauty_town/questionnaire')), '3rdAnniversary');
 // 俏猫3周年*收货信息
 const receiptInfo = r => require.ensure([], () => r(require('@/page/topic/beauty_town/receipt_info')), '3rdAnniversary');
+// 新娘专题-2018春节
+const makeupBride = r => require.ensure([], () => r(require('@/page/topic/makeupbride/index')), 'makeupBride');
+
+
 /*专题模块结束 */
 
 // 路由导向错误
@@ -195,8 +199,7 @@ const ErrorPage = resolve => require.ensure([], () => resolve(require('@/page/er
 
 const router = new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/', // 顶级目录
       component: App,
       children: [ // 二级路由，对应app.vue
@@ -207,8 +210,7 @@ const router = new Router({
         {
           path: '/index',
           component: IndexCom,
-          children:[
-            {
+          children: [{
               path: '',
               redirect: '/home'
             },
@@ -216,8 +218,7 @@ const router = new Router({
               // 首页
               path: '/home',
               component: Home,
-              children: [
-                {
+              children: [{
                   path: '/home',
                   redirect: '/home/recommend'
                 },
@@ -265,7 +266,7 @@ const router = new Router({
             },
             {
               path: '/discovery',
-              name :'iscovery',
+              name: 'iscovery',
               component: Discovery
             }
           ]
@@ -357,8 +358,7 @@ const router = new Router({
           path: '/search',
           name: 'search',
           component: Search,
-          children: [
-            {
+          children: [{
               path: '/search',
               redirect: '/search/start'
             },
@@ -429,15 +429,14 @@ const router = new Router({
         },
         {
           path: '/order/evaluate/result',
-          name:'evaResult',
+          name: 'evaResult',
           component: EvaResult
         },
         {
           path: '/payresult',
           name: 'payResult',
           component: PayResult,
-          children: [
-            {
+          children: [{
               path: '/payresult/success/:ordersn?',
               name: 'paySuccess',
               component: PaySuccess
@@ -538,60 +537,94 @@ const router = new Router({
         // 专题一：万圣节特效妆
         {
           path: '/topic-halloween',
-          meta: {title: '万圣节你“妆”够了吗'},
+          meta: {
+            title: '万圣节你“妆”够了吗'
+          },
           component: Halloween
         },
         // 专题二：万圣节鬼混夜特价1元、10元
         {
           path: '/topic-dressparty',
-          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
+          meta: {
+            title: '万圣节"鬼混夜"化妆狂欢派对'
+          },
           name: 'DressParty',
           component: DressParty,
         },
         {
           path: '/topic-dressparty/lineup/:ordersn/:dressparty',
-          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
+          meta: {
+            title: '万圣节"鬼混夜"化妆狂欢派对'
+          },
           name: 'lineUp',
           component: lineUp,
         },
         // 专题三：万圣节鬼混夜特价0.01元
         {
           path: '/topic-makeup001',
-          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
+          meta: {
+            title: '万圣节"鬼混夜"化妆狂欢派对'
+          },
           name: 'MakeUp_001',
           component: MakeUp_001
         },
         {
           path: '/topic-makeup001/lineup001/:ordersn/:dressparty',
-          meta: {title: '万圣节"鬼混夜"化妆狂欢派对'},
+          meta: {
+            title: '万圣节"鬼混夜"化妆狂欢派对'
+          },
           name: 'lineUp_001',
           component: lineUp_001,
         },
         // 专题四：双11美妆狂欢夜
         {
           path: '/topic-double-eleven',
-          meta: {title: '双11美妆狂欢夜'},
+          meta: {
+            title: '双11美妆狂欢夜'
+          },
           component: doubleEleven
         },
         // 专题五：双11俏猫邀你领好礼
         {
-        path: '/topic-sendgift',
-        meta: {title: '俏猫邀你领好礼'},
-        component: sendGift
+          path: '/topic-sendgift',
+          meta: {
+            title: '俏猫邀你领好礼'
+          },
+          component: sendGift
         },
         {
           path: '/topic-ysl',
           component: ysl,
-            children:[
-                {path:'',component:yslP1},
-                {path:'p2',component:yslP2},
-                {path:'p3',component:yslP3},
-                {path:'p4',component:yslP4},
-                {path:'p5',component:yslP5},
-                {path:'p6',component:yslP6},
-                {path:'p7',component:yslP7}
-            ]
-         },
+          children: [{
+              path: '',
+              component: yslP1
+            },
+            {
+              path: 'p2',
+              component: yslP2
+            },
+            {
+              path: 'p3',
+              component: yslP3
+            },
+            {
+              path: 'p4',
+              component: yslP4
+            },
+            {
+              path: 'p5',
+              component: yslP5
+            },
+            {
+              path: 'p6',
+              component: yslP6
+            },
+            {
+              path: 'p7',
+              component: yslP7
+            }
+          ]
+        },
         {
           path: '/topic-order/:id',
           name: 'topicOrder',
@@ -599,85 +632,124 @@ const router = new Router({
         },
         {
           path: '/topic-new-user-888',
-          meta: {title: '888元新人美妆大礼包'},
+          meta: {
+            title: '888元新人美妆大礼包'
+          },
           component: NewUser_888
         },
         {
           path: '/topic-new-user-50',
-          meta: {title: '50元新人美妆大礼包'},
+          meta: {
+            title: '50元新人美妆大礼包'
+          },
           component: NewUser_50
         },
         {
           path: '/topic-newuser-invite-600',
-          meta: {title: '俏猫|贴心的上门美业服务平台'},
+          meta: {
+            title: '俏猫|贴心的上门美业服务平台'
+          },
           component: NewUser_600_invite
         },
         {
           path: '/topic-new-user-600',
-          meta: {title: '俏猫|贴心的上门美业服务平台'},
+          meta: {
+            title: '俏猫|贴心的上门美业服务平台'
+          },
           component: NewUser_600
         },
         {
           path: '/topic-thanksgiving-2017',
-          meta: {title: '美睫感恩节专场'},
+          meta: {
+            title: '美睫感恩节专场'
+          },
           component: Thanksgiving_2017
         },
         {
           path: '/topic-luckdraw-1129',
-          meta: {title: '俏猫&华工妇委抽奖转盘'},
+          meta: {
+            title: '俏猫&华工妇委抽奖转盘'
+          },
           component: luckDraw_1129
         },
         {
           path: '/topic-luckdraw-1230',
-          meta: {title: '俏猫转盘抽奖送流量'},
+          meta: {
+            title: '俏猫转盘抽奖送流量'
+          },
           component: luckDraw_1230
         },
         {
           path: '/topic-annual-makeup',
-          meta: {title: '俏猫|年会妆定制'},
+          meta: {
+            title: '俏猫|年会妆定制'
+          },
           component: annualMakeup
         },
         {
           path: '/topic-invite-newuser',
-          meta: {title: '邀请好友，马上领钱'},
+          meta: {
+            title: '邀请好友，马上领钱'
+          },
           component: inviteNewUser
         },
         {
           path: '/topic-free-gifts',
-          meta: {title: '新人专享，免费领好礼'},
+          meta: {
+            title: '新人专享，免费领好礼'
+          },
           component: FreeGifts
         },
         {
           path: '/topic-brandDisplay',
-          meta: {title: '俏猫3周年生日趴'},
+          meta: {
+            title: '俏猫3周年生日趴'
+          },
           component: brandDisplay
         },
+        // 新娘专题-2018
+        {
+          path: '/topic-makeupbride',
+          meta: {
+            title: '新娘专题'
+          },
+          component: makeupBride
+
+        },
+
         // 三周年--美丽小城
         {
           path: '/topic-beauty-town',
           component: luckDrawTownBase,
-            children:[
-                {
-                    path:'',
-                    meta: {title: '俏猫3周年 | 集金币赢iPhoneX'},
-                    component:luckDrawTownIndex
-                },
-                {
-                    path:'luckdraw',
-                    meta: {title: '集金币大转盘-俏猫三周年'},
-                    component:luckDrawTown
-                },
-                {
-                    path:'questionnaire',
-                    meta: {title: '调查问卷-俏猫三周年'},
-                    component:Questionnaire
-                },
-                {
-                    path:'receipt',
-                    meta: {title: '填写收货信息-俏猫三周年'},
-                    component:receiptInfo
-                }
-            ]
+          children: [{
+              path: '',
+              meta: {
+                title: '俏猫3周年 | 集金币赢iPhoneX'
+              },
+              component: luckDrawTownIndex
+            },
+            {
+              path: 'luckdraw',
+              meta: {
+                title: '集金币大转盘-俏猫三周年'
+              },
+              component: luckDrawTown
+            },
+            {
+              path: 'questionnaire',
+              meta: {
+                title: '调查问卷-俏猫三周年'
+              },
+              component: Questionnaire
+            },
+            {
+              path: 'receipt',
+              meta: {
+                title: '填写收货信息-俏猫三周年'
+              },
+              component: receiptInfo
+            }
+          ]
         },
         {
           // 错误页
@@ -693,58 +765,73 @@ const router = new Router({
   ]
 })
 
- router.beforeEach((to, from, next) => {
-   if(to.meta.title) window.document.title = to.meta.title ;
-   /* if(to.fullPath.indexOf('usercenter') > -1){
-     debugger
-   } */
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) window.document.title = to.meta.title;
+  /* if(to.fullPath.indexOf('usercenter') > -1){
+    debugger
+  } */
   // 访问'我的俏猫', 如果已经登录，自动跳转为 '/usercenter'
-  if(to.fullPath.indexOf('login') > -1 && $.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('login') > -1 && $.cookie(keyConf.qm_cookie)) {
     next('/usercenter')
     return
   }
 
-  if(to.fullPath.indexOf('usercenter') > -1 && !$.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('usercenter') > -1 && !$.cookie(keyConf.qm_cookie)) {
     next('/login')
     return
   }
 
-  if(to.fullPath.indexOf('follow') > -1 && !$.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('follow') > -1 && !$.cookie(keyConf.qm_cookie)) {
     next('/login')
     return
   }
 
-  if(to.fullPath.indexOf('wallet') > -1 && !$.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('wallet') > -1 && !$.cookie(keyConf.qm_cookie)) {
     next('/login')
     return
   }
 
-  if(to.fullPath.indexOf('cat_food') > -1 && !$.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('cat_food') > -1 && !$.cookie(keyConf.qm_cookie)) {
     next('/login')
     return
   }
 
-  if(to.fullPath.indexOf('login') > -1 && !$.cookie(keyConf.qm_cookie)){
+  if (to.fullPath.indexOf('login') > -1 && !$.cookie(keyConf.qm_cookie)) {
     next()
     return
   }
 
   if ((to.fullPath.indexOf('order') > -1 || to.fullPath.indexOf('topic-order') > -1) && !$.cookie(keyConf.qm_cookie)) {
-    next({path: '/login', query: {url: to.fullPath}})
+    next({
+      path: '/login',
+      query: {
+        url: to.fullPath
+      }
+    })
     return
   }
 
-  if(to.fullPath.indexOf('/topic-dressparty/lineup') > -1 && !$.cookie(keyConf.qm_cookie)){
-    next({path: '/topic-dressparty', query: {type: 1}})
+  if (to.fullPath.indexOf('/topic-dressparty/lineup') > -1 && !$.cookie(keyConf.qm_cookie)) {
+    next({
+      path: '/topic-dressparty',
+      query: {
+        type: 1
+      }
+    })
     return
   }
 
-  if(to.fullPath.indexOf('/topic-makeup001/lineup001') > -1 && !$.cookie(keyConf.qm_cookie)){
-    next({path: '/topic-makeup001', query: {type: 0.01}})
+  if (to.fullPath.indexOf('/topic-makeup001/lineup001') > -1 && !$.cookie(keyConf.qm_cookie)) {
+    next({
+      path: '/topic-makeup001',
+      query: {
+        type: 0.01
+      }
+    })
     return
   }
 
   next()
-  })
+})
 
 export default router

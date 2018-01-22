@@ -53,4 +53,14 @@ export const halloweenData = {
   1000893: {id: '1000893', name: '年会清新仙女妆', price: '288', img: '/static/topic/annualMakeup/product_01.jpg'},
   1000894: {id: '1000894', name: '年会御姐气场妆', price: '288', img: '/static/topic/annualMakeup/product_02.jpg'},
   1000895: {id: '1000895', name: '年会俊朗绅士妆', price: '288', img: '/static/topic/annualMakeup/product_03.jpg'},
+
+  /** 
+   * 2018春节 新娘妆专题
+  */
+  1000959: { id: '1000959', name: '早妆', price: '468', img: '/static/topic/bride_2018_festival/morning.jpg'},
+  1000960: { id: '1000960', name: '半日妆', price: '888', img: '/static/topic/bride_2018_festival/half.jpg' },
+  1000961: { id: '1000961', name: '全日妆', price: '1388', img: '/static/topic/bride_2018_festival/allDay.jpg' },
+  1000307: { id: '1000307', name: '新娘试妆', price: '168', img: '/static/topic/bride_2018_festival/bride.jpg' },
+  1000962: { id: '1000962', name: '姐妹妆', price: '99', img: '/static/topic/bride_2018_festival/sister.jpg' },
+  1000963: { id: '1000963', name: '妈妈妆', price: '99', img: '/static/topic/bride_2018_festival/parent.jpg' },
 };
