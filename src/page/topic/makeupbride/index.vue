@@ -130,6 +130,7 @@ export default {
   mounted() {
     this.products = halloweenData;
     this.countProducts();
+    this.shareWechat();
   },
   components: {
     shoppingCart,
