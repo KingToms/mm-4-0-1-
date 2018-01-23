@@ -261,10 +261,10 @@ export default {
       wx.ready(function() {
         // if (window.location.href.indexOf('/topic-halloween') > -1) {
         _this.share_setup(
-          "【万圣节】 你“妆”够了吗",
-          "上【俏猫】预约化妆服务，将美进行到底,搞怪也要美美哒~",
-          "http://mm.qiaocat.com/topic-halloween",
-          "http://mm.qiaocat.com/static/topic/halloween/share.jpg"
+          "俏猫 | 新娘跟妆服务",
+          "新娘早妆、半天跟妆、全天跟妆，俏猫上门轻松帮您搞定。快来定制新娘妆，做完美新娘！",
+          "http://mm.qiaocat.com/topic-makeupbride",
+          "http://mm.qiaocat.com/static/topic/bride_2018_festival/share.jpg"
         );
       });
     },
