@@ -127,10 +127,13 @@ export default {
       from_ad: "topic_makeupbride_2018_festival" //专题来源
     };
   },
+  created(){
+    this.shareWechat();
+  },
   mounted() {
     this.products = halloweenData;
     this.countProducts();
-    this.shareWechat();
+    
   },
   components: {
     shoppingCart,
