@@ -6,23 +6,44 @@
       <div class="first"><img src="./img/2.jpg" alt=""></div>
       <div class="first"><img src="./img/3.jpg" alt=""></div>
     </section>
-    <section class="swipe-wrapper">
-      <swiper :options="swiperOption" ref="mySwiper">
-        <!-- slides -->
-        <swiper-slide><div class="first"><img src="./img/4_1.jpg" alt=""></div></swiper-slide>
-        <swiper-slide><div class="first"><img src="./img/4_2.jpg" alt=""></div></swiper-slide>
-        <swiper-slide><div class="first"><img src="./img/4_3.jpg" alt=""></div></swiper-slide>
-        <swiper-slide><div class="first"><img src="./img/4_4.jpg" alt=""></div></swiper-slide>
-        <!-- Optional controls -->
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </section>
+    <div style="width:100%;height:51.6rem" @touchstart="touchstart">
+      <!-- 配置slider组件 -->
+      <slider ref="slider" :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
+          <!-- 设置loading,可自定义 -->
+          <!-- <div slot="loading">loading...</div> -->
+      </slider>
+    </div>
     <section>
-      <div class="first"><img src="./img/4_1_1.jpg" alt=""></div>
-      <div class="first"><img src="./img/4_2_2.jpg" alt="" hidden></div>
-      <div class="first"><img src="./img/4_3_3.jpg" alt="" hidden></div>
-      <div class="first"><img src="./img/4_4_4.jpg" alt="" hidden></div>
+      <div class="bottom-panel">
+        <div class="line left"></div>
+        <div class="bgc">
+          <div :class="{ 'active': currentPage == 0}"></div>
+          <div :class="{ 'active': currentPage == 1}"></div>
+          <div :class="{ 'active': currentPage == 2}"></div>
+          <div :class="{ 'active': currentPage == 3}"></div>
+        </div>
+        <div class="line right"></div>
+        <div class="top-panel">
+          <div class="formart">
+            <div class="content" :class="{ 'active': currentPage == 0}" @click="turnTo(0)">
+              <div><span>HOT</span>热门</div>
+              <div>定制妆容</div>
+            </div>
+            <div class="content" :class="{ 'active': currentPage == 1}" @click="turnTo(1)">
+              <div>欧式</div>
+              <div>摩登复古</div>
+            </div>
+            <div class="content" :class="{ 'active': currentPage == 2}" @click="turnTo(2)">
+              <div>中式</div>
+              <div>端庄大方</div>
+            </div>
+            <div class="content" :class="{ 'active': currentPage == 3}" @click="turnTo(3)">
+              <div>韩式</div>
+              <div>清新时尚</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <section>
       <div class="first"><img src="./img/5.jpg" alt=""></div>
@@ -56,7 +77,7 @@
 </div>
 </template>
 <script>
-import { swiper, swiperSlide } from "vue-awesome-swiper";
+import slider from "vue-concise-slider";
 import shoppingCart from "../children/shoppingCart.1";
 import keyConf from "../../../common/keyConf";
 import { halloweenData } from "../data.config";
@@ -69,13 +90,31 @@ export default {
     return {
       isbg: false,
       // 轮播图插件
-      swiperOption: {
-        notNextTick: true,
+      pages: [
+        {
+          html:
+            '<img class="img" src="/static/topic/bride_2018_festival/4_1.jpg" alt="">'
+        },
+        {
+          html:
+            '<img class="img" src="/static/topic/bride_2018_festival/4_2.jpg" alt="">'
+        },
+        {
+          html:
+            '<img class="img" src="/static/topic/bride_2018_festival/4_3.jpg" alt="">'
+        },
+        {
+          html:
+            '<img class="img" src="/static/topic/bride_2018_festival/4_4.jpg" alt="">'
+        }
+      ],
+      sliderinit: {
+        currentPage: 0,
         autoplay: 4000,
         loop: true,
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next'
+        duration: 300
       },
+      currentPage: 0,
       products: [],
       carts: [], // 购物车商品
       totalPrice: 0, // 总价格
@@ -85,31 +124,30 @@ export default {
       addBuyIds: [1000307, 1000962, 1000963], // 加拍的商品
       count: 0, // 商品数量
       plid: "", // 推广来源
-      from_ad: "topic_makeupbride_2018_festival", //专题来源
+      from_ad: "topic_makeupbride_2018_festival" //专题来源
     };
   },
-  mounted(){
+  mounted() {
     this.products = halloweenData;
     this.countProducts();
   },
   components: {
-    swiper,
-    swiperSlide,
-    shoppingCart
+    shoppingCart,
+    slider
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.swiper
+      return this.$refs.mySwiper.swiper;
     }
   },
-  methods:{
+  methods: {
     async setStorage() {
       let datetime = common.getQueryString("datetime");
       let app = common.getQueryString("app");
       if (datetime && app) {
         let res = await authToken({ token: datetime });
         res.status === "ok"
-          ? $.cookie(keyConf.qm_cookie, res.data.id, {expires:1, path: '/'})
+          ? $.cookie(keyConf.qm_cookie, res.data.id, { expires: 1, path: "/" })
           : $.cookie(keyConf.qm_cookie, "");
         storage_custom.set(keyConf.token, datetime);
       } else if (!datetime && app) {
@@ -183,6 +221,25 @@ export default {
         this.count += item.num * 1;
       });
     },
+    touchstart(data){
+      console.log(data)
+    },
+    turnTo (num) {
+      // 传递事件 vue 2.0 传递事件修改了，好的写法应该直接写在空vue类中
+      // console.log(this)
+      this.$refs.slider.$emit('slideTo', num)
+      this.currentPage = num == 4 ? 0 : num;
+    },
+    // Listener event
+    slide(data) {
+      this.currentPage = data.currentPage == 4 ? 0 : data.currentPage;
+    },
+    onTap(data) {
+      console.log(data);
+    },
+    onInit(data) {
+      console.log(data);
+    },
     showCart() {
       this.isbg = true;
       $("body").css("overflow", "hidden");
@@ -240,13 +297,84 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .makeupBride {
+  .bottom-panel {
+    width: 100%;
+    padding: 0 3rem;
+    position: relative;
+    .line {
+      border: 0.05rem solid #000;
+      width: 3rem;
+      position: absolute;
+      top: 50%;
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+      }
+    }
+    .bgc {
+      width: 100%;
+      display: flex;
+      div{
+        margin: 2.25rem 0;
+        height: 4.5rem;
+        flex: 1;
+        background-color: #cddcff;
+        margin-left: 2px;
+        &.active{
+          background-color: #89a5e4;
+        }
+      }
+    }
+    .top-panel{
+      position: absolute;
+      width: 100%;
+      top: 20%;
+      left: 0;
+      .formart{
+        padding: 0 3.5rem 0 2rem;
+        display: flex;
+        >div{
+          flex: 1;
+          margin-left: -1px;
+          height: 4.5rem;
+          background-color: #fff;
+          border: .05rem solid #759cf2;
+          text-align: center;
+          padding-top: 3px;
+          font-size: 1.3rem;
+          div{
+            color: #759cf2;
+          }
+          span{
+            padding: .2rem;
+            margin-right: .2rem;
+            background-color: #ecc3f1;
+            border: .01rem solid #000;
+            font-size: 1.2rem;
+          }
+          &.active{
+            background-color: #abc5ff;
+            div{
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+  .slider-item > .img {
+    height: 52.6rem !important;
+    width: 100%;
+  }
   .swipe-wrapper {
     width: 100%;
     height: 51.6rem;
   }
-  .telService{
+  .telService {
     width: 16%;
     height: 10.2%;
     border-radius: 50%;
@@ -261,7 +389,7 @@ export default {
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1;
+    z-index: 9999;
   }
   .toast {
     position: fixed;
@@ -277,15 +405,6 @@ export default {
     text-align: center;
     line-height: 5rem;
     color: #fff;
-  }
-  .bottom-cart {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 32.7rem;
-    width: 100%;
-    background-color: #fff;
-    z-index: 2;
   }
   .first {
     position: relative; // margin-top: -10px;
@@ -354,12 +473,22 @@ export default {
     bottom: 13%;
     left: 28.3%;
   }
+  .bottom-cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 32.7rem;
+    width: 100%;
+    background-color: #fff;
+    z-index: 9999;
+  }
   .shop-cart {
     position: fixed;
     width: 5.7rem;
     height: 5.2rem;
     right: 2.7rem;
     bottom: 4rem;
+    z-index: 9998;
     .cart {
       width: 100%;
       height: 100%;

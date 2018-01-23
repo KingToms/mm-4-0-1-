@@ -12,10 +12,6 @@ import './common/cookie'
 import AutoFocus from 'vue-auto-focus'
 Vue.use(AutoFocus)
 
-import "swiper/dist/css/swiper.css";
-import VueAwesomeSwiper from 'vue-awesome-swiper';
-Vue.use(VueAwesomeSwiper);
-
 Vue.config.productionTip = false
 Vue.config.silent=true
 
