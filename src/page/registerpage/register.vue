@@ -116,9 +116,13 @@
           alert('请设置正确密码（最少6位，数字+字母）');
           return
         }*/
+        let plid = $.cookie('shopping_plid')
+        if(plid > 0){
+          $.removeCookie('shopping_plid', {path: '/'})
+        }
 
-        this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid})
+        this.plid = common.getQueryString("plid");
+        let result = await register({mobile: this.mobile, password: this.pwd, code: this.code,from: 3,plid: this.plid > 0 ? this.plid : plid})
 
         if(result.status == 'ok'){
           alert('注册成功')

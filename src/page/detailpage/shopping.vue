@@ -250,6 +250,9 @@
       this.storeDetail();//店铺的详情
       this.severList ();//店铺的服务项目
       this.shopAddre();//服务商圈地址
+      if(this.$route.query.plid){
+        $.cookie('shopping_plid', this.$route.query.plid, {path: '/'})
+      }
     },
     mounted (){
       

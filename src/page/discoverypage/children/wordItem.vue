@@ -308,6 +308,9 @@ export default {
 .word_box {
   width: 100%;
   padding: 2rem 1.5rem 2rem 0;
+  &:nth-of-type(1){
+    padding: .5rem 1.5rem 2rem 0;
+  }
   border-bottom: 0.05rem solid #ddd;
   .main {
     position: relative;

@@ -130,6 +130,7 @@ const Shopping = resolve => require.ensure([], () => resolve(require('@/page/det
 const OrderDesc = resolve => require.ensure([], () => resolve(require('../page/detailpage/children/orderDesv')), 'orderdescd')
 
 const Discovery = resolve => require.ensure([], () => resolve(require('@/page/discoverypage/discovery')), ' discovery')
+const TopicTheme = resolve => require.ensure([], () => resolve(require('@/page/discoverypage/topic')), 'discovery')
 // 测试使用的
 const testUse = resolve => require.ensure([], () => resolve(require('@/page/test/index')), ' testUse')
 
@@ -270,6 +271,11 @@ const router = new Router({
               component: Discovery
             }
           ]
+        },
+        {
+          path: '/discovery/topictheme',
+          name: 'topictheme',
+          component: TopicTheme
         },
         // 化妆
         {
@@ -772,7 +778,9 @@ router.beforeEach((to, from, next) => {
   } */
   // 访问'我的俏猫', 如果已经登录，自动跳转为 '/usercenter'
   if (to.fullPath.indexOf('login') > -1 && $.cookie(keyConf.qm_cookie)) {
-    next('/usercenter')
+    next({
+      path: '/usercenter'
+    })
     return
   }
 

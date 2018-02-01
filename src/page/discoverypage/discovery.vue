@@ -9,15 +9,26 @@
     </div>
     <!--顶部轮播-->
     <div class="swipe-wrapper" v-show="topCarousel">
-      <mt-swipe :show-indicators="false">
+      <!-- <mt-swipe :show-indicators="false">
         <mt-swipe-item v-for="(item,index) in topCarousel" :key="index">
           <a class="imgshow" :href="item.link">
             <img :src="item.img_url" alt="大家有话说">
           </a>
         </mt-swipe-item>
-      </mt-swipe>
+      </mt-swipe> -->
+      <div>
+        <a class="imgshow" :href="topCarousel[0].link">
+            <img :src="topCarousel[0].img_url" alt="大家有话说">
+          </a>
+      </div>
+      <div>
+        <a class="imgshow" :href="topCarousel[1].link">
+            <img :src="topCarousel[1].img_url" alt="大家有话说">
+          </a>
+      </div>
     </div>
     <div class="content">
+      <div class="content-title">她们都在晒</div>
       <wordItem v-for="(item, index) in discovery_list" :key="index" :item="item" :like_list="like_list"></wordItem>
     </div>
 
@@ -137,8 +148,16 @@ export default {
     }
   }
   .swipe-wrapper {
+    display: flex;
+    padding: .8rem 1.5rem;
     width: 100%;
     height: 10rem;
+    >div{
+      flex: 1;
+      &:nth-of-type(1){
+        margin-right: 5px;
+      }
+    }
     a.imgshow {
       display: block;
       width: 100%;
@@ -151,8 +170,22 @@ export default {
 
   .content {
     @include wh(100%, 100%);
-
-    padding: 0 0 1.5rem 1.5rem;
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    .content-title{
+      position: relative;
+      @include sc(1.6rem, #000);
+      // margin-left: 1rem;
+      padding-left: 1rem;
+      &::before{
+        position: absolute;
+        content: '';
+        height: 1.5rem;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border-left: .25rem solid #e70034;
+      }
+    }
   }
 
 }

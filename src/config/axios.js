@@ -6,7 +6,7 @@ var Promise = require('es6-promise').Promise
 
 let hostname = window.location.origin;
 let protocol = window.location.protocol;
-console.log('hostname', window.location);
+// console.log('hostname', window.location);
 let baseUrl
 if (hostname.indexOf('tmp-mm.qiaocat.com') > -1 && protocol == 'http:'){
   baseUrl = keyConf.baseUrl.tmp
