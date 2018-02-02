@@ -63,4 +63,15 @@ export const halloweenData = {
   1000307: { id: '1000307', name: '新娘试妆', price: '168', img: '/static/topic/bride_2018_festival/bride.jpg' },
   1000962: { id: '1000962', name: '姐妹妆', price: '99', img: '/static/topic/bride_2018_festival/sister.jpg' },
   1000963: { id: '1000963', name: '妈妈妆', price: '99', img: '/static/topic/bride_2018_festival/parent.jpg' },
+
+  /**
+  *新春专题
+  */
+  /*1000990: { id: '1000990', name: '韩国小气泡', price: '98', img: '/static/topic/new_year2018/product_1.jpg'},
+  1000988: { id: '1000988', name: '新春自然裸妆款美睫', price: '388', img: '/static/topic/new_year2018/product_2.jpg' },
+  1000689: { id: '1000689', name: '旺运势招财开运眉', price: '3280', img: '/static/topic/new_year2018/product_3.jpg' },*/
+
+  1000646: { id: '1000646', name: '韩国小气泡', price: '98', img: '/static/topic/new_year2018/product_1.jpg'},
+  1000647: { id: '1000647', name: '新春自然裸妆款美睫', price: '388', img: '/static/topic/new_year2018/product_2.jpg' },
+  1000648: { id: '1000648', name: '旺运势招财开运眉', price: '3280', img: '/static/topic/new_year2018/product_3.jpg' },
 };

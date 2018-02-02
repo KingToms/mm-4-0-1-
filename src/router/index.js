@@ -191,6 +191,8 @@ const Questionnaire = r => require.ensure([], () => r(require('@/page/topic/beau
 const receiptInfo = r => require.ensure([], () => r(require('@/page/topic/beauty_town/receipt_info')), '3rdAnniversary');
 // 新娘专题-2018春节
 const makeupBride = r => require.ensure([], () => r(require('@/page/topic/makeupbride/index')), 'makeupBride');
+// 新春专题-2018春节
+const newyear2018 = r => require.ensure([], () => r(require('@/page/topic/new_year2018/index')), 'newyear2018');
 
 
 /*专题模块结束 */
@@ -721,6 +723,14 @@ const router = new Router({
           },
           component: makeupBride
 
+        },
+        // 新春专题-2018
+        {
+          path: '/topic-newyear',
+          meta: {
+            title: '新春专题'
+          },
+          component: newyear2018
         },
 
         // 三周年--美丽小城

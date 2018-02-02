@@ -892,14 +892,15 @@ export default {
           line-height: 3.3rem;
           word-wrap: break-word;
           &.price {
+            clear: both;
             .currentPrice {
               @include sc(1.6rem,
               #e65058)
             }
             .oldPrice {
+              float: right;
               padding-left: 50%;
-              @include sc(1.6rem,
-              #000);
+              @include sc(1.6rem, #000);
               /* small{
                 @include sc(1rem,
               #999);
