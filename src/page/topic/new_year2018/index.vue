@@ -12,17 +12,17 @@
       </div>
       <div class="product pro_01">
         <img src="/static/topic/new_year2018/SF-6.jpg" alt="韩国小气泡">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000646)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000990)"></a>
       </div>
       <div class="product pro_02">
         <img src="/static/topic/new_year2018/SF-7.jpg" alt="新春自然裸妆款美睫">
         <img src="/static/topic/new_year2018/SF-8.jpg" alt="新春自然裸妆款美睫">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000647)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000988)"></a>
       </div>
       <div class="product pro_03">
         <img src="/static/topic/new_year2018/SF-9.jpg" alt="旺运势招财开运眉">
         <img src="/static/topic/new_year2018/SF-10.jpg" alt="旺运势招财开运眉">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000648)"></a>
+        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000689)"></a>
       </div>
       <div class="tips">
         <img src="/static/topic/new_year2018/SF-11.jpg" alt="">
@@ -72,8 +72,8 @@ export default {
       from_ad: "topic_newyear2018", //专题来源
 
       shareData: { // APP分享
-        title: '俏猫|新春专题',
-        desc: '有颜，任性大BUY年~',
+        title: '俏猫 | 春“睫”任性大BUY年',
+        desc: '准备好了再回家！嫩肤·长睫毛·伪素颜精致见亲友。',
         link: 'http://mm.qiaocat.com/topic-newyear?plid=119',
         imgUrl: 'http://mm.qiaocat.com/static/topic/new_year2018/share.jpg',
       },
@@ -200,8 +200,8 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "俏猫|新春专题",
-          "有颜，任性大BUY年~",
+          "俏猫 | 春“睫”任性大BUY年",
+          "准备好了再回家！嫩肤·长睫毛·伪素颜精致见亲友。",
           "http://mm.qiaocat.com/topic-newyear?plid=119",
           "http://mm.qiaocat.com/static/topic/new_year2018/share.jpg",
         );
@@ -255,11 +255,13 @@ export default {
   }
   #demo-video {
     position: absolute;
-    top: 48%;
+    top: 49%;
     left: 8%;
     display: block;
     width: 86%;
-    height: 12%;
+    height: 10%;
+    border: 0.2rem solid #fff;
+    background-color: #000;
   }
   .product {
     .now-buy {

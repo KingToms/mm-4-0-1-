@@ -728,7 +728,7 @@ const router = new Router({
         {
           path: '/topic-newyear',
           meta: {
-            title: '新春专题'
+            title: '春“睫”任性大BUY年'
           },
           component: newyear2018
         },
