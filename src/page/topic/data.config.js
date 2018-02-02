@@ -68,6 +68,6 @@ export const halloweenData = {
   *新春专题
   */
   1000990: { id: '1000990', name: '韩国小气泡', price: '98', img: '/static/topic/new_year2018/product_1.jpg'},
-  1000988: { id: '1000988', name: '新春自然裸妆款美睫', price: '388', img: '/static/topic/new_year2018/product_2.jpg' },
+  1000989: { id: '1000989', name: '新春自然裸妆款美睫', price: '388', img: '/static/topic/new_year2018/product_2.jpg' },
   1000689: { id: '1000689', name: '旺运势招财开运眉', price: '3280', img: '/static/topic/new_year2018/product_3.jpg' },
 };
