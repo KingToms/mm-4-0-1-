@@ -283,7 +283,7 @@ export default {
   filters: {
     uesrImg(item) {
       if (!item) {
-        return require("../../../assets/image/icon/detail/my_photo_default.png");
+        return require("../../../assets/image/icon/detail/find_default_avatar.png");
       } else {
         if (item.indexOf("http") != -1) {
           return item;
