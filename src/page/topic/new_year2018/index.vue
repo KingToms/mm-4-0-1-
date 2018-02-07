@@ -11,18 +11,27 @@
         <img src="/static/topic/new_year2018/SF-5.jpg" alt="">
       </div>
       <div class="product pro_01">
-        <img src="/static/topic/new_year2018/SF-6.jpg" alt="韩国小气泡">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000990)"></a>
+        <img src="/static/topic/new_year2018/SF-6-1.jpg" alt="韩国小气泡">
+        <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000990)"></a>-->
+
+        <a v-if="openInAPP" class="now-buy" href="/detail/1000646"></a>
+        <a v-else class="now-buy" href="/detail/1000646?plid=119"></a>
       </div>
       <div class="product pro_02">
         <img src="/static/topic/new_year2018/SF-7.jpg" alt="新春自然裸妆款美睫">
-        <img src="/static/topic/new_year2018/SF-8.jpg" alt="新春自然裸妆款美睫">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000989)"></a>
+        <img src="/static/topic/new_year2018/SF-8-1.jpg" alt="新春自然裸妆款美睫">
+        <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000989)"></a>-->
+
+        <a v-if="openInAPP" class="now-buy" href="/detail/1000647"></a>
+        <a v-else class="now-buy" href="/detail/1000647?plid=119"></a>
       </div>
       <div class="product pro_03">
         <img src="/static/topic/new_year2018/SF-9.jpg" alt="旺运势招财开运眉">
-        <img src="/static/topic/new_year2018/SF-10.jpg" alt="旺运势招财开运眉">
-        <a class="now-buy" href="javascript:void(0)" @click="addCart(1000689)"></a>
+        <img src="/static/topic/new_year2018/SF-10-1.jpg" alt="旺运势招财开运眉">
+        <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000689)"></a>-->
+
+        <a v-if="openInAPP" class="now-buy" href="/detail/1000648"></a>
+        <a v-else class="now-buy" href="/detail/1000648?plid=119"></a>
       </div>
       <div class="tips">
         <img src="/static/topic/new_year2018/SF-11.jpg" alt="">
@@ -31,13 +40,15 @@
       <!--分享信息-->
       <span id="differentShare" :data="JSON.stringify(shareData)" style="display: none"></span>
     </section>
+
     <!--购物车-->
-    <section>
+    <!--<section>
       <div class="shop-cart" @click="showCart">
         <div class="cart"></div>
         <icon v-show="count > 0" class="num">{{count}}</icon>
       </div>
-    </section>
+    </section>-->
+
     <!--提示-->
     <section>
       <div class="toast">加入购物车成功</div>
@@ -70,6 +81,7 @@ export default {
       count: 0, // 商品数量
       plid: "", // 推广来源
       from_ad: "topic_newyear2018", //专题来源
+      openInAPP: false, //app打开
 
       shareData: { // APP分享
         title: '俏猫 | 春“睫”任性大BUY年',
@@ -81,6 +93,9 @@ export default {
   },
   created (){
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    if (common.getQueryString("app") == "ios" || common.getQueryString("app") == "android") {
+      this.openInAPP = true;
+    }
     this.products = halloweenData;
     this.countProducts();
     this.filterDiscount();

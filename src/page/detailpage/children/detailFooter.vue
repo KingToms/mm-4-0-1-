@@ -30,6 +30,8 @@ export default {
       isActive: false,
       tipMsg: '', // 关注提示
       appOpen: false, // 产品详情页面是否在APP中打开(便于拦截，采用app原生支付)
+
+      plid: '', //便于统计新用户从专题来的
     };
   },
   props: ['productId','typeUser','ZIndex','InfoList'],
@@ -43,6 +45,8 @@ export default {
     if (common.getQueryString("app") == "ios" || common.getQueryString("app") == "android") {
         this.appOpen = true; // 页面是在APP中打开
     }
+
+    this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
   },
   methods: {
 
@@ -75,7 +79,7 @@ export default {
           // this.$router.push({name: "login", query: {url:"/detail/" + this.productId}});
           alert('请您先登录')
           let stylist_id = this.$route.query.stylist_id;
-          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
+          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
           this.$router.push(baseUrl)
         }
       }else{
@@ -115,7 +119,7 @@ export default {
           window.location.href = `/login?action=login`;
         }else {
           alert('未登录');
-          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}` : `/login?url=/detail/${this.productId}`;
+          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
           this.$router.push(baseUrl)
         }
       }else{
