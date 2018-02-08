@@ -46,7 +46,7 @@
           <span v-if="product_info.dingjingShow" class="pay_more">到店再付:{{product_info.shop_price}}元</span>
         </div>
         <!--服务模块-->
-        <div v-show="product_info.service_form != 2 || product_info.service_form.length > 1" class="service" @click="chengnuo_show">
+        <div v-show="product_info.cate_id == 2048 || product_info.service_form != 2 || product_info.service_form.length > 1" class="service" @click="chengnuo_show">
           <span :class="'icon'+(index+1)" v-for="(item,index) in product_info.commitList" :key="index">
             <img :src="require('../../../src/assets/image/icon/detail/'+item.icon_m)" alt="">
             {{item.title}}
@@ -188,6 +188,7 @@ export default {
         commit_type: '', // 服务承诺type
         dingjingShow: false, // 医美的就显示定金
         shop_price: '', // 医美的到店支付
+        cate_id: 0, // 商品类别
       }, // 产品信息
       mys_info: {
         shoppingId: null, // 美业师店铺ID
@@ -321,6 +322,7 @@ export default {
         _this.product_info.price = result.data.price;
         _this.product_info.duration = result.data.duration;
         _this.product_info.service_form = result.data.service_form;
+        _this.product_info.cate_id = result.data.cate_id;
         _this.product_info.commend = result.data.commend;
         _this.product_info.product_favorite_count = result.data.product_favorite_count;
         _this.product_info.comments = result.data.comments;
