@@ -12,10 +12,10 @@
       </div>
       <div class="product pro_01">
         <img src="/static/topic/new_year2018/SF-6-1.jpg" alt="韩国小气泡">
-        <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000990)"></a>-->
+        <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000992)"></a>-->
 
-        <a v-if="openInAPP" class="now-buy" href="/detail/1000990"></a>
-        <a v-else class="now-buy" href="/detail/1000990?plid=119"></a>
+        <a v-if="openInAPP" class="now-buy" href="/detail/1000992"></a>
+        <a v-else class="now-buy" href="/detail/1000992?plid=119"></a>
       </div>
       <div class="product pro_02">
         <img src="/static/topic/new_year2018/SF-7.jpg" alt="新春自然裸妆款美睫">
