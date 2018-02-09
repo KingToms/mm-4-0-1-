@@ -11,7 +11,7 @@
         <img src="/static/topic/new_year2018/SF-5.jpg" alt="">
       </div>
       <div class="product pro_01">
-        <img src="/static/topic/new_year2018/SF-6-1.jpg" alt="韩国小气泡">
+        <img src="/static/topic/new_year2018/SF-6(1).jpg" alt="韩国小气泡">
         <!--<a class="now-buy" href="javascript:void(0)" @click="addCart(1000992)"></a>-->
 
         <a v-if="openInAPP" class="now-buy" href="/detail/1000992"></a>
