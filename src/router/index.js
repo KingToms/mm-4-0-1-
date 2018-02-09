@@ -193,6 +193,8 @@ const receiptInfo = r => require.ensure([], () => r(require('@/page/topic/beauty
 const makeupBride = r => require.ensure([], () => r(require('@/page/topic/makeupbride/index')), 'makeupBride');
 // 新春专题-2018春节
 const newyear2018 = r => require.ensure([], () => r(require('@/page/topic/new_year2018/index')), 'newyear2018');
+// 新春公告-2018春节
+const announcement2018 = r => require.ensure([], () => r(require('@/page/topic/announcement/index')), 'announcement2018');
 
 
 /*专题模块结束 */
@@ -731,6 +733,14 @@ const router = new Router({
             title: '春“睫”任性大BUY年'
           },
           component: newyear2018
+        },
+        // 新春公告-2018
+        {
+          path: '/topic-announcement',
+          meta: {
+            title: '俏猫春节不打烊'
+          },
+          component: announcement2018
         },
 
         // 三周年--美丽小城
