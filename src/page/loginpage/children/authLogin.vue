@@ -67,6 +67,7 @@ export default {
       // this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
       let result = await authLogin({mobile: this.mobile,code: this.code, plid: this.channel})
       if(result.status == 'ok'){
+        $.removeCookie('shopping_plid', {path: '/'})
         $.cookie(keyConf.qm_cookie, this.mobile, {expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)
         if(this.$route.query.url){

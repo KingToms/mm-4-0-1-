@@ -41,6 +41,7 @@ export default {
     async pwdLogin (){
       let res = await pwdlogin({mobile: String.trim(this.mobile), password: this.pwd, plid: this.channel})
       if(res.status == 'ok'){
+        $.removeCookie('shopping_plid', {path: '/'})
         $.cookie(keyConf.qm_cookie, this.mobile,{expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)
         if(this.$route.query.url){

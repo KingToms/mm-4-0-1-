@@ -70,7 +70,9 @@ export default {
     // 验证码登录
     async codeLogin () {
       this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
-      let result = await authLogin({mobile: this.mobile,code: this.code, plid: this.plid})
+      let plid = $.cookie('shopping_plid')
+      $.removeCookie('shopping_plid', {path: '/'})
+      let result = await authLogin({mobile: this.mobile,code: this.code, plid: this.plid > 0 ? this.plid : plid})
       if(result.status == 'ok'){
         $.cookie(keyConf.qm_cookie, this.mobile, {expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)

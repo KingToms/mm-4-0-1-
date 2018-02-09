@@ -121,7 +121,11 @@ export default {
     this.title = this.method ? '快捷登录' : '密码登录';
     if (this.$route.query.url) {
       parames = this.getUrlParam(this.$route.query.url);
-      this.channel = parames['plid'];
+      let plid = $.cookie('shopping_plid')
+      // if(plid > 0){
+      //   $.removeCookie('shopping_plid', {path: '/'})
+      // }
+      this.channel = parames['plid'] > 0 ? parames['plid'] : plid;
     }
 
     if (this.$route.query.code) { // 已微信授权
