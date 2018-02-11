@@ -122,6 +122,7 @@ export default {
     if (this.$route.query.url) {
       parames = this.getUrlParam(this.$route.query.url);
       let plid = $.cookie('shopping_plid')
+      
       // if(plid > 0){
       //   $.removeCookie('shopping_plid', {path: '/'})
       // }
