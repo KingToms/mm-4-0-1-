@@ -38,7 +38,7 @@ export default {
     margin-bottom: 1.6rem;
   }
   .img{
-    @include wh(100%,14rem);
+    @include wh(100%,18.4rem);
     @include borderRadius(0.4rem);
     background-position: center;
     background-size: cover;
