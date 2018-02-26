@@ -274,6 +274,16 @@ export default {
 
     /*抽奖*/
     async luckyDraw() {
+      // 前端控制活动是否已结束
+      let nowdate = new Date();
+      let activity_date = new Date('2018/2/1');
+      // console.log("现在的日期是：",nowdate);
+      // console.log("活动日期是：",activity_date);
+      if(nowdate > activity_date){
+        alert("活动已结束，谢谢参与");
+        return false;
+      }
+
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == "error") {
