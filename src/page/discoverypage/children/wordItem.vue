@@ -377,19 +377,25 @@ export default {
       @include borderRadius(0.4rem);
       a {
         display: block;
+        position: relative;
         width: 100%;
         height: 100%;
       }
       img {
-        float: left;
+        position: absolute;
+        left: 0;
+        top: 0;
         margin: 0.5rem;
         width: 4rem;
         height: 4rem;
       }
       p {
+        padding-left: 5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         height: 5rem;
         line-height: 5rem;
-        float: left;
         @include sc(1.4rem, #000);
         margin-left: 0.5rem;
       }
