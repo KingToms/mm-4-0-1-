@@ -53,9 +53,8 @@ export default {
 <style>
 /*处理v-html中的样式*/
 .picText_detail img {
-  display: block;
-
-  width: 100%;
+  /*display: block;
+  width: 100%;*/
 }
 </style>
 
