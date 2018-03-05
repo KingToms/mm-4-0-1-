@@ -31,7 +31,7 @@
         <li class="left" v-for="(item,index) in stylist" :key="index">
           <a :href="`/detail/shopping/${item.id}`">
           <!-- :src=" item.user_img.indexOf('http://') > -1 ? item.user_img : `${baseUrl}${item.user_img}`" -->
-            <img v-lazy=" item.user_img.indexOf('http://') > -1 ? item.user_img : `${baseUrl}${item.user_img}`" > <!-- @error="defaultSrc(this)" -->
+            <img v-lazy=" item.user_img.indexOf('http') > -1 ? item.user_img : `${baseUrl}${item.user_img}`" > <!-- @error="defaultSrc(this)" -->
             <p>{{item.real_name}}</p>
             <span>{{item.level_name}}</span>
             <!-- <span>{{level[item.level]}}</span> -->
