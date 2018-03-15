@@ -9,7 +9,7 @@
         <i class="icon-delete" v-show="iconShow" @click="resetText"></i>
         <input class="mCode" v-model="code" type="tel" placeholder="请输入验证码" maxlength="6">
         <input type="button" value="获取验证码" id="sendCode" class="btn-code" @click="sendCode"></input>
-        <div v-if="agreeState" class="signup" @click="toSignUp">马上报名</div>
+        <div v-if="agreeState" class="signup" @click="codeLogin">马上报名</div>
         <div v-else class="signup disable-btn" @click="showTip">马上报名</div>
       </div>
     </div>
@@ -51,9 +51,10 @@
 <script>
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { getCode, authLogin } from '../../../service/getData.js'
-import common from '../../../common/common.js'
-import keyConf from '../../../common/keyConf.js'
+import { getCode, authLogin } from '../../../service/getData.js';
+import common from '../../../common/common.js';
+import { setStore } from '../../../common/store.js'
+import keyConf from '../../../common/keyConf.js';
 export default {
   name: "bestMys",
   data() {
@@ -67,7 +68,54 @@ export default {
       plid: '', // 推广链接表ID
     };
   },
+  created() {
+    this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.shareWechat();
+  },
   methods: {
+    /*微信分享*/
+    shareWechat() {
+      let _this = this;
+      wx.ready(function() {
+        _this.share_setup(
+          "拼颜值，拼人气，你是最美美业师吗？",
+          "豪送1388元女神大礼包~",
+          "http://mm.qiaocat.com/topic-best-mys",
+          "http://mm.qiaocat.com/static/static/topic/bestMys/share1.jpg"
+        );
+      });
+    },
+    share_setup(title, desc, link, imgUrl) {
+      let _this = this;
+      wx.onMenuShareAppMessage({
+        title: title,
+        desc: desc,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          console.log(1, res);
+          _this.getMoreLuckdraw('share');
+
+        },
+        error: function(err) {
+          console.log(1, err);
+        }
+      });
+      wx.onMenuShareTimeline({
+        title: title,
+        link: link,
+        imgUrl: imgUrl,
+        success: function(res) {
+          //todo
+          console.log(2, res);
+          _this.getMoreLuckdraw('share');
+        },
+        error: function(err) {
+          console.log(2, err);
+        }
+      });
+    },
+
     // 同意活动规则
     toAgree() {
       this.agreeState = !this.agreeState;
@@ -128,13 +176,18 @@ export default {
     },
     // 验证码登录
     async codeLogin() {
-      this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
       let result = await authLogin({ mobile: this.mobile, code: this.code, plid: this.plid })
       if (result.status == 'ok') {
         $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
         setStore(keyConf.userMoile, this.mobile)
 
-        this.payment(this.mobile);
+        // 完善资料
+        Toast({
+          message: '请填写完善资料，参与报名',
+          duration: 2000,
+          className: 'toast-tip'
+        });
+        this.$router.push('/topic-best-mys/info');
       } else {
         alert(result.msg);
       }
