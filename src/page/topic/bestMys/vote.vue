@@ -2,43 +2,21 @@
   <div class="main">
     <div class="info">
       <div class="search-box">
-        <form action="" @submit.prevent="searchFun()">
+        <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
           <input class="search" type="number" placeholder="请输入选手编号" v-model="searchText">
         </form>
       </div>
       <div class="photo-box">
-        <div class="item-box">
+        <div class="item-box" v-for="(item,index) in mysLists" :key="index">
           <div class="item demo1">
-            <div class="mys-item" style="backgroundImage: url('http://qiaocat.oss-cn-shenzhen.aliyuncs.com/20171117171135_46131900.jpeg')">
+            <div class="mys-item" :style="{backgroundImage: 'url('+item.headimgurl+')'}">
             </div>
           </div>
           <div class="mys-detail">
-            <p>票数：18958</p>
-            <p>编号：021 &nbsp;张三三</p>
-            <button class="vote-btn" @click="toVote">投票</button>
-          </div>
-        </div>
-        <div class="item-box">
-          <div class="item demo1">
-            <div class="mys-item" style="backgroundImage: url('http://qiaocat.oss-cn-shenzhen.aliyuncs.com/20171117171135_46131900.jpeg')">
-            </div>
-          </div>
-          <div class="mys-detail">
-            <p>票数：18958</p>
-            <p>编号：021 &nbsp;张三三</p>
-            <button class="vote-btn">投票</button>
-          </div>
-        </div>
-        <div class="item-box">
-          <div class="item demo1">
-            <div class="mys-item" style="backgroundImage: url('http://qiaocat.oss-cn-shenzhen.aliyuncs.com/20171117171135_46131900.jpeg')">
-            </div>
-          </div>
-          <div class="mys-detail">
-            <p>票数：18958</p>
-            <p>编号：021 &nbsp;张三三</p>
-            <button class="vote-btn">投票</button>
+            <p>票数：{{item.voting_number}}</p>
+            <p>编号：{{item.number}} &nbsp;{{item.user_name}}</p>
+            <button class="vote-btn" @click="voteMys(item.uid)">投票</button>
           </div>
         </div>
 
@@ -49,17 +27,17 @@
     <!--投票登录窗口-->
     <div class="vote-login" v-if="showLogin">
       <div class="content">
-        <div class="close" @click="showLogin = false"></div>
-        <img v-if="success" src="/static/topic/bestMys/3.2bg.png" alt="">
+        <div class="close" @click="closeLoginBox"></div>
+        <img v-if="!success" src="/static/topic/bestMys/3.2bg.png" alt="">
         <img v-else src="/static/topic/bestMys/3.3bg.png" alt="">
         <div class="rule-detail">
-          <div v-if="success" class="sign-box">
+          <div v-if="!success" class="sign-box">
             <!--手机号、验证码-->
             <input class="tel" type="tel" v-model="mobile" @focus="inputText" @blur="inputBlur" placeholder="请输入手机号码" maxlength="11">
             <i class="icon-delete" v-show="iconShow" @click="resetText"></i>
             <input class="mCode" v-model="code" type="tel" placeholder="请输入验证码" maxlength="6">
             <input type="button" value="发送验证码" id="sendCode" class="btn-code" @click="sendCode"></input>
-            <div class="signup" @click="toVote">投票</div>
+            <div class="signup" @click="codeLogin">投票</div>
           </div>
           <div v-else class="result-box">
             <div class="success-img">
@@ -90,7 +68,8 @@
 import Vue from 'vue';
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { getCode, authLogin } from '../../../service/getData.js'
+import { getCode, authLogin,userIsLogin, mysTpList, mysTpTp, mysTpSs } from '../../../service/getData.js'
+import { setStore } from '../../../common/store.js';
 import common from '../../../common/common.js'
 import keyConf from '../../../common/keyConf.js'
 export default {
@@ -103,15 +82,18 @@ export default {
       shareBoxShow: false, // 分享指引
 
       showLogin: false, //投票登录窗口
+      vote_uid: '',
       mobile: '', //手机号码
       code: '', //验证码
       iconShow: false,// 删除按钮显示隐藏
       countdown: 60,
       success: false, //投票结果
+      plid: '',
     };
   },
-  created(){
+  created() {
     this.shareWechat();
+    this.getMysList();
   },
   methods: {
     /*微信分享*/
@@ -157,14 +139,54 @@ export default {
       });
     },
 
+    // 获取美业师列表
+    async getMysList() {
+      let res = await mysTpList();
+      // console.log("美业师列表：", res);
+      if (res.status == 'ok') {
+        this.mysLists = res.data;
+      }
+    },
     // 搜索选手
-    searchFun() {
-
+    async searchFun(number) {
+      if (number.trim() == '') {
+        alert("选手编号不能为空");
+      } else {
+        let res = await mysTpSs({ number: number });
+        if (res.status == 'ok') {
+          this.mysLists = [];
+          if (res.data) { //是否有搜索的编号美业师
+            this.mysLists.push(res.data);
+          } else {
+            // this.mysLists = [];
+            alert("暂无对应编号美业师");
+            this.getMysList();
+          }
+        } else {
+          alert(res.msg);
+        }
+      }
     },
 
     // 投票
-    toVote() {
-      this.showLogin = true;
+    async voteMys(uid) {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin();
+      if (!qm_cookie || isLogin.status == 'error') {
+        this.showLogin = true;
+        this.success = false;
+        this.vote_uid = uid;
+      } else {
+        let res = await mysTpTp({ voting_uid: uid });
+        if (res.status == 'ok') {
+          this.showLogin = true;
+          this.success = true;
+          this.vote_uid = '';
+        } else {
+          alert(res.msg);
+        }
+
+      }
     },
 
     /*投票登录*/
@@ -213,10 +235,16 @@ export default {
         $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
         setStore(keyConf.userMoile, this.mobile)
 
-        this.payment(this.mobile);
+        this.voteMys(this.vote_uid);
       } else {
         alert(result.msg);
       }
+    },
+
+    // 关闭登录窗口
+    closeLoginBox(){
+      this.showLogin = false;
+      this.code = '';
     },
 
 
@@ -326,9 +354,14 @@ export default {
         /*美业师投票*/
         .mys-detail {
           position: relative;
-          padding: 0 1.5rem;
+          width: 16rem;
+          padding: 0 0 0 1.4rem;
           margin-top: -1.4rem;
           p {
+            width: 110%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             color: #fff;
             font-size: 1.4rem;
           }
@@ -342,6 +375,7 @@ export default {
             border-radius: 1.65rem;
             background-color: #8584D0;
             margin-top: 0.5rem;
+            margin-left: -0.5rem;
           }
         }
       }

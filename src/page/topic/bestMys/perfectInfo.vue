@@ -79,7 +79,7 @@ export default {
   },
   created() {
     this.shareWechat();
-    // this.isBm();
+    this.isBm();
   },
   methods: {
     /*微信分享*/
@@ -87,8 +87,8 @@ export default {
       let _this = this;
       wx.ready(function() {
         _this.share_setup(
-          "寻找最美美业师，谁是你心中的NO.1",
-          "巴拉拉小魔仙以神的名义，投上你最神圣的一票吧~",
+          "拼颜值，拼人气，你是最美美业师吗？",
+          "豪送1388元女神大礼包~",
           "http://mm.qiaocat.com/topic-best-mys",
           "http://mm.qiaocat.com/static/static/topic/bestMys/share1.jpg"
         );
