@@ -128,10 +128,10 @@ export default {
     // 是否已报名
     async isBm() {
       let res = await mysTpIs();
-      if(res.status == 'ok'){
+      if (res.status == 'ok') {
         this.numbering = res.data.number;
         this.success = true;
-      }else{
+      } else {
         this.success = false;
       }
     },
@@ -150,22 +150,23 @@ export default {
           _this.certificateBase64 = e.target.result;
         }
         _this.unloading = true; //图片上传中
-        _this.funUploadImg(e.target.result, key, obj, str);
+        _this.funUploadImg(e.target.result, key, str);
       }
       reader.readAsDataURL(file)
     },
     // 上传图片
-    async funUploadImg(base64, key, obj, str) {
+    async funUploadImg(base64, key, str) {
       let res = await upLoadImage({ image: base64 })
       if (res.status == 'ok') {
         if (str == 'headimg') { //上传头像
           this.mysData.headimgurl = res.data;
+          document.querySelector('#' + str).value = '';
         } else { //上传证书
           this.mysData.certificate = res.data;
+          document.querySelector('#' + str).value = '';
         }
         this.unloading = false;//图片上传完成
         // console.log("头像headimgurl：",this.mysData.headimgurl,";证书certificate：",this.mysData.certificate);
-        obj.value = '';
       }
     },
 
@@ -387,8 +388,7 @@ export default {
       margin-bottom: 1rem;
       letter-spacing: 0.3rem;
     }
-  } 
-  // 分享指引
+  } // 分享指引
   .share-guide {
     position: fixed;
     left: 0;

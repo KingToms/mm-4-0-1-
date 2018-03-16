@@ -4,7 +4,7 @@
       <div class="search-box">
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
-          <input class="search" type="search" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
+          <input class="search" type="search" @focus="hideShare" @blur="showShare" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
         </form>
       </div>
       <div class="photo-box">
@@ -16,10 +16,9 @@
           <div class="mys-detail">
             <p>票数：{{item.voting_number}}</p>
             <p>编号：{{item.number}} &nbsp;{{item.user_name}}</p>
-            <button class="vote-btn" @click="voteMys(item.uid)">投票</button>
+            <button class="vote-btn" @click="voteMys(item.uid, index)">投票</button>
           </div>
         </div>
-
       </div>
     </div>
     <img src="/static/topic/bestMys/3.1bg.jpg" alt="" class="bg">
@@ -50,7 +49,7 @@
     </div>
 
     <!--分享按钮-->
-    <div class="share-btn">
+    <div class="share-btn" v-show="showShareBtn">
       <img class="share" @click="shareBoxShow = true" src="/static/topic/bestMys/vote_share.png" alt="">
       <div class="top-btn" @click="toTop">
         <img src="/static/topic/bestMys/icon_top.png" alt="回到顶部">
@@ -84,9 +83,11 @@ export default {
       flag: true,
 
       shareBoxShow: false, // 分享指引
+      showShareBtn: true, //显示分享按钮
 
       showLogin: false, //投票登录窗口
-      vote_uid: '',
+      vote_uid: '', //当前投票的uid
+      vote_index: '', //当前投票的序号
       mobile: '', //手机号码
       code: '', //验证码
       iconShow: false,// 删除按钮显示隐藏
@@ -195,20 +196,24 @@ export default {
     },
 
     // 投票
-    async voteMys(uid) {
+    async voteMys(uid, index) {
       let qm_cookie = $.cookie(keyConf.qm_cookie);
       let isLogin = await userIsLogin();
       if (!qm_cookie || isLogin.status == 'error') {
         this.showLogin = true;
         this.success = false;
-        this.vote_uid = uid;
+        this.vote_uid = uid; //操作的当前美业师uid
+        this.vote_index = index; //操作的当前美业师index
       } else {
         let res = await mysTpTp({ voting_uid: uid });
         if (res.status == 'ok') {
           this.showLogin = true;
           this.success = true;
           this.vote_uid = '';
+          this.vote_index = '';
+          this.mysLists[index].voting_number = this.mysLists[index].voting_number + 1;
         } else {
+          this.showLogin = false; //隐藏窗口
           alert(res.msg);
         }
 
@@ -261,7 +266,7 @@ export default {
         $.cookie(keyConf.qm_cookie, this.mobile, { expires: 1, path: '/' })
         setStore(keyConf.userMoile, this.mobile)
 
-        this.voteMys(this.vote_uid);
+        this.voteMys(this.vote_uid, this.vote_index);
       } else {
         alert(result.msg);
       }
@@ -269,8 +274,18 @@ export default {
 
     // 关闭登录窗口
     closeLoginBox() {
-      this.showLogin = false;
+      this.showLogin = false; //隐藏窗口
       this.code = '';
+    },
+
+    // 显示分享按钮
+    showShare() {
+      this.showShareBtn = true;
+    },
+
+    // 隐藏分享按钮
+    hideShare() {
+      this.showShareBtn = false;
     },
 
 
