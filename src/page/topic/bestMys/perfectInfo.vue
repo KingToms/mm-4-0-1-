@@ -90,7 +90,7 @@ export default {
           "拼颜值，拼人气，你是最美美业师吗？",
           "豪送1388元女神大礼包~",
           "http://mm.qiaocat.com/topic-best-mys",
-          "http://mm.qiaocat.com/static/static/topic/bestMys/share1.jpg"
+          "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });
     },
@@ -103,7 +103,7 @@ export default {
         imgUrl: imgUrl,
         success: function(res) {
           console.log(1, res);
-          _this.getMoreLuckdraw('share');
+          _this.shareBoxShow = false;
 
         },
         error: function(err) {
@@ -117,7 +117,7 @@ export default {
         success: function(res) {
           //todo
           console.log(2, res);
-          _this.getMoreLuckdraw('share');
+          _this.shareBoxShow = false;
         },
         error: function(err) {
           console.log(2, err);

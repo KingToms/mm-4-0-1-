@@ -40,8 +40,9 @@
           </div>
           <div v-else class="result-box">
             <div class="success-img">
-              <img src="/static/topic/bestMys/icon_success.png" alt="">
+              <img class="icon" src="/static/topic/bestMys/icon_success.png" alt="">
               <p>投票成功</p>
+              <img src="/static/topic/bestMys/adver_banner.jpg" alt="" class="adver-img">
             </div>
           </div>
         </div>
@@ -110,7 +111,7 @@ export default {
           "寻找最美美业师，谁是你心中的NO.1",
           "巴拉拉小魔仙以神的名义，投上你最神圣的一票吧~",
           "http://mm.qiaocat.com/topic-best-mys",
-          "http://mm.qiaocat.com/static/static/topic/bestMys/share1.jpg"
+          "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });
     },
@@ -123,7 +124,7 @@ export default {
         imgUrl: imgUrl,
         success: function(res) {
           console.log(1, res);
-          _this.getMoreLuckdraw('share');
+          _this.shareBoxShow = false;
 
         },
         error: function(err) {
@@ -137,7 +138,7 @@ export default {
         success: function(res) {
           //todo
           console.log(2, res);
-          _this.getMoreLuckdraw('share');
+          _this.shareBoxShow = false;
         },
         error: function(err) {
           console.log(2, err);
@@ -572,7 +573,8 @@ export default {
           margin-top: 18%;
           text-align: center;
           .success-img {
-            img {
+            margin-top: -2rem;
+            img.icon {
               width: 6rem;
             }
             p {
@@ -580,6 +582,11 @@ export default {
               font-size: 2rem;
               margin-top: 0.4rem;
               letter-spacing: 0.3rem;
+            }
+            img.adver-img {
+              display: block;
+              width: 90%;
+              margin: 1.8rem auto 0;
             }
           }
         }
