@@ -195,6 +195,13 @@ const makeupBride = r => require.ensure([], () => r(require('@/page/topic/makeup
 const newyear2018 = r => require.ensure([], () => r(require('@/page/topic/new_year2018/index')), 'newyear2018');
 // 新春公告-2018春节
 const announcement2018 = r => require.ensure([], () => r(require('@/page/topic/announcement/index')), 'announcement2018');
+// 寻找最美美业师(报名)
+const bestMysBase = r => require.ensure([], () => r(require('@/page/topic/bestMys/base')), 'bestMys');
+const bestMys = r => require.ensure([], () => r(require('@/page/topic/bestMys/signup')), 'bestMys');
+// 寻找最美美业师(投票)
+const bestMysVote = r => require.ensure([], () => r(require('@/page/topic/bestMys/vote')), 'bestMys');
+// 寻找最美美业师(完善资料)
+const perfectInfo = r => require.ensure([], () => r(require('@/page/topic/bestMys/perfectInfo')), 'bestMys');
 
 
 /*专题模块结束 */
@@ -775,6 +782,35 @@ const router = new Router({
               },
               component: receiptInfo
             }
+          ]
+        },
+
+        // 寻找最美美业师
+        {
+          path: '/topic-best-mys',
+          component: bestMysBase,
+          children: [
+            {
+              path: '',
+              meta: {
+                title: '寻找最美美业师'
+              },
+              component: bestMys
+            },
+            {
+              path: 'vote',
+              meta: {
+                title: '寻找最美美业师'
+              },
+              component: bestMysVote
+            },
+            {
+              path: 'info',
+              meta: {
+                title: '寻找最美美业师'
+              },
+              component: perfectInfo
+            },
           ]
         },
         {

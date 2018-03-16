@@ -214,6 +214,17 @@ export const getLuckDraw = (data) => fetch (`/topic/topic_draw3`, data, 'POST')
 export const getMoreDraw = (data) => fetch (`/topic/set_qcat3_num`, data, 'POST')
   // 3周年-- 完善收货地址
 export const setAddData = (data) => fetch (`/topic/add_data`, data, 'POST')
+// 俏猫-专题寻找最美美业师
+  // 俏猫美业师投票-列表
+export const mysTpList = (data) => fetch (`/topic/mystp_index_list`, data, 'POST')
+  // 俏猫美业师投票-投票
+export const mysTpTp = (data) => fetch (`/topic/mystp_index_tp`, data, 'POST')
+  // 俏猫美业师投票-报名
+export const mysTpBm = (data) => fetch (`/topic/mystp_index_bm`, data, 'POST')
+  // 俏猫美业师投票-搜索
+export const mysTpSs = (data) => fetch (`/topic/mystp_index_ss`, data, 'POST')
+  // 俏猫美业师投票-是否已报名
+export const mysTpIs = (data) => fetch (`/topic/mystp_index_is`, data, 'POST')
 
 // 获取订单状态数据
 export const getConfigData = (data) => fetch(`/mon/mon_config_order_status`, data, 'POST')
