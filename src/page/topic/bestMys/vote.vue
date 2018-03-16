@@ -68,7 +68,7 @@
 import Vue from 'vue';
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { getCode, authLogin,userIsLogin, mysTpList, mysTpTp, mysTpSs } from '../../../service/getData.js'
+import { getCode, authLogin, userIsLogin, mysTpList, mysTpTp, mysTpSs } from '../../../service/getData.js'
 import { setStore } from '../../../common/store.js';
 import common from '../../../common/common.js'
 import keyConf from '../../../common/keyConf.js'
@@ -78,6 +78,10 @@ export default {
     return {
       searchText: '',
       mysLists: [], //美业师列表
+      count: '0', //美业师总数
+      page: '1', // 页数
+      page_size: '10', // 一页显示10条
+      flag: true,
 
       shareBoxShow: false, // 分享指引
 
@@ -94,6 +98,7 @@ export default {
   created() {
     this.shareWechat();
     this.getMysList();
+    this.scroll();
   },
   methods: {
     /*微信分享*/
@@ -141,12 +146,32 @@ export default {
 
     // 获取美业师列表
     async getMysList() {
-      let res = await mysTpList();
+      this.flag = false;
+      let res = await mysTpList({ page: this.page, page_size: this.page_size });
       // console.log("美业师列表：", res);
       if (res.status == 'ok') {
-        this.mysLists = res.data;
+        this.mysLists = this.mysLists.concat(res.data);
+        this.count = res.count;
+        this.flag = true;
+        if (this.count == this.mysLists.length) { //最后一页啦，上拉刷新不了
+          this.flag = false;
+        }
       }
     },
+
+    // 上拉刷新下一页
+    scroll() {
+      let _this = this;
+      if (this.$route.path === '/topic-best-mys/vote') {
+        common.scroll(() => {
+          if (_this.flag) {
+            _this.page++;
+            _this.getMysList();
+          }
+        })
+      }
+    },
+
     // 搜索选手
     async searchFun(number) {
       if (number.trim() == '') {
@@ -160,7 +185,8 @@ export default {
           } else {
             // this.mysLists = [];
             alert("暂无对应编号美业师");
-            this.getMysList();
+            this.searchText = ''; //清空搜索栏
+            this.getMysList(); //重新获取列表
           }
         } else {
           alert(res.msg);
@@ -242,7 +268,7 @@ export default {
     },
 
     // 关闭登录窗口
-    closeLoginBox(){
+    closeLoginBox() {
       this.showLogin = false;
       this.code = '';
     },
