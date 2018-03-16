@@ -4,7 +4,7 @@
       <div class="search-box">
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
-          <input class="search" type="number" placeholder="请输入选手编号" v-model="searchText">
+          <input class="search" type="search" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
         </form>
       </div>
       <div class="photo-box">
@@ -394,13 +394,13 @@ export default {
     }
     .top-btn {
       position: absolute;
-      right: 1.2rem;
+      right: 1rem;
       bottom: 15rem;
       img {
         display: block;
         vertical-align: top;
         width: 3.6rem;
-        padding: 0.5rem;
+        padding: 1rem;
       }
     }
   } // 分享指引

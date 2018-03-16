@@ -182,11 +182,11 @@ export default {
         setStore(keyConf.userMoile, this.mobile)
 
         // 完善资料
-        Toast({
+        /*Toast({
           message: '请填写完善资料，参与报名',
           duration: 2000,
           className: 'toast-tip'
-        });
+        });*/
         this.$router.push('/topic-best-mys/info');
       } else {
         alert(result.msg);
