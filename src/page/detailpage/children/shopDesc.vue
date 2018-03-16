@@ -9,7 +9,7 @@
           <div class="left_box">
             <div class="person">
               <div class="name">{{info.nick}}</div>
-              <span class="grade">{{level_list[info.level]}}</span>
+              <span class="grade">{{info.level_name || level_list[info.level]}}</span>
             </div>
             <p class="quality">
               <span class="type" v-for="(i,index) in tech_type" :key="index">{{i | techType}}</span>
