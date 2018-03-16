@@ -110,7 +110,7 @@ export default {
         _this.share_setup(
           "寻找最美美业师，谁是你心中的NO.1",
           "巴拉拉小魔仙以神的名义，投上你最神圣的一票吧~",
-          "http://mm.qiaocat.com/topic-best-mys",
+          "http://mm.qiaocat.com/topic-best-mys/vote",
           "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });

@@ -51,7 +51,7 @@
 <script>
 import { Toast } from 'mint-ui';
 import '../../../../node_modules/mint-ui/lib/toast/style.css';
-import { getCode, authLogin } from '../../../service/getData.js';
+import { getCode, authLogin, userIsLogin } from '../../../service/getData.js';
 import common from '../../../common/common.js';
 import { setStore } from '../../../common/store.js'
 import keyConf from '../../../common/keyConf.js';
@@ -69,6 +69,7 @@ export default {
     };
   },
   created() {
+    this.isLogin();
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
     this.shareWechat();
   },
@@ -112,6 +113,17 @@ export default {
           console.log(2, err);
         }
       });
+    },
+
+    // 是否已登录
+    async isLogin() {
+      let qm_cookie = $.cookie(keyConf.qm_cookie);
+      let isLogin = await userIsLogin();
+      if (!qm_cookie || isLogin.status == 'error') {
+        // console.log("用户未登录");
+      } else { //已登录
+        window.location.href = '/topic-best-mys/info';
+      }
     },
 
     // 同意活动规则

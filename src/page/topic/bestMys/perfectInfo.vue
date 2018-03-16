@@ -9,9 +9,11 @@
           <p>示例</p>
         </div>
         <div class="item add-img">
-          <img :src="headimgBase64" alt="">
+          <div class="img-box">
+            <img :class="headimgVertical ? 'vertical': 'horizontal'" :src="headimgBase64" alt="">
+          </div>
           <input type="file" @change="readFile($event, 'headimg')" accept="image/*" name="" id="headimg">
-          <p class="operate">点击上传正面形象照</p>
+          <p class="operate" v-if="headimgBase64.length <= 0">点击上传正面形象照</p>
           <i class="icon-delete" v-if="headimgBase64.length > 0" @click="delateImg('headimg')"></i>
         </div>
         <div class="item demo2">
@@ -19,9 +21,11 @@
           <p>示例</p>
         </div>
         <div class="item add-img">
-          <img :src="certificateBase64" alt="">
+          <div class="img-box">
+            <img :class="certifiVertical ? 'vertical': 'horizontal'" :src="certificateBase64" alt="">
+          </div>
           <input type="file" @change="readFile($event, 'certificate')" accept="image/*" name="" id="certificate">
-          <p class="operate">点击上传美业师相关证件</p>
+          <p class="operate" v-if="certificateBase64.length <= 0">点击上传美业师相关证件</p>
           <i class="icon-delete" v-if="certificateBase64.length > 0" @click="delateImg('certificate')"></i>
         </div>
       </div>
@@ -58,6 +62,7 @@ import '../../../../node_modules/mint-ui/lib/toast/style.css';
 import { mysTpBm, upLoadImage, mysTpIs } from '../../../service/getData';
 import { getStore } from '../../../common/store.js';
 import keyConf from '../../../common/keyConf.js';
+import EXIF from 'exif-js';
 export default {
   name: "perfectInfo",
   data() {
@@ -71,6 +76,9 @@ export default {
       numbering: '', //编号
       headimgBase64: '', // 上传的图片(头像)
       certificateBase64: '', // 上传的图片（证书）
+      headimgVertical: true, //头像图片宽小于高
+      certifiVertical: true, //证书图片宽小于高
+
 
       unloading: false, //图片上传中
       success: false, //是否报名成功
@@ -79,7 +87,7 @@ export default {
   },
   created() {
     this.shareWechat();
-    this.isBm();
+    // this.isBm();
   },
   methods: {
     /*微信分享*/
@@ -138,22 +146,151 @@ export default {
 
     // 获取本地图片文件
     readFile(obj, str) {
-      let _this = this
-      let file = obj.target.files[0]
-      let reader = new FileReader()
+      let _this = this;
+      let file = obj.target.files[0];
+      let Orientation;
 
+      //获取照片方向角属性，用户旋转控制
+      EXIF.getData(file, function() {
+        // console.log(EXIF.pretty(this));
+        EXIF.getAllTags(this);
+        Orientation = EXIF.getTag(this, 'Orientation');
+        //return;
+      });
+
+      let reader = new FileReader();
       reader.onload = function(e) {
-        let key = obj.target.id
-        if (str == 'headimg') { //上传头像
-          _this.headimgBase64 = e.target.result;
-        } else { //上传证书
-          _this.certificateBase64 = e.target.result;
-        }
-        _this.unloading = true; //图片上传中
-        _this.funUploadImg(e.target.result, key, str);
+        let image = new Image();
+        image.src = e.target.result;
+        image.onload = function() {
+          let expectWidth = this.naturalWidth;
+          let expectHeight = this.naturalHeight;
+          if (this.naturalWidth > this.naturalHeight && this.naturalWidth > 800) {
+            expectWidth = 800;
+            expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;
+          } else if (this.naturalHeight > this.naturalWidth && this.naturalHeight > 1200) {
+            expectHeight = 1200;
+            expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;
+          }
+          let canvas = document.createElement("canvas");
+          let ctx = canvas.getContext("2d");
+          canvas.width = expectWidth;
+          canvas.height = expectHeight;
+          ctx.drawImage(this, 0, 0, expectWidth, expectHeight);
+          let base64;
+          //1、修复ios
+          if (navigator.userAgent.match(/iphone/i)) {
+            //如果方向角不为1，都需要进行旋转
+            if (Orientation != "" && Orientation != 1) {
+              // alert(Orientation);
+              switch (Orientation) {
+                case 6: //需要顺时针（向左）90度旋转
+                  _this.rotateImg(this, 'left', canvas);
+                  break;
+                case 8: //需要逆时针（向右）90度旋转
+                  _this.rotateImg(this, 'right', canvas);
+                  break;
+                case 3: //需要180度旋转
+                  _this.rotateImg(this, 'right', canvas); //转两次  
+                  _this.rotateImg(this, 'right', canvas);
+                  break;
+              }
+            }
+
+            base64 = canvas.toDataURL("image/jpeg", 0.8);
+          } else if (navigator.userAgent.match(/Android/i)) { // 修复android  
+            let encoder = new JPEGEncoder();
+            base64 = encoder.encode(ctx.getImageData(0, 0, expectWidth, expectHeight), 80);
+          } else {
+            if (Orientation != "" && Orientation != 1) {
+              //alert('旋转处理');
+              switch (Orientation) {
+                case 6: //需要顺时针（向左）90度旋转
+                  _this.rotateImg(this, 'left', canvas);
+                  break;
+                case 8: //需要逆时针（向右）90度旋转
+                  _this.rotateImg(this, 'right', canvas);
+                  break;
+                case 3: //需要180度旋转
+                  _this.rotateImg(this, 'right', canvas); //转两次
+                  _this.rotateImg(this, 'right', canvas);
+                  break;
+              }
+            }
+
+            base64 = canvas.toDataURL("image/jpeg", 0.8);
+          }
+
+
+          let key = obj.target.id
+          if (str == 'headimg') { //上传头像
+            _this.headimgBase64 = base64;
+            _this.headimgVertical = (image.width > image.height) ? false : true; //头像图宽是否小于高
+          } else { //上传证书
+            _this.certificateBase64 = base64;
+            _this.certifiVertical = (image.width > image.height) ? false : true; //证书图宽是否小于高
+          }
+
+          _this.unloading = true; //图片上传中
+          _this.funUploadImg(base64, key, str);
+        };
       }
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     },
+
+    //对拍照图片旋转处理
+    rotateImg(img, direction, canvas) {
+      //最小与最大旋转方向，图片旋转4次后回到原方向
+      let min_step = 0;
+      let max_step = 3;
+      //let img = document.getElementById(pid);
+      if (img == null) return;
+      //img的高度和宽度不能在img元素隐藏后获取，否则会出错
+      let height = img.height;
+      let width = img.width;
+      //let step = img.getAttribute('step');
+      let step = 2;
+      if (step == null) {
+        step = min_step;
+      }
+      if (direction == 'right') {
+        step++;
+        //旋转到原位置，即超过最大值
+        step > max_step && (step = min_step);
+      } else {
+        step--;
+        step < min_step && (step = max_step);
+      }
+      //旋转角度以弧度值为参数
+      let degree = step * 90 * Math.PI / 180;
+      let ctx = canvas.getContext('2d');
+      switch (step) {
+        case 0:
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0);
+          break;
+        case 1:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.rotate(degree);
+          ctx.drawImage(img, 0, -height);
+          break;
+        case 2:
+          canvas.width = width;
+          canvas.height = height;
+          ctx.rotate(degree);
+          ctx.drawImage(img, -width, -height);
+          break;
+        case 3:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.rotate(degree);
+          ctx.drawImage(img, -width, 0);
+          break;
+      }
+    },
+
     // 上传图片
     async funUploadImg(base64, key, str) {
       let res = await upLoadImage({ image: base64 })
@@ -226,6 +363,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../../../../src/assets/css/mixin.scss';
 .main {
   position: relative;
   width: 100%;
@@ -307,13 +445,43 @@ export default {
       .add-img {
         background-image: url('/static/topic/bestMys/button_upload.png');
         background-size: cover;
-        img {
-          width: 78%;
-          height: 78%;
-          margin: 1.35rem 0 0 1.75rem;
+        padding: 1.35rem 1.73rem 2.1rem 1.8rem;
+        .img-box {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          border: none 0;
+          @include borderRadius(0.7rem);
+          overflow: hidden;
+          img {
+            display: block;
+            border: 0;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            @include borderRadius(0.5rem);
+            &.horizontal {
+              height: 100%;
+              width: auto;
+              left: 50%;
+              transform: translateX(-50%);
+            }
+            &.vertical {
+              width: 100%;
+              height: auto;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+          }
+        }
+        /*img {
+          width: 100%;
+          height: 100%;
+          // margin: 1.35rem 0 0 1.75rem;
           border-radius: 1rem;
           z-index: 1;
-        }
+        }*/
         input {
           position: absolute;
           left: 1.75rem;
@@ -321,6 +489,7 @@ export default {
           opacity: 0;
           width: 78%;
           height: 78%;
+          border: none 0;
         }
       }
       .icon-delete {
