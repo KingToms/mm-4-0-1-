@@ -43,7 +43,9 @@
             <div class="success-img">
               <img class="icon" src="/static/topic/bestMys/icon_success.png" alt="">
               <p>投票成功</p>
-              <img src="/static/topic/bestMys/adver_banner.jpg" alt="" class="adver-img">
+              <a href="http://mm.qiaocat.com/detail/1001000?stylist_id=324254448&plid=125" target="_blank">
+                <img src="/static/topic/bestMys/adver_banner.jpg" alt="" class="adver-img">
+              </a>
             </div>
           </div>
         </div>
