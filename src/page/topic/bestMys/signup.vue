@@ -81,7 +81,7 @@ export default {
         _this.share_setup(
           "拼颜值，拼人气，你是最美美业师吗？",
           "豪送1388元女神大礼包~",
-          "http://mm.qiaocat.com/topic-best-mys",
+          "http://mm.qiaocat.com/topic-best-mys?plid=126",
           "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });

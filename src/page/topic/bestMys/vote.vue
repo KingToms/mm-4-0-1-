@@ -5,6 +5,7 @@
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
           <input class="search" type="search" @focus="hideShare" @blur="showShare" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
+          <div @click="searchFun(searchText)" class="btn-search">搜索</div>
         </form>
       </div>
       <div class="photo-box">
@@ -42,7 +43,9 @@
             <div class="success-img">
               <img class="icon" src="/static/topic/bestMys/icon_success.png" alt="">
               <p>投票成功</p>
-              <img src="/static/topic/bestMys/adver_banner.jpg" alt="" class="adver-img">
+              <a href="http://mm.qiaocat.com/detail/1001000?stylist_id=324254448&plid=125" target="_blank">
+                <img src="/static/topic/bestMys/adver_banner.jpg" alt="" class="adver-img">
+              </a>
             </div>
           </div>
         </div>
@@ -110,7 +113,7 @@ export default {
         _this.share_setup(
           "寻找最美美业师，谁是你心中的NO.1",
           "巴拉拉小魔仙以神的名义，投上你最神圣的一票吧~",
-          "http://mm.qiaocat.com/topic-best-mys/vote",
+          "http://mm.qiaocat.com/topic-best-mys/vote?plid=127",
           "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });
@@ -177,17 +180,21 @@ export default {
     // 搜索选手
     async searchFun(number) {
       if (number.trim() == '') {
-        alert("选手编号不能为空");
+        // alert("选手编号不能为空");
+        this.mysLists = [];
+        this.page = 1;
+        this.getMysList(); //重新获取列表
       } else {
         let res = await mysTpSs({ number: number });
         if (res.status == 'ok') {
+          this.flag = false;
           this.mysLists = [];
           if (res.data) { //是否有搜索的编号美业师
             this.mysLists.push(res.data);
           } else {
-            // this.mysLists = [];
             alert("暂无对应编号美业师");
             this.searchText = ''; //清空搜索栏
+            this.page = 1;
             this.getMysList(); //重新获取列表
           }
         } else {
@@ -336,13 +343,27 @@ export default {
       .search {
         display: block;
         width: 100%;
-        padding: 0.6rem 0.5rem 0.6rem 12%;
+        padding: 0.6rem 6rem 0.6rem 12%;
         height: 4.4rem;
         line-height: 4.4rem;
         margin-top: 6%;
         font-size: 1.7rem;
         color: #fff;
         background-color: transparent;
+      }
+      .btn-search {
+        display: block;
+        width: 5rem;
+        line-height: 2.4rem;
+        border-radius: 1.5rem;
+        position: absolute;
+        top: 1rem;
+        right: 0.7rem;
+        text-align: center;
+        color: #fff;
+        font-size: 1.3rem;
+        background-color: #8584d0;
+        z-index: 99;
       }
     }
     .photo-box {
@@ -437,12 +458,12 @@ export default {
     .top-btn {
       position: absolute;
       right: 1rem;
-      bottom: 15rem;
+      bottom: 11.5rem;
       img {
         display: block;
         vertical-align: top;
         width: 3.6rem;
-        padding: 1rem;
+        padding: 0.2rem;
       }
     }
   } // 分享指引
