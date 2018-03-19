@@ -181,6 +181,8 @@ export default {
     async searchFun(number) {
       if (number.trim() == '') {
         // alert("选手编号不能为空");
+        this.mysLists = [];
+        this.page = 1;
         this.getMysList(); //重新获取列表
       } else {
         let res = await mysTpSs({ number: number });
@@ -189,9 +191,9 @@ export default {
           if (res.data) { //是否有搜索的编号美业师
             this.mysLists.push(res.data);
           } else {
-            // this.mysLists = [];
             alert("暂无对应编号美业师");
             this.searchText = ''; //清空搜索栏
+            this.page = 1;
             this.getMysList(); //重新获取列表
           }
         } else {
@@ -455,12 +457,12 @@ export default {
     .top-btn {
       position: absolute;
       right: 1rem;
-      bottom: 15rem;
+      bottom: 11.5rem;
       img {
         display: block;
         vertical-align: top;
         width: 3.6rem;
-        padding: 1rem;
+        padding: 0.2rem;
       }
     }
   } // 分享指引
