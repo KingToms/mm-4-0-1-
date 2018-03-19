@@ -87,7 +87,7 @@ export default {
   },
   created() {
     this.shareWechat();
-    // this.isBm();
+    this.isBm();
   },
   methods: {
     /*微信分享*/
