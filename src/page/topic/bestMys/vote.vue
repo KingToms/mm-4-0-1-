@@ -1,6 +1,10 @@
 <template>
   <div class="main">
     <div class="info">
+      <div class="date-box">
+        <p>投票时间：2018年3月31日-4月6日</p>
+        <p>注：每个用户每天可投票一次</p>
+      </div>
       <div class="search-box">
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
@@ -329,6 +333,16 @@ export default {
     position: relative;
     z-index: 1;
     padding: 0 6.8% 10rem;
+    .date-box {
+      position: absolute;
+      left: 6.8%;
+      top: -5.5rem;
+      p {
+        font-size: 1.2rem;
+        color: #fff;
+        line-height: 2.2rem;
+      }
+    }
     .search-box {
       position: relative;
       width: 100%;

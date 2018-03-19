@@ -42,7 +42,7 @@
       </div>
       <button class="share" @click="shareBoxShow = true">分享给小伙伴</button>
       <div class="success-tip ">
-        <span>投票时间：2018年3月23日-29日</span><br> 敬请留意
+        <span>投票时间：2018年3月31日-4月6日</span><br> 敬请留意
       </div>
     </div>
     <img v-if="!success" src="/static/topic/bestMys/2.1.0bg.jpg" alt="" class="bg">

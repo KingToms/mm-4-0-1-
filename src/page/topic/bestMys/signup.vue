@@ -2,7 +2,7 @@
   <div class="sign-up">
     <img src="/static/topic/bestMys/1.1bg.jpg" alt="寻找最美美业师" class="bg-img">
     <div class="main">
-      <div class="period">报名时间：2018年3月16日-22日</div>
+      <div class="period">报名时间：2018年3月23日-30日</div>
       <div class="sign-box">
         <!--手机号、验证码-->
         <input class="tel" type="tel" v-model="mobile" @focus="inputText" @blur="inputBlur" placeholder="请输入手机号码" maxlength="11">
@@ -197,7 +197,8 @@ export default {
           duration: 2000,
           className: 'toast-tip'
         });*/
-        this.$router.push('/topic-best-mys/info');
+        // this.$router.push('/topic-best-mys/info');
+        window.location.href = '/topic-best-mys/info';
       } else {
         alert(result.msg);
       }
