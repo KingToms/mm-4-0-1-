@@ -1,6 +1,6 @@
 <template>
 <div class="orderDesc">
-  <div class="header">
+  <div class="header" v-if="hideHeader">
     <div class="title">
       <h2>用户退款及爽约赔付规则</h2>
     </div>
@@ -27,13 +27,24 @@ export default {
   name: "orderDesc",
   data() {
     return {
-      orderDesc: []
+      orderDesc: [],
+      hideHeader: true,
     };
   },
   created(){
+    this.showHeader();
     this.getConfigJson();
   },
   methods:{
+    /*APP客户端中隐藏标题栏*/
+    showHeader(){
+      let query = this.$route.query
+      query = query ? query : {}
+      if(query.app == 'ios' || query.app == 'android'){
+        this.hideHeader = false;
+      }
+    },
+    
     async getConfigJson(){
       if(storage_custom.isExpire(keyConf.orderDesc)){
         let json =await getjson();
