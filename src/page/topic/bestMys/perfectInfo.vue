@@ -198,10 +198,12 @@ export default {
             }
 
             base64 = canvas.toDataURL("image/jpeg", 0.8);
-          } else if (navigator.userAgent.match(/Android/i)) { // 修复android  
+          }
+          /*else if (navigator.userAgent.match(/Android/i)) { // 修复android（有bug）
             let encoder = new JPEGEncoder();
             base64 = encoder.encode(ctx.getImageData(0, 0, expectWidth, expectHeight), 80);
-          } else {
+          }*/
+          else {
             if (Orientation != "" && Orientation != 1) {
               //alert('旋转处理');
               switch (Orientation) {
@@ -294,6 +296,7 @@ export default {
     // 上传图片
     async funUploadImg(base64, key, str) {
       let res = await upLoadImage({ image: base64 })
+      // console.log("上传结果res:",res);
       if (res.status == 'ok') {
         if (str == 'headimg') { //上传头像
           this.mysData.headimgurl = res.data;
@@ -304,6 +307,11 @@ export default {
         }
         this.unloading = false;//图片上传完成
         // console.log("头像headimgurl：",this.mysData.headimgurl,";证书certificate：",this.mysData.certificate);
+      }else{
+        alert(res.msg);
+        if(res.msg == '账号未登录'){
+          this.$router.push('/topic-best-mys'); //报名登录页面
+        }
       }
     },
 
