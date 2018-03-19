@@ -5,6 +5,7 @@
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
           <input class="search" type="search" @focus="hideShare" @blur="showShare" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
+          <div v-show="searchText.length > 0" @click="searchFun(searchText)" class="btn-search">搜索</div>
         </form>
       </div>
       <div class="photo-box">
@@ -336,13 +337,27 @@ export default {
       .search {
         display: block;
         width: 100%;
-        padding: 0.6rem 0.5rem 0.6rem 12%;
+        padding: 0.6rem 6rem 0.6rem 12%;
         height: 4.4rem;
         line-height: 4.4rem;
         margin-top: 6%;
         font-size: 1.7rem;
         color: #fff;
         background-color: transparent;
+      }
+      .btn-search {
+        display: block;
+        width: 5rem;
+        line-height: 2.4rem;
+        border-radius: 1.5rem;
+        position: absolute;
+        top: 1rem;
+        right: 0.7rem;
+        text-align: center;
+        color: #fff;
+        font-size: 1.3rem;
+        background-color: #8584d0;
+        z-index: 99;
       }
     }
     .photo-box {
