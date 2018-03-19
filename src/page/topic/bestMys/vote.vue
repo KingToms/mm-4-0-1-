@@ -187,6 +187,7 @@ export default {
       } else {
         let res = await mysTpSs({ number: number });
         if (res.status == 'ok') {
+          this.flag = false;
           this.mysLists = [];
           if (res.data) { //是否有搜索的编号美业师
             this.mysLists.push(res.data);
