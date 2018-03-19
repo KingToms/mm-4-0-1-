@@ -5,7 +5,7 @@
         <form action="" @submit.prevent="searchFun(searchText)">
           <img class="search-icon" src="/static/topic/bestMys/icon_search.png" alt="">
           <input class="search" type="search" @focus="hideShare" @blur="showShare" autocomplete="off" placeholder="请输入选手编号" v-model="searchText">
-          <div v-show="searchText.length > 0" @click="searchFun(searchText)" class="btn-search">搜索</div>
+          <div @click="searchFun(searchText)" class="btn-search">搜索</div>
         </form>
       </div>
       <div class="photo-box">
@@ -113,7 +113,7 @@ export default {
         _this.share_setup(
           "寻找最美美业师，谁是你心中的NO.1",
           "巴拉拉小魔仙以神的名义，投上你最神圣的一票吧~",
-          "http://mm.qiaocat.com/topic-best-mys/vote",
+          "http://mm.qiaocat.com/topic-best-mys/vote?plid=127",
           "http://mm.qiaocat.com/static/topic/bestMys/share1.jpg"
         );
       });
@@ -180,7 +180,8 @@ export default {
     // 搜索选手
     async searchFun(number) {
       if (number.trim() == '') {
-        alert("选手编号不能为空");
+        // alert("选手编号不能为空");
+        this.getMysList(); //重新获取列表
       } else {
         let res = await mysTpSs({ number: number });
         if (res.status == 'ok') {
