@@ -14,11 +14,13 @@
       </a>
     </div>
     <a class="appointment" href="javascript:void(0);" @click="appiont">
+    <!-- <a class="appointment" href="/order"> -->
       立即预约
     </a>
   </div>
 </template>
 <script>
+
 import Vue from 'vue';
 import keyConf from '../../../common/keyConf'
 import {followProduct,productFollow,productUnfollow,userIsLogin} from '@/service/getData';
@@ -32,6 +34,9 @@ export default {
       appOpen: false, // 产品详情页面是否在APP中打开(便于拦截，采用app原生支付)
 
       plid: '', //便于统计新用户从专题来的
+      productIdArr:['1000370','1000167','1000069','1000596'],//屈臣氏商品id
+      pageUrl:'',//上一个页面的url
+    //   baseUrl:'',//当前页面的url
     };
   },
   props: ['productId','typeUser','ZIndex','InfoList'],
@@ -47,6 +52,7 @@ export default {
     }
 
     this.plid = common.getQueryString("plid") ? common.getQueryString("plid") : "";
+    this.pageUrl=this.$route.query.url;
   },
   methods: {
 
@@ -119,22 +125,49 @@ export default {
           window.location.href = `/login?action=login`;
         }else {
           alert('未登录');
-          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+        //   let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+          let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}&service=1` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+            // if(_this.pageUrl.indexOf('qcsshopping')!=-1 ||_this.pageUrl=='/appointsev/index' || (_this.pageUrl=='/home/recommend'&& _this.productIdArr.includes(_this.$route.query.id))){//屈臣氏到店服务
+            //     let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+            // }else if(_this.pageUrl.indexOf('/home/makeup')!=-1&&_this.productIdArr.includes(_this.$route.query.id)){//屈臣氏到店&上门
+            //     let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+            // }else{
+            //     let baseUrl = stylist_id ? `/login?url=/detail/${this.productId}?stylist_id=${stylist_id}?plid=${this.plid}` : `/login?url=/detail/${this.productId}?plid=${this.plid}`;
+            // }
           this.$router.push(baseUrl)
         }
       }else{
         let baseUrl;
+        let _this=this
         if (this.appOpen) { // APP中打开页面
-          baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/order/${this.productId}?appOpen=true`;
+        
+        //   baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/order/${this.productId}?appOpen=true`;
+            if(_this.pageUrl.indexOf('qcsshopping')!=-1 ||_this.pageUrl=='/appointsev/index' || (_this.pageUrl=='/home/recommend'&& _this.productIdArr.includes(_this.$route.query.id))){//屈臣氏到店服务
+                baseUrl = stylist_id ? `/qcsgoshoporder/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/qcsgoshoporder/${this.productId}?appOpen=true`;
+            }else if(_this.pageUrl.indexOf('/home/makeup')!=-1&&_this.productIdArr.includes(_this.$route.query.id)){//屈臣氏到店&上门
+                baseUrl = stylist_id ? `/chooseorder/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/chooseorder/${this.productId}?appOpen=true`;
+            }else{
+                baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}&appOpen=true` : `/order/${this.productId}?appOpen=true`;
+            }
+
         }else {
-          baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}` : `/order/${this.productId}`;
+        //   baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}` : `/order/${this.productId}`;
+            if(_this.pageUrl.indexOf('qcsshopping')!=-1 ||_this.pageUrl=='/appointsev/index' || (_this.pageUrl=='/home/recommend'&& _this.productIdArr.includes(_this.$route.query.id))){//屈臣氏到店服务
+                baseUrl = stylist_id ? `/qcsgoshoporder/${this.productId}?stylist_id=${stylist_id}` : `/qcsgoshoporder/${this.productId}`;
+            }else if(_this.pageUrl.indexOf('/home/makeup')!=-1&&_this.productIdArr.includes(_this.$route.query.id)){//屈臣氏到店&上门
+                baseUrl = stylist_id ? `/chooseorder/${this.productId}?stylist_id=${stylist_id}` : `/chooseorder/${this.productId}`;
+            }else{
+                baseUrl = stylist_id ? `/order/${this.productId}?stylist_id=${stylist_id}` : `/order/${this.productId}`;
+            }
         }
         this.$router.push(baseUrl);
+        console.log(this.$route.query.url)
       }
     }
   }
 }
-</script>
+ </script>
+
 <style lang="scss" scoped>
 @import '../../../assets/css/mixin.scss';
 .pro_footer{

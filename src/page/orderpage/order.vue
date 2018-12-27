@@ -45,6 +45,7 @@
               <div class="vertical"></div>
             </li>
             <li class="left" @click="chooseService(2)">
+            <!-- <li class="left" @click="chooseService(2)" v-if="stylists.length>0? true: false "> -->
               <div class="service-inDoor" :class="{'active': inDoor === 2}">
                 <service-type :inDoor="inDoor" :type="2" :serviceImg="inDoor === 2?'/static/icon/order/pay_icon_service_sel02.png':'/static/icon/order/pay_icon_service_nor02.png'" :serviceTitle="'顾客到店'"></service-type>
               </div>
@@ -238,6 +239,13 @@ export default {
   },
   created() {
     // this.SET_CONFIRMORDER({})
+    this.confirmOrder.store_name=null;
+    this.confirmOrder.date=null;
+    this.confirmOrder.time=null;
+    this.confirmOrder.amount=null;
+    this.confirmOrder.address=null;
+    this.confirmOrder.appoint=null;
+    this.confirmOrder.mobile=null;
     this.$on('bgIsShow', this.bgIsShow);
     // this.setServiceForm()
     this.product_info.product_id = this.$route.params.id;
@@ -600,6 +608,9 @@ export default {
   }
   .service {
     ul.clear {
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
       li.left {
         // @include wh()
         width: 49%;

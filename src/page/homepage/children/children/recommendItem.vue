@@ -1,10 +1,12 @@
 <template>
   <div class="look_item clear" v-if="recommendList && recommendList.price">
-    <a :href="`/detail/${recommendList.id}${from_class}`">
+    <!-- <a :href="`/detail/${recommendList.id}${from_class}`"> -->
+    <a  @click="todetail(recommendList.id)">
       <div class="look_part">
         <div class="item_img">
           <div class="img_box" :style="{backgroundImage : 'url('+product_thumb+')'}">
-            <a :href="`/detail/${recommendList.id}${from_class}`">
+            <!-- <a :href="`/detail/${recommendList.id}${from_class}`" @click="todetail()"> -->
+            <a  @click="todetail(recommendList.id)">
               <img src="../../../../assets/image/icon/detail/square_default_bg.jpg">
             </a>
           </div>
@@ -39,11 +41,11 @@ export default {
       product_thumb: '', // 产品缩略图
       from_class: '', // 产品缩略图的所属类（推荐，化妆，美睫，培训等）
       recommend_route: true, //当首页为“推荐”时，产品缩略图省略图像、昵称
+      productIdArr:[1000370,1000069,1000167],//
+      pageUrl:'',//页面路径
     };
   },
   props: ["recommendList"],
-  methods: {
-  },
   created() {
     this.fromClass();
 
@@ -73,7 +75,7 @@ export default {
         this.product_thumb = "http://pic.qiaocat.com/upload/" + this.recommendList.thumb;
       }
     }
-
+    this.pageUrl=window.location.pathname
   },
   mounted() {
     // 获取美业师级别
@@ -88,6 +90,21 @@ export default {
   },
   methods: {
     /*产品缩略图的所属类（推荐，化妆，美睫，培训等）*/
+    todetail(productId){
+        let _this=this
+        // if(productId==1000370 || productId==1000069 ||productId==1000167 ){
+        if(this.productIdArr.includes(productId)){
+            _this.$router.push('/detail/'+productId+'?id='+productId+'&url='+this.pageUrl)
+            // _this.$router.push({
+            //     path:'/choosedetail/'+productId,
+            //     query:{
+            //         id:productId
+            //     }
+            // })
+        }else{
+            _this.$router.push("/detail/"+productId+'?id='+productId+'&url='+this.pageUrl)
+        }
+    },
     fromClass() {
       var url = window.location.search; //获取url中"?"符后的字串
       var path = window.location.pathname;

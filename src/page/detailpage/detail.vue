@@ -65,10 +65,12 @@
         <p class="time">服务时长 【
           <span>{{product_info.duration ? product_info.duration : '0'}}分钟</span>】</p>
         <p class="mode">服务方式 【
-          <span v-if="product_info.service_form == '1' || !product_info.service_form">上门服务</span>
+            <span v-if="isShowQCS">屈臣氏到店服务</span>
+            <span v-else-if="isShowChoose">上门服务】【屈臣氏到店服务</span>
+          <span v-else-if="product_info.service_form == '1' || !product_info.service_form">上门服务</span>
           <span v-else-if="product_info.service_form == '2'">到店服务</span>
-          <span v-else-if="product_info.service_form.length == '3'">上门服务/到店服务</span>
-          <span v-else>上门服务</span>】
+          <!-- <span v-else-if="product_info.service_form.length == 2 ">上门服务/到店服务</span> -->
+          <span v-else>上门服务/到店服务</span>】
         </p>
         <div class="sq" v-if="product_info.type_user && product_info.type_user ==1">
           <p>服务商圈 （{{mys_info.streetlist ? mys_info.streetlist.length : '0'}}）</p>
@@ -86,7 +88,8 @@
         <span class="more" @click="pingjia_show">查看全部</span>
       </div>
       <!-- 订购须知 -->
-       <div class="orderInfo" v-show="product_info.service_form != 2 || product_info.service_form.length > 1">
+       <!-- <div class="orderInfo" v-show="product_info.service_form != 2 || product_info.service_form.length > 1"> -->
+        <div class="orderInfo" v-if="isshowrule">
         <div class="title clear">
           <span class="left">订购须知</span>
           <router-link to="/desc">
@@ -97,8 +100,11 @@
           </router-link>
         </div>
         <div class="content">
-          <ul>
+          <ul v-if="productId!==1000167">
             <li v-for="(item,i) in orderDesc" :key="i">{{i+1}}.{{item}};</li>
+          </ul>
+          <ul v-else>
+              <li>1111</li>
           </ul>
         </div>
       </div>
@@ -168,6 +174,7 @@ export default {
   name: "detail",
   data() {
     return {
+        isshowrule:false,//隐藏订购须知
       product_info: {
         productId: '', // 产品ID
         images: [],
@@ -216,6 +223,10 @@ export default {
         width: '2rem'
       },
       flag: true,
+      pageUrl:'',//上一页面路径
+      isShowQCS:false,//屈臣氏到店服务
+      isShowChoose:false,//屈臣氏上门服务/到店服务
+      productIdArr:['1000370','1000167','1000069','1000596'],//屈臣氏商品id
     };
   },
   created() {
@@ -225,7 +236,19 @@ export default {
     this.getProduct();
     // 订购须知
     this.getConfigJson();
+    this.pageUrl=this.$route.query.url;
+    console.log(this.$route.query.url)
     // document.addEventListener('scroll', this.menu);
+    if(this.$route.query.id==1000370 || this.$route.query.id==1000167 || this.$route.query.id==1000069){
+        this.isshowrule=false
+    }else{
+        this.isshowrule=true
+    }
+    this.judgeService()
+    console.log(this.pageUrl.indexOf('qcsshopping')!=-1)
+    console.log(this.pageUrl=='/appointsev/index' )
+    console.log(this.pageUrl=='/home/recommend')
+    console.log(this.productIdArr.includes(this.$route.query.id))
   },
   mounted() {
     let tabBarDom = document.getElementById(`tab${this.tabIndex}`);
@@ -240,6 +263,14 @@ export default {
     }
   },
   methods: {
+      judgeService(){
+          let _this=this
+          if(_this.pageUrl.indexOf('qcsshopping')!=-1 ||_this.pageUrl=='/appointsev/index' || (_this.pageUrl=='/home/recommend'&& _this.productIdArr.includes(_this.$route.query.id))){
+              this.isShowQCS=true
+          }else if(_this.pageUrl.indexOf('/home/makeup')!=-1&&_this.productIdArr.includes(_this.$route.query.id)){
+              this.isShowChoose=true
+          }
+      },
     async getConfigJson(){
       if(storage_custom.isExpire(keyConf.orderDesc)){
         let json =await getjson();

@@ -143,7 +143,7 @@ export default {
     },
     async getOrderList (data){
       // && data.status
-      
+      let _this=this
       this.isScroll = false
       // this.flag = false
       this.pageNo = data ? data.page : ++this.pageNo;
@@ -154,7 +154,9 @@ export default {
         let tempArr = res.data.result
         if(this.status === '1000,1200') tempArr = this.judgeOrdersType(tempArr)
         this.orders = this.orders.concat(tempArr)
+        // _this.$set(_this.data,'orders','_this.orders.concat(tempArr)')
         // debugger
+        console.log(this.orders)
         this.SET_ORDERLIST(this.orders)
         // this.flag = true
         this.hasOrder = tempArr.length > 0? true : false
