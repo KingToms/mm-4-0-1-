@@ -232,7 +232,14 @@ export default {
         let _this=this
         // if(_this.recommendList.id==1000370 || _this.recommendList.id==1000069 ||_this.recommendList.id==1000167 ){
         if(productId==1000370 || productId==1000069 ||productId==1000167 ){
-            _this.$router.push("/choosedetail/"+productId)
+            _this.$router.push({
+                path:`/detail/${productId}`,
+                query:{
+                    id:productId,
+                    type:2
+                }
+            })
+
         }else{
             _this.$router.push("/detail/"+productId)
         }

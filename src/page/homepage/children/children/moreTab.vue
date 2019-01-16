@@ -47,7 +47,8 @@ export default {
                 path:`/detail/${_this.list[index].product.id}`,
                 query:{
                     id:_this.list[index].product.id,
-                    url:window.location.pathname
+                    url:window.location.pathname,
+                    type:1
                 }
             })
           }else{
@@ -55,7 +56,8 @@ export default {
                     path:`/detail/${_this.list[index].product.id}`,
                     query:{
                         id:_this.list[index].product.id,
-                        url:window.location.pathname
+                        url:window.location.pathname,
+                        type:3
                     }
                 })
           }

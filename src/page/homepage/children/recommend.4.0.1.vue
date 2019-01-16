@@ -163,7 +163,6 @@ export default {
     //   "/static/banner/e7336b05207ef88f971966a2dbe7c17b.jpg"
     // ];
     // this.getRecommendList();
-    console.log(window.location.host)
     // this.showQR()
     console.log(window.screen.width)
     console.log($('.window-box').width())
@@ -199,7 +198,8 @@ export default {
                 path:`/choosedetail/${_this.resData.Hotlist[index].product.id}`,
                 query:{
                     id:_this.resData.Hotlist[index].product.id,
-                    url:window.location.pathname
+                    url:window.location.pathname,
+                    type:1
                 }
             })
           }else{
@@ -207,7 +207,8 @@ export default {
                   path:`/detail/${_this.resData.Hotlist[index].product.id}`,
                   query:{
                       id:_this.resData.Hotlist[index].product.id,
-                      url:window.location.pathname
+                      url:window.location.pathname,
+                      type:3
                   }
                   
                 })

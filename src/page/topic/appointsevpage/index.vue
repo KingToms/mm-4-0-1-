@@ -32,7 +32,7 @@
                 </div>
             </h2>
             <ul>
-                <li v-for="item in prodlist" @click="$router.push(`/detail/${item.id}?url=${pageURL}&id=${item.id}`)">
+                <li v-for="item in prodlist" @click="$router.push(`/detail/${item.id}?url=${pageURL}&id=${item.id}&type=1`)">
                 <!-- <li v-for="item in prodlist" @click="$router.push(`/qcsgoshopdetail/${item.id}?url=${pageURL}`)"> -->
                 <!-- <li v-for="item in prodlist" @click="$router.push(`/qcsgoshopdetail/${item.id}`)"> -->
                     <div class="item-img">

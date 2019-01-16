@@ -123,13 +123,13 @@
           <mt-navbar v-model="selecte">
             <!-- <listItem v-for="(item,index) in severlist" :key="index" :list="item"></listItem> -->
             <div v-for="(item,index) in severlist" :key="index" class="look_item">
-              <a :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}&url=${pageUrl}` : `/detail/${item.id}`">
+              <a :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}&url=${pageUrl}&type=1` : `/detail/${item.id}`">
                 <div class="look_part">
                   <div class="item_img">
                     <!-- <img v-lazy="list.images ? list.images : '../../../assets/image/img/detail/square_default_bg.jpg'" > -->
                     <!-- :style="{backgroundImage : 'url('+myimgs+')'}" -->
                     <div class="img_box" >
-                      <a class="product_img" :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}&url=${pageUrl}` : `/detail/${item.id}`">
+                      <a class="product_img" :href=" shoppingId ? `/detail/${item.id}?stylist_id=${shoppingId}&url=${pageUrl}&type=1` : `/detail/${item.id}`">
                         <!-- <img src="../../../assets/image/icon/detail/square_default_bg.jpg"> -->
                         <img :src="imgFilter(item.images)">
                       </a>
