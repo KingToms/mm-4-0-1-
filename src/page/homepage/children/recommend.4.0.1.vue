@@ -6,7 +6,7 @@
       <mt-swipe>
         <mt-swipe-item v-for="(item,index) in resData.Shuffling" :key="index">
           <!-- :class="{imgshow: item.image.length > 0}" -->
-          <a class="imgshow" target="_blank" @click="linkType(item)">
+          <a class="imgshow" target="_blank" @click="linkType(item,a,index)">
             <img :src="item.image" alt="">
           </a>
         </mt-swipe-item>
@@ -117,6 +117,10 @@
     <div class="footer-tip">
       <p>——&nbsp;&nbsp; 人家是有底线的 &nbsp;&nbsp; ——</p>
     </div>
+    <div v-if="isShowAd" class="window-box" style="text-align:center;">
+        <img src="http://shop.lanseeyun.com/Public/Home/images/qr/mptest.png" alt="">
+    </div> 
+    <div @click="isShowAd=false" class="mask-box" v-if="isShowAd"></div>
   </div>
 </template>
 <script>
@@ -147,6 +151,7 @@ export default {
       },
       topCarousel: [], // 顶部轮播图
       link_address: '', // 链接地址(轮播图/广告图)
+      isShowAd:false,//是否显示小程序码
     };
   },
   created() {
@@ -158,8 +163,19 @@ export default {
     //   "/static/banner/e7336b05207ef88f971966a2dbe7c17b.jpg"
     // ];
     // this.getRecommendList();
+    console.log(window.location.host)
+    // this.showQR()
+    console.log(window.screen.width)
+    console.log($('.window-box').width())
+  },
+  mounted(){
+      console.log(this.resData.Shuffling)
   },
   methods: {
+      // 显示小程序码
+      showQR(){
+          this.isShowAd=true
+      },
       //判断服务方式
         routerto(link){
             let _this=this
@@ -218,9 +234,16 @@ export default {
     },
     
     // 页面跳转类型（轮播图/广告图：专题、店铺、产品）
-    linkType(item,tab) {
+    linkType(item,tab,index) {
       if(item.ad_type == '1'){ // 专题链接
-        this.link_address = item.link;
+        if(index==1){
+            this.link_address = "#"
+            this.showQR()
+        }else{
+             this.link_address = item.link;
+        }
+        
+        // console.log(index)
       }else if(item.ad_type == '2'){ // 店铺链接
         // this.link_address = `/stylist/${tab}/${item.link}`
         this.link_address = "/detail/shopping/" + item.link;
@@ -275,6 +298,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../assets/css/mixin.scss";
+.mask-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 100;
+}
+.window-box{
+    width: 80%;
+    height: 5rem;
+    position: fixed;
+    top: 20%;
+    left: 10%;
+    // background-color: #fff;
+    z-index: 101;
+    img{
+        width: 100%
+    }
+}
 .main {
   // background-color: #fff;
   width: 100%;

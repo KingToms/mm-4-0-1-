@@ -1,7 +1,7 @@
 {
   "name": "qiaocat",
   "version": "1.0.0",
-  "homepage":"./",
+  "homepage": "./",
   "description": "qiaocat project",
   "author": "彭秋如<qimmypeng123@outlook.com>",
   "private": true,
@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "baguettebox.js": "^1.9.0",
+    "element-ui": "^2.4.11",
     "es6-promise": "^4.1.1",
     "exif-js": "^2.3.0",
     "jquery": "^3.2.1",

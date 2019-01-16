@@ -6,7 +6,7 @@
                 <p>兑换抵扣券</p>
             </div>
             <div class="content">
-                <img src="../../../static/icon/appointment/newcouponcard_03.png" alt="">
+                <img src="../../../../static/icon/appointment/newcouponcard_03.png" alt="">
                 <p>体验码位于体验卡反面的涂层处,如图所示.</p>
                 <input v-model="sn" type="text" placeholder="请输入体验码">
                 <div style="width:100%">
@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import store from '../../vuex/store';
-import {qcsCouponSend,userIsLogin} from '../../service/getData'
+import store from '../../../vuex/store';
+import {qcsCouponSend,userIsLogin} from '../../../service/getData'
 import Vue from 'vue';
-import keyConf from '../../common/keyConf'
-import common from "../../common/common"
+import keyConf from '../../../common/keyConf'
+import common from "../../../common/common"
 export default {
     name:'exchangeCoupon',
     data(){
@@ -43,7 +43,7 @@ export default {
     },
     store,
     mounted(){
-        this.$store.commit("changefoot","none");
+        // this.$store.commit("changefoot","none");
     },
     methods:{
         async getCoupon(){
@@ -80,11 +80,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/mixin.scss';
+@import '../../../assets/css/mixin.scss';
 .left {
     position: absolute;
     @include wh(3.2rem, 3.2rem);
-    @include bis("../../../src/assets/image/icon/detail/details_btn_return02.png");
+    @include bis("../../../../src/assets/image/icon/detail/details_btn_return02.png");
     left: 1.2rem;
     top: 0.3rem;
 }

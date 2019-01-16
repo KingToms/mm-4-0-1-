@@ -36,21 +36,20 @@ export default {
     alertTip
   },
   created () {
-    this.$on('pwdLogin',this.pwdLogin)
-    this.baseUrl=this.$route.query.url
-    console.log(this.baseUrl)
-  },
-  mounted(){
-      console.log(this.$route.query.url)
+    this.$on('pwdLogin',this.pwdLogin);
+    this.baseUrl=this.$route.query.url;
+    console.log(this.baseUrl);
   },
   methods: {
     async pwdLogin (){
-      let res = await pwdlogin({mobile: String.trim(this.mobile), password: this.pwd, plid: this.channel})
+      let res = await pwdlogin({mobile: String.trim(this.mobile), password: this.pwd, plid: this.channel});
+       console.log(this.$route.query.url)
       if(res.status == 'ok'){
         $.removeCookie('shopping_plid', {path: '/'})
         $.cookie(keyConf.qm_cookie, this.mobile,{expires:1, path: '/'})
         setStore(keyConf.userMoile, this.mobile)
         if(this.$route.query.url){
+            console.log(1)
           this.$router.push(this.$route.query.url)
         }else if(this.$route.params.url){
             this.$router.push(this.$route.params.url)

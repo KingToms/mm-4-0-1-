@@ -6,7 +6,7 @@
                 <p>兑换抵扣券</p>
             </div>
             <div class="content">
-                <img src="../../../static/icon/appointment/coupon_card_03.png" alt="">
+                <img src="../../../../static/icon/appointment/coupon_card_03.png" alt="">
                 <p>尊享卡位于体验卡反面的涂层处,如图所示.</p>
                 <input v-model="sn" type="text" placeholder="请输入尊享吗">
                 <button @click="getCoupon">兑换</button>
@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import store from '../../vuex/store';
-import {qcsCouponSend,userIsLogin} from '../../service/getData'
+import store from '../../../vuex/store';
+import {qcsCouponSend,userIsLogin} from '../../../service/getData'
 import Vue from 'vue';
-import keyConf from '../../common/keyConf'
+import keyConf from '../../../common/keyConf'
 export default {
     name:'exchangeCoupon',
     data(){
@@ -109,7 +109,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/mixin.scss';
+@import '../../../assets/css/mixin.scss';
 
 .header{
     @include wh(100%,4rem);

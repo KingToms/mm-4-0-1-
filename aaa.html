@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    
+</body>
+<script>
+    window.onload=function(){
+        (function(){
+            function feature(){
+                console.log(1)
+            }
+            function dosomethings(){
+                var helper=(typeof feature !=="undefined")? feature:function(){
+                    console.log(2)
+                }
+                var val=helper()
+            }
+            dosomethings()
+        })()
+        var arr=[];
+        arr[0]=1;
+        arr[2]=4;
+        console.log(arr);
+        function foo(){
+            console.log(arguments)
+        }
+        foo('1')
+        var a='func';
+        var b=a.split("").reverse().join("");
+        console.log(b);
+
+        var numa=3e10;
+        console.log(numa*numa);
+        console.log(numa.toExponential());
+        console.log(numa.toFixed(1));
+        console.log(0b11110011);
+        console.log(0.1+0.2);
+        console.log(Math.pow(2,53));
+        console.log(-1/0);
+        console.log((-1/0)/Infinity)
+        var x=[1,2,3,4]
+        var y=x;
+        console.log(x,y);
+        y=[5,6,7,8];
+        console.log(x,y,x.slice());
+        console.log(Object.prototype.toString.call(null));
+        var arr=new Array(4),arr1=[];
+        arr1.length=3
+        console.log(arr.length,arr,arr1);
+        console.log(Date());
+        var obj1={
+            a:42,
+            b:"42",
+            c:[1,2,3]
+        };
+        console.log(JSON.stringify(obj1,["a","b"]));
+        var ccc=JSON.stringify(obj1,function(k,v){
+            if(k!=="b") return v 
+        })
+        console.log(ccc)
+    }
+</script>
+</html>

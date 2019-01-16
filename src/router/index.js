@@ -216,9 +216,15 @@ const perfectInfo = r => require.ensure([], () => r(require('@/page/topic/bestMy
 // 毕业妆
 const graduation = r => require.ensure([], () => r(require('@/page/topic/20180502/index')), 'graduation');
 //到店约妆服务
-const appointSev = resolve => require.ensure([], () => resolve(require('@/page/appointsevpage/index')), 'appointsev')
+// const appointSev = resolve => require.ensure([], () => resolve(require('@/page/appointsevpage/index')), 'appointsev');
 //兑换抵扣券
-const exchangeCoupon = resolve => require.ensure([], () => resolve(require('@/page/appointsevpage/exchangeCoupon')), 'appointsev')
+// const exchangeCoupon = resolve => require.ensure([], () => resolve(require('@/page/appointsevpage/exchangeCoupon')), 'appointsev');
+//专题----屈臣氏到店化妆
+const appointSev = resolve => require.ensure([], () => resolve(require('@/page/topic/appointsevpage/index')), 'appointsev');
+//
+const exchangeCoupon = resolve => require.ensure([], () => resolve(require('@/page/topic/appointsevpage/exchangeCoupon')), 'appointsev');
+//测试玩的后人可以忽略
+const testIndex = resolve => require.ensure([], () => resolve(require('@/page/newtest/index')), 'newtest')
 
 
 
@@ -244,16 +250,17 @@ const router = new Router({
               path: '',
               redirect: '/home'
             },
-            {
-                path:'/appointSev/index',
-                name:'appointSev',
-                component:appointSev,
-            },
-            {
-                path:'/appointSev/exchangeCoupon',
-                name:'exchangeCoupon',
-                component:exchangeCoupon,
-            },
+            
+            // {
+            //     path:'/appointSev/index',
+            //     name:'appointSev',
+            //     component:appointSev,
+            // },
+            // {
+            //     path:'/appointSev/exchangeCoupon',
+            //     name:'exchangeCoupon',
+            //     component:exchangeCoupon,
+            // },
             {
               // 首页
               path: '/home',
@@ -267,7 +274,6 @@ const router = new Router({
                   name: 'recommend',
                   component: Recommend
                 },
-                
                 // {
                 //   path: '/home/makeup',
                 //   name: 'makeup',
@@ -671,6 +677,23 @@ const router = new Router({
             // name:'watsonsShopCoupon',
             component:watsonsShopCoupon
         },
+        //
+        {
+            path:'/appointSev/index',
+            name:'appointSev',
+            component:appointSev,
+        },
+        {
+            path:'/appointSev/exchangeCoupon',
+            name:'exchangeCoupon',
+            component:exchangeCoupon,
+        },
+        //自己测试玩玩,后人请忽略
+        {
+            path:'/newtest/index',
+            name:'testIndex',
+            component:testIndex
+        },
         {
           path: '/topic-ysl',
           component: ysl,
@@ -883,12 +906,14 @@ const router = new Router({
             },
           ]
         },
+
         {
           // 错误页
           path: '*',
           name: 'error',
           component: ErrorPage
         },
+        
       ]
     },
     /*

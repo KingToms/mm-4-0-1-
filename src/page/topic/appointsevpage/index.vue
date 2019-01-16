@@ -6,10 +6,10 @@
         </div>
         <div class="adver-img">
             <!-- <img src="../../../../static/icon/appointment/goshop_02.png" alt=""> -->
-            <img src="../../../static/icon/appointment/goshop_02.png" alt="">
+            <img src="../../../../static/icon/appointment/goshop_02.png" alt="">
             <div class="exclusiveVoucher"  @click="$router.push(`/appointsev/exchangeCoupon`)">
                 <div class="voucher-icon">
-                    <img src="../../../static/icon/appointment/voucher-icon_03.png" alt="">
+                    <img src="../../../../static/icon/appointment/voucher-icon_03.png" alt="">
                 </div>
                 <div class="member-vou" >
                     <div>
@@ -69,8 +69,8 @@
 </template>
 
 <script>
-import {qcsProList,qcsAddressList,qcsCouponSend} from '../../service/getData'
-import store from '../../vuex/store'
+import {qcsProList,qcsAddressList,qcsCouponSend} from '../../../service/getData'
+import store from '../../../vuex/store'
 export default {
     store,
     name:"",
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/mixin.scss';
+@import '../../../assets/css/mixin.scss';
 .header{
     @include wh(100%,4rem);
     line-height: 4rem;
@@ -122,7 +122,7 @@ export default {
     .left {
         position: absolute;
         @include wh(3.2rem, 3.2rem);
-        @include bis("../../../src/assets/image/icon/detail/details_btn_return02.png");
+        @include bis("../../../../src/assets/image/icon/detail/details_btn_return02.png");
         left: 1.2rem;
         top: 0.3rem;
     }
